@@ -4,7 +4,6 @@
 
 from votekit.elections import Borda, Plurality
 
-from votekit.elections import Borda
 
 def Ranked_Borda(profile):
     """
@@ -17,7 +16,7 @@ def Ranked_Borda(profile):
         list: Candidates ranked from winner to last place according to Borda scores.
     """
 
-    election = Borda(profile, m= len)
+    election = Borda(profile, m= len(profile.candidates))
     
     # Get the full ranking (tuple of frozensets)
     borda_ranking = election.get_ranking(-1)
