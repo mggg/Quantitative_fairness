@@ -66,7 +66,7 @@ def sigma_IIA(profile, voting_rule):
         total_distance += distance
 
     # Normalize and invert
-    sigma_iia = 1 - total_distance / (M * (M-1)* (M-2)) / 2
+    sigma_iia = 1 - total_distance / ((M * (M-1)* (M-2)) / 2)
 
     return sigma_iia
 
