@@ -2,7 +2,7 @@
 
 #Make sure votekit is installed
 
-from votekit.elections import Borda, Plurality
+from votekit.elections import Borda, Plurality, STV
 
 
 def Ranked_Borda(profile):
@@ -53,13 +53,13 @@ def Ranked_Plurality(profile):
 
 def Ranked_2_Approval(profile):
     """
-    Given a PreferenceProfile, returns the complete Borda ranking as a list.
+    Given a PreferenceProfile, returns the complete 2-approval ranking as a list.
     
     Args:
         profile (PreferenceProfile): The preference profile with ballots and candidates.
     
     Returns:
-        list: Candidates ranked from winner to last place according to Borda scores.
+        list: Candidates ranked from winner to last place according to (1,1,0,...,0).
     """
    
     M = len(profile.candidates)
@@ -81,13 +81,13 @@ def Ranked_2_Approval(profile):
 
 def Ranked_3_Approval(profile):
     """
-    Given a PreferenceProfile, returns the complete Borda ranking as a list.
+    Given a PreferenceProfile, returns the complete 3-approval ranking as a list.
     
     Args:
         profile (PreferenceProfile): The preference profile with ballots and candidates.
     
     Returns:
-        list: Candidates ranked from winner to last place according to Borda scores.
+        list: Candidates ranked from winner to last place according to (1,1,1,0,..,0).
     """
    
     M = len(profile.candidates)
@@ -96,6 +96,30 @@ def Ranked_3_Approval(profile):
     approval_vector = [1 if i < 3 else 0 for i in range(M)]
 
     election = Borda(profile, m= len(profile.candidates), score_vector = approval_vector)
+    
+    # Get the full ranking (tuple of frozensets)
+    borda_ranking = election.get_ranking(-1)
+    
+    # Flatten the frozensets into a list
+    ranking_list = []
+    for group in borda_ranking:
+        ranking_list.extend(list(group))  # groups can have ties (more than one candidate)
+    
+    return ranking_list
+
+
+def Ranked_STV(profile, seats):
+    """
+    Given a PreferenceProfile, and seats returns the complete STV ranking as a list.
+    
+    Args:
+        profile (PreferenceProfile): The preference profile with ballots and candidates.
+    
+    Returns:
+        list: Candidates ranked from winner to last place according to Borda scores.
+    """
+
+    election = STV (profile, m= seats)
     
     # Get the full ranking (tuple of frozensets)
     borda_ranking = election.get_ranking(-1)
