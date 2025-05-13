@@ -132,5 +132,31 @@ def Ranked_STV(profile, seats):
     return ranking_list
 
 
+#STV method used for Simluation
+def Ranked_3_STV(profile):
+    """
+    Given a PreferenceProfile, returns the complete STV ranking as a list.
+    Note thet this is a simulation of the STV method with 3 seats.
+    
+    Args:
+        profile (PreferenceProfile): The preference profile with ballots and candidates.
+    
+    Returns:
+        list: Candidates ranked from winner to last place according to Borda scores.
+    """
+
+    election = STV (profile, m= 3)
+    
+    # Get the full ranking (tuple of frozensets)
+    borda_ranking = election.get_ranking(-1)
+    
+    # Flatten the frozensets into a list
+    ranking_list = []
+    for group in borda_ranking:
+        ranking_list.extend(list(group))  # groups can have ties (more than one candidate)
+    
+    return ranking_list
+
+
 
 
