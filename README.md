@@ -19,6 +19,11 @@ The repository contains the following core files:
 - **`experiments_main.ipynb`**  
  VScode / Jupyter notebook to reproduce all key experimental results.
 
+- **`All_Scotland_wards_4th.shp`**  
+   Shape file for producing the scottish heat map.
+
+
+
 ## Requirements
 
 - Python `3.10.1`
