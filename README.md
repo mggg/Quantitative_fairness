@@ -33,4 +33,4 @@ The "scot-elex-main" folder contains the Scottish election dataset.
 You can either download the dataset and specify its path in the experiments, or directly set the path to the `scot-elex-main` folder.
 
 This is "scot-elex-main" folder contains the data from Scottish local government elections conducted by ranked voting in the years 2007, 2012, 2017, and 2022. This data was originally assembled and cleaned thanks to the work of David McCune, who collected cast vote records from Scottish sources to create files in a file format called BLT format.
-This is the code repository for the project " Quantitative fairness measures for voting rules".
+
