@@ -1,6 +1,8 @@
 #This is the voting_rules script made for the modified voting rules (outputting the complete ranking)
 
 #Make sure votekit is installed
+#if not installed, run the following command:
+#pip install votekit
 
 from votekit.elections import Borda, Plurality, STV
 
@@ -36,7 +38,7 @@ def Ranked_Plurality(profile):
         profile (PreferenceProfile): The preference profile with ballots and candidates.
     
     Returns:
-        list: Candidates ranked from winner to last place according to Borda scores.
+        list: Candidates ranked from winner to last place according to Plurality scores (1,0,...0).
     """
 
     election = Plurality(profile, m= len(profile.candidates))
@@ -110,13 +112,13 @@ def Ranked_3_Approval(profile):
 
 def Ranked_STV(profile, seats):
     """
-    Given a PreferenceProfile, and seats returns the complete STV ranking as a list.
+    Given a PreferenceProfile (scottish profile), and seats returns the complete STV ranking as a list.
     
     Args:
         profile (PreferenceProfile): The preference profile with ballots and candidates.
     
     Returns:
-        list: Candidates ranked from winner to last place according to Borda scores.
+        list: Candidates ranked from winner to last place according to votekit ranking implementation of STV.
     """
 
     election = STV (profile, m= seats)
@@ -136,13 +138,13 @@ def Ranked_STV(profile, seats):
 def Ranked_3_STV(profile):
     """
     Given a PreferenceProfile, returns the complete STV ranking as a list.
-    Note thet this is a simulation of the STV method with 3 seats.
+    Note thet this is a STV method with 3 seats.
     
     Args:
         profile (PreferenceProfile): The preference profile with ballots and candidates.
     
     Returns:
-        list: Candidates ranked from winner to last place according to Borda scores.
+        list: Candidates ranked from winner to last place according to votekit implementation of STV.
     """
 
     election = STV (profile, m= 3)
