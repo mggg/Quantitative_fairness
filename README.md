@@ -1,8 +1,6 @@
-#Quantitative Fairness
-
 This repository accompanies the paper "Quantitative Relaxations for Arrow's Axioms".
 
-#Repository Structure
+## Repository Structure
 
 The repository contains the following core files:
 
