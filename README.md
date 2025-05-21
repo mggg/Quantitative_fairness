@@ -6,7 +6,7 @@ This repository accompanies the paper "Quantitative Relaxations for Arrow's Axio
 
 The repository contains the following core files:
 
-**voting_rules.py**  
+**'voting_rules.py'**  
   Implements all complete-ranking voting rules used in the experiments.
 
 **`fairness_metric.py`**  
