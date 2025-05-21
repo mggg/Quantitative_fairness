@@ -16,10 +16,10 @@ The repository contains the following core files:
     - **σIIA** (Independence of Irrelevant Alternatives)
     - **σU** (Unanimity)
 
-- **`experiments_main.ipynb`**  
+ **`experiments_main.ipynb`**  
  VScode / Jupyter notebook to reproduce all key experimental results.
 
-- **`All_Scotland_wards_4th.shp`**  
+ **`All_Scotland_wards_4th.shp`**  
    Shape file for producing the scottish heat map.
 
 
