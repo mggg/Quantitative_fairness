@@ -146,6 +146,11 @@ def sigma_UF(profile, voting_rule):
     return min_ratio
 
 
+
+#We define a separate function for computing the IIA metric specifically for STV elections on the Scottish dataset.
+#This is necessary because the number of seats varies across elections, and we want to treat the number of seats as an additional parameter.
+
+
 def sigma_IIA_STV(profile, seats, voting_rule):
     """
     Compute σIIA fairness score for a given a STV, profile and seats.
