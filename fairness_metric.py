@@ -1,258 +1,157 @@
-#This script contains the fairness metric functions of IIA and UF
+from votekit import PreferenceProfile
+from votekit.elections import Election
+from votekit.cleaning import remove_and_condense_ranked_profile
+from math import comb
+from itertools import combinations
+import numpy as np
+from typing import Any
 
-#first we define the kendall tau distace function
 
-def kendall_tau_distance(list1, list2):
+def kendall_tau_distance(list1: list[Any], list2: list[Any]) -> int:
     """
     Compute Kendall Tau distance between two rankings (lists).
-    
+
     Args:
         list1 (list): First ranking (ordered list of candidates).
         list2 (list): Second ranking (ordered list of candidates).
-    
+
     Returns:
         int: Kendall Tau distance (number of pairwise disagreements).
     """
-    assert len(list1) == len(list2), "Lists must have the same size"
-    
+    assert len(list1) == len(
+        list2
+    ), f"Lists must have the same size, found {len(list1)} and {len(list2)} for {list1} and {list2}"
+
     distance = 0
     n = len(list1)
-    
+
     # Build position maps for fast lookup
     pos1 = {candidate: idx for idx, candidate in enumerate(list1)}
     pos2 = {candidate: idx for idx, candidate in enumerate(list2)}
-    
+
     # Check all pairs
     for i in range(n):
-        for j in range(i+1, n):
+        for j in range(i + 1, n):
             cand_i = list1[i]
             cand_j = list1[j]
-            
+
             # Compare relative order
             if (pos1[cand_i] - pos1[cand_j]) * (pos2[cand_i] - pos2[cand_j]) < 0:
-                # They disagree
                 distance += 1
-    
+
     return distance
 
-from votekit.cleaning import remove_noncands
 
-def sigma_IIA(profile, voting_rule):
+def _unpack_ranking(ranking: list[frozenset]) -> list[frozenset]:
     """
-    Compute σIIA fairness score for a given voting rule and profile.
+    A utility function that unpacks a ranking returned by votekit (which may contain ties) into a
+    list of individual candidates.  Any ties are resolved in lexicographic order.
+    """
+    return [frozenset({cand}) for c_set in ranking for cand in sorted(c_set)]
+
+
+def determine_weighted_ranking_vector_XAB(
+    ranking_array: np.ndarray, weight_vector: np.ndarray, a: Any, b: Any
+) -> np.ndarray:
+    """
+    For each voter (row) this will return
+        1   if a appears strictly before b,
+        0.5 if a and b are both absent   (a_pos == b_pos == ∞),
+        0.5 if a and b share the same position,
+        0   otherwise,
+    and finally multiplies by the per-row weights.
 
     Args:
-        profile (PreferenceProfile): The input profile with ballots and candidates.
-        voting_rule (function): A function like Ranked_Borda(profile) or Ranked_Plurality(profile).
-    
+        ranking_array (np.ndarray): Array of shape (n_voters, n_candidates) with
+            the ranking of each voter for each candidate.
+        weight_vector (np.ndarray): Array of shape (n_voters,) with the per-voter
+            weights.
+        a (Any): Candidate a. Normally a singleton frozenset.
+        b (Any): Candidate b. Normally a singleton frozenset.
+
     Returns:
-        float: σIIA score between 0 and 1.
+        np.ndarray: A vector of shape (n_voters,) with the the weighted rankings.
     """
-    original_ranking = voting_rule(profile)
-    M = len(profile.candidates)
-    total_distance = 0
+    # element‑wise boolean masks
+    is_a = ranking_array == a
+    is_b = ranking_array == b
+
+    # first position of a (resp. b) in every row
+    # rows that contain no a (resp. b) are marked with np.inf
+    a_pos = np.where(is_a.any(axis=1), is_a.argmax(axis=1), np.inf)
+    b_pos = np.where(is_b.any(axis=1), is_b.argmax(axis=1), np.inf)
+
+    # 1  if a before b
+    # 0.5 if same position *or* both absent
+    # 0  otherwise
+    xab_vector = np.where(a_pos < b_pos, 1.0, np.where(a_pos == b_pos, 0.5, 0.0))
+
+    return xab_vector * weight_vector
+
+
+def sigma_UM(profile: PreferenceProfile, voting_rule: Election) -> float:
+    """
+    Computes the extended Unanimity Majoritarian (UM) score, which we call sigma_UM here.
+    See https://arxiv.org/pdf/2506.12961 for details.
+
+    Args:
+        profile (PreferenceProfile): The preference profile to score.
+        voting_rule (Election): The voting rule to apply to the profile.
+
+    Returns:
+        float: The sigma_UM score which is a value between 0 and 1.
+    """
+
+    original_ranking = _unpack_ranking(voting_rule(profile).get_ranking())
+
+    weight_vector = profile.df["Weight"].to_numpy()
+    n_voters = weight_vector.sum()
+
+    ranking_array = profile.df[
+        [f"Ranking_{i}" for i in range(1, profile.max_ranking_length + 1)]
+    ].to_numpy()
+
+    misalignment = 1
+
+    for rank1, rank2 in combinations(original_ranking, 2):
+        weighted_ranking_vector = determine_weighted_ranking_vector_XAB(
+            ranking_array, weight_vector, rank1, rank2
+        )
+        alignment_IAB = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
+        misalignment = min(misalignment, alignment_IAB)
+
+    return float((misalignment) / (1 - misalignment) if misalignment < 1 / 2 else 1)
+
+
+def sigma_IIA(profile: PreferenceProfile, voting_rule: Election) -> float:
+    """
+    Computes the extended Independence of Irrelevant Alternatives (IIA) score,
+    which we call sigma_IIA here.
+    See https://arxiv.org/pdf/2506.12961 for details.
+
+    Args:
+        profile (PreferenceProfile): The preference profile to score.
+        voting_rule (Election): The voting rule to apply to the profile.
+
+    Returns:
+        float: The sigma_IIA score which is a value between 0 and 1.
+    """
+    n_candidates = len(profile.candidates)
+    original_ranking = _unpack_ranking(voting_rule(profile).get_ranking())
+    total_kendall_distance = 0
 
     for candidate in profile.candidates:
-        # compute profile without the candidate
-        profile_without_candidate = remove_noncands(profile, [candidate])
-        
-        # Get rankings
-        ranking_without_candidate = voting_rule(profile_without_candidate)
-        original_ranking_without_candidate = [cand for cand in original_ranking if cand != candidate]
-        
-        # Compute Kendall Tau distance
-        distance = kendall_tau_distance(ranking_without_candidate, original_ranking_without_candidate)
-        
-        total_distance += distance
+        original_ranking_without_cand = [
+            c_set for c_set in original_ranking if candidate not in c_set
+        ]
+        voting_ranking_without_cand = _unpack_ranking(
+            voting_rule(
+                remove_and_condense_ranked_profile(candidate, profile)
+            ).get_ranking()
+        )
 
-    # Normalize and invert
-    sigma_iia = 1 - total_distance / ((M * (M-1)* (M-2)) / 2)
+        total_kendall_distance += kendall_tau_distance(
+            original_ranking_without_cand, voting_ranking_without_cand
+        )
 
-    return sigma_iia
-
-#Sigma_UF metric
-
-def sigma_UF(profile, voting_rule):
-    """
-    Compute Unanimity Fairness (σUF) for a given voting rule and profile.
-
-    Args:
-        profile (PreferenceProfile): The input profile with ballots and candidates.
-        voting_rule (function): A function like Ranked_Borda(profile) or Ranked_Plurality(profile).
-    
-    Returns:
-        float: σUF score between 0 and 1.
-    """
-    candidates = profile.candidates
-    N = sum(ballot.weight for ballot in profile.ballots)  # Total voter weight
-
-    # Get the full ranking from the voting rule
-    ranking = voting_rule(profile)
-
-    # Map candidates to positions
-    rank_position = {cand: idx for idx, cand in enumerate(ranking)}
-
-    min_ratio = 1.0  # Initialize
-
-    # For every unordered candidate pair (A, B)
-    for i in range(len(candidates)):
-        for j in range(i+1, len(candidates)):
-            A = candidates[i]
-            B = candidates[j]
-
-            A_over_B = 0
-            B_over_A = 0
-
-            # Count support for A over B and B over A
-            for ballot in profile.ballots:
-                weight = ballot.weight
-                if not ballot.ranking:
-                    continue
-                ranks = {cand: idx for idx, group in enumerate(ballot.ranking) for cand in group}
-
-                A_in = A in ranks
-                B_in = B in ranks
-
-                if A_in and B_in:
-                    if ranks[A] < ranks[B]:
-                        A_over_B += weight
-                    elif ranks[B] < ranks[A]:
-                        B_over_A += weight
-                elif A_in and not B_in:
-                    A_over_B += weight
-                elif B_in and not A_in:
-                    B_over_A += weight
-                else:  # neither A nor B ranked
-                    A_over_B += 0.5 * weight
-                    B_over_A += 0.5 * weight
-
-            # Now normalize
-            SA = A_over_B / N
-            SB = B_over_A / N
-            max_support = max(SA, SB)
-
-            if max_support == 0:
-                continue  # No information about A vs B
-
-            # Depending on outcome ranking
-            if rank_position[A] < rank_position[B]:  # A ranked above B
-                ratio = SA / max_support
-            else:  # B ranked above A
-                ratio = SB / max_support
-
-            # Update minimum ratio
-            min_ratio = min(min_ratio, ratio)
-
-    return min_ratio
-
-
-
-#We define a separate function for computing the IIA metric specifically for STV elections on the Scottish dataset.
-#This is necessary because the number of seats varies across elections, and we want to treat the number of seats as an additional parameter.
-
-
-def sigma_IIA_STV(profile, seats, voting_rule):
-    """
-    Compute σIIA fairness score for a given a STV, profile and seats.
-
-    Args:
-        profile (PreferenceProfile): The input profile with ballots and candidates.
-        voting_rule (function): A STV voting rule function that takes a profile,seats and returns a ranking.
-    Returns:
-        float: σIIA score between 0 and 1.
-    """
-    original_ranking = voting_rule(profile,seats)
-    M = len(profile.candidates)
-    total_distance = 0
-
-    for candidate in profile.candidates:
-        # compute profile without the candidate
-        profile_without_candidate = remove_noncands(profile, [candidate])
-        
-        # Get rankings
-        ranking_without_candidate = voting_rule(profile_without_candidate,seats)
-        original_ranking_without_candidate = [cand for cand in original_ranking if cand != candidate]
-        
-        # Compute Kendall Tau distance
-        distance = kendall_tau_distance(ranking_without_candidate, original_ranking_without_candidate)
-        
-        total_distance += distance
-
-    # Normalize and invert
-    sigma_iia = 1 - total_distance / ((M * (M-1)* (M-2)) / 2)
-
-    return sigma_iia
-
-
-def sigma_UF_STV(profile,seats, voting_rule):
-    """
-    Compute Unanimity Fairness (σUF) for a given voting rule and profile.
-
-    Args:
-        profile (PreferenceProfile): The input profile with ballots and candidates.
-        voting_rule (function): A function like Ranked_Borda(profile) or Ranked_Plurality(profile).
-    
-    Returns:
-        float: σUF score between 0 and 1.
-    """
-    candidates = profile.candidates
-    N = sum(ballot.weight for ballot in profile.ballots)  # Total voter weight
-
-    # Get the full ranking from the voting rule
-    ranking = voting_rule(profile, seats)
-
-    # Map candidates to positions
-    rank_position = {cand: idx for idx, cand in enumerate(ranking)}
-
-    min_ratio = 1.0  # Initialize
-
-    # For every unordered candidate pair (A, B)
-    for i in range(len(candidates)):
-        for j in range(i+1, len(candidates)):
-            A = candidates[i]
-            B = candidates[j]
-
-            A_over_B = 0
-            B_over_A = 0
-
-            # Count support for A over B and B over A
-            for ballot in profile.ballots:
-                weight = ballot.weight
-                if not ballot.ranking:
-                    continue
-                ranks = {cand: idx for idx, group in enumerate(ballot.ranking) for cand in group}
-
-                A_in = A in ranks
-                B_in = B in ranks
-
-                if A_in and B_in:
-                    if ranks[A] < ranks[B]:
-                        A_over_B += weight
-                    elif ranks[B] < ranks[A]:
-                        B_over_A += weight
-                elif A_in and not B_in:
-                    A_over_B += weight
-                elif B_in and not A_in:
-                    B_over_A += weight
-                else:  # neither A nor B ranked
-                    A_over_B += 0.5 * weight
-                    B_over_A += 0.5 * weight
-
-            # Now normalize
-            SA = A_over_B / N
-            SB = B_over_A / N
-            max_support = max(SA, SB)
-
-            if max_support == 0:
-                continue  # No information about A vs B
-
-            # Depending on outcome ranking
-            if rank_position[A] < rank_position[B]:  # A ranked above B
-                ratio = SA / max_support
-            else:  # B ranked above A
-                ratio = SB / max_support
-
-            # Update minimum ratio
-            min_ratio = min(min_ratio, ratio)
-
-    return min_ratio
+    return 1 - total_kendall_distance / (n_candidates * comb(n_candidates - 1, 2))

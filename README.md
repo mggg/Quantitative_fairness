@@ -4,33 +4,60 @@ This repository accompanies the paper "Quantitative Relaxations for Arrow's Axio
 
 The repository contains the following core files:
 
-**`Voting_rules.py`**  
-  Implements all complete-ranking voting rules used in the experiments.
+**`All_Scotland_wards_4th.shp`**  
+  Shape file for producing the scottish heat map.
 
 **`fairness_metric.py`**  
   Implements:
   - The **Kendall Tau distance** function  
   - Our quantitative fairness metrics:
-    - **σIIA** (Independence of Irrelevant Alternatives)
-    - **σU** (Unanimity)
+    - **$\sigma_{IIA}$** (Independence of Irrelevant Alternatives)
+    - **$\sigma_{UM}$** (Unanimity)
 
- **`experiments_main.ipynb`**  
- VScode / Jupyter notebook to reproduce all key experimental results.
+**`generate_BT_profiles.py`**  
+  Generates the preference profiles using the `name_BradleyTerry` model from VoteKit.
 
- **`All_Scotland_wards_4th.shp`**  
-   Shape file for producing the scottish heat map.
+**`collect_stats_BT.py`**  
+  Collects the statistics for several elections over the profiles generated using the 
+  Bradley-Terry model.
+
+**`create_sigma_output.py`**
+  Creates some of the output plots for each of the fairness metrics and voting rules in
+  the paper.
+
+**`run_BT_pipeline.sh`**
+  Runs the pipeline for the Bradley-Terry model.
+
+**`collect_stats_scottish.py`**
+  Collects the statistics for all elections in the Scottish dataset.
+
+**`create_scottish_outputs.py`**
+  Creates an output plot for the Scottish dataset for each of the fairness metrics
+  and generates an overall statistics file.
+
+**`run_scottish_pipeline.sh`**
+  Runs the pipeline for the Scottish dataset.
 
 
+## Setup
 
-## Requirements
+This repo uses [uv](https://docs.astral.sh/uv/) to manage dependencies. Once UV is installed,
+simply run `uv sync` to install the dependencies.
 
-- Python `3.10.1`
-- Votekit `3.1.0`
 
-# Data
+## Running the Experiments
 
-The "scot-elex-main" folder contains the Scottish election dataset.  
-You can either download the dataset and specify its path in the experiments, or directly set the path to the `scot-elex-main` folder.
+To repeat the experiments in the paper, you may run the included pipeline scripts:
 
-This "scot-elex-main" folder contains the data from Scottish local government elections conducted by ranked voting in the years 2007, 2012, 2017, and 2022. This data was originally assembled and cleaned thanks to the work of David McCune, who collected cast vote records from Scottish sources to create files in a file format called BLT format.
+```console
+./run_scottish_pipeline.sh
+./run_BT_pipeline.sh
+```
+
+## Scottish Election Data
+
+All scottish election data can be obtained from the 
+[Scottish Election Data Archive](https://github.com/mggg/scot-elex.git)
+createed by the Metric Geometry and Gerrymandering Group (MGGG).
+
 
