@@ -1,0 +1,98 @@
+{
+    "3": {
+        "median_voters": 700,
+        "max_voters": 739,
+        "mean_sigma_IIA": 1.0,
+        "variance_sigma_IIA": 0.0,
+        "mean_sigma_UM": 1.0,
+        "variance_sigma_UM": 0.0
+    },
+    "4": {
+        "median_voters": 3448,
+        "max_voters": 6210,
+        "mean_sigma_IIA": 0.9212962962962963,
+        "variance_sigma_IIA": 0.007694615912208502,
+        "mean_sigma_UM": 0.8773362284722378,
+        "variance_sigma_UM": 0.01933586847034319
+    },
+    "5": {
+        "median_voters": 3996,
+        "max_voters": 11788,
+        "mean_sigma_IIA": 0.9345454545454549,
+        "variance_sigma_IIA": 0.0018369146005509634,
+        "mean_sigma_UM": 0.820501387732049,
+        "variance_sigma_UM": 0.021641718520861823
+    },
+    "6": {
+        "median_voters": 4531,
+        "max_voters": 13579,
+        "mean_sigma_IIA": 0.9519512195121952,
+        "variance_sigma_IIA": 0.0007875206556943615,
+        "mean_sigma_UM": 0.8078146700722387,
+        "variance_sigma_UM": 0.017443689563188113
+    },
+    "7": {
+        "median_voters": 4819,
+        "max_voters": 13547,
+        "mean_sigma_IIA": 0.9618709895305639,
+        "variance_sigma_IIA": 0.0003496233427898261,
+        "mean_sigma_UM": 0.7658777188100049,
+        "variance_sigma_UM": 0.015911414063181542
+    },
+    "8": {
+        "median_voters": 5289,
+        "max_voters": 13567,
+        "mean_sigma_IIA": 0.9716471129514608,
+        "variance_sigma_IIA": 0.00021522111687993206,
+        "mean_sigma_UM": 0.7546979121642043,
+        "variance_sigma_UM": 0.014449732013370225
+    },
+    "9": {
+        "median_voters": 5480,
+        "max_voters": 13909,
+        "mean_sigma_IIA": 0.9766276567124026,
+        "variance_sigma_IIA": 0.000115242680110124,
+        "mean_sigma_UM": 0.7421277492497941,
+        "variance_sigma_UM": 0.014038000900695308
+    },
+    "10": {
+        "median_voters": 5910,
+        "max_voters": 14207,
+        "mean_sigma_IIA": 0.977536231884058,
+        "variance_sigma_IIA": 0.00013726496923304339,
+        "mean_sigma_UM": 0.7196690974803874,
+        "variance_sigma_UM": 0.015455733482729272
+    },
+    "11": {
+        "median_voters": 6746,
+        "max_voters": 10376,
+        "mean_sigma_IIA": 0.9807303807303808,
+        "variance_sigma_IIA": 9.237072174135105e-05,
+        "mean_sigma_UM": 0.7607387788627178,
+        "variance_sigma_UM": 0.011119716139941553
+    },
+    "12": {
+        "median_voters": 6934,
+        "max_voters": 10996,
+        "mean_sigma_IIA": 0.9787878787878788,
+        "variance_sigma_IIA": 7.403581267217663e-05,
+        "mean_sigma_UM": 0.742900548123492,
+        "variance_sigma_UM": 0.004108589968298882
+    },
+    "13": {
+        "median_voters": 8532,
+        "max_voters": 9433,
+        "mean_sigma_IIA": 0.9865967365967366,
+        "variance_sigma_IIA": 8.003198562639127e-05,
+        "mean_sigma_UM": 0.7976985784686602,
+        "variance_sigma_UM": 0.006054473265388519
+    },
+    "14": {
+        "median_voters": 6924,
+        "max_voters": 6924,
+        "mean_sigma_IIA": 0.9880952380952381,
+        "variance_sigma_IIA": 0.0,
+        "mean_sigma_UM": 0.7164105106593951,
+        "variance_sigma_UM": 0.0
+    }
+}
