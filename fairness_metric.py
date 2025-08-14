@@ -2,12 +2,14 @@ from votekit import PreferenceProfile
 from votekit.elections import Election
 from votekit.cleaning import remove_and_condense_ranked_profile
 from math import comb
-from itertools import combinations
+from itertools import combinations, product
 import numpy as np
-from typing import Any
+from typing import Any, Sequence
+from math import pi, sqrt, asin
+from voting_rules import ElectionConstructor
 
 
-def kendall_tau_distance(list1: list[Any], list2: list[Any]) -> int:
+def kendall_tau_distance(list1: Sequence[Any], list2: Sequence[Any]) -> int:
     """
     Compute Kendall Tau distance between two rankings (lists).
 
@@ -18,6 +20,8 @@ def kendall_tau_distance(list1: list[Any], list2: list[Any]) -> int:
     Returns:
         int: Kendall Tau distance (number of pairwise disagreements).
     """
+    list1 = list(list1)
+    list2 = list(list2)
     assert len(list1) == len(
         list2
     ), f"Lists must have the same size, found {len(list1)} and {len(list2)} for {list1} and {list2}"
@@ -42,12 +46,12 @@ def kendall_tau_distance(list1: list[Any], list2: list[Any]) -> int:
     return distance
 
 
-def _unpack_ranking(ranking: list[frozenset]) -> list[frozenset]:
+def _unpack_ranking(ranking: Sequence[frozenset]) -> tuple[frozenset, ...]:
     """
     A utility function that unpacks a ranking returned by votekit (which may contain ties) into a
     list of individual candidates.  Any ties are resolved in lexicographic order.
     """
-    return [frozenset({cand}) for c_set in ranking for cand in sorted(c_set)]
+    return tuple([frozenset({cand}) for c_set in ranking for cand in sorted(c_set)])
 
 
 def determine_weighted_ranking_vector_XAB(
@@ -89,7 +93,9 @@ def determine_weighted_ranking_vector_XAB(
     return xab_vector * weight_vector
 
 
-def sigma_UM(profile: PreferenceProfile, voting_rule: Election) -> float:
+def sigma_UM(
+    profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
+) -> float:
     """
     Computes the extended Unanimity Majoritarian (UM) score, which we call sigma_UM here.
     See https://arxiv.org/pdf/2506.12961 for details.
@@ -102,7 +108,9 @@ def sigma_UM(profile: PreferenceProfile, voting_rule: Election) -> float:
         float: The sigma_UM score which is a value between 0 and 1.
     """
 
-    original_ranking = _unpack_ranking(voting_rule(profile).get_ranking())
+    original_ranking = _unpack_ranking(
+        voting_rule(profile=profile, m=n_seats).get_ranking()
+    )
 
     weight_vector = profile.df["Weight"].to_numpy()
     n_voters = weight_vector.sum()
@@ -120,10 +128,12 @@ def sigma_UM(profile: PreferenceProfile, voting_rule: Election) -> float:
         alignment_IAB = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
         misalignment = min(misalignment, alignment_IAB)
 
-    return float((misalignment) / (1 - misalignment) if misalignment < 1 / 2 else 1)
+    return float((2 / pi) * asin(sqrt(2 * misalignment)) if misalignment < 1 / 2 else 1)
 
 
-def sigma_IIA(profile: PreferenceProfile, voting_rule: Election) -> float:
+def sigma_IIA(
+    profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
+) -> float:
     """
     Computes the extended Independence of Irrelevant Alternatives (IIA) score,
     which we call sigma_IIA here.
@@ -137,7 +147,9 @@ def sigma_IIA(profile: PreferenceProfile, voting_rule: Election) -> float:
         float: The sigma_IIA score which is a value between 0 and 1.
     """
     n_candidates = len(profile.candidates)
-    original_ranking = _unpack_ranking(voting_rule(profile).get_ranking())
+    original_ranking = _unpack_ranking(
+        voting_rule(profile=profile, m=n_seats).get_ranking()
+    )
     total_kendall_distance = 0
 
     for candidate in profile.candidates:
@@ -155,3 +167,160 @@ def sigma_IIA(profile: PreferenceProfile, voting_rule: Election) -> float:
         )
 
     return 1 - total_kendall_distance / (n_candidates * comb(n_candidates - 1, 2))
+
+
+def sigma_UM_winner_set(
+    profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
+) -> float:
+    """
+    Computes the extended Unanimity Majoritarian (UM) score with respect to the winner set.
+    See https://arxiv.org/pdf/2506.12961 for details.
+
+    Args:
+        profile (PreferenceProfile): The preference profile to score.
+        voting_rule (Election): The voting rule to apply to the profile.
+
+    Returns:
+        float: The sigma_UM score which is a value between 0 and 1.
+    """
+
+    original_ranking = _unpack_ranking(
+        voting_rule(profile=profile, m=n_seats).get_ranking()
+    )
+
+    weight_vector = profile.df["Weight"].to_numpy()
+    n_voters = weight_vector.sum()
+
+    ranking_array = profile.df[
+        [f"Ranking_{i}" for i in range(1, profile.max_ranking_length + 1)]
+    ].to_numpy()
+
+    misalignment = 1
+
+    winners = original_ranking[:n_seats]
+    losers = original_ranking[n_seats:]
+
+    for rank1, rank2 in product(winners, losers):
+        weighted_ranking_vector = determine_weighted_ranking_vector_XAB(
+            ranking_array, weight_vector, rank1, rank2
+        )
+        alignment_IAB = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
+        misalignment = min(misalignment, alignment_IAB)
+
+    return float((2 / pi) * asin(sqrt(2 * misalignment)) if misalignment < 1 / 2 else 1)
+
+
+def sigma_IIA_winner_set(
+    profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
+) -> float:
+    """
+    Computes the extended Independence of Irrelevant Alternatives (IIA) score
+    with respect to the winner set.
+    See https://arxiv.org/pdf/2506.12961 for details.
+
+    Args:
+        profile (PreferenceProfile): The preference profile to score.
+        voting_rule (Election): The voting rule to apply to the profile.
+
+    Returns:
+        float: The sigma_IIA score which is a value between 0 and 1.
+    """
+    original_winners_set = set(
+        _unpack_ranking(voting_rule(profile=profile, m=n_seats).get_elected())
+    )
+
+    total_distance = 0
+    for candidate in profile.candidates:
+        if n_seats == 1 and frozenset({candidate}) in original_winners_set:
+            total_distance += 1
+            continue
+
+        # In the n == 1 case, this will always be 1
+        new_available_seats = (
+            n_seats - 1 if frozenset({candidate}) in original_winners_set else n_seats
+        )
+
+        new_winner_set = _unpack_ranking(
+            voting_rule(
+                remove_and_condense_ranked_profile(candidate, profile),
+                m=new_available_seats,
+            ).get_elected()
+        )
+
+        total_distance += (
+            len(original_winners_set.intersection(new_winner_set)) / new_available_seats
+        )
+
+    return total_distance / len(profile.candidates)
+
+
+# def sigma_IIA_winner_set(
+#     profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
+# ) -> float:
+#     """
+#     Computes the extended Independence of Irrelevant Alternatives (IIA) score
+#     with respect to the winner set.
+#     See https://arxiv.org/pdf/2506.12961 for details.
+#
+#     Args:
+#         profile (PreferenceProfile): The preference profile to score.
+#         voting_rule (Election): The voting rule to apply to the profile.
+#
+#     Returns:
+#         float: The sigma_IIA score which is a value between 0 and 1.
+#     """
+#     original_ranking = _unpack_ranking(
+#         voting_rule(profile=profile, m=n_seats).get_ranking()
+#     )
+#
+#     original_winners_set = set(original_ranking[:n_seats])
+#     original_losers_set = set(original_ranking[n_seats:])
+#
+#     total_distance = 0
+#     if n_seats == 1:
+#         total_distance += 1
+#
+#         for candidate in original_losers_set:
+#             new_winner_set = set(
+#                 _unpack_ranking(
+#                     voting_rule(
+#                         remove_and_condense_ranked_profile(
+#                             next(iter(candidate)), profile
+#                         ),
+#                         m=n_seats,
+#                     ).get_elected()
+#                 )
+#             )
+#             total_distance += len(original_winners_set.intersection(new_winner_set))
+#
+#     else:
+#         for candidate in original_winners_set:
+#             new_winner_set = set(
+#                 _unpack_ranking(
+#                     voting_rule(
+#                         remove_and_condense_ranked_profile(
+#                             next(iter(candidate)), profile
+#                         ),
+#                         m=n_seats - 1,
+#                     ).get_elected()
+#                 )
+#             )
+#             total_distance += len(original_winners_set.intersection(new_winner_set)) / (
+#                 n_seats - 1
+#             )
+#         for candidate in original_losers_set:
+#             new_winner_set = set(
+#                 _unpack_ranking(
+#                     voting_rule(
+#                         remove_and_condense_ranked_profile(
+#                             next(iter(candidate)), profile
+#                         ),
+#                         m=n_seats,
+#                     ).get_elected()
+#                 )
+#             )
+#             total_distance += (
+#                 len(original_winners_set.intersection(new_winner_set)) / n_seats
+#             )
+#
+#     return total_distance / len(profile.candidates)

@@ -1,0 +1,10 @@
+*.csv
+NY_primary_data
+scot-elex
+
+
+
+
+# DO NOT IGNORE
+!*votekit.csv
+!.gitignore
