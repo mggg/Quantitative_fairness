@@ -46,7 +46,9 @@ def kendall_tau_distance(list1: Sequence[Any], list2: Sequence[Any]) -> int:
     return distance
 
 
-def _unpack_ranking(ranking: Sequence[frozenset]) -> tuple[frozenset, ...]:
+def __unpack_ranking_with_lexicographic_tiebreak(
+    ranking: Sequence[frozenset],
+) -> tuple[frozenset, ...]:
     """
     A utility function that unpacks a ranking returned by votekit (which may contain ties) into a
     list of individual candidates.  Any ties are resolved in lexicographic order.
@@ -108,7 +110,7 @@ def sigma_UM(
         float: The sigma_UM score which is a value between 0 and 1.
     """
 
-    original_ranking = _unpack_ranking(
+    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(
         voting_rule(profile=profile, m=n_seats).get_ranking()
     )
 
@@ -147,8 +149,9 @@ def sigma_IIA(
         float: The sigma_IIA score which is a value between 0 and 1.
     """
     n_candidates = len(profile.candidates)
-    original_ranking = _unpack_ranking(
-        voting_rule(profile=profile, m=n_seats).get_ranking()
+    ranking_before_unpaking = voting_rule(profile=profile, m=n_seats).get_ranking()
+    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(
+        ranking_before_unpaking
     )
     total_kendall_distance = 0
 
@@ -156,15 +159,19 @@ def sigma_IIA(
         original_ranking_without_cand = [
             c_set for c_set in original_ranking if candidate not in c_set
         ]
-        voting_ranking_without_cand = _unpack_ranking(
-            voting_rule(
-                remove_and_condense_ranked_profile(candidate, profile)
-            ).get_ranking()
+
+        voting_ranking_without_cand_before_unpacking = voting_rule(
+            remove_and_condense_ranked_profile(candidate, profile), m=n_seats
+        ).get_ranking()
+        voting_ranking_without_cand = __unpack_ranking_with_lexicographic_tiebreak(
+            voting_ranking_without_cand_before_unpacking
         )
 
-        total_kendall_distance += kendall_tau_distance(
+        new_dist = kendall_tau_distance(
             original_ranking_without_cand, voting_ranking_without_cand
         )
+
+        total_kendall_distance += new_dist
 
     return 1 - total_kendall_distance / (n_candidates * comb(n_candidates - 1, 2))
 
@@ -184,7 +191,7 @@ def sigma_UM_winner_set(
         float: The sigma_UM score which is a value between 0 and 1.
     """
 
-    original_ranking = _unpack_ranking(
+    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(
         voting_rule(profile=profile, m=n_seats).get_ranking()
     )
 
@@ -226,7 +233,9 @@ def sigma_IIA_winner_set(
         float: The sigma_IIA score which is a value between 0 and 1.
     """
     original_winners_set = set(
-        _unpack_ranking(voting_rule(profile=profile, m=n_seats).get_elected())
+        __unpack_ranking_with_lexicographic_tiebreak(
+            voting_rule(profile=profile, m=n_seats).get_elected()
+        )
     )
 
     total_distance = 0
@@ -240,7 +249,7 @@ def sigma_IIA_winner_set(
             n_seats - 1 if frozenset({candidate}) in original_winners_set else n_seats
         )
 
-        new_winner_set = _unpack_ranking(
+        new_winner_set = __unpack_ranking_with_lexicographic_tiebreak(
             voting_rule(
                 remove_and_condense_ranked_profile(candidate, profile),
                 m=new_available_seats,
