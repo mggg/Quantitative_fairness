@@ -41,7 +41,7 @@ corresponding `run_*_pipeline.sh` scripts in the root directory.
 **`other_files/`** Contains other files that were either used in earlier notebooks or which are used
 to help clean the data at setup.
 
-**`noteboks/`** Contains some Jupyter notebooks and old drafts of work that appear in the paper.
+**`notebooks/`** Contains some Jupyter notebooks and old drafts of work that appear in the paper.
 
 ## Setup
 
@@ -58,7 +58,7 @@ from your terminal to set up the environment and extract all the necessary data 
 
 To repeat the experiments in the paper, you just need to run the pipeline files:
 
-> NOTE: The file titles `run_BT_pipeline.sh` will take a while to run on a computer without a
+> NOTE: The file titled `run_BT_pipeline.sh` will take a while to run on a computer without a
 > significant number of CPUs. The commands below are ordered by the time they take to run.
 
 ```console
