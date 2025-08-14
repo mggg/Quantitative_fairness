@@ -1,14 +1,14 @@
 VoteKit PreferenceProfile
 Candidates
-(Chris Flanary:Chris ),(Melodie Beirwagen:Melodi),(Steve Novick:Steve ),(Jesse Cornett:Jesse ),(Kezia Wanner:Kezia ),(Theo Hathaway Saner:Theo H),(Jaclyn Smith-Moore:Jaclyn),(Angelita Morillo:Angeli),(Dan Gilk:Dan Gi),(Daniel DeMelo:Daniel),(Rex Burkholder:Rex Bu),(Christopher Brummer:Christ),(Luke Zak:Luke Z),(John Sweeney:John S),(Ahlam K Osman:Ahlam ),(David O'Connor:David ),(Kenneth (Kent) R Landgraver III:Kennet),(Clifford Higgins:Cliffo),(Patrick Hilton:Patric),(Tiffany Koyama Lane:Tiffan),(Brian Conley:Brian ),(Cristal Azul Otero:Crista),(Jonathan (Jon) Walker:Jonath),(Heart Free Pham:Heart ),(Sandeep Bali:Sandee),(Kelly Janes (KJ):Kelly ),(Matthew (Matt) Anderson:Matthe),(Terry Parker:Terry ),(Harrison Kass:Harris),(Philippe Knab:Philip)
+(Matthew (Matt) Anderson:Matthe),(Ahlam K Osman:Ahlam ),(Kezia Wanner:Kezia ),(Steve Novick:Steve ),(Harrison Kass:Harris),(Philippe Knab:Philip),(John Sweeney:John S),(Jonathan (Jon) Walker:Jonath),(Kenneth (Kent) R Landgraver III:Kennet),(Daniel DeMelo:Daniel),(Theo Hathaway Saner:Theo H),(Patrick Hilton:Patric),(Chris Flanary:Chris ),(Rex Burkholder:Rex Bu),(Melodie Beirwagen:Melodi),(Angelita Morillo:Angeli),(Terry Parker:Terry ),(Cristal Azul Otero:Crista),(Jaclyn Smith-Moore:Jaclyn),(Sandeep Bali:Sandee),(Christopher Brummer:Christ),(Luke Zak:Luke Z),(Brian Conley:Brian ),(Heart Free Pham:Heart ),(Kelly Janes (KJ):Kelly ),(Jesse Cornett:Jesse ),(Clifford Higgins:Cliffo),(Dan Gilk:Dan Gi),(Tiffany Koyama Lane:Tiffan),(David O'Connor:David )
 Max Ranking Length
 6
 Includes Voter Set
 False
 =,=,=,=,=,=,=,=,=,=
 &,Ranking_1,Ranking_2,Ranking_3,Ranking_4,Ranking_5,Ranking_6,&,Weight,&
-&,{'Ahlam '},{'Ahlam '},{'Ahlam '},{'Ahlam '},{'Ahlam '},{'Ahlam '},&,1/1,&
-&,{'Ahlam '},{'Ahlam '},{'Ahlam '},{'Kennet'},{'Jesse '},{'John S'},&,1/1,&
+&,{'Ahlam '},,,,,,&,1/1,&
+&,{'Ahlam '},{'Kennet'},{'Jesse '},{'John S'},,,&,1/1,&
 &,{'Ahlam '},{'Angeli'},{'Brian '},{'Chris '},{'Christ'},{'Philip'},&,1/1,&
 &,{'Ahlam '},{'Angeli'},{'Brian '},{'Chris '},{'Crista'},{'Daniel'},&,3/1,&
 &,{'Ahlam '},{'Angeli'},{'Brian '},{'Chris '},{'Crista'},{'Heart '},&,1/1,&
@@ -91,7 +91,7 @@ False
 &,{'Ahlam '},{'Angeli'},{'Matthe'},{'Kennet'},{'Terry '},{'Kezia '},&,2/1,&
 &,{'Ahlam '},{'Angeli'},{'Matthe'},{'Tiffan'},{'Chris '},{'Kezia '},&,1/1,&
 &,{'Ahlam '},{'Angeli'},{'Melodi'},{'Christ'},{'Luke Z'},{'Brian '},&,1/1,&
-&,{'Ahlam '},{'Angeli'},{'Melodi'},{'Patric'},{'Matthe'},{'Matthe'},&,1/1,&
+&,{'Ahlam '},{'Angeli'},{'Melodi'},{'Patric'},{'Matthe'},,&,1/1,&
 &,{'Ahlam '},{'Angeli'},{'Philip'},{'Crista'},{'Cliffo'},{'Brian '},&,1/1,&
 &,{'Ahlam '},{'Angeli'},{'Philip'},{'Rex Bu'},{'Jesse '},{'Brian '},&,1/1,&
 &,{'Ahlam '},{'Angeli'},{'Philip'},{'Steve '},{'Theo H'},{'Luke Z'},&,1/1,&
@@ -193,7 +193,7 @@ False
 &,{'Ahlam '},{'Chris '},{'Angeli'},,,,&,2/1,&
 &,{'Ahlam '},{'Chris '},{'Brian '},{'Angeli'},{'Melodi'},{'Crista'},&,1/1,&
 &,{'Ahlam '},{'Chris '},{'Brian '},{'Tiffan'},{'Jonath'},{'Crista'},&,1/1,&
-&,{'Ahlam '},{'Chris '},{'Christ'},{'Heart '},{'Cliffo'},{'Heart '},&,1/1,&
+&,{'Ahlam '},{'Chris '},{'Christ'},{'Heart '},{'Cliffo'},,&,1/1,&
 &,{'Ahlam '},{'Chris '},{'Crista'},{'Angeli'},{'Jonath'},{'Rex Bu'},&,2/1,&
 &,{'Ahlam '},{'Chris '},{'Crista'},{'Brian '},{'Theo H'},{'Rex Bu'},&,1/1,&
 &,{'Ahlam '},{'Chris '},{'Crista'},{'Sandee'},,,&,1/1,&
@@ -402,7 +402,7 @@ False
 &,{'Ahlam '},{'Rex Bu'},{'Luke Z'},,,,&,1/1,&
 &,{'Ahlam '},{'Rex Bu'},{'Matthe'},{'Sandee'},{'Jesse '},{'Tiffan'},&,1/1,&
 &,{'Ahlam '},{'Rex Bu'},{'Patric'},{'Tiffan'},{'Philip'},{'Luke Z'},&,1/1,&
-&,{'Ahlam '},{'Rex Bu'},{'Sandee'},{'Harris'},{'Melodi'},{'Harris'},&,1/1,&
+&,{'Ahlam '},{'Rex Bu'},{'Sandee'},{'Harris'},{'Melodi'},,&,1/1,&
 &,{'Ahlam '},{'Rex Bu'},{'Steve '},{'Angeli'},{'Tiffan'},{'Jesse '},&,2/1,&
 &,{'Ahlam '},{'Rex Bu'},{'Tiffan'},{'Jesse '},{'Angeli'},{'Heart '},&,1/1,&
 &,{'Ahlam '},{'Rex Bu'},{'Tiffan'},{'Luke Z'},{'Philip'},{'Matthe'},&,1/1,&
@@ -591,7 +591,7 @@ False
 &,{'Angeli'},{'Ahlam '},{'Crista'},{'Kelly '},{'Chris '},{'Kezia '},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Crista'},{'Kezia '},{'Daniel'},,&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Crista'},{'Kezia '},{'Tiffan'},{'Steve '},&,1/1,&
-&,{'Angeli'},{'Ahlam '},{'Crista'},{'Matthe'},{'Crista'},{'Dan Gi'},&,1/1,&
+&,{'Angeli'},{'Ahlam '},{'Crista'},{'Matthe'},{'Dan Gi'},,&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Crista'},{'Matthe'},{'Philip'},,&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Crista'},{'Matthe'},{'Tiffan'},{'Daniel'},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Crista'},{'Melodi'},{'Tiffan'},{'Heart '},&,1/1,&
@@ -646,7 +646,7 @@ False
 &,{'Angeli'},{'Ahlam '},{'Luke Z'},{'Tiffan'},{'Chris '},{'Brian '},&,2/1,&
 &,{'Angeli'},{'Ahlam '},{'Luke Z'},{'Tiffan'},{'Chris '},{'Crista'},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Luke Z'},{'Tiffan'},{'Chris '},,&,1/1,&
-&,{'Angeli'},{'Ahlam '},{'Luke Z'},{'Luke Z'},,,&,1/1,&
+&,{'Angeli'},{'Ahlam '},{'Luke Z'},,,,&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Luke Z'},,,,&,2/1,&
 &,{'Angeli'},{'Ahlam '},{'Matthe'},{'Brian '},,,&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Matthe'},{'Chris '},{'Crista'},{'Tiffan'},&,1/1,&
@@ -690,7 +690,7 @@ False
 &,{'Angeli'},{'Ahlam '},{'Theo H'},{'Chris '},{'Steve '},{'Luke Z'},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Theo H'},{'Cliffo'},{'Philip'},{'Chris '},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Theo H'},{'Rex Bu'},,,&,1/1,&
-&,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Angeli'},{'Jesse '},{'Luke Z'},&,1/1,&
+&,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Jesse '},{'Luke Z'},,&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Brian '},{'Chris '},{'Heart '},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Brian '},{'Chris '},{'Luke Z'},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Brian '},{'Theo H'},{'Chris '},&,1/1,&
@@ -766,7 +766,7 @@ False
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Chris '},{'Jesse '},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Chris '},{'Rex Bu'},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Chris '},,&,1/1,&
-&,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Daniel'},{'Steve '},&,1/1,&
+&,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Daniel'},,&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Jesse '},{'Jonath'},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Luke Z'},{'Chris '},&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Chris '},&,1/1,&
@@ -779,10 +779,10 @@ False
 &,{'Angeli'},{'Ahlam '},{'Jonath'},,,,&,1/1,&
 &,{'Angeli'},{'Ahlam '},{'Kezia '},,,,&,1/1,&
 &,{'Angeli'},{'Ahlam '},,,,,&,15/1,&
-&,{'Angeli'},{'Angeli'},{'Angeli'},{'Angeli'},{'Angeli'},{'Angeli'},&,1/1,&
-&,{'Angeli'},{'Angeli'},{'Steve '},{'Steve '},{'Rex Bu'},{'Rex Bu'},&,1/1,&
-&,{'Angeli'},{'Angeli'},{'Tiffan'},{'Jesse '},{'Sandee'},{'Steve '},&,2/1,&
-&,{'Angeli'},{'Angeli'},{'Tiffan'},{'Tiffan'},{'Steve '},{'Steve '},&,1/1,&
+&,{'Angeli'},,,,,,&,1/1,&
+&,{'Angeli'},{'Steve '},{'Rex Bu'},,,,&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Jesse '},{'Sandee'},{'Steve '},,&,2/1,&
+&,{'Angeli'},{'Tiffan'},{'Steve '},,,,&,1/1,&
 &,{'Angeli'},{'Brian '},{'Ahlam '},{'Jaclyn'},{'Jonath'},{'Dan Gi'},&,1/1,&
 &,{'Angeli'},{'Brian '},{'Ahlam '},{'Philip'},{'Jesse '},{'Tiffan'},&,1/1,&
 &,{'Angeli'},{'Brian '},{'Ahlam '},{'Theo H'},{'Chris '},,&,1/1,&
@@ -1263,7 +1263,7 @@ False
 &,{'Angeli'},{'Chris '},{'Tiffan'},{'Brian '},{'Luke Z'},{'Crista'},&,1/1,&
 &,{'Angeli'},{'Chris '},{'Tiffan'},{'Brian '},{'Steve '},{'Ahlam '},&,3/1,&
 &,{'Angeli'},{'Chris '},{'Tiffan'},{'Brian '},{'Theo H'},{'Steve '},&,1/1,&
-&,{'Angeli'},{'Chris '},{'Tiffan'},{'Brian '},{'Tiffan'},{'Rex Bu'},&,1/1,&
+&,{'Angeli'},{'Chris '},{'Tiffan'},{'Brian '},{'Rex Bu'},,&,1/1,&
 &,{'Angeli'},{'Chris '},{'Tiffan'},{'Christ'},{'Crista'},{'Dan Gi'},&,1/1,&
 &,{'Angeli'},{'Chris '},{'Tiffan'},{'Crista'},{'Ahlam '},{'Brian '},&,1/1,&
 &,{'Angeli'},{'Chris '},{'Tiffan'},{'Crista'},{'Ahlam '},{'Luke Z'},&,1/1,&
@@ -1578,7 +1578,7 @@ False
 &,{'Angeli'},{'Crista'},{'Rex Bu'},{'Tiffan'},{'Jesse '},{'Chris '},&,1/1,&
 &,{'Angeli'},{'Crista'},{'Rex Bu'},{'Tiffan'},{'Philip'},{'Steve '},&,2/1,&
 &,{'Angeli'},{'Crista'},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Philip'},&,1/1,&
-&,{'Angeli'},{'Crista'},{'Rex Bu'},{'Tiffan'},{'Tiffan'},{'Steve '},&,1/1,&
+&,{'Angeli'},{'Crista'},{'Rex Bu'},{'Tiffan'},{'Steve '},,&,1/1,&
 &,{'Angeli'},{'Crista'},{'Rex Bu'},,,,&,1/1,&
 &,{'Angeli'},{'Crista'},{'Sandee'},{'Ahlam '},{'Brian '},{'Harris'},&,1/1,&
 &,{'Angeli'},{'Crista'},{'Sandee'},{'Ahlam '},{'Chris '},{'Luke Z'},&,1/1,&
@@ -1893,7 +1893,7 @@ False
 &,{'Angeli'},{'Harris'},{'Melodi'},{'Ahlam '},{'Chris '},{'Heart '},&,1/1,&
 &,{'Angeli'},{'Harris'},{'Melodi'},{'Rex Bu'},{'Christ'},{'Crista'},&,1/1,&
 &,{'Angeli'},{'Harris'},{'Patric'},{'Daniel'},{'Chris '},{'Cliffo'},&,1/1,&
-&,{'Angeli'},{'Harris'},{'Sandee'},{'Ahlam '},{'Harris'},{'Patric'},&,1/1,&
+&,{'Angeli'},{'Harris'},{'Sandee'},{'Ahlam '},{'Patric'},,&,1/1,&
 &,{'Angeli'},{'Harris'},{'Sandee'},{'Chris '},,,&,1/1,&
 &,{'Angeli'},{'Harris'},{'Steve '},{'Dan Gi'},,,&,1/1,&
 &,{'Angeli'},{'Harris'},{'Steve '},{'Jesse '},{'Kezia '},{'Jonath'},&,1/1,&
@@ -1957,11 +1957,11 @@ False
 &,{'Angeli'},{'Heart '},{'Jaclyn'},{'Kezia '},{'Melodi'},,&,1/1,&
 &,{'Angeli'},{'Heart '},{'Kennet'},{'Daniel'},,,&,1/1,&
 &,{'Angeli'},{'Heart '},,,,,&,6/1,&
-&,{'Angeli'},{'Jaclyn'},{'Angeli'},{'Crista'},{'Sandee'},{'Tiffan'},&,1/1,&
+&,{'Angeli'},{'Jaclyn'},{'Crista'},{'Sandee'},{'Tiffan'},,&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Brian '},{'Kelly '},{'Melodi'},{'Crista'},&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Brian '},{'Kelly '},{'Sandee'},,&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Chris '},{'Tiffan'},{'Jesse '},{'Crista'},&,1/1,&
-&,{'Angeli'},{'Jaclyn'},{'Crista'},{'Daniel'},{'Angeli'},{'Tiffan'},&,1/1,&
+&,{'Angeli'},{'Jaclyn'},{'Crista'},{'Daniel'},{'Tiffan'},,&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Crista'},{'Kezia '},,,&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Crista'},{'Melodi'},{'Kezia '},{'Tiffan'},&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Crista'},{'Rex Bu'},{'Steve '},{'Jesse '},&,1/1,&
@@ -1982,7 +1982,7 @@ False
 &,{'Angeli'},{'Jaclyn'},{'Kelly '},{'Kezia '},{'Harris'},{'Tiffan'},&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Kelly '},{'Melodi'},{'Harris'},{'Rex Bu'},&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Kezia '},{'Cliffo'},{'Tiffan'},{'Heart '},&,1/1,&
-&,{'Angeli'},{'Jaclyn'},{'Luke Z'},{'Luke Z'},{'Sandee'},{'Jonath'},&,1/1,&
+&,{'Angeli'},{'Jaclyn'},{'Luke Z'},{'Sandee'},{'Jonath'},,&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Luke Z'},{'Melodi'},{'Tiffan'},{'Crista'},&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Melodi'},{'Brian '},,,&,1/1,&
 &,{'Angeli'},{'Jaclyn'},{'Melodi'},{'Tiffan'},{'Crista'},{'Kelly '},&,1/1,&
@@ -2237,7 +2237,7 @@ False
 &,{'Angeli'},{'Jesse '},{'Rex Bu'},{'Tiffan'},{'Philip'},{'Crista'},&,2/1,&
 &,{'Angeli'},{'Jesse '},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Philip'},&,1/1,&
 &,{'Angeli'},{'Jesse '},{'Rex Bu'},{'Tiffan'},{'Steve '},,&,1/1,&
-&,{'Angeli'},{'Jesse '},{'Rex Bu'},{'Tiffan'},{'Jesse '},,&,1/1,&
+&,{'Angeli'},{'Jesse '},{'Rex Bu'},{'Tiffan'},,,&,1/1,&
 &,{'Angeli'},{'Jesse '},{'Rex Bu'},{'Tiffan'},,,&,2/1,&
 &,{'Angeli'},{'Jesse '},{'Rex Bu'},{'Kennet'},,,&,1/1,&
 &,{'Angeli'},{'Jesse '},{'Rex Bu'},,,,&,8/1,&
@@ -2304,7 +2304,7 @@ False
 &,{'Angeli'},{'Jesse '},{'Steve '},{'Tiffan'},{'Crista'},{'Rex Bu'},&,1/1,&
 &,{'Angeli'},{'Jesse '},{'Steve '},{'Tiffan'},{'Crista'},,&,1/1,&
 &,{'Angeli'},{'Jesse '},{'Steve '},{'Tiffan'},{'Daniel'},{'Philip'},&,1/1,&
-&,{'Angeli'},{'Jesse '},{'Steve '},{'Tiffan'},{'Jesse '},{'Jonath'},&,2/1,&
+&,{'Angeli'},{'Jesse '},{'Steve '},{'Tiffan'},{'Jonath'},,&,2/1,&
 &,{'Angeli'},{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Rex Bu'},&,4/1,&
 &,{'Angeli'},{'Jesse '},{'Steve '},{'Tiffan'},{'Luke Z'},{'Chris '},&,2/1,&
 &,{'Angeli'},{'Jesse '},{'Steve '},{'Tiffan'},{'Melodi'},{'Ahlam '},&,1/1,&
@@ -2504,7 +2504,7 @@ False
 &,{'Angeli'},{'Kelly '},{'Ahlam '},{'Tiffan'},{'Chris '},{'Melodi'},&,1/1,&
 &,{'Angeli'},{'Kelly '},{'Ahlam '},{'Tiffan'},{'Matthe'},,&,1/1,&
 &,{'Angeli'},{'Kelly '},{'Ahlam '},,,,&,1/1,&
-&,{'Angeli'},{'Kelly '},{'Angeli'},{'Matthe'},{'Steve '},,&,1/1,&
+&,{'Angeli'},{'Kelly '},{'Matthe'},{'Steve '},,,&,1/1,&
 &,{'Angeli'},{'Kelly '},{'Brian '},{'Chris '},{'Jesse '},,&,1/1,&
 &,{'Angeli'},{'Kelly '},{'Brian '},{'Tiffan'},{'Philip'},{'Daniel'},&,1/1,&
 &,{'Angeli'},{'Kelly '},{'Chris '},{'Ahlam '},,,&,2/1,&
@@ -3001,7 +3001,7 @@ False
 &,{'Angeli'},{'Philip'},{'Tiffan'},{'Steve '},{'Jonath'},{'Brian '},&,1/1,&
 &,{'Angeli'},{'Philip'},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Ahlam '},&,1/1,&
 &,{'Angeli'},{'Philip'},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jesse '},&,1/1,&
-&,{'Angeli'},{'Philip'},{'Tiffan'},{'Tiffan'},{'Kezia '},{'Rex Bu'},&,1/1,&
+&,{'Angeli'},{'Philip'},{'Tiffan'},{'Kezia '},{'Rex Bu'},,&,1/1,&
 &,{'Angeli'},{'Philip'},{'Tiffan'},,,,&,2/1,&
 &,{'Angeli'},{'Philip'},,,,,&,3/1,&
 &,{'Angeli'},{'Rex Bu'},{'Ahlam '},{'Chris '},{'Luke Z'},{'Daniel'},&,1/1,&
@@ -3235,7 +3235,7 @@ False
 &,{'Angeli'},{'Rex Bu'},{'Tiffan'},{'Chris '},{'Jesse '},,&,1/1,&
 &,{'Angeli'},{'Rex Bu'},{'Tiffan'},{'Chris '},{'Luke Z'},{'Brian '},&,2/1,&
 &,{'Angeli'},{'Rex Bu'},{'Tiffan'},{'Chris '},{'Philip'},{'Brian '},&,1/1,&
-&,{'Angeli'},{'Rex Bu'},{'Tiffan'},{'Chris '},{'Rex Bu'},{'Jesse '},&,2/1,&
+&,{'Angeli'},{'Rex Bu'},{'Tiffan'},{'Chris '},{'Jesse '},,&,2/1,&
 &,{'Angeli'},{'Rex Bu'},{'Tiffan'},{'Chris '},{'Steve '},{'Jesse '},&,2/1,&
 &,{'Angeli'},{'Rex Bu'},{'Tiffan'},{'Chris '},{'Steve '},,&,1/1,&
 &,{'Angeli'},{'Rex Bu'},{'Tiffan'},{'Chris '},{'Theo H'},{'Cliffo'},&,1/1,&
@@ -3382,7 +3382,7 @@ False
 &,{'Angeli'},{'Steve '},{'Ahlam '},{'Tiffan'},{'Rex Bu'},{'Daniel'},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Ahlam '},{'Tiffan'},,,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Ahlam '},,,,&,1/1,&
-&,{'Angeli'},{'Steve '},{'Angeli'},,,,&,1/1,&
+&,{'Angeli'},{'Steve '},,,,,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Brian '},{'Chris '},{'Rex Bu'},{'Tiffan'},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Brian '},{'Heart '},{'Chris '},{'Rex Bu'},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Brian '},{'Jesse '},{'Daniel'},{'Patric'},&,1/1,&
@@ -3456,7 +3456,7 @@ False
 &,{'Angeli'},{'Steve '},{'Chris '},,,,&,21/1,&
 &,{'Angeli'},{'Steve '},{'Christ'},{'Chris '},{'Jesse '},{'Philip'},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Christ'},{'Rex Bu'},{'Ahlam '},{'Theo H'},&,1/1,&
-&,{'Angeli'},{'Steve '},{'Christ'},{'Steve '},{'Luke Z'},{'Patric'},&,1/1,&
+&,{'Angeli'},{'Steve '},{'Christ'},{'Luke Z'},{'Patric'},,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Christ'},,,,&,2/1,&
 &,{'Angeli'},{'Steve '},{'Crista'},{'Ahlam '},{'Brian '},,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Crista'},{'Ahlam '},{'Chris '},{'Rex Bu'},&,1/1,&
@@ -3848,7 +3848,7 @@ False
 &,{'Angeli'},{'Steve '},{'Rex Bu'},{'Jonath'},{'Jesse '},{'Tiffan'},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Rex Bu'},{'Jonath'},{'Tiffan'},{'Brian '},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Rex Bu'},{'Kezia '},{'Jesse '},{'Crista'},&,2/1,&
-&,{'Angeli'},{'Steve '},{'Rex Bu'},{'Kezia '},{'Jonath'},{'Kezia '},&,1/1,&
+&,{'Angeli'},{'Steve '},{'Rex Bu'},{'Kezia '},{'Jonath'},,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Rex Bu'},{'Kezia '},{'Tiffan'},{'Crista'},&,2/1,&
 &,{'Angeli'},{'Steve '},{'Rex Bu'},{'Kezia '},{'Tiffan'},{'Jesse '},&,2/1,&
 &,{'Angeli'},{'Steve '},{'Rex Bu'},{'Kezia '},,,&,1/1,&
@@ -3984,7 +3984,7 @@ False
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Chris '},{'Philip'},,&,2/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Chris '},{'Rex Bu'},{'Ahlam '},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Chris '},{'Rex Bu'},{'Brian '},&,2/1,&
-&,{'Angeli'},{'Steve '},{'Tiffan'},{'Chris '},{'Rex Bu'},{'Chris '},&,1/1,&
+&,{'Angeli'},{'Steve '},{'Tiffan'},{'Chris '},{'Rex Bu'},,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Chris '},{'Rex Bu'},{'Christ'},&,2/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Chris '},{'Rex Bu'},{'Crista'},&,5/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Chris '},{'Rex Bu'},{'Dan Gi'},&,1/1,&
@@ -4117,7 +4117,7 @@ False
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Crista'},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Daniel'},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Heart '},&,1/1,&
-&,{'Angeli'},{'Steve '},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Jesse '},&,1/1,&
+&,{'Angeli'},{'Steve '},{'Tiffan'},{'Jesse '},{'Rex Bu'},,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Jonath'},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Kezia '},&,2/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Luke Z'},&,1/1,&
@@ -4248,7 +4248,7 @@ False
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Philip'},,,&,9/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Ahlam '},{'Jesse '},&,5/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Ahlam '},{'Luke Z'},&,2/1,&
-&,{'Angeli'},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Ahlam '},{'Steve '},&,1/1,&
+&,{'Angeli'},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Ahlam '},,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Ahlam '},,&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Brian '},{'Chris '},&,1/1,&
 &,{'Angeli'},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Chris '},{'Ahlam '},&,3/1,&
@@ -4409,7 +4409,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Kelly '},{'Luke Z'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Kelly '},{'Rex Bu'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Luke Z'},{'Brian '},&,10/1,&
-&,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Luke Z'},{'Chris '},&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Luke Z'},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Luke Z'},{'Crista'},&,6/1,&
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Luke Z'},{'Daniel'},&,2/1,&
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Luke Z'},{'Heart '},&,1/1,&
@@ -4587,7 +4587,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Steve '},{'Luke Z'},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},{'Steve '},,,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Ahlam '},,,,&,80/1,&
-&,{'Angeli'},{'Tiffan'},{'Angeli'},{'Angeli'},{'Tiffan'},{'Tiffan'},&,1/1,&
+&,{'Angeli'},{'Tiffan'},,,,,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Brian '},{'Ahlam '},{'Chris '},{'Theo H'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Brian '},{'Ahlam '},{'Chris '},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Brian '},{'Ahlam '},{'Christ'},{'Luke Z'},&,2/1,&
@@ -5029,7 +5029,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Sandee'},{'Jesse '},{'Steve '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Sandee'},{'Luke Z'},{'Rex Bu'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Sandee'},{'Steve '},{'Brian '},&,1/1,&
-&,{'Angeli'},{'Tiffan'},{'Chris '},{'Steve '},{'Ahlam '},{'Angeli'},&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Chris '},{'Steve '},{'Ahlam '},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Steve '},{'Ahlam '},{'Brian '},&,6/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Steve '},{'Ahlam '},{'Crista'},&,4/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Steve '},{'Ahlam '},{'Daniel'},&,1/1,&
@@ -5097,7 +5097,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Theo H'},{'Rex Bu'},{'Luke Z'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Theo H'},{'Rex Bu'},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Theo H'},,,&,1/1,&
-&,{'Angeli'},{'Tiffan'},{'Chris '},{'Tiffan'},{'Angeli'},{'Chris '},&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Chris '},,,,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},{'Crista'},{'Jesse '},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Chris '},,,,&,167/1,&
 &,{'Angeli'},{'Tiffan'},{'Christ'},{'Crista'},{'Chris '},{'Theo H'},&,1/1,&
@@ -5513,7 +5513,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Philip'},{'Steve '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Philip'},{'Theo H'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Philip'},,&,2/1,&
-&,{'Angeli'},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Rex Bu'},,&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Jesse '},{'Rex Bu'},,,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Steve '},{'Ahlam '},&,7/1,&
 &,{'Angeli'},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Steve '},{'Brian '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Jesse '},{'Rex Bu'},{'Steve '},{'Chris '},&,10/1,&
@@ -5582,7 +5582,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Jesse '},{'Luke Z'},{'Daniel'},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Jesse '},,,,&,104/1,&
 &,{'Angeli'},{'Tiffan'},{'John S'},{'Ahlam '},,,&,1/1,&
-&,{'Angeli'},{'Tiffan'},{'John S'},{'Dan Gi'},{'Luke Z'},{'John S'},&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'John S'},{'Dan Gi'},{'Luke Z'},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'John S'},{'Luke Z'},{'Steve '},{'Ahlam '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Jonath'},{'Ahlam '},{'Chris '},{'Crista'},&,2/1,&
 &,{'Angeli'},{'Tiffan'},{'Jonath'},{'Chris '},{'Jesse '},{'Steve '},&,1/1,&
@@ -5758,7 +5758,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Matthe'},{'Kezia '},{'Daniel'},{'Patric'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Matthe'},{'Philip'},{'Melodi'},{'Ahlam '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Matthe'},{'Sandee'},{'Jonath'},{'Crista'},&,1/1,&
-&,{'Angeli'},{'Tiffan'},{'Matthe'},{'Steve '},{'Rex Bu'},{'Matthe'},&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Matthe'},{'Steve '},{'Rex Bu'},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Matthe'},,,,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Melodi'},{'Ahlam '},{'Crista'},{'Jaclyn'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Melodi'},{'Ahlam '},{'Rex Bu'},{'Jesse '},&,1/1,&
@@ -5776,7 +5776,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Melodi'},{'Crista'},{'Steve '},{'Brian '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Melodi'},{'Daniel'},{'Jesse '},{'Brian '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Melodi'},{'Harris'},{'Ahlam '},{'Brian '},&,1/1,&
-&,{'Angeli'},{'Tiffan'},{'Melodi'},{'Jaclyn'},{'Crista'},{'Tiffan'},&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Melodi'},{'Jaclyn'},{'Crista'},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Melodi'},{'Jesse '},{'Chris '},{'Daniel'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Melodi'},{'Jesse '},{'Chris '},{'Jonath'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Melodi'},{'Jesse '},{'Rex Bu'},{'Brian '},&,1/1,&
@@ -6146,7 +6146,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Ahlam '},{'Theo H'},{'Chris '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Ahlam '},{'Rex Bu'},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Ahlam '},,,&,19/1,&
-&,{'Angeli'},{'Tiffan'},{'Steve '},{'Angeli'},{'Angeli'},{'Angeli'},&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Steve '},,,,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Brian '},{'Chris '},{'Ahlam '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Brian '},{'Chris '},{'Jesse '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Brian '},{'Chris '},{'Kelly '},&,1/1,&
@@ -6291,7 +6291,7 @@ False
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Jaclyn'},{'Cliffo'},{'Crista'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Jesse '},{'Ahlam '},{'Brian '},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Jesse '},{'Ahlam '},{'Chris '},&,2/1,&
-&,{'Angeli'},{'Tiffan'},{'Steve '},{'Jesse '},{'Ahlam '},{'Jesse '},&,1/1,&
+&,{'Angeli'},{'Tiffan'},{'Steve '},{'Jesse '},{'Ahlam '},,&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Jesse '},{'Ahlam '},{'Luke Z'},&,3/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Jesse '},{'Ahlam '},{'Rex Bu'},&,1/1,&
 &,{'Angeli'},{'Tiffan'},{'Steve '},{'Jesse '},{'Brian '},{'Chris '},&,1/1,&
@@ -6559,7 +6559,7 @@ False
 &,{'Brian '},{'Angeli'},{'Ahlam '},{'Chris '},{'Tiffan'},{'Philip'},&,1/1,&
 &,{'Brian '},{'Angeli'},{'Ahlam '},{'Philip'},{'Jesse '},{'Crista'},&,1/1,&
 &,{'Brian '},{'Angeli'},{'Ahlam '},{'Tiffan'},{'Steve '},{'Philip'},&,1/1,&
-&,{'Brian '},{'Angeli'},{'Brian '},{'Sandee'},{'Daniel'},{'Melodi'},&,1/1,&
+&,{'Brian '},{'Angeli'},{'Sandee'},{'Daniel'},{'Melodi'},,&,1/1,&
 &,{'Brian '},{'Angeli'},{'Chris '},{'Ahlam '},{'Tiffan'},{'Christ'},&,1/1,&
 &,{'Brian '},{'Angeli'},{'Chris '},{'Jesse '},{'Christ'},{'Melodi'},&,1/1,&
 &,{'Brian '},{'Angeli'},{'Chris '},{'Jonath'},{'Tiffan'},{'Philip'},&,1/1,&
@@ -6723,7 +6723,7 @@ False
 &,{'Brian '},{'Jesse '},{'Dan Gi'},{'Rex Bu'},{'Jonath'},{'Philip'},&,1/1,&
 &,{'Brian '},{'Jesse '},{'Daniel'},{'Chris '},{'Philip'},{'Luke Z'},&,1/1,&
 &,{'Brian '},{'Jesse '},{'Daniel'},{'Crista'},{'Angeli'},{'Heart '},&,1/1,&
-&,{'Brian '},{'Jesse '},{'Daniel'},{'Harris'},{'Kezia '},{'Harris'},&,1/1,&
+&,{'Brian '},{'Jesse '},{'Daniel'},{'Harris'},{'Kezia '},,&,1/1,&
 &,{'Brian '},{'Jesse '},{'Daniel'},{'Tiffan'},{'Patric'},{'Christ'},&,1/1,&
 &,{'Brian '},{'Jesse '},{'Daniel'},,,,&,2/1,&
 &,{'Brian '},{'Jesse '},{'Heart '},{'Jonath'},{'Matthe'},{'Steve '},&,1/1,&
@@ -6787,7 +6787,7 @@ False
 &,{'Brian '},{'Kezia '},{'Rex Bu'},{'Jonath'},{'Heart '},{'Tiffan'},&,1/1,&
 &,{'Brian '},{'Kezia '},{'Rex Bu'},{'Steve '},{'Sandee'},,&,1/1,&
 &,{'Brian '},{'Kezia '},{'Rex Bu'},{'Steve '},,,&,1/1,&
-&,{'Brian '},{'Kezia '},{'Steve '},{'Brian '},{'Daniel'},,&,1/1,&
+&,{'Brian '},{'Kezia '},{'Steve '},{'Daniel'},,,&,1/1,&
 &,{'Brian '},{'Kezia '},{'Terry '},{'Chris '},{'Kelly '},{'Angeli'},&,1/1,&
 &,{'Brian '},{'Kezia '},{'Tiffan'},{'Rex Bu'},{'Jonath'},{'Philip'},&,1/1,&
 &,{'Brian '},{'Kezia '},,,,,&,1/1,&
@@ -6819,7 +6819,7 @@ False
 &,{'Brian '},{'Matthe'},{'Sandee'},{'Philip'},{'Harris'},{'Ahlam '},&,1/1,&
 &,{'Brian '},{'Matthe'},{'Terry '},{'Ahlam '},{'Cliffo'},{'Rex Bu'},&,1/1,&
 &,{'Brian '},{'Matthe'},{'Terry '},{'Harris'},{'Melodi'},{'Crista'},&,1/1,&
-&,{'Brian '},{'Melodi'},{'Brian '},{'Chris '},{'Patric'},{'Tiffan'},&,1/1,&
+&,{'Brian '},{'Melodi'},{'Chris '},{'Patric'},{'Tiffan'},,&,1/1,&
 &,{'Brian '},{'Melodi'},{'Harris'},{'Theo H'},{'Matthe'},{'Sandee'},&,1/1,&
 &,{'Brian '},{'Melodi'},{'Philip'},{'Angeli'},{'Theo H'},,&,1/1,&
 &,{'Brian '},{'Melodi'},{'Philip'},{'Tiffan'},{'Theo H'},{'Matthe'},&,1/1,&
@@ -6854,7 +6854,7 @@ False
 &,{'Brian '},{'Philip'},{'Luke Z'},{'Angeli'},{'Chris '},{'Tiffan'},&,1/1,&
 &,{'Brian '},{'Philip'},{'Melodi'},{'Ahlam '},{'Jaclyn'},{'David '},&,1/1,&
 &,{'Brian '},{'Philip'},{'Patric'},{'Angeli'},{'Tiffan'},{'Crista'},&,2/1,&
-&,{'Brian '},{'Philip'},{'Tiffan'},{'Brian '},{'Chris '},,&,1/1,&
+&,{'Brian '},{'Philip'},{'Tiffan'},{'Chris '},,,&,1/1,&
 &,{'Brian '},{'Philip'},{'Tiffan'},{'Jesse '},{'Crista'},{'Angeli'},&,1/1,&
 &,{'Brian '},{'Philip'},{'Tiffan'},{'Jesse '},{'Crista'},,&,2/1,&
 &,{'Brian '},{'Philip'},{'Tiffan'},{'Luke Z'},{'Jesse '},{'Steve '},&,1/1,&
@@ -6911,7 +6911,7 @@ False
 &,{'Brian '},{'Steve '},{'Philip'},{'Rex Bu'},,,&,1/1,&
 &,{'Brian '},{'Steve '},{'Rex Bu'},{'Angeli'},{'Philip'},{'Dan Gi'},&,1/1,&
 &,{'Brian '},{'Steve '},{'Rex Bu'},{'Jesse '},{'Philip'},{'Angeli'},&,1/1,&
-&,{'Brian '},{'Steve '},{'Steve '},{'Theo H'},{'Jesse '},{'Rex Bu'},&,1/1,&
+&,{'Brian '},{'Steve '},{'Theo H'},{'Jesse '},{'Rex Bu'},,&,1/1,&
 &,{'Brian '},{'Steve '},{'Tiffan'},{'Angeli'},{'Chris '},{'Jesse '},&,1/1,&
 &,{'Brian '},{'Steve '},{'Tiffan'},,,,&,1/1,&
 &,{'Brian '},{'Steve '},,,,,&,2/1,&
@@ -7257,11 +7257,11 @@ False
 &,{'Chris '},{'Brian '},{'Dan Gi'},,,,&,1/1,&
 &,{'Chris '},{'Brian '},{'Daniel'},{'Angeli'},{'Steve '},{'Harris'},&,1/1,&
 &,{'Chris '},{'Brian '},{'Daniel'},{'Melodi'},,,&,1/1,&
-&,{'Chris '},{'Brian '},{'Harris'},{'Christ'},{'John S'},{'Chris '},&,1/1,&
+&,{'Chris '},{'Brian '},{'Harris'},{'Christ'},{'John S'},,&,1/1,&
 &,{'Chris '},{'Brian '},{'Heart '},{'Kelly '},{'Sandee'},{'Melodi'},&,1/1,&
 &,{'Chris '},{'Brian '},{'Jesse '},{'Angeli'},{'Terry '},{'Matthe'},&,1/1,&
 &,{'Chris '},{'Brian '},{'Jesse '},{'Rex Bu'},{'Sandee'},{'Tiffan'},&,2/1,&
-&,{'Chris '},{'Brian '},{'Jonath'},{'David '},{'Matthe'},{'David '},&,1/1,&
+&,{'Chris '},{'Brian '},{'Jonath'},{'David '},{'Matthe'},,&,1/1,&
 &,{'Chris '},{'Brian '},{'Jonath'},{'Steve '},{'Kelly '},{'Tiffan'},&,1/1,&
 &,{'Chris '},{'Brian '},{'Jonath'},{'Tiffan'},{'Heart '},{'Rex Bu'},&,1/1,&
 &,{'Chris '},{'Brian '},{'Jonath'},{'Tiffan'},,,&,2/1,&
@@ -7279,8 +7279,8 @@ False
 &,{'Chris '},{'Brian '},{'Theo H'},{'Tiffan'},{'Angeli'},,&,1/1,&
 &,{'Chris '},{'Brian '},{'Tiffan'},{'Ahlam '},{'Angeli'},{'Theo H'},&,2/1,&
 &,{'Chris '},{'Brian '},{'Tiffan'},{'Angeli'},{'Theo H'},,&,1/1,&
-&,{'Chris '},{'Chris '},{'Chris '},{'Chris '},{'Chris '},{'Chris '},&,1/1,&
-&,{'Chris '},{'Chris '},{'Chris '},,,,&,1/1,&
+&,{'Chris '},,,,,,&,1/1,&
+&,{'Chris '},,,,,,&,1/1,&
 &,{'Chris '},{'Christ'},{'Ahlam '},{'Philip'},{'Luke Z'},{'Tiffan'},&,1/1,&
 &,{'Chris '},{'Cliffo'},{'Jesse '},{'Angeli'},{'Jonath'},{'Theo H'},&,1/1,&
 &,{'Chris '},{'Cliffo'},{'Theo H'},,,,&,1/1,&
@@ -7305,7 +7305,7 @@ False
 &,{'Chris '},{'Crista'},{'Melodi'},{'Heart '},{'Kelly '},{'Ahlam '},&,1/1,&
 &,{'Chris '},{'Crista'},{'Patric'},{'Steve '},{'Kezia '},{'Christ'},&,1/1,&
 &,{'Chris '},{'Crista'},{'Philip'},{'Kezia '},{'Christ'},{'Harris'},&,1/1,&
-&,{'Chris '},{'Crista'},{'Rex Bu'},{'Rex Bu'},{'Crista'},{'Chris '},&,2/1,&
+&,{'Chris '},{'Crista'},{'Rex Bu'},,,,&,2/1,&
 &,{'Chris '},{'Crista'},{'Rex Bu'},{'Tiffan'},,,&,1/1,&
 &,{'Chris '},{'Crista'},{'Sandee'},{'Angeli'},{'Ahlam '},{'Tiffan'},&,1/1,&
 &,{'Chris '},{'Crista'},{'Sandee'},{'Luke Z'},{'Theo H'},{'Jesse '},&,1/1,&
@@ -7331,7 +7331,7 @@ False
 &,{'Chris '},{'Daniel'},{'Brian '},{'Angeli'},{'Ahlam '},{'Tiffan'},&,1/1,&
 &,{'Chris '},{'Daniel'},{'Brian '},{'Philip'},,,&,1/1,&
 &,{'Chris '},{'Daniel'},{'Cliffo'},{'Crista'},{'Jaclyn'},{'Tiffan'},&,1/1,&
-&,{'Chris '},{'Daniel'},{'Dan Gi'},{'Harris'},{'Chris '},,&,1/1,&
+&,{'Chris '},{'Daniel'},{'Dan Gi'},{'Harris'},,,&,1/1,&
 &,{'Chris '},{'Daniel'},{'Harris'},{'Kezia '},,,&,1/1,&
 &,{'Chris '},{'Daniel'},{'Jaclyn'},{'Terry '},{'Crista'},{'Kezia '},&,1/1,&
 &,{'Chris '},{'Daniel'},{'Jesse '},{'Angeli'},{'Tiffan'},{'Crista'},&,2/1,&
@@ -7951,7 +7951,7 @@ False
 &,{'Christ'},{'Dan Gi'},{'Kelly '},{'Steve '},{'Matthe'},,&,1/1,&
 &,{'Christ'},{'Dan Gi'},{'Kennet'},,,,&,1/1,&
 &,{'Christ'},{'Dan Gi'},{'Matthe'},{'Harris'},{'Kezia '},{'Jesse '},&,1/1,&
-&,{'Christ'},{'Dan Gi'},{'Matthe'},{'Kelly '},{'Kelly '},{'Heart '},&,1/1,&
+&,{'Christ'},{'Dan Gi'},{'Matthe'},{'Kelly '},{'Heart '},,&,1/1,&
 &,{'Christ'},{'Dan Gi'},{'Melodi'},{'Brian '},{'Chris '},{'Matthe'},&,1/1,&
 &,{'Christ'},{'Dan Gi'},{'Terry '},{'Heart '},{'Theo H'},{'John S'},&,1/1,&
 &,{'Christ'},{'Dan Gi'},{'Terry '},{'Luke Z'},{'Melodi'},{'Philip'},&,1/1,&
@@ -7995,7 +7995,7 @@ False
 &,{'Christ'},{'Kezia '},{'Dan Gi'},{'Angeli'},{'Matthe'},{'Chris '},&,1/1,&
 &,{'Christ'},{'Kezia '},{'David '},,,,&,1/1,&
 &,{'Christ'},{'Kezia '},{'Jonath'},{'Dan Gi'},{'Kennet'},{'David '},&,1/1,&
-&,{'Christ'},{'Kezia '},{'Kezia '},{'Jesse '},{'Matthe'},{'Sandee'},&,1/1,&
+&,{'Christ'},{'Kezia '},{'Jesse '},{'Matthe'},{'Sandee'},,&,1/1,&
 &,{'Christ'},{'Kezia '},{'Melodi'},{'Steve '},{'Jesse '},,&,1/1,&
 &,{'Christ'},{'Luke Z'},{'Angeli'},{'Rex Bu'},{'Crista'},{'Brian '},&,1/1,&
 &,{'Christ'},{'Luke Z'},{'Steve '},{'Terry '},{'Angeli'},{'Chris '},&,1/1,&
@@ -8015,7 +8015,7 @@ False
 &,{'Christ'},{'Melodi'},{'Theo H'},{'Luke Z'},{'Kelly '},{'Dan Gi'},&,1/1,&
 &,{'Christ'},{'Melodi'},{'Tiffan'},,,,&,1/1,&
 &,{'Christ'},{'Philip'},{'Jesse '},{'Matthe'},{'Brian '},{'Chris '},&,1/1,&
-&,{'Christ'},{'Philip'},{'Rex Bu'},{'Christ'},{'Matthe'},{'Heart '},&,1/1,&
+&,{'Christ'},{'Philip'},{'Rex Bu'},{'Matthe'},{'Heart '},,&,1/1,&
 &,{'Christ'},{'Philip'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Jesse '},&,1/1,&
 &,{'Christ'},{'Philip'},{'Steve '},{'Rex Bu'},{'Tiffan'},{'Jesse '},&,1/1,&
 &,{'Christ'},{'Philip'},{'Tiffan'},{'Steve '},{'Ahlam '},{'Terry '},&,1/1,&
@@ -8049,7 +8049,7 @@ False
 &,{'Christ'},{'Steve '},{'Kezia '},{'Jonath'},{'Jaclyn'},{'Luke Z'},&,2/1,&
 &,{'Christ'},{'Steve '},{'Kezia '},{'Jonath'},{'Tiffan'},{'Jesse '},&,1/1,&
 &,{'Christ'},{'Steve '},{'Kezia '},{'Jonath'},{'Tiffan'},,&,1/1,&
-&,{'Christ'},{'Steve '},{'Luke Z'},{'Theo H'},{'Luke Z'},{'Jesse '},&,1/1,&
+&,{'Christ'},{'Steve '},{'Luke Z'},{'Theo H'},{'Jesse '},,&,1/1,&
 &,{'Christ'},{'Steve '},{'Matthe'},,,,&,1/1,&
 &,{'Christ'},{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Angeli'},&,1/1,&
 &,{'Christ'},{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Jesse '},&,1/1,&
@@ -8239,7 +8239,7 @@ False
 &,{'Crista'},{'Angeli'},{'Ahlam '},{'Tiffan'},{'Kezia '},,&,1/1,&
 &,{'Crista'},{'Angeli'},{'Ahlam '},{'Tiffan'},{'Luke Z'},{'Sandee'},&,1/1,&
 &,{'Crista'},{'Angeli'},{'Ahlam '},,,,&,3/1,&
-&,{'Crista'},{'Angeli'},{'Angeli'},,,,&,1/1,&
+&,{'Crista'},{'Angeli'},,,,,&,1/1,&
 &,{'Crista'},{'Angeli'},{'Brian '},{'Ahlam '},{'Tiffan'},{'Chris '},&,1/1,&
 &,{'Crista'},{'Angeli'},{'Brian '},{'Daniel'},{'Theo H'},{'Kezia '},&,1/1,&
 &,{'Crista'},{'Angeli'},{'Brian '},{'Jesse '},{'Tiffan'},{'Steve '},&,1/1,&
@@ -8424,7 +8424,7 @@ False
 &,{'Crista'},{'Angeli'},{'Tiffan'},{'Steve '},{'Philip'},{'Rex Bu'},&,1/1,&
 &,{'Crista'},{'Angeli'},{'Tiffan'},{'Steve '},,,&,2/1,&
 &,{'Crista'},{'Angeli'},{'Tiffan'},{'Theo H'},{'Steve '},{'Ahlam '},&,1/1,&
-&,{'Crista'},{'Angeli'},{'Tiffan'},{'Tiffan'},,,&,1/1,&
+&,{'Crista'},{'Angeli'},{'Tiffan'},,,,&,1/1,&
 &,{'Crista'},{'Angeli'},{'Tiffan'},,,,&,5/1,&
 &,{'Crista'},{'Angeli'},,,,,&,6/1,&
 &,{'Crista'},{'Brian '},{'Angeli'},{'Chris '},,,&,1/1,&
@@ -8484,7 +8484,7 @@ False
 &,{'Crista'},{'Christ'},{'Tiffan'},{'Ahlam '},{'Angeli'},{'Chris '},&,1/1,&
 &,{'Crista'},{'Cliffo'},{'Brian '},{'Tiffan'},{'Jaclyn'},{'Daniel'},&,1/1,&
 &,{'Crista'},{'Cliffo'},{'Tiffan'},{'Chris '},{'Angeli'},{'Patric'},&,1/1,&
-&,{'Crista'},{'Crista'},{'Crista'},{'Crista'},{'Crista'},{'Crista'},&,1/1,&
+&,{'Crista'},,,,,,&,1/1,&
 &,{'Crista'},{'Dan Gi'},{'Angeli'},{'Brian '},{'Ahlam '},{'Rex Bu'},&,2/1,&
 &,{'Crista'},{'Dan Gi'},{'Angeli'},{'Daniel'},{'Chris '},{'Jesse '},&,1/1,&
 &,{'Crista'},{'Dan Gi'},{'Brian '},{'Angeli'},{'Tiffan'},{'Rex Bu'},&,1/1,&
@@ -8933,7 +8933,7 @@ False
 &,{'Crista'},{'Steve '},{'Chris '},{'Tiffan'},{'Rex Bu'},{'Philip'},&,1/1,&
 &,{'Crista'},{'Steve '},{'Harris'},{'Heart '},{'Angeli'},{'Daniel'},&,1/1,&
 &,{'Crista'},{'Steve '},{'Heart '},{'Kennet'},{'Jaclyn'},{'Patric'},&,1/1,&
-&,{'Crista'},{'Steve '},{'Jesse '},{'Angeli'},{'Tiffan'},{'Jesse '},&,1/1,&
+&,{'Crista'},{'Steve '},{'Jesse '},{'Angeli'},{'Tiffan'},,&,1/1,&
 &,{'Crista'},{'Steve '},{'Jesse '},{'Kezia '},{'Philip'},{'Tiffan'},&,1/1,&
 &,{'Crista'},{'Steve '},{'Jesse '},{'Kezia '},,,&,1/1,&
 &,{'Crista'},{'Steve '},{'Jesse '},{'Luke Z'},{'Kezia '},{'Philip'},&,1/1,&
@@ -9016,7 +9016,7 @@ False
 &,{'Crista'},{'Steve '},{'Rex Bu'},{'Philip'},{'Jesse '},{'Chris '},&,1/1,&
 &,{'Crista'},{'Steve '},{'Rex Bu'},{'Sandee'},{'Jesse '},{'Daniel'},&,1/1,&
 &,{'Crista'},{'Steve '},{'Rex Bu'},,,,&,1/1,&
-&,{'Crista'},{'Steve '},{'Sandee'},{'Heart '},{'Theo H'},{'Steve '},&,1/1,&
+&,{'Crista'},{'Steve '},{'Sandee'},{'Heart '},{'Theo H'},,&,1/1,&
 &,{'Crista'},{'Steve '},{'Sandee'},{'John S'},{'Kennet'},,&,1/1,&
 &,{'Crista'},{'Steve '},{'Sandee'},{'Rex Bu'},{'Matthe'},{'Kelly '},&,1/1,&
 &,{'Crista'},{'Steve '},{'Terry '},,,,&,1/1,&
@@ -9266,7 +9266,7 @@ False
 &,{'Dan Gi'},{'Kelly '},{'Cliffo'},{'John S'},{'Rex Bu'},{'Harris'},&,1/1,&
 &,{'Dan Gi'},{'Kelly '},{'Heart '},{'Kennet'},{'John S'},{'Sandee'},&,1/1,&
 &,{'Dan Gi'},{'Kennet'},{'Crista'},,,,&,1/1,&
-&,{'Dan Gi'},{'Kennet'},{'Dan Gi'},{'Steve '},{'Terry '},,&,1/1,&
+&,{'Dan Gi'},{'Kennet'},{'Steve '},{'Terry '},,,&,1/1,&
 &,{'Dan Gi'},{'Kennet'},{'Kezia '},{'Melodi'},{'Christ'},{'Terry '},&,1/1,&
 &,{'Dan Gi'},{'Kennet'},{'Terry '},{'Rex Bu'},{'Kezia '},,&,1/1,&
 &,{'Dan Gi'},{'Kezia '},{'Angeli'},{'Christ'},{'Harris'},{'Sandee'},&,1/1,&
@@ -9321,7 +9321,7 @@ False
 &,{'Dan Gi'},{'Philip'},{'Jonath'},{'Rex Bu'},{'Daniel'},{'Crista'},&,1/1,&
 &,{'Dan Gi'},{'Philip'},{'Kezia '},{'Harris'},{'Melodi'},{'Steve '},&,1/1,&
 &,{'Dan Gi'},{'Philip'},{'Patric'},{'Angeli'},{'Steve '},{'Luke Z'},&,1/1,&
-&,{'Dan Gi'},{'Philip'},{'Rex Bu'},{'Crista'},{'Tiffan'},{'Philip'},&,1/1,&
+&,{'Dan Gi'},{'Philip'},{'Rex Bu'},{'Crista'},{'Tiffan'},,&,1/1,&
 &,{'Dan Gi'},{'Philip'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Tiffan'},&,1/1,&
 &,{'Dan Gi'},{'Philip'},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Cliffo'},&,1/1,&
 &,{'Dan Gi'},{'Philip'},{'Tiffan'},{'Steve '},{'Angeli'},,&,1/1,&
@@ -9383,7 +9383,7 @@ False
 &,{'Dan Gi'},{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Angeli'},&,1/1,&
 &,{'Dan Gi'},{'Steve '},{'Philip'},{'Tiffan'},{'Jesse '},{'Angeli'},&,1/1,&
 &,{'Dan Gi'},{'Steve '},{'Sandee'},,,,&,1/1,&
-&,{'Dan Gi'},{'Steve '},{'Steve '},,,,&,1/1,&
+&,{'Dan Gi'},{'Steve '},,,,,&,1/1,&
 &,{'Dan Gi'},{'Steve '},{'Terry '},{'Sandee'},{'Melodi'},{'Tiffan'},&,1/1,&
 &,{'Dan Gi'},{'Steve '},{'Theo H'},{'Jonath'},{'Jesse '},{'Rex Bu'},&,1/1,&
 &,{'Dan Gi'},{'Steve '},{'Theo H'},{'Patric'},{'Tiffan'},{'Chris '},&,1/1,&
@@ -9625,12 +9625,12 @@ False
 &,{'Daniel'},{'Dan Gi'},{'Steve '},{'Kezia '},,,&,1/1,&
 &,{'Daniel'},{'Dan Gi'},{'Steve '},{'Terry '},{'Heart '},{'Theo H'},&,1/1,&
 &,{'Daniel'},{'Dan Gi'},{'Tiffan'},{'Angeli'},{'Matthe'},,&,1/1,&
-&,{'Daniel'},{'Daniel'},{'Daniel'},{'Daniel'},{'Daniel'},{'Daniel'},&,2/1,&
-&,{'Daniel'},{'Daniel'},{'Daniel'},,,,&,1/1,&
-&,{'Daniel'},{'Daniel'},{'Kezia '},{'Kezia '},{'Harris'},{'Harris'},&,1/1,&
+&,{'Daniel'},,,,,,&,2/1,&
+&,{'Daniel'},,,,,,&,1/1,&
+&,{'Daniel'},{'Kezia '},{'Harris'},,,,&,1/1,&
 &,{'Daniel'},{'David '},{'Philip'},{'Theo H'},{'Matthe'},{'Jonath'},&,1/1,&
 &,{'Daniel'},{'David '},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jaclyn'},&,1/1,&
-&,{'Daniel'},{'Harris'},{'Ahlam '},{'John S'},{'Dan Gi'},{'Harris'},&,1/1,&
+&,{'Daniel'},{'Harris'},{'Ahlam '},{'John S'},{'Dan Gi'},,&,1/1,&
 &,{'Daniel'},{'Harris'},{'Ahlam '},{'John S'},{'Dan Gi'},{'Kezia '},&,1/1,&
 &,{'Daniel'},{'Harris'},{'Ahlam '},,,,&,1/1,&
 &,{'Daniel'},{'Harris'},{'Angeli'},{'Crista'},,,&,1/1,&
@@ -9693,7 +9693,7 @@ False
 &,{'Daniel'},{'Harris'},{'Rex Bu'},,,,&,4/1,&
 &,{'Daniel'},{'Harris'},{'Sandee'},{'Chris '},{'Philip'},{'Christ'},&,1/1,&
 &,{'Daniel'},{'Harris'},{'Sandee'},{'Kezia '},{'Melodi'},,&,1/1,&
-&,{'Daniel'},{'Harris'},{'Sandee'},{'Kezia '},{'Sandee'},{'Jonath'},&,1/1,&
+&,{'Daniel'},{'Harris'},{'Sandee'},{'Kezia '},{'Jonath'},,&,1/1,&
 &,{'Daniel'},{'Harris'},{'Sandee'},{'Matthe'},{'Theo H'},{'Kezia '},&,1/1,&
 &,{'Daniel'},{'Harris'},{'Sandee'},{'Steve '},{'Dan Gi'},,&,1/1,&
 &,{'Daniel'},{'Harris'},{'Sandee'},,,,&,2/1,&
@@ -10046,7 +10046,7 @@ False
 &,{'Daniel'},{'Luke Z'},{'Chris '},,,,&,2/1,&
 &,{'Daniel'},{'Luke Z'},{'Christ'},{'Rex Bu'},{'Tiffan'},,&,1/1,&
 &,{'Daniel'},{'Luke Z'},{'Dan Gi'},{'Christ'},{'Kezia '},{'Steve '},&,1/1,&
-&,{'Daniel'},{'Luke Z'},{'Harris'},{'Ahlam '},{'Jesse '},{'Jesse '},&,1/1,&
+&,{'Daniel'},{'Luke Z'},{'Harris'},{'Ahlam '},{'Jesse '},,&,1/1,&
 &,{'Daniel'},{'Luke Z'},{'Harris'},{'Jonath'},{'Sandee'},{'Matthe'},&,1/1,&
 &,{'Daniel'},{'Luke Z'},{'Harris'},{'Kezia '},{'Philip'},,&,3/1,&
 &,{'Daniel'},{'Luke Z'},{'Harris'},{'Tiffan'},{'Sandee'},{'Kezia '},&,1/1,&
@@ -10096,7 +10096,7 @@ False
 &,{'Daniel'},{'Matthe'},{'Brian '},{'Tiffan'},{'Philip'},{'Rex Bu'},&,1/1,&
 &,{'Daniel'},{'Matthe'},{'Brian '},,,,&,1/1,&
 &,{'Daniel'},{'Matthe'},{'Chris '},{'Steve '},{'Philip'},,&,1/1,&
-&,{'Daniel'},{'Matthe'},{'Christ'},{'Jesse '},{'David '},{'Matthe'},&,1/1,&
+&,{'Daniel'},{'Matthe'},{'Christ'},{'Jesse '},{'David '},,&,1/1,&
 &,{'Daniel'},{'Matthe'},{'David '},{'Jonath'},{'John S'},{'Luke Z'},&,2/1,&
 &,{'Daniel'},{'Matthe'},{'Harris'},{'Kezia '},,,&,1/1,&
 &,{'Daniel'},{'Matthe'},{'Jonath'},,,,&,1/1,&
@@ -10109,7 +10109,7 @@ False
 &,{'Daniel'},{'Matthe'},{'Sandee'},{'Terry '},{'Kezia '},{'Harris'},&,1/1,&
 &,{'Daniel'},{'Matthe'},{'Steve '},{'Dan Gi'},{'Harris'},,&,1/1,&
 &,{'Daniel'},{'Matthe'},{'Steve '},,,,&,1/1,&
-&,{'Daniel'},{'Matthe'},{'Terry '},{'Matthe'},,,&,1/1,&
+&,{'Daniel'},{'Matthe'},{'Terry '},,,,&,1/1,&
 &,{'Daniel'},{'Matthe'},{'Tiffan'},{'Jonath'},{'Brian '},{'Ahlam '},&,1/1,&
 &,{'Daniel'},{'Matthe'},,,,,&,1/1,&
 &,{'Daniel'},{'Melodi'},{'Ahlam '},{'Chris '},{'Philip'},{'Tiffan'},&,1/1,&
@@ -10374,7 +10374,7 @@ False
 &,{'Daniel'},{'Terry '},{'Kezia '},,,,&,1/1,&
 &,{'Daniel'},{'Terry '},{'Matthe'},{'Rex Bu'},{'Sandee'},{'Kezia '},&,1/1,&
 &,{'Daniel'},{'Terry '},{'Matthe'},{'Sandee'},{'Melodi'},{'John S'},&,1/1,&
-&,{'Daniel'},{'Terry '},{'Matthe'},{'Sandee'},{'Sandee'},{'John S'},&,1/1,&
+&,{'Daniel'},{'Terry '},{'Matthe'},{'Sandee'},{'John S'},,&,1/1,&
 &,{'Daniel'},{'Terry '},{'Sandee'},{'Kezia '},{'Harris'},,&,1/1,&
 &,{'Daniel'},{'Terry '},{'Sandee'},{'Kezia '},{'Jonath'},{'Melodi'},&,1/1,&
 &,{'Daniel'},{'Terry '},{'Sandee'},{'Luke Z'},{'Kezia '},{'Harris'},&,1/1,&
@@ -10468,7 +10468,7 @@ False
 &,{'Daniel'},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Crista'},{'Matthe'},&,1/1,&
 &,{'Daniel'},{'Tiffan'},{'Steve '},,,,&,5/1,&
 &,{'Daniel'},{'Tiffan'},{'Theo H'},{'Angeli'},{'Jesse '},{'Rex Bu'},&,1/1,&
-&,{'Daniel'},{'Tiffan'},{'Tiffan'},{'David '},{'Terry '},{'Chris '},&,1/1,&
+&,{'Daniel'},{'Tiffan'},{'David '},{'Terry '},{'Chris '},,&,1/1,&
 &,{'Daniel'},{'Tiffan'},{'Philip'},,,,&,1/1,&
 &,{'Daniel'},{'Tiffan'},,,,,&,10/1,&
 &,{'Daniel'},{'Harris'},{'Chris '},{'Kezia '},{'Steve '},,&,1/1,&
@@ -10614,7 +10614,7 @@ False
 &,{'Harris'},{'Angeli'},{'Daniel'},{'Ahlam '},{'David '},{'Tiffan'},&,1/1,&
 &,{'Harris'},{'Angeli'},{'Daniel'},,,,&,1/1,&
 &,{'Harris'},{'Angeli'},{'Jesse '},{'Luke Z'},{'Dan Gi'},{'Daniel'},&,2/1,&
-&,{'Harris'},{'Angeli'},{'Jonath'},{'Jesse '},{'Steve '},{'Jonath'},&,1/1,&
+&,{'Harris'},{'Angeli'},{'Jonath'},{'Jesse '},{'Steve '},,&,1/1,&
 &,{'Harris'},{'Angeli'},{'Jonath'},{'Jesse '},{'Steve '},{'Kezia '},&,1/1,&
 &,{'Harris'},{'Angeli'},{'Kelly '},{'Rex Bu'},{'Kezia '},{'Steve '},&,1/1,&
 &,{'Harris'},{'Angeli'},{'Kezia '},{'Steve '},{'Theo H'},{'Philip'},&,1/1,&
@@ -10717,7 +10717,7 @@ False
 &,{'Harris'},{'Daniel'},{'Brian '},,,,&,1/1,&
 &,{'Harris'},{'Daniel'},{'Christ'},{'John S'},{'Brian '},{'Angeli'},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Dan Gi'},{'Jonath'},,,&,1/1,&
-&,{'Harris'},{'Daniel'},{'Daniel'},{'Luke Z'},{'Daniel'},{'Philip'},&,1/1,&
+&,{'Harris'},{'Daniel'},{'Luke Z'},{'Philip'},,,&,1/1,&
 &,{'Harris'},{'Daniel'},{'Jesse '},{'Chris '},{'Tiffan'},{'Sandee'},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Jesse '},{'Jonath'},{'Terry '},{'Christ'},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Jesse '},{'Sandee'},{'Kezia '},{'Melodi'},&,1/1,&
@@ -10727,7 +10727,7 @@ False
 &,{'Harris'},{'Daniel'},{'Jonath'},{'Kezia '},{'Sandee'},{'Melodi'},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Jonath'},{'Kezia '},{'Sandee'},{'Steve '},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Jonath'},{'Kezia '},,,&,1/1,&
-&,{'Harris'},{'Daniel'},{'Jonath'},{'Melodi'},{'Kezia '},{'Harris'},&,1/1,&
+&,{'Harris'},{'Daniel'},{'Jonath'},{'Melodi'},{'Kezia '},,&,1/1,&
 &,{'Harris'},{'Daniel'},{'Jonath'},{'Sandee'},,,&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kennet'},{'Crista'},{'Angeli'},{'Brian '},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kennet'},{'Heart '},{'Terry '},{'Sandee'},&,1/1,&
@@ -10735,7 +10735,7 @@ False
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Dan Gi'},{'Sandee'},{'Melodi'},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Dan Gi'},{'Sandee'},{'Terry '},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Dan Gi'},{'Steve '},{'Sandee'},&,2/1,&
-&,{'Harris'},{'Daniel'},{'Kezia '},{'Daniel'},{'Steve '},,&,1/1,&
+&,{'Harris'},{'Daniel'},{'Kezia '},{'Steve '},,,&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Jesse '},{'Crista'},,&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Jesse '},{'Sandee'},{'Rex Bu'},&,2/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Jesse '},{'Steve '},{'Sandee'},&,3/1,&
@@ -10752,7 +10752,7 @@ False
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Sandee'},{'Jonath'},{'Dan Gi'},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Sandee'},{'Matthe'},{'Terry '},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Sandee'},{'Matthe'},,&,1/1,&
-&,{'Harris'},{'Daniel'},{'Kezia '},{'Sandee'},{'Steve '},{'Sandee'},&,1/1,&
+&,{'Harris'},{'Daniel'},{'Kezia '},{'Sandee'},{'Steve '},,&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Sandee'},,,&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Steve '},{'Heart '},{'Sandee'},&,1/1,&
 &,{'Harris'},{'Daniel'},{'Kezia '},{'Steve '},{'Jesse '},{'Melodi'},&,1/1,&
@@ -10818,9 +10818,9 @@ False
 &,{'Harris'},{'David '},{'Brian '},{'John S'},{'Patric'},{'Steve '},&,1/1,&
 &,{'Harris'},{'David '},{'Christ'},{'Melodi'},{'Heart '},{'Jesse '},&,1/1,&
 &,{'Harris'},{'David '},{'Steve '},{'Brian '},{'Theo H'},{'Cliffo'},&,1/1,&
-&,{'Harris'},{'Harris'},{'Harris'},{'Harris'},{'Harris'},{'Harris'},&,5/1,&
-&,{'Harris'},{'Harris'},{'Harris'},,,,&,1/1,&
-&,{'Harris'},{'Harris'},{'Sandee'},{'Dan Gi'},{'Terry '},{'Kennet'},&,2/1,&
+&,{'Harris'},,,,,,&,5/1,&
+&,{'Harris'},,,,,,&,1/1,&
+&,{'Harris'},{'Sandee'},{'Dan Gi'},{'Terry '},{'Kennet'},,&,2/1,&
 &,{'Harris'},{'Heart '},{'Dan Gi'},{'Jesse '},{'Jonath'},{'Steve '},&,1/1,&
 &,{'Harris'},{'Heart '},{'Daniel'},{'Theo H'},{'Christ'},{'Philip'},&,1/1,&
 &,{'Harris'},{'Heart '},{'Jonath'},{'Christ'},{'Jesse '},{'Patric'},&,1/1,&
@@ -10877,7 +10877,7 @@ False
 &,{'Harris'},{'John S'},{'Kelly '},{'Crista'},{'Kennet'},,&,1/1,&
 &,{'Harris'},{'John S'},{'Kennet'},{'Jesse '},{'Steve '},{'Matthe'},&,1/1,&
 &,{'Harris'},{'John S'},{'Kennet'},{'Terry '},,,&,1/1,&
-&,{'Harris'},{'John S'},{'Matthe'},{'Christ'},{'Jonath'},{'John S'},&,1/1,&
+&,{'Harris'},{'John S'},{'Matthe'},{'Christ'},{'Jonath'},,&,1/1,&
 &,{'Harris'},{'John S'},{'Rex Bu'},,,,&,2/1,&
 &,{'Harris'},{'John S'},{'Sandee'},,,,&,1/1,&
 &,{'Harris'},{'John S'},{'Steve '},{'Kezia '},{'Daniel'},{'Jesse '},&,1/1,&
@@ -11067,7 +11067,7 @@ False
 &,{'Harris'},{'Kezia '},{'David '},{'Crista'},,,&,1/1,&
 &,{'Harris'},{'Kezia '},{'David '},{'Dan Gi'},{'Terry '},{'Brian '},&,2/1,&
 &,{'Harris'},{'Kezia '},{'David '},,,,&,1/1,&
-&,{'Harris'},{'Kezia '},{'Harris'},{'Matthe'},{'Jesse '},{'Kelly '},&,1/1,&
+&,{'Harris'},{'Kezia '},{'Matthe'},{'Jesse '},{'Kelly '},,&,1/1,&
 &,{'Harris'},{'Kezia '},{'Heart '},{'Angeli'},{'Rex Bu'},{'Kennet'},&,2/1,&
 &,{'Harris'},{'Kezia '},{'Heart '},{'Sandee'},{'Steve '},{'Daniel'},&,2/1,&
 &,{'Harris'},{'Kezia '},{'Jesse '},{'Dan Gi'},{'Melodi'},{'Tiffan'},&,2/1,&
@@ -11239,7 +11239,7 @@ False
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Dan Gi'},{'Jesse '},{'Patric'},&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Dan Gi'},{'Kelly '},{'Kennet'},&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Dan Gi'},{'Kelly '},{'Terry '},&,1/1,&
-&,{'Harris'},{'Kezia '},{'Sandee'},{'Dan Gi'},{'Kennet'},{'Kennet'},&,1/1,&
+&,{'Harris'},{'Kezia '},{'Sandee'},{'Dan Gi'},{'Kennet'},,&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Dan Gi'},{'Kennet'},{'Terry '},&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Dan Gi'},{'Steve '},{'Kennet'},&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Dan Gi'},{'Steve '},{'Terry '},&,1/1,&
@@ -11273,7 +11273,7 @@ False
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Jonath'},{'Terry '},{'Philip'},&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Jonath'},,,&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Kennet'},{'Terry '},{'Melodi'},&,1/1,&
-&,{'Harris'},{'Kezia '},{'Sandee'},{'Kezia '},,,&,1/1,&
+&,{'Harris'},{'Kezia '},{'Sandee'},,,,&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Luke Z'},,,&,1/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Matthe'},{'Jonath'},{'Terry '},&,2/1,&
 &,{'Harris'},{'Kezia '},{'Sandee'},{'Matthe'},{'Melodi'},,&,2/1,&
@@ -11351,7 +11351,7 @@ False
 &,{'Harris'},{'Kezia '},{'Steve '},{'Kelly '},{'Rex Bu'},{'Jesse '},&,1/1,&
 &,{'Harris'},{'Kezia '},{'Steve '},{'Kelly '},{'Theo H'},,&,1/1,&
 &,{'Harris'},{'Kezia '},{'Steve '},{'Kelly '},{'Rex Bu'},,&,1/1,&
-&,{'Harris'},{'Kezia '},{'Steve '},{'Luke Z'},{'Luke Z'},,&,1/1,&
+&,{'Harris'},{'Kezia '},{'Steve '},{'Luke Z'},,,&,1/1,&
 &,{'Harris'},{'Kezia '},{'Steve '},{'Matthe'},{'Daniel'},{'Terry '},&,1/1,&
 &,{'Harris'},{'Kezia '},{'Steve '},{'Matthe'},{'John S'},{'Daniel'},&,2/1,&
 &,{'Harris'},{'Kezia '},{'Steve '},{'Matthe'},{'Kennet'},{'Jesse '},&,1/1,&
@@ -11444,7 +11444,7 @@ False
 &,{'Harris'},{'Matthe'},{'Melodi'},{'Steve '},{'Daniel'},{'John S'},&,1/1,&
 &,{'Harris'},{'Matthe'},{'Melodi'},{'Terry '},{'Kezia '},,&,1/1,&
 &,{'Harris'},{'Matthe'},{'Melodi'},,,,&,1/1,&
-&,{'Harris'},{'Matthe'},{'Patric'},{'Matthe'},,,&,1/1,&
+&,{'Harris'},{'Matthe'},{'Patric'},,,,&,1/1,&
 &,{'Harris'},{'Matthe'},{'Patric'},,,,&,1/1,&
 &,{'Harris'},{'Matthe'},{'Sandee'},{'Jonath'},{'Kezia '},{'Theo H'},&,1/1,&
 &,{'Harris'},{'Matthe'},{'Sandee'},{'Kezia '},{'Terry '},,&,1/1,&
@@ -11480,7 +11480,7 @@ False
 &,{'Harris'},{'Melodi'},{'Daniel'},{'Dan Gi'},,,&,1/1,&
 &,{'Harris'},{'Melodi'},{'Daniel'},{'Luke Z'},{'Dan Gi'},,&,1/1,&
 &,{'Harris'},{'Melodi'},{'Daniel'},,,,&,2/1,&
-&,{'Harris'},{'Melodi'},{'Heart '},{'Chris '},{'Heart '},{'Steve '},&,1/1,&
+&,{'Harris'},{'Melodi'},{'Heart '},{'Chris '},{'Steve '},,&,1/1,&
 &,{'Harris'},{'Melodi'},{'Heart '},{'Philip'},,,&,1/1,&
 &,{'Harris'},{'Melodi'},{'Heart '},{'Steve '},{'Kelly '},{'Brian '},&,1/1,&
 &,{'Harris'},{'Melodi'},{'Jonath'},{'Heart '},{'Angeli'},{'Luke Z'},&,1/1,&
@@ -11573,7 +11573,7 @@ False
 &,{'Harris'},{'Philip'},{'Daniel'},{'Kezia '},{'Steve '},{'Jesse '},&,1/1,&
 &,{'Harris'},{'Philip'},{'Jonath'},{'Dan Gi'},{'Daniel'},{'Kezia '},&,2/1,&
 &,{'Harris'},{'Philip'},{'Jonath'},{'Dan Gi'},{'Rex Bu'},{'Kennet'},&,1/1,&
-&,{'Harris'},{'Philip'},{'Jonath'},{'Sandee'},{'Crista'},{'Crista'},&,1/1,&
+&,{'Harris'},{'Philip'},{'Jonath'},{'Sandee'},{'Crista'},,&,1/1,&
 &,{'Harris'},{'Philip'},{'Kennet'},{'Kezia '},{'Melodi'},{'Angeli'},&,1/1,&
 &,{'Harris'},{'Philip'},{'Kezia '},{'Cliffo'},{'Dan Gi'},{'Steve '},&,1/1,&
 &,{'Harris'},{'Philip'},{'Kezia '},{'Daniel'},{'Steve '},{'Sandee'},&,1/1,&
@@ -11619,7 +11619,7 @@ False
 &,{'Harris'},{'Rex Bu'},{'Dan Gi'},{'Luke Z'},,,&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Daniel'},{'Brian '},{'Luke Z'},{'Tiffan'},&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Daniel'},{'Jonath'},{'John S'},{'Kelly '},&,2/1,&
-&,{'Harris'},{'Rex Bu'},{'Daniel'},{'Kezia '},{'Kezia '},{'Heart '},&,1/1,&
+&,{'Harris'},{'Rex Bu'},{'Daniel'},{'Kezia '},{'Heart '},,&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Daniel'},,,,&,2/1,&
 &,{'Harris'},{'Rex Bu'},{'David '},{'Christ'},{'John S'},{'Brian '},&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'David '},{'John S'},{'Terry '},{'Melodi'},&,1/1,&
@@ -11640,7 +11640,7 @@ False
 &,{'Harris'},{'Rex Bu'},{'Kezia '},{'Jesse '},{'Steve '},{'Tiffan'},&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Kezia '},{'Luke Z'},{'Theo H'},{'Jonath'},&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Kezia '},{'Matthe'},{'Jonath'},{'Angeli'},&,1/1,&
-&,{'Harris'},{'Rex Bu'},{'Kezia '},{'Rex Bu'},{'Jonath'},{'Philip'},&,1/1,&
+&,{'Harris'},{'Rex Bu'},{'Kezia '},{'Jonath'},{'Philip'},,&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Kezia '},,,,&,2/1,&
 &,{'Harris'},{'Rex Bu'},{'Matthe'},{'Angeli'},{'Daniel'},,&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Matthe'},{'Tiffan'},,,&,1/1,&
@@ -11662,7 +11662,7 @@ False
 &,{'Harris'},{'Rex Bu'},{'Steve '},{'Tiffan'},{'Kezia '},{'Jesse '},&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Steve '},,,,&,5/1,&
 &,{'Harris'},{'Rex Bu'},{'Terry '},{'Sandee'},{'Melodi'},{'Kezia '},&,1/1,&
-&,{'Harris'},{'Rex Bu'},{'Terry '},{'Sandee'},{'Sandee'},{'Kezia '},&,1/1,&
+&,{'Harris'},{'Rex Bu'},{'Terry '},{'Sandee'},{'Kezia '},,&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Terry '},,,,&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Theo H'},{'Kezia '},{'Angeli'},{'Jesse '},&,1/1,&
 &,{'Harris'},{'Rex Bu'},{'Theo H'},,,,&,1/1,&
@@ -11697,7 +11697,7 @@ False
 &,{'Harris'},{'Sandee'},{'Daniel'},{'Philip'},{'Crista'},{'Angeli'},&,1/1,&
 &,{'Harris'},{'Sandee'},{'Daniel'},{'Steve '},{'Kezia '},,&,1/1,&
 &,{'Harris'},{'Sandee'},{'Daniel'},,,,&,5/1,&
-&,{'Harris'},{'Sandee'},{'Harris'},{'Philip'},{'Kezia '},{'Steve '},&,1/1,&
+&,{'Harris'},{'Sandee'},{'Philip'},{'Kezia '},{'Steve '},,&,1/1,&
 &,{'Harris'},{'Sandee'},{'Heart '},{'John S'},,,&,1/1,&
 &,{'Harris'},{'Sandee'},{'Heart '},,,,&,1/1,&
 &,{'Harris'},{'Sandee'},{'Jesse '},{'Jonath'},,,&,1/1,&
@@ -11834,7 +11834,7 @@ False
 &,{'Harris'},{'Steve '},{'Jonath'},{'Melodi'},{'Sandee'},{'Philip'},&,1/1,&
 &,{'Harris'},{'Steve '},{'Jonath'},{'Sandee'},{'Daniel'},{'Jesse '},&,1/1,&
 &,{'Harris'},{'Steve '},{'Jonath'},,,,&,2/1,&
-&,{'Harris'},{'Steve '},{'Kelly '},{'Terry '},{'Harris'},{'Kezia '},&,1/1,&
+&,{'Harris'},{'Steve '},{'Kelly '},{'Terry '},{'Kezia '},,&,1/1,&
 &,{'Harris'},{'Steve '},{'Kelly '},{'Terry '},{'Kezia '},,&,1/1,&
 &,{'Harris'},{'Steve '},{'Kelly '},,,,&,3/1,&
 &,{'Harris'},{'Steve '},{'Kennet'},,,,&,1/1,&
@@ -11913,7 +11913,7 @@ False
 &,{'Harris'},{'Steve '},{'John S'},{'Melodi'},{'Kezia '},,&,1/1,&
 &,{'Harris'},{'Steve '},,,,,&,1/1,&
 &,{'Harris'},{'Steve '},,,,,&,43/1,&
-&,{'Harris'},{'Terry '},{'Crista'},{'Crista'},{'Crista'},{'Crista'},&,1/1,&
+&,{'Harris'},{'Terry '},{'Crista'},,,,&,1/1,&
 &,{'Harris'},{'Terry '},{'Dan Gi'},{'Jesse '},{'Rex Bu'},{'Daniel'},&,1/1,&
 &,{'Harris'},{'Terry '},{'Dan Gi'},{'Sandee'},{'Jonath'},{'Melodi'},&,1/1,&
 &,{'Harris'},{'Terry '},{'Daniel'},{'Melodi'},{'Jonath'},{'Sandee'},&,1/1,&
@@ -12077,7 +12077,7 @@ False
 &,{'Heart '},{'Angeli'},{'Daniel'},{'Matthe'},{'Tiffan'},{'Ahlam '},&,1/1,&
 &,{'Heart '},{'Angeli'},{'Daniel'},{'Rex Bu'},{'Crista'},{'Philip'},&,1/1,&
 &,{'Heart '},{'Angeli'},{'Jaclyn'},{'Crista'},{'Sandee'},{'Harris'},&,1/1,&
-&,{'Heart '},{'Angeli'},{'Jaclyn'},{'Jaclyn'},{'Patric'},{'Tiffan'},&,1/1,&
+&,{'Heart '},{'Angeli'},{'Jaclyn'},{'Patric'},{'Tiffan'},,&,1/1,&
 &,{'Heart '},{'Angeli'},{'Jesse '},{'Chris '},{'Ahlam '},{'Kelly '},&,1/1,&
 &,{'Heart '},{'Angeli'},{'Jesse '},{'Harris'},,,&,1/1,&
 &,{'Heart '},{'Angeli'},{'Jesse '},{'Sandee'},,,&,1/1,&
@@ -12104,7 +12104,7 @@ False
 &,{'Heart '},{'Angeli'},{'Tiffan'},{'Luke Z'},{'Jonath'},,&,1/1,&
 &,{'Heart '},{'Angeli'},{'Tiffan'},{'Luke Z'},{'Sandee'},{'Melodi'},&,1/1,&
 &,{'Heart '},{'Angeli'},{'Tiffan'},{'Melodi'},{'Crista'},{'Kezia '},&,1/1,&
-&,{'Heart '},{'Angeli'},{'Tiffan'},{'Philip'},{'Melodi'},{'Melodi'},&,1/1,&
+&,{'Heart '},{'Angeli'},{'Tiffan'},{'Philip'},{'Melodi'},,&,1/1,&
 &,{'Heart '},{'Angeli'},{'Tiffan'},{'Rex Bu'},{'Steve '},{'Jonath'},&,2/1,&
 &,{'Heart '},{'Angeli'},,,,,&,1/1,&
 &,{'Heart '},{'Brian '},{'Jesse '},{'Kennet'},{'Daniel'},,&,1/1,&
@@ -12188,7 +12188,7 @@ False
 &,{'Heart '},{'Harris'},{'Jaclyn'},{'Melodi'},{'David '},,&,1/1,&
 &,{'Heart '},{'Harris'},{'Sandee'},{'Brian '},{'Patric'},{'Daniel'},&,1/1,&
 &,{'Heart '},{'Harris'},{'Sandee'},{'Jesse '},{'Daniel'},{'Melodi'},&,1/1,&
-&,{'Heart '},{'Heart '},{'Heart '},{'Heart '},{'Heart '},{'Heart '},&,1/1,&
+&,{'Heart '},,,,,,&,1/1,&
 &,{'Heart '},{'Jaclyn'},{'Cliffo'},{'Brian '},{'Dan Gi'},{'David '},&,1/1,&
 &,{'Heart '},{'Jaclyn'},{'Dan Gi'},{'Melodi'},{'Kezia '},{'Terry '},&,1/1,&
 &,{'Heart '},{'Jaclyn'},{'Daniel'},{'Crista'},{'Jonath'},{'Tiffan'},&,1/1,&
@@ -12214,7 +12214,7 @@ False
 &,{'Heart '},{'John S'},{'David '},{'Sandee'},{'Harris'},{'Luke Z'},&,1/1,&
 &,{'Heart '},{'John S'},{'Kennet'},{'Kezia '},,,&,1/1,&
 &,{'Heart '},{'John S'},{'Melodi'},{'Rex Bu'},{'Ahlam '},{'Matthe'},&,2/1,&
-&,{'Heart '},{'John S'},{'Melodi'},{'Theo H'},{'Daniel'},{'Melodi'},&,1/1,&
+&,{'Heart '},{'John S'},{'Melodi'},{'Theo H'},{'Daniel'},,&,1/1,&
 &,{'Heart '},{'John S'},{'Patric'},{'Ahlam '},{'Daniel'},,&,1/1,&
 &,{'Heart '},{'John S'},{'Rex Bu'},{'Daniel'},{'Crista'},{'Harris'},&,1/1,&
 &,{'Heart '},{'John S'},{'Steve '},{'Sandee'},{'Patric'},{'Harris'},&,1/1,&
@@ -12318,7 +12318,7 @@ False
 &,{'Heart '},{'Sandee'},{'Ahlam '},{'Melodi'},{'Tiffan'},{'Kennet'},&,1/1,&
 &,{'Heart '},{'Sandee'},{'Ahlam '},{'Melodi'},{'Tiffan'},,&,1/1,&
 &,{'Heart '},{'Sandee'},{'Ahlam '},{'Terry '},{'Jaclyn'},{'Crista'},&,1/1,&
-&,{'Heart '},{'Sandee'},{'Angeli'},{'Chris '},{'Ahlam '},{'Sandee'},&,1/1,&
+&,{'Heart '},{'Sandee'},{'Angeli'},{'Chris '},{'Ahlam '},,&,1/1,&
 &,{'Heart '},{'Sandee'},{'Angeli'},{'Patric'},{'Luke Z'},{'Ahlam '},&,1/1,&
 &,{'Heart '},{'Sandee'},{'Crista'},{'Ahlam '},{'Melodi'},{'Angeli'},&,1/1,&
 &,{'Heart '},{'Sandee'},{'Crista'},{'Melodi'},{'Ahlam '},{'Kezia '},&,1/1,&
@@ -12501,7 +12501,7 @@ False
 &,{'Jaclyn'},{'Heart '},{'Jesse '},{'Crista'},{'Cliffo'},{'Dan Gi'},&,1/1,&
 &,{'Jaclyn'},{'Heart '},{'Sandee'},{'Tiffan'},{'Patric'},{'Luke Z'},&,1/1,&
 &,{'Jaclyn'},{'Heart '},{'Tiffan'},{'Melodi'},{'Kelly '},{'Angeli'},&,1/1,&
-&,{'Jaclyn'},{'Jaclyn'},{'Jaclyn'},{'Jaclyn'},{'Jaclyn'},{'Jaclyn'},&,1/1,&
+&,{'Jaclyn'},,,,,,&,1/1,&
 &,{'Jaclyn'},{'Jesse '},{'Angeli'},{'Kelly '},{'Crista'},{'Sandee'},&,1/1,&
 &,{'Jaclyn'},{'Jesse '},{'Angeli'},{'Matthe'},{'David '},{'Melodi'},&,1/1,&
 &,{'Jaclyn'},{'Jesse '},{'Angeli'},{'Steve '},{'Crista'},{'Melodi'},&,1/1,&
@@ -12688,7 +12688,7 @@ False
 &,{'Jesse '},{'Angeli'},{'Heart '},{'Philip'},{'Luke Z'},{'Steve '},&,1/1,&
 &,{'Jesse '},{'Angeli'},{'Heart '},,,,&,1/1,&
 &,{'Jesse '},{'Angeli'},{'Jaclyn'},{'Ahlam '},{'Cliffo'},{'Philip'},&,1/1,&
-&,{'Jesse '},{'Angeli'},{'Jonath'},{'Harris'},{'Steve '},{'Harris'},&,1/1,&
+&,{'Jesse '},{'Angeli'},{'Jonath'},{'Harris'},{'Steve '},,&,1/1,&
 &,{'Jesse '},{'Angeli'},{'Jonath'},{'Philip'},{'Daniel'},{'Rex Bu'},&,1/1,&
 &,{'Jesse '},{'Angeli'},{'Jonath'},{'Steve '},,,&,2/1,&
 &,{'Jesse '},{'Angeli'},{'Jonath'},,,,&,1/1,&
@@ -13433,8 +13433,8 @@ False
 &,{'Jesse '},{'Jaclyn'},{'Tiffan'},{'Angeli'},{'Cliffo'},{'Chris '},&,1/1,&
 &,{'Jesse '},{'Jaclyn'},{'Tiffan'},{'Steve '},{'Crista'},{'Angeli'},&,1/1,&
 &,{'Jesse '},{'Jaclyn'},{'Luke Z'},,,,&,1/1,&
-&,{'Jesse '},{'Jesse '},{'Dan Gi'},{'Harris'},{'Sandee'},{'Rex Bu'},&,1/1,&
-&,{'Jesse '},{'Jesse '},{'Jesse '},{'Jesse '},{'Jesse '},{'Jesse '},&,6/1,&
+&,{'Jesse '},{'Dan Gi'},{'Harris'},{'Sandee'},{'Rex Bu'},,&,1/1,&
+&,{'Jesse '},,,,,,&,6/1,&
 &,{'Jesse '},{'John S'},{'Kelly '},{'Heart '},{'Kezia '},{'Tiffan'},&,1/1,&
 &,{'Jesse '},{'John S'},{'Kezia '},{'Tiffan'},{'Philip'},{'Kelly '},&,1/1,&
 &,{'Jesse '},{'John S'},{'Steve '},{'Brian '},{'Tiffan'},{'Philip'},&,1/1,&
@@ -13576,7 +13576,7 @@ False
 &,{'Jesse '},{'Kezia '},{'Crista'},{'Philip'},{'Steve '},{'Tiffan'},&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Crista'},{'Steve '},{'Jonath'},{'Kennet'},&,2/1,&
 &,{'Jesse '},{'Kezia '},{'Crista'},{'Tiffan'},{'Angeli'},{'Daniel'},&,1/1,&
-&,{'Jesse '},{'Kezia '},{'Dan Gi'},{'Jesse '},{'Rex Bu'},{'Daniel'},&,1/1,&
+&,{'Jesse '},{'Kezia '},{'Dan Gi'},{'Rex Bu'},{'Daniel'},,&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Dan Gi'},,,,&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Daniel'},{'Angeli'},{'Steve '},{'Tiffan'},&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Daniel'},{'Dan Gi'},{'Rex Bu'},{'Patric'},&,1/1,&
@@ -13647,7 +13647,7 @@ False
 &,{'Jesse '},{'Kezia '},{'Sandee'},{'Jonath'},{'Harris'},{'Terry '},&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Sandee'},{'Matthe'},{'Daniel'},{'Chris '},&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Sandee'},{'Melodi'},{'Tiffan'},{'Crista'},&,1/1,&
-&,{'Jesse '},{'Kezia '},{'Sandee'},{'Rex Bu'},{'Kezia '},,&,1/1,&
+&,{'Jesse '},{'Kezia '},{'Sandee'},{'Rex Bu'},,,&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Sandee'},{'Rex Bu'},{'Patric'},{'Harris'},&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Sandee'},{'Steve '},{'Daniel'},{'Angeli'},&,1/1,&
 &,{'Jesse '},{'Kezia '},{'Sandee'},{'Steve '},,,&,1/1,&
@@ -13797,10 +13797,10 @@ False
 &,{'Jesse '},{'Matthe'},{'Crista'},{'Tiffan'},{'Cliffo'},{'Chris '},&,1/1,&
 &,{'Jesse '},{'Matthe'},{'Daniel'},{'Chris '},{'Patric'},{'Melodi'},&,1/1,&
 &,{'Jesse '},{'Matthe'},{'David '},{'Harris'},{'Kezia '},{'Chris '},&,1/1,&
-&,{'Jesse '},{'Matthe'},{'Harris'},{'Kezia '},{'Kezia '},{'Tiffan'},&,1/1,&
 &,{'Jesse '},{'Matthe'},{'Harris'},{'Kezia '},{'Tiffan'},,&,1/1,&
 &,{'Jesse '},{'Matthe'},{'Harris'},{'Kezia '},{'Tiffan'},,&,1/1,&
-&,{'Jesse '},{'Matthe'},{'Jonath'},{'Sandee'},{'Heart '},{'Jonath'},&,1/1,&
+&,{'Jesse '},{'Matthe'},{'Harris'},{'Kezia '},{'Tiffan'},,&,1/1,&
+&,{'Jesse '},{'Matthe'},{'Jonath'},{'Sandee'},{'Heart '},,&,1/1,&
 &,{'Jesse '},{'Matthe'},{'Kezia '},{'Harris'},{'Rex Bu'},{'Jonath'},&,1/1,&
 &,{'Jesse '},{'Matthe'},{'Kezia '},{'Harris'},{'Tiffan'},{'Angeli'},&,1/1,&
 &,{'Jesse '},{'Matthe'},{'Kezia '},{'Harris'},,,&,1/1,&
@@ -14655,7 +14655,7 @@ False
 &,{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Angeli'},,&,1/1,&
 &,{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Chris '},{'Angeli'},&,1/1,&
 &,{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Daniel'},,&,1/1,&
-&,{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Kelly '},{'Kezia '},&,1/1,&
+&,{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Kelly '},,&,1/1,&
 &,{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Philip'},{'Angeli'},&,1/1,&
 &,{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Rex Bu'},{'Crista'},&,1/1,&
 &,{'Jesse '},{'Steve '},{'Tiffan'},{'Kezia '},{'Rex Bu'},{'Daniel'},&,1/1,&
@@ -14701,7 +14701,7 @@ False
 &,{'Jesse '},{'Terry '},{'Steve '},{'Rex Bu'},{'Tiffan'},,&,1/1,&
 &,{'Jesse '},{'Theo H'},{'Angeli'},{'Rex Bu'},{'Kezia '},{'Chris '},&,1/1,&
 &,{'Jesse '},{'Theo H'},{'Daniel'},{'Luke Z'},{'Ahlam '},{'Kezia '},&,1/1,&
-&,{'Jesse '},{'Theo H'},{'Kezia '},{'Heart '},{'Theo H'},{'Sandee'},&,1/1,&
+&,{'Jesse '},{'Theo H'},{'Kezia '},{'Heart '},{'Sandee'},,&,1/1,&
 &,{'Jesse '},{'Theo H'},{'Patric'},{'Harris'},{'Brian '},{'Crista'},&,1/1,&
 &,{'Jesse '},{'Theo H'},{'Patric'},{'Harris'},{'Kennet'},{'Crista'},&,1/1,&
 &,{'Jesse '},{'Theo H'},{'Philip'},{'Matthe'},{'Chris '},{'Tiffan'},&,1/1,&
@@ -14752,7 +14752,7 @@ False
 &,{'Jesse '},{'Tiffan'},{'Angeli'},{'Crista'},{'Rex Bu'},{'Philip'},&,2/1,&
 &,{'Jesse '},{'Tiffan'},{'Angeli'},{'Crista'},{'Steve '},{'Philip'},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Angeli'},{'Dan Gi'},{'Ahlam '},{'Rex Bu'},&,1/1,&
-&,{'Jesse '},{'Tiffan'},{'Angeli'},{'Dan Gi'},{'Dan Gi'},{'Rex Bu'},&,1/1,&
+&,{'Jesse '},{'Tiffan'},{'Angeli'},{'Dan Gi'},{'Rex Bu'},,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Angeli'},{'Daniel'},{'Ahlam '},{'Rex Bu'},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Angeli'},{'Daniel'},{'Kelly '},{'Steve '},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Angeli'},{'Daniel'},{'Luke Z'},{'Kennet'},&,1/1,&
@@ -14878,7 +14878,7 @@ False
 &,{'Jesse '},{'Tiffan'},{'Harris'},{'Kezia '},,,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Harris'},,,,&,2/1,&
 &,{'Jesse '},{'Tiffan'},{'Heart '},{'Patric'},{'Kezia '},{'Kelly '},&,1/1,&
-&,{'Jesse '},{'Tiffan'},{'Jaclyn'},{'Jaclyn'},{'Luke Z'},{'Kezia '},&,1/1,&
+&,{'Jesse '},{'Tiffan'},{'Jaclyn'},{'Luke Z'},{'Kezia '},,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'John S'},{'Christ'},{'Crista'},{'Kezia '},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Jonath'},{'Angeli'},{'Rex Bu'},{'Steve '},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Jonath'},{'Angeli'},{'Steve '},,&,1/1,&
@@ -14893,7 +14893,7 @@ False
 &,{'Jesse '},{'Tiffan'},{'Kelly '},{'Jonath'},{'Steve '},{'Ahlam '},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Kelly '},,,,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Kennet'},{'Angeli'},{'Ahlam '},{'Heart '},&,2/1,&
-&,{'Jesse '},{'Tiffan'},{'Kennet'},{'Rex Bu'},{'Kennet'},{'David '},&,1/1,&
+&,{'Jesse '},{'Tiffan'},{'Kennet'},{'Rex Bu'},{'David '},,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Kezia '},{'Ahlam '},,,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Kezia '},{'Angeli'},{'Ahlam '},{'Steve '},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Kezia '},{'Angeli'},{'Melodi'},{'Steve '},&,1/1,&
@@ -14946,7 +14946,7 @@ False
 &,{'Jesse '},{'Tiffan'},{'Philip'},{'Angeli'},{'Chris '},{'Steve '},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Philip'},{'Angeli'},{'Crista'},{'Steve '},&,2/1,&
 &,{'Jesse '},{'Tiffan'},{'Philip'},{'Angeli'},{'Daniel'},,&,1/1,&
-&,{'Jesse '},{'Tiffan'},{'Philip'},{'Angeli'},{'Jesse '},{'Luke Z'},&,1/1,&
+&,{'Jesse '},{'Tiffan'},{'Philip'},{'Angeli'},{'Luke Z'},,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Philip'},{'Chris '},{'Steve '},{'Rex Bu'},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Philip'},{'Christ'},{'Crista'},{'Angeli'},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Philip'},{'Crista'},{'Brian '},{'Rex Bu'},&,1/1,&
@@ -15078,12 +15078,12 @@ False
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Daniel'},&,2/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Kezia '},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Philip'},&,1/1,&
-&,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Rex Bu'},&,1/1,&
+&,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Angeli'},,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Chris '},{'Angeli'},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Kezia '},{'Daniel'},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Kezia '},{'Harris'},&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Sandee'},,&,1/1,&
-&,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Tiffan'},{'Kezia '},&,1/1,&
+&,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Kezia '},,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Rex Bu'},,,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Sandee'},{'Matthe'},,&,1/1,&
 &,{'Jesse '},{'Tiffan'},{'Steve '},{'Chris '},,,&,1/1,&
@@ -15151,7 +15151,7 @@ False
 &,{'John S'},{'Daniel'},{'Harris'},{'Kezia '},{'Sandee'},{'Rex Bu'},&,1/1,&
 &,{'John S'},{'Daniel'},{'Jesse '},{'Heart '},{'Kelly '},{'Rex Bu'},&,1/1,&
 &,{'John S'},{'Daniel'},{'Sandee'},{'Kezia '},{'Harris'},{'Philip'},&,1/1,&
-&,{'John S'},{'Daniel'},{'Steve '},{'Melodi'},{'Tiffan'},{'Steve '},&,1/1,&
+&,{'John S'},{'Daniel'},{'Steve '},{'Melodi'},{'Tiffan'},,&,1/1,&
 &,{'John S'},{'Daniel'},{'Steve '},,,,&,2/1,&
 &,{'John S'},{'Daniel'},{'Terry '},{'David '},{'Cliffo'},{'Jesse '},&,1/1,&
 &,{'John S'},{'David '},{'Christ'},{'Jonath'},{'Matthe'},{'Patric'},&,1/1,&
@@ -15173,8 +15173,8 @@ False
 &,{'John S'},{'Jaclyn'},{'Luke Z'},{'Matthe'},{'David '},{'Jonath'},&,1/1,&
 &,{'John S'},{'Jaclyn'},{'Terry '},{'David '},{'Harris'},{'Tiffan'},&,1/1,&
 &,{'John S'},{'Jesse '},{'Angeli'},{'Terry '},{'Rex Bu'},{'Sandee'},&,1/1,&
-&,{'John S'},{'John S'},{'John S'},{'Jesse '},{'Jesse '},{'Jesse '},&,1/1,&
-&,{'John S'},{'John S'},{'John S'},{'John S'},{'John S'},{'John S'},&,1/1,&
+&,{'John S'},{'Jesse '},,,,,&,1/1,&
+&,{'John S'},,,,,,&,1/1,&
 &,{'John S'},{'Jonath'},{'Christ'},{'Dan Gi'},{'Brian '},{'Luke Z'},&,1/1,&
 &,{'John S'},{'Jonath'},{'Philip'},{'Sandee'},{'Kezia '},{'Melodi'},&,1/1,&
 &,{'John S'},{'Jonath'},{'Rex Bu'},{'Christ'},{'Patric'},{'Kennet'},&,1/1,&
@@ -15481,7 +15481,7 @@ False
 &,{'Jonath'},{'Daniel'},{'Kezia '},{'Harris'},,,&,1/1,&
 &,{'Jonath'},{'Daniel'},{'Kezia '},{'Heart '},{'Philip'},{'Crista'},&,1/1,&
 &,{'Jonath'},{'Daniel'},{'Kezia '},{'Heart '},{'Steve '},{'Philip'},&,1/1,&
-&,{'Jonath'},{'Daniel'},{'Kezia '},{'Kezia '},{'Sandee'},{'Angeli'},&,1/1,&
+&,{'Jonath'},{'Daniel'},{'Kezia '},{'Sandee'},{'Angeli'},,&,1/1,&
 &,{'Jonath'},{'Daniel'},{'Kezia '},{'Melodi'},{'Matthe'},,&,1/1,&
 &,{'Jonath'},{'Daniel'},{'Kezia '},,,,&,1/1,&
 &,{'Jonath'},{'Daniel'},{'Melodi'},{'Jesse '},{'Dan Gi'},{'Harris'},&,1/1,&
@@ -15642,7 +15642,7 @@ False
 &,{'Jonath'},{'Jesse '},,,,,&,2/1,&
 &,{'Jonath'},{'John S'},{'Brian '},{'Chris '},{'Steve '},{'Angeli'},&,1/1,&
 &,{'Jonath'},{'John S'},{'Jaclyn'},{'Daniel'},{'Angeli'},{'Christ'},&,1/1,&
-&,{'Jonath'},{'Jonath'},{'Jonath'},{'Jonath'},{'Jonath'},{'Jonath'},&,1/1,&
+&,{'Jonath'},,,,,,&,1/1,&
 &,{'Jonath'},{'Kelly '},{'Chris '},{'Daniel'},{'Kezia '},{'Tiffan'},&,1/1,&
 &,{'Jonath'},{'Kelly '},{'Chris '},{'Tiffan'},{'Rex Bu'},{'John S'},&,1/1,&
 &,{'Jonath'},{'Kelly '},{'Harris'},{'Matthe'},{'Ahlam '},{'Tiffan'},&,1/1,&
@@ -15773,7 +15773,7 @@ False
 &,{'Jonath'},{'Matthe'},{'Dan Gi'},{'Sandee'},,,&,1/1,&
 &,{'Jonath'},{'Matthe'},{'Daniel'},,,,&,1/1,&
 &,{'Jonath'},{'Matthe'},{'Jaclyn'},{'Melodi'},{'Tiffan'},{'David '},&,1/1,&
-&,{'Jonath'},{'Matthe'},{'Jonath'},,,,&,1/1,&
+&,{'Jonath'},{'Matthe'},,,,,&,1/1,&
 &,{'Jonath'},{'Matthe'},{'Kennet'},,,,&,2/1,&
 &,{'Jonath'},{'Matthe'},{'Kezia '},{'Heart '},{'Brian '},{'Melodi'},&,1/1,&
 &,{'Jonath'},{'Matthe'},{'Patric'},{'Brian '},,,&,1/1,&
@@ -15890,7 +15890,7 @@ False
 &,{'Jonath'},{'Rex Bu'},{'Brian '},,,,&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Chris '},{'Angeli'},{'Daniel'},{'Kezia '},&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Chris '},{'Brian '},{'Crista'},{'Steve '},&,1/1,&
-&,{'Jonath'},{'Rex Bu'},{'Chris '},{'Daniel'},{'Chris '},{'Harris'},&,1/1,&
+&,{'Jonath'},{'Rex Bu'},{'Chris '},{'Daniel'},{'Harris'},,&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Chris '},{'Jesse '},{'Angeli'},,&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Chris '},{'Kezia '},{'Daniel'},{'Angeli'},&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Chris '},{'Philip'},{'Steve '},{'Crista'},&,2/1,&
@@ -15962,7 +15962,7 @@ False
 &,{'Jonath'},{'Rex Bu'},{'Steve '},{'Tiffan'},{'Jesse '},{'Daniel'},&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Steve '},{'Kezia '},{'Daniel'},,&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Steve '},,,,&,5/1,&
-&,{'Jonath'},{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Rex Bu'},{'Philip'},&,1/1,&
+&,{'Jonath'},{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Philip'},,&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Tiffan'},{'Philip'},{'Steve '},{'Ahlam '},&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},&,1/1,&
 &,{'Jonath'},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Chris '},{'Sandee'},&,1/1,&
@@ -16010,7 +16010,7 @@ False
 &,{'Jonath'},{'Sandee'},{'Steve '},{'Kezia '},{'Harris'},{'Philip'},&,1/1,&
 &,{'Jonath'},{'Sandee'},{'Steve '},{'Kezia '},{'Harris'},{'Tiffan'},&,1/1,&
 &,{'Jonath'},{'Sandee'},{'Steve '},{'Kezia '},{'Harris'},,&,1/1,&
-&,{'Jonath'},{'Sandee'},{'Terry '},{'Kezia '},{'Jonath'},{'Steve '},&,1/1,&
+&,{'Jonath'},{'Sandee'},{'Terry '},{'Kezia '},{'Steve '},,&,1/1,&
 &,{'Jonath'},{'Sandee'},{'Terry '},{'Kezia '},{'Melodi'},{'Steve '},&,1/1,&
 &,{'Jonath'},{'Sandee'},{'Tiffan'},{'Brian '},{'Ahlam '},{'Melodi'},&,1/1,&
 &,{'Jonath'},{'Sandee'},{'Tiffan'},{'Melodi'},{'Harris'},{'Rex Bu'},&,2/1,&
@@ -16311,13 +16311,13 @@ False
 &,{'Kelly '},{'Christ'},{'Steve '},{'Daniel'},,,&,2/1,&
 &,{'Kelly '},{'Cliffo'},{'Angeli'},{'Christ'},{'Melodi'},{'Harris'},&,1/1,&
 &,{'Kelly '},{'Crista'},{'Angeli'},{'Jesse '},{'Daniel'},,&,2/1,&
-&,{'Kelly '},{'Crista'},{'Brian '},{'Jaclyn'},{'Sandee'},{'Sandee'},&,1/1,&
+&,{'Kelly '},{'Crista'},{'Brian '},{'Jaclyn'},{'Sandee'},,&,1/1,&
 &,{'Kelly '},{'Crista'},{'Brian '},{'Patric'},{'Jaclyn'},{'Luke Z'},&,1/1,&
 &,{'Kelly '},{'Crista'},{'Jaclyn'},{'Kezia '},{'Melodi'},{'Tiffan'},&,1/1,&
 &,{'Kelly '},{'Crista'},{'Kezia '},{'Angeli'},{'Jesse '},{'Theo H'},&,1/1,&
 &,{'Kelly '},{'Crista'},{'Kezia '},{'Harris'},{'Tiffan'},{'Philip'},&,1/1,&
 &,{'Kelly '},{'Crista'},{'Kezia '},{'Tiffan'},{'Dan Gi'},{'Brian '},&,1/1,&
-&,{'Kelly '},{'Dan Gi'},{'Terry '},{'Kelly '},{'Jesse '},,&,1/1,&
+&,{'Kelly '},{'Dan Gi'},{'Terry '},{'Jesse '},,,&,1/1,&
 &,{'Kelly '},{'Dan Gi'},{'Tiffan'},{'Philip'},{'Heart '},{'Theo H'},&,1/1,&
 &,{'Kelly '},{'Daniel'},{'Angeli'},{'Crista'},,,&,1/1,&
 &,{'Kelly '},{'Daniel'},{'David '},{'Melodi'},{'Chris '},{'Jesse '},&,1/1,&
@@ -16352,8 +16352,8 @@ False
 &,{'Kelly '},{'John S'},,,,,&,1/1,&
 &,{'Kelly '},{'Jonath'},{'Jesse '},{'Kezia '},,,&,1/1,&
 &,{'Kelly '},{'Jonath'},{'Jesse '},{'Matthe'},{'Kezia '},,&,1/1,&
-&,{'Kelly '},{'Kelly '},{'Jonath'},,,,&,1/1,&
-&,{'Kelly '},{'Kelly '},{'Kelly '},{'Kelly '},{'Kelly '},{'Kelly '},&,2/1,&
+&,{'Kelly '},{'Jonath'},,,,,&,1/1,&
+&,{'Kelly '},,,,,,&,2/1,&
 &,{'Kelly '},{'Kennet'},{'Crista'},{'Sandee'},{'Theo H'},{'Heart '},&,1/1,&
 &,{'Kelly '},{'Kennet'},{'Luke Z'},{'Chris '},{'John S'},{'Daniel'},&,1/1,&
 &,{'Kelly '},{'Kennet'},{'Matthe'},{'Kezia '},{'Tiffan'},{'Luke Z'},&,1/1,&
@@ -16488,8 +16488,8 @@ False
 &,{'Kennet'},{'Kelly '},{'Ahlam '},{'Philip'},{'Tiffan'},{'Steve '},&,1/1,&
 &,{'Kennet'},{'Kelly '},{'Matthe'},{'Sandee'},{'Harris'},{'Dan Gi'},&,2/1,&
 &,{'Kennet'},{'Kelly '},{'Steve '},{'Angeli'},{'Ahlam '},{'Matthe'},&,1/1,&
-&,{'Kennet'},{'Kennet'},{'Kennet'},{'Kennet'},{'Kennet'},{'Kennet'},&,1/1,&
-&,{'Kennet'},{'Kennet'},,,,,&,1/1,&
+&,{'Kennet'},,,,,,&,1/1,&
+&,{'Kennet'},,,,,,&,1/1,&
 &,{'Kennet'},{'Kezia '},{'Rex Bu'},{'Luke Z'},{'Cliffo'},{'Dan Gi'},&,1/1,&
 &,{'Kennet'},{'Kezia '},{'Tiffan'},{'Ahlam '},{'Chris '},{'Cliffo'},&,1/1,&
 &,{'Kennet'},{'Luke Z'},{'Chris '},{'Heart '},{'Matthe'},{'Philip'},&,1/1,&
@@ -16510,7 +16510,7 @@ False
 &,{'Kennet'},{'Matthe'},,,,,&,1/1,&
 &,{'Kennet'},{'Melodi'},{'Kezia '},,,,&,3/1,&
 &,{'Kennet'},{'Melodi'},{'Terry '},{'Jonath'},{'Crista'},{'Matthe'},&,1/1,&
-&,{'Kennet'},{'Melodi'},{'Terry '},{'Melodi'},{'Crista'},{'Matthe'},&,1/1,&
+&,{'Kennet'},{'Melodi'},{'Terry '},{'Crista'},{'Matthe'},,&,1/1,&
 &,{'Kennet'},{'Patric'},{'Cliffo'},,,,&,1/1,&
 &,{'Kennet'},{'Philip'},{'Tiffan'},,,,&,1/1,&
 &,{'Kennet'},{'Rex Bu'},{'Chris '},{'Harris'},{'Cliffo'},{'Brian '},&,1/1,&
@@ -16562,7 +16562,7 @@ False
 &,{'Kennet'},{'Tiffan'},{'Steve '},,,,&,1/1,&
 &,{'Kennet'},{'Jesse '},,,,,&,1/1,&
 &,{'Kennet'},{'Luke Z'},{'Patric'},{'Daniel'},,,&,1/1,&
-&,{'Kennet'},{'Kennet'},,,,,&,1/1,&
+&,{'Kennet'},,,,,,&,1/1,&
 &,{'Kennet'},,,,,,&,25/1,&
 &,{'Kezia '},{'Ahlam '},{'Angeli'},{'Chris '},{'Heart '},{'Melodi'},&,1/1,&
 &,{'Kezia '},{'Ahlam '},{'Angeli'},{'Chris '},{'Kelly '},{'Tiffan'},&,1/1,&
@@ -16737,7 +16737,7 @@ False
 &,{'Kezia '},{'Chris '},{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Chris '},,,,,&,4/1,&
 &,{'Kezia '},{'Christ'},{'Ahlam '},{'Brian '},{'Jaclyn'},{'Kelly '},&,1/1,&
-&,{'Kezia '},{'Christ'},{'Ahlam '},{'Patric'},{'Patric'},{'Terry '},&,1/1,&
+&,{'Kezia '},{'Christ'},{'Ahlam '},{'Patric'},{'Terry '},,&,1/1,&
 &,{'Kezia '},{'Christ'},{'Angeli'},,,,&,1/1,&
 &,{'Kezia '},{'Christ'},{'Brian '},{'Daniel'},{'Philip'},{'Tiffan'},&,1/1,&
 &,{'Kezia '},{'Christ'},{'Dan Gi'},{'Matthe'},{'Jesse '},{'Crista'},&,1/1,&
@@ -16871,7 +16871,7 @@ False
 &,{'Kezia '},{'Daniel'},{'Crista'},{'Angeli'},{'Chris '},{'Kelly '},&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Crista'},{'Rex Bu'},{'Harris'},{'Steve '},&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Crista'},{'Steve '},{'Angeli'},{'Jesse '},&,1/1,&
-&,{'Kezia '},{'Daniel'},{'Crista'},{'Tiffan'},{'Kezia '},{'Rex Bu'},&,1/1,&
+&,{'Kezia '},{'Daniel'},{'Crista'},{'Tiffan'},{'Rex Bu'},,&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Dan Gi'},{'Melodi'},{'Rex Bu'},,&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Harris'},{'Crista'},{'Chris '},{'Rex Bu'},&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Harris'},{'Crista'},{'Philip'},{'Terry '},&,1/1,&
@@ -16991,11 +16991,11 @@ False
 &,{'Kezia '},{'Daniel'},{'Sandee'},{'Harris'},,,&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Sandee'},{'Jesse '},{'Harris'},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Sandee'},{'Jesse '},{'Jonath'},{'Steve '},&,1/1,&
-&,{'Kezia '},{'Daniel'},{'Sandee'},{'Jesse '},{'Sandee'},,&,1/1,&
+&,{'Kezia '},{'Daniel'},{'Sandee'},{'Jesse '},,,&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Sandee'},{'Jonath'},{'Philip'},{'Harris'},&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Sandee'},{'Jonath'},{'Steve '},{'Jesse '},&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Sandee'},{'Rex Bu'},{'Jesse '},{'Steve '},&,1/1,&
-&,{'Kezia '},{'Daniel'},{'Sandee'},{'Steve '},{'Kezia '},,&,1/1,&
+&,{'Kezia '},{'Daniel'},{'Sandee'},{'Steve '},,,&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Sandee'},,,,&,3/1,&
 &,{'Kezia '},{'Daniel'},{'Steve '},{'Crista'},{'Harris'},{'Rex Bu'},&,1/1,&
 &,{'Kezia '},{'Daniel'},{'Steve '},{'Crista'},,,&,1/1,&
@@ -17174,7 +17174,7 @@ False
 &,{'Kezia '},{'Harris'},{'Jesse '},{'Melodi'},{'Tiffan'},{'Daniel'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Jesse '},{'Philip'},{'Luke Z'},{'Sandee'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Jesse '},{'Steve '},{'Daniel'},,&,1/1,&
-&,{'Kezia '},{'Harris'},{'Jesse '},{'Steve '},{'Jesse '},,&,1/1,&
+&,{'Kezia '},{'Harris'},{'Jesse '},{'Steve '},,,&,1/1,&
 &,{'Kezia '},{'Harris'},{'Jesse '},{'Steve '},{'Rex Bu'},{'Daniel'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Jesse '},{'Steve '},{'Sandee'},{'Rex Bu'},&,3/1,&
 &,{'Kezia '},{'Harris'},{'Jesse '},{'Steve '},{'Tiffan'},{'Rex Bu'},&,1/1,&
@@ -17217,7 +17217,7 @@ False
 &,{'Kezia '},{'Harris'},{'Kennet'},{'Christ'},{'Heart '},{'Melodi'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Kennet'},{'Crista'},{'Brian '},{'John S'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Kennet'},{'Steve '},{'Jesse '},{'Angeli'},&,1/1,&
-&,{'Kezia '},{'Harris'},{'Kezia '},{'Terry '},,,&,1/1,&
+&,{'Kezia '},{'Harris'},{'Terry '},,,,&,1/1,&
 &,{'Kezia '},{'Harris'},{'Luke Z'},{'Theo H'},{'Crista'},{'Tiffan'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Matthe'},{'Daniel'},{'Dan Gi'},{'Rex Bu'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Matthe'},{'Daniel'},{'Philip'},{'Luke Z'},&,1/1,&
@@ -17297,7 +17297,7 @@ False
 &,{'Kezia '},{'Harris'},{'Sandee'},{'Jesse '},{'Steve '},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Sandee'},{'Jesse '},{'Steve '},{'Chris '},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Sandee'},{'John S'},{'Dan Gi'},{'Terry '},&,1/1,&
-&,{'Kezia '},{'Harris'},{'Sandee'},{'Jonath'},{'Daniel'},{'Jonath'},&,1/1,&
+&,{'Kezia '},{'Harris'},{'Sandee'},{'Jonath'},{'Daniel'},,&,1/1,&
 &,{'Kezia '},{'Harris'},{'Sandee'},{'Jonath'},{'Daniel'},{'Matthe'},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Sandee'},{'Jonath'},{'Daniel'},{'Terry '},&,1/1,&
 &,{'Kezia '},{'Harris'},{'Sandee'},{'Jonath'},{'Daniel'},,&,6/1,&
@@ -17422,7 +17422,7 @@ False
 &,{'Kezia '},{'Heart '},{'Daniel'},{'Melodi'},{'Sandee'},{'Brian '},&,1/1,&
 &,{'Kezia '},{'Heart '},{'Jonath'},{'Brian '},{'Matthe'},{'Melodi'},&,1/1,&
 &,{'Kezia '},{'Heart '},{'Kennet'},{'Jonath'},{'Tiffan'},{'Harris'},&,1/1,&
-&,{'Kezia '},{'Heart '},{'Kezia '},{'Heart '},{'Heart '},{'Kezia '},&,1/1,&
+&,{'Kezia '},{'Heart '},,,,,&,1/1,&
 &,{'Kezia '},{'Heart '},{'Melodi'},{'Philip'},{'Sandee'},{'Tiffan'},&,1/1,&
 &,{'Kezia '},{'Heart '},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Heart '},{'Sandee'},{'Ahlam '},{'Angeli'},{'Steve '},&,1/1,&
@@ -17678,7 +17678,7 @@ False
 &,{'Kezia '},{'Jonath'},{'Daniel'},{'Harris'},,,&,3/1,&
 &,{'Kezia '},{'Jonath'},{'Daniel'},{'Jesse '},{'Philip'},{'Sandee'},&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Daniel'},{'Kelly '},{'Harris'},{'Matthe'},&,1/1,&
-&,{'Kezia '},{'Jonath'},{'Daniel'},{'Kezia '},{'Sandee'},{'Dan Gi'},&,1/1,&
+&,{'Kezia '},{'Jonath'},{'Daniel'},{'Sandee'},{'Dan Gi'},,&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Daniel'},{'Luke Z'},{'Harris'},,&,2/1,&
 &,{'Kezia '},{'Jonath'},{'Daniel'},{'Philip'},{'Steve '},{'Jesse '},&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Daniel'},{'Philip'},{'Steve '},{'Sandee'},&,1/1,&
@@ -17699,7 +17699,7 @@ False
 &,{'Kezia '},{'Jonath'},{'Harris'},{'Daniel'},{'Jesse '},{'Philip'},&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Harris'},{'Daniel'},{'Matthe'},{'Sandee'},&,2/1,&
 &,{'Kezia '},{'Jonath'},{'Harris'},{'Daniel'},,,&,1/1,&
-&,{'Kezia '},{'Jonath'},{'Harris'},{'Jesse '},{'Crista'},{'Harris'},&,1/1,&
+&,{'Kezia '},{'Jonath'},{'Harris'},{'Jesse '},{'Crista'},,&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Harris'},{'Jesse '},{'Philip'},{'Dan Gi'},&,2/1,&
 &,{'Kezia '},{'Jonath'},{'Harris'},{'Patric'},{'Dan Gi'},{'Brian '},&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Harris'},{'Philip'},{'Kelly '},,&,1/1,&
@@ -17725,7 +17725,7 @@ False
 &,{'Kezia '},{'Jonath'},{'Kelly '},{'Harris'},{'Daniel'},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Kelly '},{'Harris'},{'Daniel'},{'Kennet'},&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Kennet'},,,,&,1/1,&
-&,{'Kezia '},{'Jonath'},{'Kezia '},{'Sandee'},{'Steve '},{'Ahlam '},&,1/1,&
+&,{'Kezia '},{'Jonath'},{'Sandee'},{'Steve '},{'Ahlam '},,&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Luke Z'},{'Matthe'},,,&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Matthe'},{'Daniel'},,,&,1/1,&
 &,{'Kezia '},{'Jonath'},{'Matthe'},{'Harris'},{'Patric'},{'Sandee'},&,1/1,&
@@ -17793,7 +17793,7 @@ False
 &,{'Kezia '},{'Kelly '},{'Ahlam '},,,,&,1/1,&
 &,{'Kezia '},{'Kelly '},{'Angeli'},{'Brian '},{'Tiffan'},{'Ahlam '},&,1/1,&
 &,{'Kezia '},{'Kelly '},{'Angeli'},{'Jaclyn'},{'Crista'},{'Tiffan'},&,1/1,&
-&,{'Kezia '},{'Kelly '},{'Angeli'},{'Jesse '},{'Jaclyn'},{'Jesse '},&,1/1,&
+&,{'Kezia '},{'Kelly '},{'Angeli'},{'Jesse '},{'Jaclyn'},,&,1/1,&
 &,{'Kezia '},{'Kelly '},{'Angeli'},{'Luke Z'},{'Tiffan'},{'Steve '},&,2/1,&
 &,{'Kezia '},{'Kelly '},{'Daniel'},{'Jesse '},{'Sandee'},{'Jonath'},&,1/1,&
 &,{'Kezia '},{'Kelly '},{'Daniel'},{'Jesse '},,,&,2/1,&
@@ -17821,9 +17821,9 @@ False
 &,{'Kezia '},{'Kennet'},{'Sandee'},{'Tiffan'},{'Melodi'},,&,1/1,&
 &,{'Kezia '},{'Kennet'},{'Steve '},{'Christ'},,,&,1/1,&
 &,{'Kezia '},{'Kennet'},,,,,&,2/1,&
-&,{'Kezia '},{'Kezia '},{'Kezia '},{'Kezia '},{'Kezia '},{'Kezia '},&,3/1,&
-&,{'Kezia '},{'Kezia '},{'Steve '},{'Jaclyn'},{'Philip'},{'David '},&,1/1,&
-&,{'Kezia '},{'Kezia '},{'Steve '},{'Matthe'},{'Jesse '},{'John S'},&,1/1,&
+&,{'Kezia '},,,,,,&,3/1,&
+&,{'Kezia '},{'Steve '},{'Jaclyn'},{'Philip'},{'David '},,&,1/1,&
+&,{'Kezia '},{'Steve '},{'Matthe'},{'Jesse '},{'John S'},,&,1/1,&
 &,{'Kezia '},{'Luke Z'},{'Ahlam '},{'Dan Gi'},,,&,1/1,&
 &,{'Kezia '},{'Luke Z'},{'Ahlam '},{'Rex Bu'},,,&,1/1,&
 &,{'Kezia '},{'Luke Z'},{'Angeli'},{'Daniel'},,,&,1/1,&
@@ -17926,7 +17926,7 @@ False
 &,{'Kezia '},{'Melodi'},{'Kelly '},{'Jaclyn'},{'Angeli'},{'Crista'},&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Kelly '},,,,&,3/1,&
 &,{'Kezia '},{'Melodi'},{'Kennet'},{'Harris'},{'Terry '},,&,1/1,&
-&,{'Kezia '},{'Melodi'},{'Kezia '},{'Kennet'},{'Sandee'},{'Kelly '},&,1/1,&
+&,{'Kezia '},{'Melodi'},{'Kennet'},{'Sandee'},{'Kelly '},,&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Matthe'},{'Steve '},{'Patric'},{'Jonath'},&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Matthe'},,,,&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Matthe'},,,,&,4/1,&
@@ -17944,7 +17944,7 @@ False
 &,{'Kezia '},{'Melodi'},{'Sandee'},{'Dan Gi'},{'Terry '},{'Matthe'},&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Sandee'},{'Daniel'},{'Harris'},,&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Sandee'},{'Heart '},{'Jesse '},{'Angeli'},&,1/1,&
-&,{'Kezia '},{'Melodi'},{'Sandee'},{'Jonath'},{'Harris'},{'Jonath'},&,1/1,&
+&,{'Kezia '},{'Melodi'},{'Sandee'},{'Jonath'},{'Harris'},,&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Sandee'},{'Steve '},{'Crista'},{'Matthe'},&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Sandee'},{'Steve '},{'Philip'},{'Kelly '},&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Sandee'},{'Steve '},{'Philip'},{'Terry '},&,2/1,&
@@ -17961,7 +17961,7 @@ False
 &,{'Kezia '},{'Melodi'},{'Terry '},{'Daniel'},{'Luke Z'},{'Tiffan'},&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Terry '},{'Daniel'},{'Sandee'},{'Harris'},&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Terry '},{'Heart '},{'John S'},{'Luke Z'},&,1/1,&
-&,{'Kezia '},{'Melodi'},{'Terry '},{'Melodi'},{'Melodi'},{'Melodi'},&,2/1,&
+&,{'Kezia '},{'Melodi'},{'Terry '},,,,&,2/1,&
 &,{'Kezia '},{'Melodi'},{'Terry '},,,,&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Tiffan'},{'Angeli'},,,&,1/1,&
 &,{'Kezia '},{'Melodi'},{'Tiffan'},{'David '},{'Kelly '},{'Chris '},&,1/1,&
@@ -18022,7 +18022,7 @@ False
 &,{'Kezia '},{'Philip'},{'Patric'},,,,&,2/1,&
 &,{'Kezia '},{'Philip'},{'Rex Bu'},{'Crista'},{'Steve '},{'Tiffan'},&,1/1,&
 &,{'Kezia '},{'Philip'},{'Rex Bu'},{'Harris'},{'Jonath'},{'Kelly '},&,1/1,&
-&,{'Kezia '},{'Philip'},{'Rex Bu'},{'Philip'},{'Harris'},{'Daniel'},&,1/1,&
+&,{'Kezia '},{'Philip'},{'Rex Bu'},{'Harris'},{'Daniel'},,&,1/1,&
 &,{'Kezia '},{'Philip'},{'Rex Bu'},{'Steve '},{'Angeli'},{'Jesse '},&,1/1,&
 &,{'Kezia '},{'Philip'},{'Rex Bu'},{'Steve '},{'Crista'},{'Jesse '},&,1/1,&
 &,{'Kezia '},{'Philip'},{'Rex Bu'},{'Steve '},,,&,2/1,&
@@ -18098,7 +18098,7 @@ False
 &,{'Kezia '},{'Rex Bu'},{'Daniel'},{'Steve '},{'Harris'},{'Jesse '},&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Daniel'},{'Steve '},{'Jesse '},,&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Daniel'},,,,&,5/1,&
-&,{'Kezia '},{'Rex Bu'},{'David '},{'Dan Gi'},{'Rex Bu'},,&,1/1,&
+&,{'Kezia '},{'Rex Bu'},{'David '},{'Dan Gi'},,,&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Harris'},{'Angeli'},{'Steve '},{'Crista'},&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Harris'},{'Dan Gi'},{'Tiffan'},,&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Harris'},{'Jonath'},,,&,1/1,&
@@ -18211,7 +18211,7 @@ False
 &,{'Kezia '},{'Rex Bu'},{'Steve '},{'Jonath'},{'Philip'},,&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Steve '},{'Jonath'},,,&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Steve '},{'Kelly '},{'Angeli'},{'Jesse '},&,1/1,&
-&,{'Kezia '},{'Rex Bu'},{'Steve '},{'Kezia '},{'Sandee'},{'Tiffan'},&,1/1,&
+&,{'Kezia '},{'Rex Bu'},{'Steve '},{'Sandee'},{'Tiffan'},,&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Steve '},{'Luke Z'},,,&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Steve '},{'Philip'},{'Daniel'},{'Crista'},&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Steve '},{'Philip'},{'Harris'},{'Tiffan'},&,1/1,&
@@ -18237,7 +18237,7 @@ False
 &,{'Kezia '},{'Rex Bu'},{'Tiffan'},{'Kelly '},{'Daniel'},{'Steve '},&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Tiffan'},{'Philip'},{'Heart '},{'Jesse '},&,2/1,&
 &,{'Kezia '},{'Rex Bu'},{'Tiffan'},{'Philip'},{'Jonath'},{'Matthe'},&,1/1,&
-&,{'Kezia '},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Ahlam '},{'Tiffan'},&,1/1,&
+&,{'Kezia '},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Ahlam '},,&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Angeli'},{'Ahlam '},&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Angeli'},{'Daniel'},&,1/1,&
 &,{'Kezia '},{'Rex Bu'},{'Tiffan'},{'Steve '},{'Angeli'},{'Jesse '},&,1/1,&
@@ -18264,7 +18264,7 @@ False
 &,{'Kezia '},{'Sandee'},{'Dan Gi'},{'Daniel'},{'Terry '},{'Jonath'},&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Dan Gi'},{'Harris'},,,&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Dan Gi'},{'Heart '},{'Jesse '},{'Luke Z'},&,1/1,&
-&,{'Kezia '},{'Sandee'},{'Dan Gi'},{'Kezia '},{'Tiffan'},{'Melodi'},&,1/1,&
+&,{'Kezia '},{'Sandee'},{'Dan Gi'},{'Tiffan'},{'Melodi'},,&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Dan Gi'},{'Rex Bu'},{'Jesse '},{'Steve '},&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Daniel'},{'Dan Gi'},{'Melodi'},{'Jonath'},&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Daniel'},{'Harris'},{'Jonath'},{'Melodi'},&,1/1,&
@@ -18296,7 +18296,7 @@ False
 &,{'Kezia '},{'Sandee'},{'Harris'},{'Steve '},{'Luke Z'},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Harris'},{'Steve '},,,&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Harris'},{'Terry '},{'Dan Gi'},{'Patric'},&,1/1,&
-&,{'Kezia '},{'Sandee'},{'Harris'},{'Terry '},{'Sandee'},,&,1/1,&
+&,{'Kezia '},{'Sandee'},{'Harris'},{'Terry '},,,&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Harris'},{'Tiffan'},{'Rex Bu'},{'Steve '},&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Harris'},{'Tiffan'},{'Steve '},{'Dan Gi'},&,1/1,&
 &,{'Kezia '},{'Sandee'},{'Harris'},,,,&,4/1,&
@@ -18596,7 +18596,7 @@ False
 &,{'Kezia '},{'Steve '},{'Heart '},,,,&,2/1,&
 &,{'Kezia '},{'Steve '},{'Jaclyn'},{'Angeli'},{'Crista'},{'Tiffan'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Ahlam '},,,&,1/1,&
-&,{'Kezia '},{'Steve '},{'Jesse '},{'Angeli'},{'Ahlam '},{'Ahlam '},&,1/1,&
+&,{'Kezia '},{'Steve '},{'Jesse '},{'Angeli'},{'Ahlam '},,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Angeli'},{'Ahlam '},{'Crista'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Angeli'},{'Christ'},{'Philip'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Angeli'},{'Crista'},{'Philip'},&,2/1,&
@@ -18700,7 +18700,7 @@ False
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Kelly '},{'Daniel'},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Kelly '},{'Daniel'},{'Rex Bu'},&,2/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Kelly '},,,&,1/1,&
-&,{'Kezia '},{'Steve '},{'Jesse '},{'Kezia '},,,&,1/1,&
+&,{'Kezia '},{'Steve '},{'Jesse '},,,,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Luke Z'},{'Daniel'},{'Tiffan'},&,2/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Luke Z'},{'Daniel'},,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Jesse '},{'Luke Z'},{'Theo H'},{'Melodi'},&,1/1,&
@@ -18819,7 +18819,7 @@ False
 &,{'Kezia '},{'Steve '},{'Kelly '},{'Tiffan'},{'Philip'},{'Daniel'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Kelly '},,,,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Kennet'},{'Luke Z'},{'Dan Gi'},{'Crista'},&,1/1,&
-&,{'Kezia '},{'Steve '},{'Kezia '},,,,&,1/1,&
+&,{'Kezia '},{'Steve '},,,,,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Luke Z'},{'Chris '},{'Angeli'},{'Sandee'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Luke Z'},{'Crista'},{'Rex Bu'},{'Jesse '},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Luke Z'},{'Daniel'},{'Chris '},,&,1/1,&
@@ -18844,7 +18844,7 @@ False
 &,{'Kezia '},{'Steve '},{'Melodi'},{'Daniel'},{'Harris'},,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Melodi'},{'Harris'},{'Heart '},,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Melodi'},{'Kennet'},{'Dan Gi'},,&,1/1,&
-&,{'Kezia '},{'Steve '},{'Melodi'},{'Kezia '},{'Sandee'},{'Philip'},&,1/1,&
+&,{'Kezia '},{'Steve '},{'Melodi'},{'Sandee'},{'Philip'},,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Melodi'},{'Matthe'},{'Ahlam '},{'John S'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Melodi'},{'Sandee'},{'Brian '},{'Daniel'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Melodi'},{'Sandee'},{'Christ'},{'Kelly '},&,1/1,&
@@ -19031,7 +19031,7 @@ False
 &,{'Kezia '},{'Steve '},{'Tiffan'},{'Philip'},{'Harris'},{'Jonath'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Daniel'},{'Jonath'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Matthe'},{'Dan Gi'},&,1/1,&
-&,{'Kezia '},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Philip'},{'Tiffan'},&,1/1,&
+&,{'Kezia '},{'Steve '},{'Tiffan'},{'Rex Bu'},{'Philip'},,&,1/1,&
 &,{'Kezia '},{'Steve '},{'Tiffan'},{'Sandee'},{'David '},{'Rex Bu'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Tiffan'},{'Sandee'},{'Kelly '},{'Jonath'},&,1/1,&
 &,{'Kezia '},{'Steve '},{'Tiffan'},{'Sandee'},,,&,1/1,&
@@ -19053,7 +19053,7 @@ False
 &,{'Kezia '},{'Terry '},{'Jesse '},{'Sandee'},{'Jonath'},{'Melodi'},&,1/1,&
 &,{'Kezia '},{'Terry '},{'John S'},{'Daniel'},,,&,2/1,&
 &,{'Kezia '},{'Terry '},{'John S'},{'Patric'},{'Sandee'},{'Jonath'},&,1/1,&
-&,{'Kezia '},{'Terry '},{'Jonath'},{'Kezia '},{'Sandee'},{'Steve '},&,1/1,&
+&,{'Kezia '},{'Terry '},{'Jonath'},{'Sandee'},{'Steve '},,&,1/1,&
 &,{'Kezia '},{'Terry '},{'Jonath'},{'Sandee'},,,&,1/1,&
 &,{'Kezia '},{'Terry '},{'Matthe'},{'Jesse '},{'Kennet'},{'John S'},&,1/1,&
 &,{'Kezia '},{'Terry '},{'Matthe'},{'Jonath'},,,&,1/1,&
@@ -19112,7 +19112,7 @@ False
 &,{'Kezia '},{'Tiffan'},{'Christ'},{'Matthe'},{'Heart '},{'Brian '},&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Crista'},{'Angeli'},{'Ahlam '},{'Heart '},&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Crista'},{'Angeli'},{'Daniel'},{'Steve '},&,1/1,&
-&,{'Kezia '},{'Tiffan'},{'Crista'},{'Chris '},{'Crista'},{'Chris '},&,1/1,&
+&,{'Kezia '},{'Tiffan'},{'Crista'},{'Chris '},,,&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Crista'},{'Daniel'},{'Jesse '},{'Jonath'},&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Crista'},{'Heart '},{'Angeli'},{'Jaclyn'},&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Crista'},{'Heart '},,,&,1/1,&
@@ -19263,7 +19263,7 @@ False
 &,{'Kezia '},{'Tiffan'},{'Steve '},{'Jonath'},,,&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Steve '},{'Luke Z'},{'Daniel'},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Steve '},{'Luke Z'},,,&,1/1,&
-&,{'Kezia '},{'Tiffan'},{'Steve '},{'Matthe'},{'Matthe'},{'Matthe'},&,1/1,&
+&,{'Kezia '},{'Tiffan'},{'Steve '},{'Matthe'},,,&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Steve '},{'Matthe'},{'Rex Bu'},{'Terry '},&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Steve '},{'Melodi'},{'Brian '},{'Angeli'},&,1/1,&
 &,{'Kezia '},{'Tiffan'},{'Steve '},{'Melodi'},{'Rex Bu'},{'Angeli'},&,1/1,&
@@ -19401,7 +19401,7 @@ False
 &,{'Luke Z'},{'Chris '},{'Tiffan'},{'Steve '},{'Angeli'},{'Crista'},&,1/1,&
 &,{'Luke Z'},{'Christ'},{'Kelly '},{'Melodi'},{'Ahlam '},{'Angeli'},&,1/1,&
 &,{'Luke Z'},{'Christ'},{'Tiffan'},{'Jonath'},{'Rex Bu'},{'Steve '},&,1/1,&
-&,{'Luke Z'},{'Cliffo'},{'Theo H'},{'Jaclyn'},{'John S'},{'John S'},&,1/1,&
+&,{'Luke Z'},{'Cliffo'},{'Theo H'},{'Jaclyn'},{'John S'},,&,1/1,&
 &,{'Luke Z'},{'Crista'},{'Angeli'},{'Cliffo'},{'Chris '},{'Brian '},&,1/1,&
 &,{'Luke Z'},{'Crista'},{'Angeli'},{'Cliffo'},{'Jesse '},{'Brian '},&,1/1,&
 &,{'Luke Z'},{'Crista'},{'Angeli'},{'Patric'},{'Chris '},{'Brian '},&,1/1,&
@@ -19792,7 +19792,7 @@ False
 &,{'Matthe'},{'Christ'},{'Daniel'},{'Kezia '},{'Sandee'},{'David '},&,1/1,&
 &,{'Matthe'},{'Christ'},{'David '},,,,&,1/1,&
 &,{'Matthe'},{'Christ'},{'John S'},,,,&,1/1,&
-&,{'Matthe'},{'Christ'},{'Rex Bu'},{'John S'},{'Christ'},,&,1/1,&
+&,{'Matthe'},{'Christ'},{'Rex Bu'},{'John S'},,,&,1/1,&
 &,{'Matthe'},{'Christ'},{'Terry '},,,,&,1/1,&
 &,{'Matthe'},{'Christ'},{'Terry '},,,,&,1/1,&
 &,{'Matthe'},{'Cliffo'},{'Brian '},{'Rex Bu'},{'Dan Gi'},{'Patric'},&,3/1,&
@@ -19862,7 +19862,7 @@ False
 &,{'Matthe'},{'Harris'},{'Kezia '},{'Patric'},,,&,2/1,&
 &,{'Matthe'},{'Harris'},{'Kezia '},{'Terry '},,,&,1/1,&
 &,{'Matthe'},{'Harris'},{'Kezia '},,,,&,2/1,&
-&,{'Matthe'},{'Harris'},{'Melodi'},{'Kezia '},{'Kezia '},{'Terry '},&,1/1,&
+&,{'Matthe'},{'Harris'},{'Melodi'},{'Kezia '},{'Terry '},,&,1/1,&
 &,{'Matthe'},{'Harris'},{'Melodi'},{'Sandee'},{'Jesse '},{'Philip'},&,2/1,&
 &,{'Matthe'},{'Harris'},{'Patric'},{'Steve '},{'Kezia '},,&,1/1,&
 &,{'Matthe'},{'Harris'},{'Patric'},{'Terry '},{'Kezia '},{'Brian '},&,1/1,&
@@ -19979,7 +19979,7 @@ False
 &,{'Matthe'},{'Luke Z'},{'David '},{'Heart '},{'Chris '},{'Daniel'},&,1/1,&
 &,{'Matthe'},{'Luke Z'},{'Kezia '},,,,&,1/1,&
 &,{'Matthe'},{'Luke Z'},{'Rex Bu'},{'Sandee'},{'Kennet'},{'Cliffo'},&,1/1,&
-&,{'Matthe'},{'Luke Z'},{'Theo H'},{'Daniel'},{'Daniel'},,&,1/1,&
+&,{'Matthe'},{'Luke Z'},{'Theo H'},{'Daniel'},,,&,1/1,&
 &,{'Matthe'},{'Luke Z'},{'Tiffan'},{'Dan Gi'},,,&,1/1,&
 &,{'Matthe'},{'Melodi'},{'Ahlam '},{'Crista'},{'Angeli'},{'Terry '},&,1/1,&
 &,{'Matthe'},{'Melodi'},{'Brian '},{'Jesse '},{'Rex Bu'},,&,1/1,&
@@ -20110,7 +20110,7 @@ False
 &,{'Matthe'},{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Crista'},{'Angeli'},&,1/1,&
 &,{'Matthe'},{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Jonath'},{'Luke Z'},&,1/1,&
 &,{'Matthe'},{'Rex Bu'},{'Tiffan'},{'Philip'},{'Jesse '},{'Patric'},&,1/1,&
-&,{'Matthe'},{'Rex Bu'},{'Tiffan'},{'Theo H'},{'Tiffan'},{'John S'},&,1/1,&
+&,{'Matthe'},{'Rex Bu'},{'Tiffan'},{'Theo H'},{'John S'},,&,1/1,&
 &,{'Matthe'},{'Rex Bu'},{'Tiffan'},,,,&,1/1,&
 &,{'Matthe'},{'Rex Bu'},,,,,&,2/1,&
 &,{'Matthe'},{'Sandee'},{'Ahlam '},,,,&,1/1,&
@@ -20136,7 +20136,7 @@ False
 &,{'Matthe'},{'Sandee'},{'Harris'},{'Jonath'},{'Steve '},{'Jesse '},&,1/1,&
 &,{'Matthe'},{'Sandee'},{'Harris'},{'Kezia '},{'John S'},{'Patric'},&,1/1,&
 &,{'Matthe'},{'Sandee'},{'Harris'},{'Patric'},{'Melodi'},{'Kezia '},&,1/1,&
-&,{'Matthe'},{'Sandee'},{'Harris'},{'Rex Bu'},{'Patric'},{'Harris'},&,1/1,&
+&,{'Matthe'},{'Sandee'},{'Harris'},{'Rex Bu'},{'Patric'},,&,1/1,&
 &,{'Matthe'},{'Sandee'},{'Harris'},{'Steve '},,,&,1/1,&
 &,{'Matthe'},{'Sandee'},{'Harris'},{'Tiffan'},{'Terry '},{'Kezia '},&,1/1,&
 &,{'Matthe'},{'Sandee'},{'Harris'},,,,&,1/1,&
@@ -20178,9 +20178,9 @@ False
 &,{'Matthe'},{'Steve '},{'Ahlam '},,,,&,1/1,&
 &,{'Matthe'},{'Steve '},{'Angeli'},{'Crista'},{'Jesse '},,&,1/1,&
 &,{'Matthe'},{'Steve '},{'Angeli'},{'Heart '},{'Chris '},{'Kennet'},&,1/1,&
-&,{'Matthe'},{'Steve '},{'Angeli'},{'Philip'},{'Steve '},,&,1/1,&
+&,{'Matthe'},{'Steve '},{'Angeli'},{'Philip'},,,&,1/1,&
 &,{'Matthe'},{'Steve '},{'Angeli'},{'Tiffan'},{'Kezia '},{'Jesse '},&,1/1,&
-&,{'Matthe'},{'Steve '},{'Brian '},{'Ahlam '},{'Jonath'},{'Ahlam '},&,1/1,&
+&,{'Matthe'},{'Steve '},{'Brian '},{'Ahlam '},{'Jonath'},,&,1/1,&
 &,{'Matthe'},{'Steve '},{'Brian '},{'Jonath'},{'Patric'},{'Terry '},&,1/1,&
 &,{'Matthe'},{'Steve '},{'Chris '},{'Angeli'},{'Rex Bu'},{'Harris'},&,1/1,&
 &,{'Matthe'},{'Steve '},{'Chris '},{'Tiffan'},,,&,1/1,&
@@ -20351,7 +20351,7 @@ False
 &,{'Melodi'},{'Chris '},{'Ahlam '},{'Kelly '},{'Tiffan'},{'Angeli'},&,1/1,&
 &,{'Melodi'},{'Chris '},{'Brian '},{'Kennet'},{'Daniel'},{'Dan Gi'},&,1/1,&
 &,{'Melodi'},{'Chris '},{'Brian '},{'Sandee'},{'Tiffan'},,&,1/1,&
-&,{'Melodi'},{'Chris '},{'Crista'},{'Philip'},{'Jesse '},{'Jesse '},&,1/1,&
+&,{'Melodi'},{'Chris '},{'Crista'},{'Philip'},{'Jesse '},,&,1/1,&
 &,{'Melodi'},{'Chris '},{'Dan Gi'},{'Harris'},{'Jonath'},{'Jesse '},&,1/1,&
 &,{'Melodi'},{'Chris '},{'Daniel'},{'Jesse '},{'Steve '},{'Kezia '},&,2/1,&
 &,{'Melodi'},{'Chris '},{'Harris'},{'Steve '},{'Crista'},{'Rex Bu'},&,1/1,&
@@ -20392,7 +20392,7 @@ False
 &,{'Melodi'},{'Crista'},{'Ahlam '},{'Chris '},{'Kelly '},{'Angeli'},&,1/1,&
 &,{'Melodi'},{'Crista'},{'Ahlam '},,,,&,1/1,&
 &,{'Melodi'},{'Crista'},{'Angeli'},{'Brian '},{'Jesse '},{'Steve '},&,1/1,&
-&,{'Melodi'},{'Crista'},{'Angeli'},{'Chris '},{'Angeli'},{'Matthe'},&,1/1,&
+&,{'Melodi'},{'Crista'},{'Angeli'},{'Chris '},{'Matthe'},,&,1/1,&
 &,{'Melodi'},{'Crista'},{'Angeli'},{'Chris '},{'Heart '},{'Matthe'},&,1/1,&
 &,{'Melodi'},{'Crista'},{'Angeli'},{'Chris '},{'Kelly '},{'Ahlam '},&,2/1,&
 &,{'Melodi'},{'Crista'},{'Angeli'},{'Jaclyn'},{'Kezia '},{'Tiffan'},&,1/1,&
@@ -20437,12 +20437,12 @@ False
 &,{'Melodi'},{'Dan Gi'},{'Heart '},{'Daniel'},,,&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Heart '},{'Kezia '},{'Daniel'},{'Philip'},&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Heart '},,,,&,1/1,&
-&,{'Melodi'},{'Dan Gi'},{'Jonath'},{'Rex Bu'},{'Jonath'},{'Terry '},&,1/1,&
+&,{'Melodi'},{'Dan Gi'},{'Jonath'},{'Rex Bu'},{'Terry '},,&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Jonath'},,,,&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Kelly '},{'Theo H'},{'Ahlam '},{'Matthe'},&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Kezia '},{'Rex Bu'},{'Jonath'},{'Terry '},&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Philip'},{'Tiffan'},{'Angeli'},{'Steve '},&,1/1,&
-&,{'Melodi'},{'Dan Gi'},{'Rex Bu'},{'Dan Gi'},{'Matthe'},{'Angeli'},&,1/1,&
+&,{'Melodi'},{'Dan Gi'},{'Rex Bu'},{'Matthe'},{'Angeli'},,&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Steve '},{'Daniel'},,,&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Terry '},{'Harris'},,,&,1/1,&
 &,{'Melodi'},{'Dan Gi'},{'Terry '},,,,&,2/1,&
@@ -20477,7 +20477,7 @@ False
 &,{'Melodi'},{'David '},{'Kelly '},{'Chris '},{'Jaclyn'},,&,1/1,&
 &,{'Melodi'},{'David '},{'Kelly '},{'Kennet'},{'Jaclyn'},{'Patric'},&,1/1,&
 &,{'Melodi'},{'David '},{'Sandee'},{'Kelly '},{'Harris'},{'Angeli'},&,1/1,&
-&,{'Melodi'},{'David '},{'Steve '},{'Harris'},{'David '},{'Kennet'},&,1/1,&
+&,{'Melodi'},{'David '},{'Steve '},{'Harris'},{'Kennet'},,&,1/1,&
 &,{'Melodi'},{'David '},{'Terry '},{'Chris '},{'Patric'},{'Kezia '},&,1/1,&
 &,{'Melodi'},{'David '},{'Terry '},{'Jesse '},{'Theo H'},{'Heart '},&,1/1,&
 &,{'Melodi'},{'Harris'},{'Christ'},,,,&,1/1,&
@@ -20553,7 +20553,7 @@ False
 &,{'Melodi'},{'Jesse '},{'Daniel'},{'Luke Z'},{'Steve '},{'Rex Bu'},&,1/1,&
 &,{'Melodi'},{'Jesse '},{'Daniel'},,,,&,2/1,&
 &,{'Melodi'},{'Jesse '},{'Kelly '},,,,&,1/1,&
-&,{'Melodi'},{'Jesse '},{'Sandee'},{'Melodi'},{'Tiffan'},,&,1/1,&
+&,{'Melodi'},{'Jesse '},{'Sandee'},{'Tiffan'},,,&,1/1,&
 &,{'Melodi'},{'Jesse '},{'Steve '},{'Angeli'},{'Daniel'},{'Ahlam '},&,1/1,&
 &,{'Melodi'},{'Jesse '},{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},&,2/1,&
 &,{'Melodi'},{'Jesse '},,,,,&,6/1,&
@@ -20718,8 +20718,8 @@ False
 &,{'Melodi'},{'Matthe'},{'Tiffan'},{'Steve '},{'Jesse '},{'Luke Z'},&,1/1,&
 &,{'Melodi'},{'Matthe'},{'Tiffan'},,,,&,2/1,&
 &,{'Melodi'},{'Matthe'},,,,,&,1/1,&
-&,{'Melodi'},{'Melodi'},{'Melodi'},{'Christ'},{'Christ'},{'Christ'},&,1/1,&
-&,{'Melodi'},{'Melodi'},{'Melodi'},{'Melodi'},{'Melodi'},{'Melodi'},&,4/1,&
+&,{'Melodi'},{'Christ'},,,,,&,1/1,&
+&,{'Melodi'},,,,,,&,4/1,&
 &,{'Melodi'},{'Patric'},{'Harris'},{'Theo H'},{'Jonath'},{'Kezia '},&,1/1,&
 &,{'Melodi'},{'Patric'},{'Harris'},,,,&,1/1,&
 &,{'Melodi'},{'Patric'},{'Tiffan'},{'Angeli'},{'Heart '},,&,1/1,&
@@ -20947,7 +20947,7 @@ False
 &,{'Melodi'},{'Terry '},{'Matthe'},{'Kezia '},{'Dan Gi'},{'Harris'},&,2/1,&
 &,{'Melodi'},{'Terry '},{'Matthe'},{'Kezia '},{'Kelly '},,&,1/1,&
 &,{'Melodi'},{'Terry '},{'Matthe'},,,,&,1/1,&
-&,{'Melodi'},{'Terry '},{'Melodi'},{'Terry '},{'Melodi'},{'Melodi'},&,1/1,&
+&,{'Melodi'},{'Terry '},,,,,&,1/1,&
 &,{'Melodi'},{'Terry '},{'Philip'},{'Harris'},,,&,1/1,&
 &,{'Melodi'},{'Terry '},{'Rex Bu'},{'Matthe'},{'Steve '},{'Ahlam '},&,1/1,&
 &,{'Melodi'},{'Terry '},{'Rex Bu'},,,,&,1/1,&
@@ -20963,7 +20963,7 @@ False
 &,{'Melodi'},{'Terry '},{'Christ'},,,,&,2/1,&
 &,{'Melodi'},{'Terry '},,,,,&,9/1,&
 &,{'Melodi'},{'Theo H'},{'Kennet'},{'Angeli'},{'Sandee'},{'Chris '},&,1/1,&
-&,{'Melodi'},{'Theo H'},{'Kezia '},{'Dan Gi'},{'Harris'},{'Harris'},&,1/1,&
+&,{'Melodi'},{'Theo H'},{'Kezia '},{'Dan Gi'},{'Harris'},,&,1/1,&
 &,{'Melodi'},{'Theo H'},{'Luke Z'},{'Angeli'},{'Crista'},{'Philip'},&,1/1,&
 &,{'Melodi'},{'Tiffan'},{'Ahlam '},{'Chris '},{'Heart '},{'Brian '},&,1/1,&
 &,{'Melodi'},{'Tiffan'},{'Ahlam '},{'Matthe'},{'Steve '},{'Harris'},&,1/1,&
@@ -21071,7 +21071,7 @@ False
 &,{'Patric'},{'Angeli'},{'Brian '},{'Tiffan'},{'Theo H'},{'Chris '},&,1/1,&
 &,{'Patric'},{'Angeli'},{'Cliffo'},{'Theo H'},{'Jaclyn'},{'Daniel'},&,1/1,&
 &,{'Patric'},{'Angeli'},{'Daniel'},{'Sandee'},{'Chris '},{'Steve '},&,1/1,&
-&,{'Patric'},{'Angeli'},{'David '},{'Daniel'},{'Angeli'},{'Rex Bu'},&,1/1,&
+&,{'Patric'},{'Angeli'},{'David '},{'Daniel'},{'Rex Bu'},,&,1/1,&
 &,{'Patric'},{'Angeli'},{'David '},{'Jesse '},,,&,1/1,&
 &,{'Patric'},{'Angeli'},{'Heart '},{'Kelly '},{'Ahlam '},{'Matthe'},&,1/1,&
 &,{'Patric'},{'Angeli'},{'Matthe'},{'Steve '},{'Melodi'},{'Tiffan'},&,1/1,&
@@ -21089,7 +21089,7 @@ False
 &,{'Patric'},{'Brian '},{'Theo H'},{'Jonath'},{'Kezia '},{'Terry '},&,1/1,&
 &,{'Patric'},{'Brian '},{'Tiffan'},{'Rex Bu'},{'Ahlam '},{'Jonath'},&,1/1,&
 &,{'Patric'},{'Chris '},{'Brian '},{'Matthe'},,,&,2/1,&
-&,{'Patric'},{'Chris '},{'Chris '},{'Cliffo'},,,&,1/1,&
+&,{'Patric'},{'Chris '},{'Cliffo'},,,,&,1/1,&
 &,{'Patric'},{'Chris '},{'Heart '},{'Terry '},{'Melodi'},{'John S'},&,1/1,&
 &,{'Patric'},{'Chris '},{'Kennet'},{'Steve '},{'David '},{'Philip'},&,2/1,&
 &,{'Patric'},{'Chris '},{'Philip'},{'Jonath'},{'Kezia '},{'Jesse '},&,1/1,&
@@ -21338,7 +21338,7 @@ False
 &,{'Philip'},{'Chris '},{'Tiffan'},{'Jonath'},{'Angeli'},{'Jesse '},&,2/1,&
 &,{'Philip'},{'Chris '},{'Tiffan'},{'Steve '},{'Angeli'},{'Kelly '},&,1/1,&
 &,{'Philip'},{'Chris '},,,,,&,1/1,&
-&,{'Philip'},{'Christ'},{'Ahlam '},{'Melodi'},{'Terry '},{'Ahlam '},&,1/1,&
+&,{'Philip'},{'Christ'},{'Ahlam '},{'Melodi'},{'Terry '},,&,1/1,&
 &,{'Philip'},{'Christ'},{'Angeli'},{'Brian '},{'Chris '},{'Luke Z'},&,1/1,&
 &,{'Philip'},{'Christ'},{'Brian '},{'Steve '},{'Cliffo'},{'Kelly '},&,1/1,&
 &,{'Philip'},{'Christ'},{'Crista'},{'Angeli'},{'Tiffan'},{'Matthe'},&,1/1,&
@@ -21678,7 +21678,7 @@ False
 &,{'Philip'},{'Jonath'},{'Christ'},{'David '},{'Steve '},{'John S'},&,1/1,&
 &,{'Philip'},{'Jonath'},{'Christ'},{'Melodi'},{'Crista'},{'Ahlam '},&,1/1,&
 &,{'Philip'},{'Jonath'},{'Crista'},{'Matthe'},{'Heart '},{'Angeli'},&,1/1,&
-&,{'Philip'},{'Jonath'},{'Dan Gi'},{'Rex Bu'},{'Dan Gi'},{'Ahlam '},&,1/1,&
+&,{'Philip'},{'Jonath'},{'Dan Gi'},{'Rex Bu'},{'Ahlam '},,&,1/1,&
 &,{'Philip'},{'Jonath'},{'Daniel'},{'Rex Bu'},{'Chris '},,&,1/1,&
 &,{'Philip'},{'Jonath'},{'Daniel'},{'Tiffan'},{'Sandee'},{'Steve '},&,1/1,&
 &,{'Philip'},{'Jonath'},{'Daniel'},,,,&,1/1,&
@@ -21845,7 +21845,7 @@ False
 &,{'Philip'},{'Melodi'},{'Jesse '},{'Kennet'},{'Matthe'},{'Heart '},&,1/1,&
 &,{'Philip'},{'Melodi'},{'Jonath'},{'Dan Gi'},{'Rex Bu'},{'Crista'},&,1/1,&
 &,{'Philip'},{'Melodi'},{'Jonath'},{'Sandee'},{'Jesse '},{'Chris '},&,1/1,&
-&,{'Philip'},{'Melodi'},{'Kennet'},{'Melodi'},{'Tiffan'},{'Kelly '},&,1/1,&
+&,{'Philip'},{'Melodi'},{'Kennet'},{'Tiffan'},{'Kelly '},,&,1/1,&
 &,{'Philip'},{'Melodi'},{'Kezia '},{'Ahlam '},{'Christ'},,&,1/1,&
 &,{'Philip'},{'Melodi'},{'Kezia '},{'Crista'},{'Angeli'},{'Heart '},&,1/1,&
 &,{'Philip'},{'Melodi'},{'Kezia '},{'Crista'},{'Dan Gi'},{'Tiffan'},&,1/1,&
@@ -21869,7 +21869,7 @@ False
 &,{'Philip'},{'Patric'},{'Jonath'},{'Steve '},{'Daniel'},{'Tiffan'},&,1/1,&
 &,{'Philip'},{'Patric'},{'Matthe'},{'Harris'},,,&,1/1,&
 &,{'Philip'},{'Patric'},{'Tiffan'},{'Daniel'},{'Chris '},,&,1/1,&
-&,{'Philip'},{'Philip'},{'Philip'},{'Philip'},{'Philip'},{'Philip'},&,1/1,&
+&,{'Philip'},,,,,,&,1/1,&
 &,{'Philip'},{'Rex Bu'},{'Ahlam '},{'Chris '},{'Tiffan'},,&,1/1,&
 &,{'Philip'},{'Rex Bu'},{'Angeli'},{'Chris '},{'Daniel'},{'Heart '},&,1/1,&
 &,{'Philip'},{'Rex Bu'},{'Angeli'},{'Crista'},{'Dan Gi'},{'Luke Z'},&,1/1,&
@@ -22118,7 +22118,7 @@ False
 &,{'Philip'},{'Steve '},{'Jonath'},{'Jesse '},{'Angeli'},,&,1/1,&
 &,{'Philip'},{'Steve '},{'Jonath'},{'Matthe'},{'Daniel'},{'Angeli'},&,1/1,&
 &,{'Philip'},{'Steve '},{'Jonath'},{'Matthe'},{'Angeli'},,&,1/1,&
-&,{'Philip'},{'Steve '},{'Jonath'},{'Philip'},{'Steve '},{'Jonath'},&,1/1,&
+&,{'Philip'},{'Steve '},{'Jonath'},,,,&,1/1,&
 &,{'Philip'},{'Steve '},{'Jonath'},{'Rex Bu'},{'Jesse '},,&,1/1,&
 &,{'Philip'},{'Steve '},{'Jonath'},{'Tiffan'},{'Angeli'},{'Chris '},&,1/1,&
 &,{'Philip'},{'Steve '},{'Jonath'},{'Tiffan'},{'Kezia '},{'Sandee'},&,1/1,&
@@ -22256,7 +22256,7 @@ False
 &,{'Philip'},{'Tiffan'},{'Daniel'},{'Steve '},{'Angeli'},{'Rex Bu'},&,1/1,&
 &,{'Philip'},{'Tiffan'},{'Daniel'},{'Steve '},,,&,1/1,&
 &,{'Philip'},{'Tiffan'},{'Daniel'},{'Theo H'},{'Steve '},,&,1/1,&
-&,{'Philip'},{'Tiffan'},{'Harris'},{'Christ'},{'Harris'},{'Matthe'},&,1/1,&
+&,{'Philip'},{'Tiffan'},{'Harris'},{'Christ'},{'Matthe'},,&,1/1,&
 &,{'Philip'},{'Tiffan'},{'Harris'},{'Jonath'},{'Melodi'},{'Kezia '},&,1/1,&
 &,{'Philip'},{'Tiffan'},{'Harris'},{'Kezia '},{'Christ'},{'Crista'},&,2/1,&
 &,{'Philip'},{'Tiffan'},{'Harris'},{'Kezia '},{'Jonath'},{'David '},&,2/1,&
@@ -22280,7 +22280,7 @@ False
 &,{'Philip'},{'Tiffan'},{'Kezia '},{'Melodi'},,,&,1/1,&
 &,{'Philip'},{'Tiffan'},{'Kezia '},{'Sandee'},{'Crista'},,&,1/1,&
 &,{'Philip'},{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Kelly '},&,2/1,&
-&,{'Philip'},{'Tiffan'},{'Kezia '},{'Tiffan'},{'Jonath'},{'Rex Bu'},&,1/1,&
+&,{'Philip'},{'Tiffan'},{'Kezia '},{'Jonath'},{'Rex Bu'},,&,1/1,&
 &,{'Philip'},{'Tiffan'},{'Kezia '},,,,&,3/1,&
 &,{'Philip'},{'Tiffan'},{'Matthe'},{'Heart '},{'Chris '},{'Daniel'},&,1/1,&
 &,{'Philip'},{'Tiffan'},{'Matthe'},{'Melodi'},,,&,1/1,&
@@ -22413,7 +22413,7 @@ False
 &,{'Rex Bu'},{'Angeli'},{'Chris '},,,,&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Crista'},{'Jesse '},{'Chris '},{'Brian '},&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Crista'},{'Jonath'},{'Daniel'},{'Luke Z'},&,1/1,&
-&,{'Rex Bu'},{'Angeli'},{'Crista'},{'Melodi'},{'Brian '},{'Crista'},&,1/1,&
+&,{'Rex Bu'},{'Angeli'},{'Crista'},{'Melodi'},{'Brian '},,&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Crista'},{'Philip'},{'Chris '},{'Jesse '},&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Crista'},{'Steve '},{'Ahlam '},{'Heart '},&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Crista'},{'Steve '},{'Philip'},{'Heart '},&,2/1,&
@@ -22556,7 +22556,7 @@ False
 &,{'Rex Bu'},{'Angeli'},{'Steve '},{'Daniel'},,,&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Steve '},{'Jesse '},{'Brian '},{'Tiffan'},&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Steve '},{'Jesse '},{'Daniel'},{'Dan Gi'},&,2/1,&
-&,{'Rex Bu'},{'Angeli'},{'Steve '},{'Jesse '},{'Daniel'},{'Steve '},&,1/1,&
+&,{'Rex Bu'},{'Angeli'},{'Steve '},{'Jesse '},{'Daniel'},,&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Steve '},{'Jesse '},{'Jonath'},{'Luke Z'},&,1/1,&
 &,{'Rex Bu'},{'Angeli'},{'Steve '},{'Jesse '},{'Kezia '},{'Philip'},&,2/1,&
 &,{'Rex Bu'},{'Angeli'},{'Steve '},{'Jesse '},{'Melodi'},,&,1/1,&
@@ -22760,7 +22760,7 @@ False
 &,{'Rex Bu'},{'Chris '},{'Jonath'},{'Crista'},,,&,1/1,&
 &,{'Rex Bu'},{'Chris '},{'Jonath'},,,,&,1/1,&
 &,{'Rex Bu'},{'Chris '},{'Kezia '},{'Jesse '},{'Patric'},{'Tiffan'},&,1/1,&
-&,{'Rex Bu'},{'Chris '},{'Kezia '},{'Kezia '},{'Angeli'},,&,1/1,&
+&,{'Rex Bu'},{'Chris '},{'Kezia '},{'Angeli'},,,&,1/1,&
 &,{'Rex Bu'},{'Chris '},{'Patric'},{'Tiffan'},{'Philip'},{'Angeli'},&,2/1,&
 &,{'Rex Bu'},{'Chris '},{'Philip'},{'Crista'},{'Jesse '},,&,1/1,&
 &,{'Rex Bu'},{'Chris '},{'Philip'},{'Steve '},{'Tiffan'},{'Angeli'},&,1/1,&
@@ -23010,7 +23010,7 @@ False
 &,{'Rex Bu'},{'Daniel'},,,,,&,4/1,&
 &,{'Rex Bu'},{'David '},{'Brian '},{'Luke Z'},{'Jonath'},{'Dan Gi'},&,1/1,&
 &,{'Rex Bu'},{'David '},{'Brian '},,,,&,1/1,&
-&,{'Rex Bu'},{'David '},{'Chris '},{'Kezia '},{'Rex Bu'},{'Cliffo'},&,1/1,&
+&,{'Rex Bu'},{'David '},{'Chris '},{'Kezia '},{'Cliffo'},,&,1/1,&
 &,{'Rex Bu'},{'David '},{'Cliffo'},{'Kelly '},{'John S'},{'Luke Z'},&,1/1,&
 &,{'Rex Bu'},{'David '},{'Dan Gi'},{'Jonath'},{'John S'},{'Patric'},&,1/1,&
 &,{'Rex Bu'},{'David '},{'John S'},{'Heart '},{'Kezia '},{'Kennet'},&,1/1,&
@@ -23413,7 +23413,7 @@ False
 &,{'Rex Bu'},{'John S'},{'Matthe'},,,,&,1/1,&
 &,{'Rex Bu'},{'John S'},{'Melodi'},{'Brian '},{'Dan Gi'},{'Terry '},&,1/1,&
 &,{'Rex Bu'},{'John S'},{'Philip'},{'Matthe'},{'Jaclyn'},{'Crista'},&,1/1,&
-&,{'Rex Bu'},{'John S'},{'Steve '},{'Dan Gi'},{'Patric'},{'Rex Bu'},&,1/1,&
+&,{'Rex Bu'},{'John S'},{'Steve '},{'Dan Gi'},{'Patric'},,&,1/1,&
 &,{'Rex Bu'},{'John S'},{'Terry '},,,,&,1/1,&
 &,{'Rex Bu'},{'John S'},,,,,&,1/1,&
 &,{'Rex Bu'},{'Jonath'},{'Angeli'},{'Crista'},{'Jesse '},{'Luke Z'},&,1/1,&
@@ -23486,7 +23486,7 @@ False
 &,{'Rex Bu'},{'Jonath'},{'Philip'},{'Tiffan'},{'Ahlam '},{'Angeli'},&,1/1,&
 &,{'Rex Bu'},{'Jonath'},{'Sandee'},{'Matthe'},{'Steve '},{'Tiffan'},&,1/1,&
 &,{'Rex Bu'},{'Jonath'},{'Sandee'},{'Theo H'},{'Steve '},{'Ahlam '},&,1/1,&
-&,{'Rex Bu'},{'Jonath'},{'Steve '},{'Angeli'},{'Angeli'},,&,1/1,&
+&,{'Rex Bu'},{'Jonath'},{'Steve '},{'Angeli'},,,&,1/1,&
 &,{'Rex Bu'},{'Jonath'},{'Steve '},{'Angeli'},{'Chris '},,&,1/1,&
 &,{'Rex Bu'},{'Jonath'},{'Steve '},{'Crista'},{'Kezia '},{'Jesse '},&,2/1,&
 &,{'Rex Bu'},{'Jonath'},{'Steve '},{'Crista'},{'Tiffan'},{'Brian '},&,1/1,&
@@ -23568,7 +23568,7 @@ False
 &,{'Rex Bu'},{'Kezia '},{'Harris'},{'Jesse '},,,&,1/1,&
 &,{'Rex Bu'},{'Kezia '},{'Harris'},{'Matthe'},{'Kelly '},{'Christ'},&,1/1,&
 &,{'Rex Bu'},{'Kezia '},{'Harris'},{'Steve '},,,&,3/1,&
-&,{'Rex Bu'},{'Kezia '},{'Harris'},{'Tiffan'},{'Sandee'},{'Harris'},&,2/1,&
+&,{'Rex Bu'},{'Kezia '},{'Harris'},{'Tiffan'},{'Sandee'},,&,2/1,&
 &,{'Rex Bu'},{'Kezia '},{'Harris'},,,,&,2/1,&
 &,{'Rex Bu'},{'Kezia '},{'Jesse '},{'Angeli'},{'Daniel'},{'Steve '},&,1/1,&
 &,{'Rex Bu'},{'Kezia '},{'Jesse '},{'Chris '},{'Daniel'},{'Angeli'},&,1/1,&
@@ -23603,7 +23603,7 @@ False
 &,{'Rex Bu'},{'Kezia '},{'Jonath'},{'Tiffan'},{'Kennet'},{'Steve '},&,1/1,&
 &,{'Rex Bu'},{'Kezia '},{'Kennet'},{'Angeli'},{'Jesse '},{'Harris'},&,1/1,&
 &,{'Rex Bu'},{'Kezia '},{'Kennet'},{'Jesse '},{'Daniel'},{'Kelly '},&,1/1,&
-&,{'Rex Bu'},{'Kezia '},{'Kezia '},{'Steve '},{'Jesse '},,&,1/1,&
+&,{'Rex Bu'},{'Kezia '},{'Steve '},{'Jesse '},,,&,1/1,&
 &,{'Rex Bu'},{'Kezia '},{'Luke Z'},,,,&,1/1,&
 &,{'Rex Bu'},{'Kezia '},{'Matthe'},{'Dan Gi'},{'Jesse '},{'Daniel'},&,1/1,&
 &,{'Rex Bu'},{'Kezia '},{'Matthe'},{'Jesse '},{'Patric'},{'Brian '},&,1/1,&
@@ -23857,7 +23857,7 @@ False
 &,{'Rex Bu'},{'Philip'},{'Jesse '},{'Crista'},{'Angeli'},,&,1/1,&
 &,{'Rex Bu'},{'Philip'},{'Jesse '},{'Daniel'},{'Jonath'},{'Steve '},&,1/1,&
 &,{'Rex Bu'},{'Philip'},{'Jesse '},{'Jonath'},{'Patric'},{'Kezia '},&,1/1,&
-&,{'Rex Bu'},{'Philip'},{'Jesse '},{'Rex Bu'},{'Steve '},,&,1/1,&
+&,{'Rex Bu'},{'Philip'},{'Jesse '},{'Steve '},,,&,1/1,&
 &,{'Rex Bu'},{'Philip'},{'Jesse '},{'Steve '},{'Angeli'},{'Crista'},&,3/1,&
 &,{'Rex Bu'},{'Philip'},{'Jesse '},{'Steve '},,,&,2/1,&
 &,{'Rex Bu'},{'Philip'},{'Jesse '},{'Tiffan'},,,&,2/1,&
@@ -23916,8 +23916,8 @@ False
 &,{'Rex Bu'},{'Philip'},{'Tiffan'},{'Steve '},{'Brian '},{'Crista'},&,1/1,&
 &,{'Rex Bu'},{'Philip'},{'Tiffan'},,,,&,4/1,&
 &,{'Rex Bu'},{'Philip'},,,,,&,9/1,&
-&,{'Rex Bu'},{'Rex Bu'},{'Rex Bu'},{'Rex Bu'},{'Rex Bu'},{'Rex Bu'},&,3/1,&
-&,{'Rex Bu'},{'Rex Bu'},{'Rex Bu'},,,,&,1/1,&
+&,{'Rex Bu'},,,,,,&,3/1,&
+&,{'Rex Bu'},,,,,,&,1/1,&
 &,{'Rex Bu'},{'Sandee'},{'Ahlam '},,,,&,1/1,&
 &,{'Rex Bu'},{'Sandee'},{'Angeli'},{'Crista'},{'Luke Z'},{'Jesse '},&,1/1,&
 &,{'Rex Bu'},{'Sandee'},{'Angeli'},{'Luke Z'},{'Melodi'},{'Jonath'},&,1/1,&
@@ -24071,12 +24071,12 @@ False
 &,{'Rex Bu'},{'Steve '},{'Angeli'},{'John S'},,,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Angeli'},,,,&,14/1,&
 &,{'Rex Bu'},{'Steve '},{'Brian '},{'Chris '},{'Jesse '},{'Tiffan'},&,1/1,&
-&,{'Rex Bu'},{'Steve '},{'Brian '},{'Cliffo'},{'Brian '},{'Terry '},&,1/1,&
+&,{'Rex Bu'},{'Steve '},{'Brian '},{'Cliffo'},{'Terry '},,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Brian '},{'David '},{'Cliffo'},{'John S'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Brian '},{'Jaclyn'},{'Harris'},{'Jonath'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Brian '},{'Kezia '},,,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Brian '},{'Tiffan'},{'Angeli'},{'Kezia '},&,1/1,&
-&,{'Rex Bu'},{'Steve '},{'Brian '},{'Tiffan'},{'Angeli'},{'Tiffan'},&,1/1,&
+&,{'Rex Bu'},{'Steve '},{'Brian '},{'Tiffan'},{'Angeli'},,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Brian '},{'Tiffan'},{'Cliffo'},{'Luke Z'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Brian '},,,,&,2/1,&
 &,{'Rex Bu'},{'Steve '},{'Chris '},{'Angeli'},{'Daniel'},,&,1/1,&
@@ -24147,7 +24147,7 @@ False
 &,{'Rex Bu'},{'Steve '},{'Dan Gi'},{'Crista'},{'Jonath'},{'Philip'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Dan Gi'},{'Jaclyn'},{'Sandee'},{'Jonath'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Dan Gi'},{'Jonath'},{'Angeli'},{'Jesse '},&,1/1,&
-&,{'Rex Bu'},{'Steve '},{'Dan Gi'},{'Philip'},{'Dan Gi'},{'Crista'},&,1/1,&
+&,{'Rex Bu'},{'Steve '},{'Dan Gi'},{'Philip'},{'Crista'},,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Dan Gi'},{'Philip'},{'Daniel'},{'Kezia '},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Dan Gi'},,,,&,4/1,&
 &,{'Rex Bu'},{'Steve '},{'Daniel'},{'Ahlam '},{'Dan Gi'},{'Kezia '},&,1/1,&
@@ -24190,7 +24190,7 @@ False
 &,{'Rex Bu'},{'Steve '},{'Heart '},{'Jesse '},{'Jonath'},{'Tiffan'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Heart '},{'Kezia '},{'Christ'},{'John S'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Heart '},{'Sandee'},{'Cliffo'},{'Luke Z'},&,1/1,&
-&,{'Rex Bu'},{'Steve '},{'Heart '},{'Steve '},{'Daniel'},{'Tiffan'},&,1/1,&
+&,{'Rex Bu'},{'Steve '},{'Heart '},{'Daniel'},{'Tiffan'},,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Heart '},{'Tiffan'},{'Kezia '},{'Jonath'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Heart '},,,,&,3/1,&
 &,{'Rex Bu'},{'Steve '},{'Jaclyn'},{'Philip'},{'Jonath'},{'David '},&,1/1,&
@@ -24369,7 +24369,7 @@ False
 &,{'Rex Bu'},{'Steve '},{'Kezia '},{'Jesse '},{'Daniel'},,&,3/1,&
 &,{'Rex Bu'},{'Steve '},{'Kezia '},{'Jesse '},{'Harris'},{'Tiffan'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Kezia '},{'Jesse '},{'Jonath'},{'Daniel'},&,1/1,&
-&,{'Rex Bu'},{'Steve '},{'Kezia '},{'Jesse '},{'Kezia '},,&,1/1,&
+&,{'Rex Bu'},{'Steve '},{'Kezia '},{'Jesse '},,,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Kezia '},{'Jesse '},{'Philip'},,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Kezia '},{'Jesse '},{'Tiffan'},{'Chris '},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Kezia '},{'Jesse '},{'Tiffan'},,&,1/1,&
@@ -24482,7 +24482,7 @@ False
 &,{'Rex Bu'},{'Steve '},{'Philip'},{'Tiffan'},{'Luke Z'},{'Angeli'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Philip'},{'Angeli'},{'Chris '},,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Philip'},,,,&,17/1,&
-&,{'Rex Bu'},{'Steve '},{'Rex Bu'},{'John S'},{'Patric'},{'Theo H'},&,1/1,&
+&,{'Rex Bu'},{'Steve '},{'John S'},{'Patric'},{'Theo H'},,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Sandee'},{'Angeli'},{'Jesse '},{'Crista'},&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Sandee'},,,,&,1/1,&
 &,{'Rex Bu'},{'Steve '},{'Terry '},{'Jesse '},{'Kezia '},{'Harris'},&,1/1,&
@@ -24786,7 +24786,7 @@ False
 &,{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Daniel'},{'Steve '},{'Luke Z'},&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Harris'},{'Crista'},{'Steve '},&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Harris'},{'Jesse '},{'Matthe'},&,1/1,&
-&,{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Jesse '},{'Kezia '},{'Ahlam '},&,1/1,&
+&,{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Jesse '},{'Ahlam '},,&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Jesse '},,,&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Jonath'},{'Angeli'},{'Theo H'},&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Melodi'},{'Harris'},{'Jonath'},&,1/1,&
@@ -24816,7 +24816,7 @@ False
 &,{'Rex Bu'},{'Tiffan'},{'Matthe'},{'Angeli'},{'Jesse '},{'Kezia '},&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Matthe'},{'Angeli'},{'Kelly '},{'Steve '},&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Matthe'},{'David '},{'Steve '},{'John S'},&,1/1,&
-&,{'Rex Bu'},{'Tiffan'},{'Matthe'},{'Tiffan'},{'Crista'},,&,1/1,&
+&,{'Rex Bu'},{'Tiffan'},{'Matthe'},{'Crista'},,,&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Melodi'},{'Angeli'},{'Jesse '},{'Philip'},&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Melodi'},{'Angeli'},,,&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Melodi'},{'Crista'},{'Steve '},{'Angeli'},&,1/1,&
@@ -24902,7 +24902,7 @@ False
 &,{'Rex Bu'},{'Tiffan'},{'Steve '},,,,&,20/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Theo H'},{'Brian '},{'Angeli'},,&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Theo H'},{'Luke Z'},{'Jesse '},{'Ahlam '},&,2/1,&
-&,{'Rex Bu'},{'Tiffan'},{'Theo H'},{'Melodi'},{'Dan Gi'},{'Melodi'},&,1/1,&
+&,{'Rex Bu'},{'Tiffan'},{'Theo H'},{'Melodi'},{'Dan Gi'},,&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},{'Heart '},{'Jesse '},{'Luke Z'},,&,1/1,&
 &,{'Rex Bu'},{'Tiffan'},,,,,&,32/1,&
 &,{'Rex Bu'},{'Angeli'},,,,,&,1/1,&
@@ -25291,7 +25291,7 @@ False
 &,{'Sandee'},{'Heart '},{'Kezia '},{'Patric'},{'Theo H'},,&,1/1,&
 &,{'Sandee'},{'Heart '},{'Melodi'},{'Terry '},{'Harris'},{'John S'},&,1/1,&
 &,{'Sandee'},{'Heart '},{'Patric'},,,,&,1/1,&
-&,{'Sandee'},{'Heart '},{'Sandee'},{'Chris '},{'Kelly '},{'Tiffan'},&,1/1,&
+&,{'Sandee'},{'Heart '},{'Chris '},{'Kelly '},{'Tiffan'},,&,1/1,&
 &,{'Sandee'},{'Heart '},{'Steve '},{'Kennet'},{'Kelly '},{'Crista'},&,1/1,&
 &,{'Sandee'},{'Heart '},{'Tiffan'},{'Dan Gi'},{'Kelly '},{'Jaclyn'},&,1/1,&
 &,{'Sandee'},{'Heart '},{'Tiffan'},{'Melodi'},{'Rex Bu'},{'Kennet'},&,1/1,&
@@ -25340,7 +25340,7 @@ False
 &,{'Sandee'},{'Jonath'},{'Dan Gi'},{'Angeli'},{'Jesse '},{'Tiffan'},&,1/1,&
 &,{'Sandee'},{'Jonath'},{'Dan Gi'},,,,&,1/1,&
 &,{'Sandee'},{'Jonath'},{'Daniel'},{'Crista'},{'Philip'},{'John S'},&,1/1,&
-&,{'Sandee'},{'Jonath'},{'Daniel'},{'Harris'},{'Jonath'},{'Tiffan'},&,1/1,&
+&,{'Sandee'},{'Jonath'},{'Daniel'},{'Harris'},{'Tiffan'},,&,1/1,&
 &,{'Sandee'},{'Jonath'},{'Daniel'},{'Jesse '},{'Kezia '},{'Steve '},&,2/1,&
 &,{'Sandee'},{'Jonath'},{'Daniel'},{'Melodi'},{'Kezia '},{'Harris'},&,1/1,&
 &,{'Sandee'},{'Jonath'},{'Daniel'},,,,&,1/1,&
@@ -25373,7 +25373,7 @@ False
 &,{'Sandee'},{'Kelly '},{'Kezia '},{'Melodi'},{'Harris'},{'Terry '},&,2/1,&
 &,{'Sandee'},{'Kelly '},{'Melodi'},{'Jaclyn'},{'Daniel'},{'Ahlam '},&,1/1,&
 &,{'Sandee'},{'Kelly '},{'Melodi'},{'Kezia '},{'Matthe'},{'Steve '},&,1/1,&
-&,{'Sandee'},{'Kelly '},{'Rex Bu'},{'Angeli'},{'Kelly '},{'Heart '},&,1/1,&
+&,{'Sandee'},{'Kelly '},{'Rex Bu'},{'Angeli'},{'Heart '},,&,1/1,&
 &,{'Sandee'},{'Kennet'},{'Jesse '},{'Terry '},{'Daniel'},{'Angeli'},&,1/1,&
 &,{'Sandee'},{'Kennet'},{'Jesse '},,,,&,1/1,&
 &,{'Sandee'},{'Kennet'},{'Melodi'},{'Terry '},{'Matthe'},{'Kezia '},&,1/1,&
@@ -25391,7 +25391,7 @@ False
 &,{'Sandee'},{'Kezia '},{'Dan Gi'},{'Theo H'},,,&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Dan Gi'},,,,&,2/1,&
 &,{'Sandee'},{'Kezia '},{'Daniel'},{'Harris'},,,&,2/1,&
-&,{'Sandee'},{'Kezia '},{'Daniel'},{'Kezia '},,,&,1/1,&
+&,{'Sandee'},{'Kezia '},{'Daniel'},,,,&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Daniel'},{'Melodi'},,,&,2/1,&
 &,{'Sandee'},{'Kezia '},{'Daniel'},{'Steve '},,,&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Daniel'},{'Tiffan'},{'Melodi'},{'Crista'},&,1/1,&
@@ -25452,7 +25452,7 @@ False
 &,{'Sandee'},{'Kezia '},{'Melodi'},{'Luke Z'},{'Daniel'},,&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Melodi'},{'Matthe'},{'Steve '},{'Jesse '},&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Melodi'},{'Matthe'},,,&,2/1,&
-&,{'Sandee'},{'Kezia '},{'Melodi'},{'Melodi'},{'Melodi'},{'Melodi'},&,1/1,&
+&,{'Sandee'},{'Kezia '},{'Melodi'},,,,&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Melodi'},{'Steve '},{'Jesse '},,&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Melodi'},{'Steve '},{'Kennet'},{'Daniel'},&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Melodi'},{'Steve '},{'Philip'},{'Daniel'},&,1/1,&
@@ -25473,7 +25473,7 @@ False
 &,{'Sandee'},{'Kezia '},{'Rex Bu'},{'Kelly '},{'Steve '},{'Matthe'},&,2/1,&
 &,{'Sandee'},{'Kezia '},{'Rex Bu'},{'Terry '},{'Steve '},{'Matthe'},&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Rex Bu'},,,,&,1/1,&
-&,{'Sandee'},{'Kezia '},{'Sandee'},,,,&,1/1,&
+&,{'Sandee'},{'Kezia '},,,,,&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Steve '},{'Brian '},{'Jonath'},{'Philip'},&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Steve '},{'Dan Gi'},{'Matthe'},{'Philip'},&,1/1,&
 &,{'Sandee'},{'Kezia '},{'Steve '},{'Daniel'},{'Jonath'},{'Luke Z'},&,1/1,&
@@ -25535,7 +25535,7 @@ False
 &,{'Sandee'},{'Matthe'},{'Rex Bu'},{'Kezia '},{'Harris'},{'Jonath'},&,1/1,&
 &,{'Sandee'},{'Matthe'},{'Rex Bu'},{'Luke Z'},,,&,1/1,&
 &,{'Sandee'},{'Matthe'},{'Rex Bu'},{'Melodi'},,,&,1/1,&
-&,{'Sandee'},{'Matthe'},{'Sandee'},{'Dan Gi'},{'Steve '},{'Heart '},&,1/1,&
+&,{'Sandee'},{'Matthe'},{'Dan Gi'},{'Steve '},{'Heart '},,&,1/1,&
 &,{'Sandee'},{'Matthe'},{'Terry '},{'Kennet'},{'Jonath'},{'Kezia '},&,2/1,&
 &,{'Sandee'},{'Matthe'},{'Terry '},{'Kezia '},{'Harris'},{'Daniel'},&,2/1,&
 &,{'Sandee'},{'Matthe'},{'Terry '},,,,&,2/1,&
@@ -25645,7 +25645,7 @@ False
 &,{'Sandee'},{'Rex Bu'},{'Brian '},,,,&,1/1,&
 &,{'Sandee'},{'Rex Bu'},{'Chris '},{'Matthe'},{'Melodi'},{'Jonath'},&,1/1,&
 &,{'Sandee'},{'Rex Bu'},{'Chris '},{'Philip'},{'Matthe'},{'Luke Z'},&,1/1,&
-&,{'Sandee'},{'Rex Bu'},{'Christ'},{'Christ'},{'Crista'},{'David '},&,1/1,&
+&,{'Sandee'},{'Rex Bu'},{'Christ'},{'Crista'},{'David '},,&,1/1,&
 &,{'Sandee'},{'Rex Bu'},{'Cliffo'},{'Harris'},,,&,1/1,&
 &,{'Sandee'},{'Rex Bu'},{'Crista'},{'Ahlam '},,,&,1/1,&
 &,{'Sandee'},{'Rex Bu'},{'Crista'},{'Philip'},{'Kezia '},{'Steve '},&,1/1,&
@@ -25686,9 +25686,9 @@ False
 &,{'Sandee'},{'Rex Bu'},{'Tiffan'},{'Kezia '},{'Steve '},{'Crista'},&,1/1,&
 &,{'Sandee'},{'Rex Bu'},{'Tiffan'},{'Melodi'},,,&,1/1,&
 &,{'Sandee'},{'Rex Bu'},,,,,&,4/1,&
-&,{'Sandee'},{'Sandee'},{'Rex Bu'},{'Rex Bu'},{'Angeli'},{'Tiffan'},&,1/1,&
-&,{'Sandee'},{'Sandee'},{'Sandee'},{'Kezia '},{'Theo H'},{'Angeli'},&,1/1,&
-&,{'Sandee'},{'Sandee'},{'Sandee'},{'Sandee'},{'Tiffan'},{'Tiffan'},&,1/1,&
+&,{'Sandee'},{'Rex Bu'},{'Angeli'},{'Tiffan'},,,&,1/1,&
+&,{'Sandee'},{'Kezia '},{'Theo H'},{'Angeli'},,,&,1/1,&
+&,{'Sandee'},{'Tiffan'},,,,,&,1/1,&
 &,{'Sandee'},{'Steve '},{'Angeli'},{'Jesse '},,,&,3/1,&
 &,{'Sandee'},{'Steve '},{'Angeli'},{'Luke Z'},{'Brian '},{'Tiffan'},&,1/1,&
 &,{'Sandee'},{'Steve '},{'Angeli'},,,,&,1/1,&
@@ -25827,7 +25827,7 @@ False
 &,{'Sandee'},,,,,,&,1/1,&
 &,{'Sandee'},{'Angeli'},{'Luke Z'},,,,&,1/1,&
 &,{'Sandee'},{'Philip'},{'Rex Bu'},,,,&,1/1,&
-&,{'Sandee'},{'Sandee'},,,,,&,1/1,&
+&,{'Sandee'},,,,,,&,1/1,&
 &,{'Sandee'},,,,,,&,143/1,&
 &,{'Steve '},{'Ahlam '},{'Angeli'},{'Chris '},{'Daniel'},,&,2/1,&
 &,{'Steve '},{'Ahlam '},{'Angeli'},{'Cliffo'},{'Melodi'},{'Tiffan'},&,1/1,&
@@ -25905,7 +25905,7 @@ False
 &,{'Steve '},{'Angeli'},{'Brian '},{'Luke Z'},{'Matthe'},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Brian '},{'Philip'},{'Crista'},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Brian '},,,,&,2/1,&
-&,{'Steve '},{'Angeli'},{'Chris '},{'Brian '},{'Angeli'},{'Dan Gi'},&,1/1,&
+&,{'Steve '},{'Angeli'},{'Chris '},{'Brian '},{'Dan Gi'},,&,1/1,&
 &,{'Steve '},{'Angeli'},{'Chris '},{'Crista'},{'Ahlam '},{'Melodi'},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Chris '},{'Crista'},{'Jesse '},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Chris '},{'Crista'},{'Jesse '},,&,1/1,&
@@ -25999,7 +25999,7 @@ False
 &,{'Steve '},{'Angeli'},{'Crista'},{'Melodi'},{'Brian '},{'Jesse '},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Crista'},{'Melodi'},{'Philip'},,&,1/1,&
 &,{'Steve '},{'Angeli'},{'Crista'},{'Melodi'},{'Tiffan'},,&,1/1,&
-&,{'Steve '},{'Angeli'},{'Crista'},{'Philip'},{'Angeli'},{'Tiffan'},&,1/1,&
+&,{'Steve '},{'Angeli'},{'Crista'},{'Philip'},{'Tiffan'},,&,1/1,&
 &,{'Steve '},{'Angeli'},{'Crista'},{'Philip'},{'Chris '},{'Jonath'},&,2/1,&
 &,{'Steve '},{'Angeli'},{'Crista'},{'Philip'},{'Chris '},,&,1/1,&
 &,{'Steve '},{'Angeli'},{'Crista'},{'Philip'},{'Jesse '},{'Ahlam '},&,1/1,&
@@ -26374,7 +26374,7 @@ False
 &,{'Steve '},{'Angeli'},{'Luke Z'},{'Daniel'},{'Jesse '},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Luke Z'},{'Daniel'},{'Jonath'},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Luke Z'},{'Daniel'},,,&,3/1,&
-&,{'Steve '},{'Angeli'},{'Luke Z'},{'Jesse '},{'Jesse '},{'Daniel'},&,1/1,&
+&,{'Steve '},{'Angeli'},{'Luke Z'},{'Jesse '},{'Daniel'},,&,1/1,&
 &,{'Steve '},{'Angeli'},{'Luke Z'},{'Jesse '},{'Kezia '},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Luke Z'},{'Jesse '},{'Philip'},{'Crista'},&,1/1,&
 &,{'Steve '},{'Angeli'},{'Luke Z'},{'Jesse '},{'Rex Bu'},{'Tiffan'},&,1/1,&
@@ -26467,7 +26467,7 @@ False
 &,{'Steve '},{'Angeli'},{'Philip'},{'Tiffan'},{'Jesse '},,&,2/1,&
 &,{'Steve '},{'Angeli'},{'Philip'},{'Tiffan'},{'Jonath'},{'Rex Bu'},&,3/1,&
 &,{'Steve '},{'Angeli'},{'Philip'},{'Tiffan'},{'Kezia '},{'Jesse '},&,1/1,&
-&,{'Steve '},{'Angeli'},{'Philip'},{'Tiffan'},{'Philip'},{'Crista'},&,1/1,&
+&,{'Steve '},{'Angeli'},{'Philip'},{'Tiffan'},{'Crista'},,&,1/1,&
 &,{'Steve '},{'Angeli'},{'Philip'},{'Tiffan'},{'Rex Bu'},{'Crista'},&,3/1,&
 &,{'Steve '},{'Angeli'},{'Philip'},{'Tiffan'},{'Rex Bu'},{'Jesse '},&,4/1,&
 &,{'Steve '},{'Angeli'},{'Philip'},{'Tiffan'},{'Rex Bu'},{'Jonath'},&,1/1,&
@@ -27103,7 +27103,7 @@ False
 &,{'Steve '},{'Cliffo'},{'Jonath'},{'Dan Gi'},{'Melodi'},{'Brian '},&,1/1,&
 &,{'Steve '},{'Cliffo'},{'Kezia '},,,,&,1/1,&
 &,{'Steve '},{'Cliffo'},{'Rex Bu'},{'Jesse '},{'Matthe'},,&,1/1,&
-&,{'Steve '},{'Cliffo'},{'Rex Bu'},{'Steve '},{'Matthe'},{'Jaclyn'},&,1/1,&
+&,{'Steve '},{'Cliffo'},{'Rex Bu'},{'Matthe'},{'Jaclyn'},,&,1/1,&
 &,{'Steve '},{'Cliffo'},{'Theo H'},{'Jaclyn'},{'Tiffan'},{'Harris'},&,1/1,&
 &,{'Steve '},{'Cliffo'},{'Tiffan'},{'Crista'},{'Heart '},{'Angeli'},&,1/1,&
 &,{'Steve '},{'Crista'},{'Ahlam '},{'Angeli'},{'Chris '},{'Philip'},&,1/1,&
@@ -27392,7 +27392,7 @@ False
 &,{'Steve '},{'Crista'},{'Philip'},{'Kezia '},,,&,3/1,&
 &,{'Steve '},{'Crista'},{'Philip'},{'Luke Z'},{'Rex Bu'},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Crista'},{'Philip'},{'Melodi'},{'Heart '},{'Tiffan'},&,2/1,&
-&,{'Steve '},{'Crista'},{'Philip'},{'Philip'},{'Angeli'},{'Kezia '},&,1/1,&
+&,{'Steve '},{'Crista'},{'Philip'},{'Angeli'},{'Kezia '},,&,1/1,&
 &,{'Steve '},{'Crista'},{'Philip'},{'Rex Bu'},{'Ahlam '},{'Sandee'},&,1/1,&
 &,{'Steve '},{'Crista'},{'Philip'},{'Rex Bu'},{'Angeli'},{'Chris '},&,2/1,&
 &,{'Steve '},{'Crista'},{'Philip'},{'Rex Bu'},{'Angeli'},{'Jaclyn'},&,1/1,&
@@ -27465,7 +27465,7 @@ False
 &,{'Steve '},{'Crista'},{'Rex Bu'},{'Angeli'},{'Philip'},{'Jonath'},&,1/1,&
 &,{'Steve '},{'Crista'},{'Rex Bu'},{'Angeli'},{'Philip'},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Crista'},{'Rex Bu'},{'Angeli'},{'Philip'},,&,5/1,&
-&,{'Steve '},{'Crista'},{'Rex Bu'},{'Angeli'},{'Rex Bu'},{'Jesse '},&,1/1,&
+&,{'Steve '},{'Crista'},{'Rex Bu'},{'Angeli'},{'Jesse '},,&,1/1,&
 &,{'Steve '},{'Crista'},{'Rex Bu'},{'Angeli'},{'Tiffan'},{'Brian '},&,2/1,&
 &,{'Steve '},{'Crista'},{'Rex Bu'},{'Angeli'},{'Tiffan'},{'Chris '},&,5/1,&
 &,{'Steve '},{'Crista'},{'Rex Bu'},{'Angeli'},{'Tiffan'},{'Jesse '},&,2/1,&
@@ -27540,7 +27540,7 @@ False
 &,{'Steve '},{'Crista'},{'Sandee'},,,,&,2/1,&
 &,{'Steve '},{'Crista'},{'Terry '},{'Jaclyn'},{'Jonath'},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Ahlam '},{'Chris '},,&,1/1,&
-&,{'Steve '},{'Crista'},{'Tiffan'},{'Ahlam '},{'Steve '},{'Angeli'},&,1/1,&
+&,{'Steve '},{'Crista'},{'Tiffan'},{'Ahlam '},{'Angeli'},,&,1/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Angeli'},{'Chris '},{'Jesse '},&,1/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Angeli'},{'Jesse '},{'Philip'},&,1/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Angeli'},{'Jesse '},{'Rex Bu'},&,2/1,&
@@ -27575,7 +27575,7 @@ False
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jonath'},&,2/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Luke Z'},&,1/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Philip'},&,1/1,&
-&,{'Steve '},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Jesse '},{'Tiffan'},&,1/1,&
+&,{'Steve '},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Jesse '},,&,1/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Jonath'},,&,1/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Philip'},{'Daniel'},&,1/1,&
 &,{'Steve '},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Philip'},,&,1/1,&
@@ -27607,7 +27607,7 @@ False
 &,{'Steve '},{'Dan Gi'},{'Rex Bu'},{'Angeli'},{'Heart '},{'Daniel'},&,1/1,&
 &,{'Steve '},{'Dan Gi'},{'Rex Bu'},{'John S'},{'Philip'},{'Theo H'},&,1/1,&
 &,{'Steve '},{'Dan Gi'},{'Sandee'},{'Tiffan'},{'Brian '},{'Terry '},&,1/1,&
-&,{'Steve '},{'Dan Gi'},{'Steve '},{'Dan Gi'},{'Steve '},{'Dan Gi'},&,1/1,&
+&,{'Steve '},{'Dan Gi'},,,,,&,1/1,&
 &,{'Steve '},{'Dan Gi'},{'Terry '},{'Sandee'},{'Rex Bu'},{'Melodi'},&,1/1,&
 &,{'Steve '},{'Dan Gi'},{'Terry '},,,,&,2/1,&
 &,{'Steve '},{'Dan Gi'},{'Tiffan'},{'Angeli'},{'Brian '},{'Terry '},&,1/1,&
@@ -27709,7 +27709,7 @@ False
 &,{'Steve '},{'Daniel'},{'Kezia '},{'Angeli'},,,&,1/1,&
 &,{'Steve '},{'Daniel'},{'Kezia '},{'Chris '},{'Kelly '},,&,1/1,&
 &,{'Steve '},{'Daniel'},{'Kezia '},{'Crista'},{'Rex Bu'},{'Jonath'},&,1/1,&
-&,{'Steve '},{'Daniel'},{'Kezia '},{'Harris'},{'Daniel'},{'Ahlam '},&,1/1,&
+&,{'Steve '},{'Daniel'},{'Kezia '},{'Harris'},{'Ahlam '},,&,1/1,&
 &,{'Steve '},{'Daniel'},{'Kezia '},{'Harris'},{'Jesse '},{'Angeli'},&,1/1,&
 &,{'Steve '},{'Daniel'},{'Kezia '},{'Harris'},{'Jesse '},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Daniel'},{'Kezia '},{'Harris'},{'Luke Z'},{'Ahlam '},&,2/1,&
@@ -27769,7 +27769,7 @@ False
 &,{'Steve '},{'Daniel'},{'Sandee'},{'Kezia '},{'Harris'},{'Terry '},&,1/1,&
 &,{'Steve '},{'Daniel'},{'Sandee'},{'Kezia '},{'Harris'},,&,2/1,&
 &,{'Steve '},{'Daniel'},{'Sandee'},{'Luke Z'},{'Jesse '},{'Tiffan'},&,1/1,&
-&,{'Steve '},{'Daniel'},{'Sandee'},{'Sandee'},,,&,1/1,&
+&,{'Steve '},{'Daniel'},{'Sandee'},,,,&,1/1,&
 &,{'Steve '},{'Daniel'},{'Sandee'},,,,&,1/1,&
 &,{'Steve '},{'Daniel'},{'Terry '},{'David '},{'Chris '},{'Christ'},&,1/1,&
 &,{'Steve '},{'Daniel'},{'Terry '},{'Kelly '},{'Ahlam '},{'Sandee'},&,1/1,&
@@ -27805,7 +27805,7 @@ False
 &,{'Steve '},{'David '},{'Angeli'},{'Jesse '},{'Philip'},{'Chris '},&,1/1,&
 &,{'Steve '},{'David '},{'Brian '},{'Kezia '},,,&,1/1,&
 &,{'Steve '},{'David '},{'Chris '},{'Patric'},{'John S'},{'Theo H'},&,1/1,&
-&,{'Steve '},{'David '},{'Christ'},{'Rex Bu'},{'Crista'},{'David '},&,1/1,&
+&,{'Steve '},{'David '},{'Christ'},{'Rex Bu'},{'Crista'},,&,1/1,&
 &,{'Steve '},{'David '},{'Christ'},{'Rex Bu'},{'Harris'},{'Jonath'},&,1/1,&
 &,{'Steve '},{'David '},{'Crista'},{'Dan Gi'},{'Christ'},{'Terry '},&,1/1,&
 &,{'Steve '},{'David '},{'Crista'},{'Kezia '},,,&,1/1,&
@@ -27869,7 +27869,7 @@ False
 &,{'Steve '},{'Harris'},{'Daniel'},{'Jonath'},,,&,1/1,&
 &,{'Steve '},{'Harris'},{'Daniel'},,,,&,4/1,&
 &,{'Steve '},{'Harris'},{'David '},{'Angeli'},{'Jesse '},{'Kezia '},&,1/1,&
-&,{'Steve '},{'Harris'},{'Harris'},,,,&,1/1,&
+&,{'Steve '},{'Harris'},,,,,&,1/1,&
 &,{'Steve '},{'Harris'},{'Heart '},{'Ahlam '},{'Daniel'},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Harris'},{'Heart '},{'Terry '},{'David '},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Harris'},{'Jaclyn'},{'Angeli'},{'Luke Z'},,&,1/1,&
@@ -27898,7 +27898,7 @@ False
 &,{'Steve '},{'Harris'},{'Jonath'},{'Kezia '},{'Melodi'},{'Matthe'},&,1/1,&
 &,{'Steve '},{'Harris'},{'Jonath'},{'Kezia '},{'Patric'},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Harris'},{'Jonath'},{'Kezia '},{'Philip'},{'Matthe'},&,1/1,&
-&,{'Steve '},{'Harris'},{'Jonath'},{'Melodi'},{'Rex Bu'},{'Melodi'},&,1/1,&
+&,{'Steve '},{'Harris'},{'Jonath'},{'Melodi'},{'Rex Bu'},,&,1/1,&
 &,{'Steve '},{'Harris'},{'Jonath'},{'Rex Bu'},{'David '},{'Terry '},&,1/1,&
 &,{'Steve '},{'Harris'},{'Jonath'},{'Rex Bu'},{'David '},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Harris'},{'Jonath'},{'Sandee'},,,&,1/1,&
@@ -27956,7 +27956,7 @@ False
 &,{'Steve '},{'Harris'},{'Luke Z'},,,,&,2/1,&
 &,{'Steve '},{'Harris'},{'Matthe'},{'Kezia '},{'Angeli'},{'Chris '},&,1/1,&
 &,{'Steve '},{'Harris'},{'Matthe'},{'Kezia '},,,&,1/1,&
-&,{'Steve '},{'Harris'},{'Matthe'},{'Melodi'},{'Rex Bu'},{'Harris'},&,1/1,&
+&,{'Steve '},{'Harris'},{'Matthe'},{'Melodi'},{'Rex Bu'},,&,1/1,&
 &,{'Steve '},{'Harris'},{'Matthe'},{'Patric'},{'Kezia '},{'Theo H'},&,1/1,&
 &,{'Steve '},{'Harris'},{'Matthe'},{'Patric'},{'Kezia '},,&,1/1,&
 &,{'Steve '},{'Harris'},{'Matthe'},{'Philip'},{'Tiffan'},{'Brian '},&,1/1,&
@@ -28339,18 +28339,18 @@ False
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Angeli'},{'Tiffan'},{'Crista'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Angeli'},,,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Chris '},{'Angeli'},{'Luke Z'},&,1/1,&
-&,{'Steve '},{'Jesse '},{'Daniel'},{'Chris '},{'John S'},{'Steve '},&,1/1,&
+&,{'Steve '},{'Jesse '},{'Daniel'},{'Chris '},{'John S'},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Chris '},{'Kezia '},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Chris '},{'Philip'},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Chris '},{'Tiffan'},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Crista'},{'Kelly '},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Crista'},{'Matthe'},{'Rex Bu'},&,2/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Crista'},{'Philip'},{'Rex Bu'},&,1/1,&
-&,{'Steve '},{'Jesse '},{'Daniel'},{'Harris'},{'Daniel'},{'Kezia '},&,1/1,&
+&,{'Steve '},{'Jesse '},{'Daniel'},{'Harris'},{'Kezia '},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Harris'},{'Heart '},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Harris'},{'Jonath'},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Harris'},{'Kezia '},{'Rex Bu'},&,1/1,&
-&,{'Steve '},{'Jesse '},{'Daniel'},{'Jesse '},{'Terry '},{'Rex Bu'},&,1/1,&
+&,{'Steve '},{'Jesse '},{'Daniel'},{'Terry '},{'Rex Bu'},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Jonath'},{'Chris '},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Jonath'},{'Harris'},{'Dan Gi'},&,2/1,&
 &,{'Steve '},{'Jesse '},{'Daniel'},{'Jonath'},{'Rex Bu'},{'Angeli'},&,1/1,&
@@ -28529,7 +28529,7 @@ False
 &,{'Steve '},{'Jesse '},{'Kezia '},{'Harris'},,,&,4/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},{'Heart '},{'Christ'},{'Jonath'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},{'Heart '},,,&,1/1,&
-&,{'Steve '},{'Jesse '},{'Kezia '},{'Jesse '},{'Crista'},{'Dan Gi'},&,1/1,&
+&,{'Steve '},{'Jesse '},{'Kezia '},{'Crista'},{'Dan Gi'},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},{'John S'},{'Ahlam '},{'Angeli'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},{'John S'},{'Tiffan'},{'Angeli'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},{'Jonath'},{'Angeli'},{'Sandee'},&,1/1,&
@@ -28616,7 +28616,7 @@ False
 &,{'Steve '},{'Jesse '},{'Kezia '},{'Tiffan'},{'Rex Bu'},{'Angeli'},&,6/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},{'Tiffan'},{'Rex Bu'},{'Chris '},&,2/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},{'Tiffan'},{'Rex Bu'},,&,3/1,&
-&,{'Steve '},{'Jesse '},{'Kezia '},{'Tiffan'},{'Steve '},{'Brian '},&,1/1,&
+&,{'Steve '},{'Jesse '},{'Kezia '},{'Tiffan'},{'Brian '},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},{'Tiffan'},,,&,8/1,&
 &,{'Steve '},{'Jesse '},{'Kezia '},,,,&,104/1,&
 &,{'Steve '},{'Jesse '},{'Luke Z'},{'Chris '},{'Tiffan'},{'Ahlam '},&,1/1,&
@@ -28625,7 +28625,7 @@ False
 &,{'Steve '},{'Jesse '},{'Luke Z'},{'Daniel'},{'Rex Bu'},{'Sandee'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Luke Z'},{'Daniel'},,,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Luke Z'},{'Harris'},{'Kezia '},{'Rex Bu'},&,1/1,&
-&,{'Steve '},{'Jesse '},{'Luke Z'},{'Jesse '},{'Crista'},{'Rex Bu'},&,1/1,&
+&,{'Steve '},{'Jesse '},{'Luke Z'},{'Crista'},{'Rex Bu'},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Luke Z'},{'Sandee'},{'Rex Bu'},{'Crista'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Luke Z'},{'Tiffan'},{'Angeli'},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Luke Z'},{'Tiffan'},{'Rex Bu'},,&,1/1,&
@@ -28737,7 +28737,7 @@ False
 &,{'Steve '},{'Jesse '},{'Rex Bu'},{'Angeli'},{'Tiffan'},{'Jonath'},&,2/1,&
 &,{'Steve '},{'Jesse '},{'Rex Bu'},{'Angeli'},{'Tiffan'},{'Kezia '},&,3/1,&
 &,{'Steve '},{'Jesse '},{'Rex Bu'},{'Angeli'},{'Tiffan'},{'Luke Z'},&,2/1,&
-&,{'Steve '},{'Jesse '},{'Rex Bu'},{'Angeli'},{'Tiffan'},{'Tiffan'},&,1/1,&
+&,{'Steve '},{'Jesse '},{'Rex Bu'},{'Angeli'},{'Tiffan'},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Rex Bu'},{'Angeli'},{'Tiffan'},,&,10/1,&
 &,{'Steve '},{'Jesse '},{'Rex Bu'},{'Angeli'},,,&,8/1,&
 &,{'Steve '},{'Jesse '},{'Rex Bu'},{'Chris '},{'Angeli'},{'Crista'},&,1/1,&
@@ -28922,7 +28922,7 @@ False
 &,{'Steve '},{'Jesse '},{'Tiffan'},{'Crista'},{'Philip'},{'Chris '},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Tiffan'},{'Crista'},{'Philip'},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Tiffan'},{'Crista'},{'Rex Bu'},{'Philip'},&,3/1,&
-&,{'Steve '},{'Jesse '},{'Tiffan'},{'Crista'},{'Tiffan'},{'Chris '},&,1/1,&
+&,{'Steve '},{'Jesse '},{'Tiffan'},{'Crista'},{'Chris '},,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Tiffan'},{'Crista'},,,&,1/1,&
 &,{'Steve '},{'Jesse '},{'Tiffan'},{'Daniel'},{'Angeli'},{'Jonath'},&,1/1,&
 &,{'Steve '},{'Jesse '},{'Tiffan'},{'Daniel'},{'Angeli'},{'Kezia '},&,2/1,&
@@ -29508,7 +29508,7 @@ False
 &,{'Steve '},{'Kezia '},{'Daniel'},{'Tiffan'},{'Chris '},{'Crista'},&,1/1,&
 &,{'Steve '},{'Kezia '},{'Daniel'},{'Tiffan'},{'Jesse '},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Kezia '},{'Daniel'},{'Tiffan'},{'Philip'},{'Jesse '},&,1/1,&
-&,{'Steve '},{'Kezia '},{'Daniel'},{'Tiffan'},{'Philip'},{'Philip'},&,1/1,&
+&,{'Steve '},{'Kezia '},{'Daniel'},{'Tiffan'},{'Philip'},,&,1/1,&
 &,{'Steve '},{'Kezia '},{'Daniel'},,,,&,1/1,&
 &,{'Steve '},{'Kezia '},{'Daniel'},{'Jonath'},{'Matthe'},,&,1/1,&
 &,{'Steve '},{'Kezia '},{'Daniel'},,,,&,23/1,&
@@ -29600,7 +29600,7 @@ False
 &,{'Steve '},{'Kezia '},{'Jesse '},{'Angeli'},{'Harris'},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Kezia '},{'Jesse '},{'Angeli'},{'Harris'},{'Tiffan'},&,2/1,&
 &,{'Steve '},{'Kezia '},{'Jesse '},{'Angeli'},{'Kelly '},{'Crista'},&,1/1,&
-&,{'Steve '},{'Kezia '},{'Jesse '},{'Angeli'},{'Kezia '},,&,1/1,&
+&,{'Steve '},{'Kezia '},{'Jesse '},{'Angeli'},,,&,1/1,&
 &,{'Steve '},{'Kezia '},{'Jesse '},{'Angeli'},{'Philip'},{'Crista'},&,3/1,&
 &,{'Steve '},{'Kezia '},{'Jesse '},{'Angeli'},{'Philip'},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Kezia '},{'Jesse '},{'Angeli'},{'Philip'},,&,1/1,&
@@ -30259,7 +30259,7 @@ False
 &,{'Steve '},{'Luke Z'},{'Philip'},{'Rex Bu'},{'Angeli'},{'Chris '},&,1/1,&
 &,{'Steve '},{'Luke Z'},{'Rex Bu'},{'Dan Gi'},{'Terry '},{'Jaclyn'},&,1/1,&
 &,{'Steve '},{'Luke Z'},{'Rex Bu'},,,,&,2/1,&
-&,{'Steve '},{'Luke Z'},{'Sandee'},{'Sandee'},,,&,1/1,&
+&,{'Steve '},{'Luke Z'},{'Sandee'},,,,&,1/1,&
 &,{'Steve '},{'Luke Z'},{'Terry '},{'Heart '},{'Angeli'},{'Ahlam '},&,1/1,&
 &,{'Steve '},{'Luke Z'},{'Theo H'},{'Kennet'},{'Sandee'},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Luke Z'},{'Tiffan'},{'Angeli'},{'Chris '},{'Rex Bu'},&,2/1,&
@@ -30386,7 +30386,7 @@ False
 &,{'Steve '},{'Melodi'},{'Matthe'},{'Dan Gi'},{'Angeli'},{'Jesse '},&,2/1,&
 &,{'Steve '},{'Melodi'},{'Philip'},{'Crista'},{'Angeli'},{'Jesse '},&,1/1,&
 &,{'Steve '},{'Melodi'},{'Philip'},{'Crista'},{'Rex Bu'},{'Angeli'},&,1/1,&
-&,{'Steve '},{'Melodi'},{'Philip'},{'Philip'},{'Jonath'},{'Ahlam '},&,1/1,&
+&,{'Steve '},{'Melodi'},{'Philip'},{'Jonath'},{'Ahlam '},,&,1/1,&
 &,{'Steve '},{'Melodi'},{'Philip'},{'Rex Bu'},{'Chris '},{'Jesse '},&,1/1,&
 &,{'Steve '},{'Melodi'},{'Philip'},,,,&,1/1,&
 &,{'Steve '},{'Melodi'},{'Rex Bu'},{'Angeli'},{'Brian '},{'Luke Z'},&,1/1,&
@@ -30409,7 +30409,7 @@ False
 &,{'Steve '},{'Patric'},{'Angeli'},{'David '},{'Melodi'},,&,1/1,&
 &,{'Steve '},{'Patric'},{'Daniel'},{'Ahlam '},{'Matthe'},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Patric'},{'David '},{'Sandee'},{'Jesse '},{'Matthe'},&,1/1,&
-&,{'Steve '},{'Patric'},{'Harris'},{'Terry '},{'Brian '},{'Harris'},&,1/1,&
+&,{'Steve '},{'Patric'},{'Harris'},{'Terry '},{'Brian '},,&,1/1,&
 &,{'Steve '},{'Patric'},{'Harris'},{'David '},{'Jaclyn'},,&,1/1,&
 &,{'Steve '},{'Patric'},{'Jesse '},{'Chris '},{'Rex Bu'},,&,1/1,&
 &,{'Steve '},{'Patric'},{'Kezia '},{'Jesse '},{'Philip'},{'Tiffan'},&,1/1,&
@@ -30544,9 +30544,9 @@ False
 &,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Chris '},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Chris '},,&,2/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Christ'},{'Jesse '},&,1/1,&
-&,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Crista'},{'Jesse '},&,1/1,&
+&,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Jesse '},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Jaclyn'},{'Luke Z'},&,1/1,&
-&,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Jesse '},{'Angeli'},&,1/1,&
+&,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Jesse '},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Jesse '},{'Chris '},&,4/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Jesse '},{'Daniel'},&,5/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Jesse '},{'John S'},&,1/1,&
@@ -30605,8 +30605,8 @@ False
 &,{'Steve '},{'Philip'},{'Crista'},{'Christ'},{'Rex Bu'},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Christ'},{'Tiffan'},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Christ'},,,&,4/1,&
-&,{'Steve '},{'Philip'},{'Crista'},{'Crista'},{'Angeli'},{'Brian '},&,1/1,&
-&,{'Steve '},{'Philip'},{'Crista'},{'Crista'},{'Angeli'},{'Jesse '},&,1/1,&
+&,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Brian '},,&,1/1,&
+&,{'Steve '},{'Philip'},{'Crista'},{'Angeli'},{'Jesse '},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Daniel'},{'Chris '},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Daniel'},{'Harris'},{'Kezia '},&,2/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Daniel'},{'Jesse '},{'Angeli'},&,1/1,&
@@ -30691,7 +30691,7 @@ False
 &,{'Steve '},{'Philip'},{'Crista'},{'Jonath'},{'Rex Bu'},{'Jesse '},&,2/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Jonath'},{'Rex Bu'},,&,2/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Jonath'},,,&,8/1,&
-&,{'Steve '},{'Philip'},{'Crista'},{'Kennet'},{'Kennet'},{'Jesse '},&,1/1,&
+&,{'Steve '},{'Philip'},{'Crista'},{'Kennet'},{'Jesse '},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Kennet'},{'Theo H'},{'Heart '},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Kezia '},{'Angeli'},{'Jesse '},&,3/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Kezia '},{'Angeli'},{'Rex Bu'},&,1/1,&
@@ -30795,8 +30795,8 @@ False
 &,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Melodi'},{'Angeli'},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Melodi'},{'Heart '},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Melodi'},,&,1/1,&
-&,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Patric'},{'Rex Bu'},&,1/1,&
-&,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Rex Bu'},{'Angeli'},&,1/1,&
+&,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Patric'},,&,1/1,&
+&,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Angeli'},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Sandee'},{'Jesse '},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Terry '},{'Daniel'},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Rex Bu'},{'Tiffan'},{'Angeli'},&,8/1,&
@@ -30840,7 +30840,7 @@ False
 &,{'Steve '},{'Philip'},{'Crista'},{'Tiffan'},{'Matthe'},{'Angeli'},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Tiffan'},{'Melodi'},{'Heart '},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Angeli'},&,9/1,&
-&,{'Steve '},{'Philip'},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Crista'},&,2/1,&
+&,{'Steve '},{'Philip'},{'Crista'},{'Tiffan'},{'Rex Bu'},,&,2/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Daniel'},&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Jesse '},&,4/1,&
 &,{'Steve '},{'Philip'},{'Crista'},{'Tiffan'},{'Rex Bu'},{'Kezia '},&,1/1,&
@@ -30903,7 +30903,7 @@ False
 &,{'Steve '},{'Philip'},{'Heart '},{'Angeli'},{'Kezia '},{'Rex Bu'},&,1/1,&
 &,{'Steve '},{'Philip'},{'Heart '},{'Kezia '},{'Daniel'},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Jaclyn'},,,,&,1/1,&
-&,{'Steve '},{'Philip'},{'Jesse '},{'Angeli'},{'Crista'},{'Angeli'},&,1/1,&
+&,{'Steve '},{'Philip'},{'Jesse '},{'Angeli'},{'Crista'},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Jesse '},{'Angeli'},{'Crista'},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Philip'},{'Jesse '},{'Angeli'},{'Crista'},{'Rex Bu'},&,2/1,&
 &,{'Steve '},{'Philip'},{'Jesse '},{'Angeli'},{'Crista'},{'Tiffan'},&,1/1,&
@@ -31215,7 +31215,7 @@ False
 &,{'Steve '},{'Philip'},{'Sandee'},{'Crista'},,,&,1/1,&
 &,{'Steve '},{'Philip'},{'Sandee'},{'Jesse '},{'Angeli'},{'Melodi'},&,1/1,&
 &,{'Steve '},{'Philip'},{'Sandee'},{'Jonath'},{'Daniel'},{'Jesse '},&,2/1,&
-&,{'Steve '},{'Philip'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Jesse '},&,1/1,&
+&,{'Steve '},{'Philip'},{'Rex Bu'},{'Angeli'},{'Jesse '},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Terry '},{'Jesse '},{'John S'},{'Patric'},&,1/1,&
 &,{'Steve '},{'Philip'},{'Terry '},,,,&,3/1,&
 &,{'Steve '},{'Philip'},{'Theo H'},{'Rex Bu'},{'Angeli'},{'Ahlam '},&,1/1,&
@@ -31645,7 +31645,7 @@ False
 &,{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},{'Angeli'},{'Chris '},&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},{'Angeli'},,&,2/1,&
 &,{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},{'Daniel'},{'Kezia '},&,2/1,&
-&,{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},{'Jesse '},{'Kezia '},&,1/1,&
+&,{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},{'Kezia '},,&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},{'Jonath'},{'Angeli'},&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},{'Kennet'},{'Philip'},&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},{'Kezia '},{'Tiffan'},&,1/1,&
@@ -32001,7 +32001,7 @@ False
 &,{'Steve '},{'Rex Bu'},{'Philip'},{'Crista'},{'Jonath'},{'Dan Gi'},&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Philip'},{'Crista'},{'Jonath'},{'Tiffan'},&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Philip'},{'Crista'},{'Kezia '},{'Jesse '},&,1/1,&
-&,{'Steve '},{'Rex Bu'},{'Philip'},{'Crista'},{'Philip'},,&,1/1,&
+&,{'Steve '},{'Rex Bu'},{'Philip'},{'Crista'},,,&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Philip'},{'Crista'},{'Sandee'},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Philip'},{'Crista'},{'Tiffan'},{'Angeli'},&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'Philip'},{'Crista'},{'Tiffan'},{'Daniel'},&,1/1,&
@@ -32276,10 +32276,10 @@ False
 &,{'Steve '},{'Sandee'},{'Tiffan'},{'Rex Bu'},{'Kennet'},{'Heart '},&,1/1,&
 &,{'Steve '},{'Sandee'},{'Tiffan'},,,,&,1/1,&
 &,{'Steve '},{'Sandee'},,,,,&,10/1,&
-&,{'Steve '},{'Steve '},{'Angeli'},{'Angeli'},{'Christ'},{'Christ'},&,2/1,&
-&,{'Steve '},{'Steve '},{'Christ'},{'Jonath'},{'Jonath'},,&,1/1,&
-&,{'Steve '},{'Steve '},{'Steve '},{'Steve '},{'Steve '},{'Steve '},&,14/1,&
-&,{'Steve '},{'Steve '},{'Steve '},,,,&,1/1,&
+&,{'Steve '},{'Angeli'},{'Christ'},,,,&,2/1,&
+&,{'Steve '},{'Christ'},{'Jonath'},,,,&,1/1,&
+&,{'Steve '},,,,,,&,14/1,&
+&,{'Steve '},,,,,,&,1/1,&
 &,{'Steve '},{'Terry '},{'Angeli'},{'Harris'},,,&,1/1,&
 &,{'Steve '},{'Terry '},{'Angeli'},{'Jesse '},{'Jaclyn'},{'Luke Z'},&,1/1,&
 &,{'Steve '},{'Terry '},{'Angeli'},{'Melodi'},{'Sandee'},{'Ahlam '},&,1/1,&
@@ -32493,7 +32493,7 @@ False
 &,{'Steve '},{'Tiffan'},{'Angeli'},{'Luke Z'},{'Rex Bu'},{'Ahlam '},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Angeli'},{'Matthe'},{'Ahlam '},{'Crista'},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Angeli'},{'Matthe'},,,&,1/1,&
-&,{'Steve '},{'Tiffan'},{'Angeli'},{'Melodi'},{'Angeli'},{'Chris '},&,1/1,&
+&,{'Steve '},{'Tiffan'},{'Angeli'},{'Melodi'},{'Chris '},,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Angeli'},{'Melodi'},{'Crista'},,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Angeli'},{'Melodi'},{'Sandee'},,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Angeli'},{'Melodi'},,,&,1/1,&
@@ -32675,7 +32675,7 @@ False
 &,{'Steve '},{'Tiffan'},{'Crista'},{'Sandee'},,,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Crista'},{'Theo H'},{'Jesse '},{'Jonath'},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Crista'},{'Theo H'},{'Rex Bu'},{'Brian '},&,1/1,&
-&,{'Steve '},{'Tiffan'},{'Crista'},{'Tiffan'},{'Angeli'},{'Kezia '},&,1/1,&
+&,{'Steve '},{'Tiffan'},{'Crista'},{'Angeli'},{'Kezia '},,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Crista'},{'Melodi'},,,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Crista'},,,,&,12/1,&
 &,{'Steve '},{'Tiffan'},{'Dan Gi'},{'Brian '},,,&,1/1,&
@@ -32718,7 +32718,7 @@ False
 &,{'Steve '},{'Tiffan'},{'Harris'},{'Melodi'},{'Terry '},,&,2/1,&
 &,{'Steve '},{'Tiffan'},{'Harris'},{'Rex Bu'},{'Jesse '},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Harris'},{'Rex Bu'},{'Philip'},{'Jesse '},&,1/1,&
-&,{'Steve '},{'Tiffan'},{'Harris'},{'Rex Bu'},{'Philip'},{'Tiffan'},&,1/1,&
+&,{'Steve '},{'Tiffan'},{'Harris'},{'Rex Bu'},{'Philip'},,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Harris'},{'Sandee'},{'Crista'},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Harris'},{'Sandee'},{'Heart '},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Harris'},,,,&,1/1,&
@@ -33130,7 +33130,7 @@ False
 &,{'Steve '},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Philip'},{'Crista'},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Philip'},{'Jesse '},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Philip'},,&,1/1,&
-&,{'Steve '},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Rex Bu'},,&,1/1,&
+&,{'Steve '},{'Tiffan'},{'Rex Bu'},{'Angeli'},,,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Sandee'},{'Jonath'},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Rex Bu'},{'Angeli'},,,&,9/1,&
 &,{'Steve '},{'Tiffan'},{'Rex Bu'},{'Brian '},{'Jesse '},{'Angeli'},&,1/1,&
@@ -33217,7 +33217,7 @@ False
 &,{'Steve '},{'Tiffan'},{'Sandee'},{'Matthe'},{'Kelly '},,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Sandee'},{'Rex Bu'},{'Terry '},{'Jesse '},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Sandee'},,,,&,3/1,&
-&,{'Steve '},{'Tiffan'},{'Steve '},,,,&,1/1,&
+&,{'Steve '},{'Tiffan'},,,,,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Terry '},{'Matthe'},{'Jonath'},{'Kezia '},&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Terry '},{'Kennet'},{'Harris'},,&,1/1,&
 &,{'Steve '},{'Tiffan'},{'Theo H'},{'Jesse '},{'Harris'},{'Crista'},&,2/1,&
@@ -33515,7 +33515,7 @@ False
 &,{'Terry '},{'Steve '},{'Tiffan'},{'Brian '},{'Jesse '},{'John S'},&,1/1,&
 &,{'Terry '},{'Steve '},{'Brian '},,,,&,1/1,&
 &,{'Terry '},{'Steve '},,,,,&,2/1,&
-&,{'Terry '},{'Terry '},{'Terry '},{'Terry '},{'Terry '},{'Terry '},&,4/1,&
+&,{'Terry '},,,,,,&,4/1,&
 &,{'Terry '},{'Tiffan'},{'Heart '},{'Jesse '},{'Angeli'},,&,1/1,&
 &,{'Terry '},{'Tiffan'},{'Melodi'},{'Sandee'},{'Kezia '},{'Kelly '},&,1/1,&
 &,{'Terry '},{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jonath'},{'Christ'},&,1/1,&
@@ -33571,7 +33571,7 @@ False
 &,{'Theo H'},{'Cliffo'},{'Luke Z'},{'Kelly '},{'David '},{'Kezia '},&,1/1,&
 &,{'Theo H'},{'Crista'},{'Angeli'},{'Chris '},{'Jonath'},{'Heart '},&,1/1,&
 &,{'Theo H'},{'Crista'},{'Angeli'},{'Philip'},{'Ahlam '},{'Tiffan'},&,1/1,&
-&,{'Theo H'},{'Crista'},{'Brian '},{'Theo H'},{'Crista'},{'Jaclyn'},&,1/1,&
+&,{'Theo H'},{'Crista'},{'Brian '},{'Jaclyn'},,,&,1/1,&
 &,{'Theo H'},{'Crista'},{'Sandee'},{'Rex Bu'},,,&,1/1,&
 &,{'Theo H'},{'Crista'},{'Terry '},{'Chris '},{'Melodi'},,&,1/1,&
 &,{'Theo H'},{'Dan Gi'},{'Melodi'},{'Crista'},,,&,1/1,&
@@ -33687,7 +33687,7 @@ False
 &,{'Theo H'},{'Tiffan'},,,,,&,2/1,&
 &,{'Theo H'},{'Crista'},{'Christ'},,,,&,1/1,&
 &,{'Theo H'},,,,,,&,31/1,&
-&,{'Tiffan'},{'Ahlam '},{'Angeli'},{'Ahlam '},{'Chris '},{'Chris '},&,1/1,&
+&,{'Tiffan'},{'Ahlam '},{'Angeli'},{'Chris '},,,&,1/1,&
 &,{'Tiffan'},{'Ahlam '},{'Angeli'},{'Brian '},{'Chris '},,&,1/1,&
 &,{'Tiffan'},{'Ahlam '},{'Angeli'},{'Brian '},{'Theo H'},{'Chris '},&,3/1,&
 &,{'Tiffan'},{'Ahlam '},{'Angeli'},{'Brian '},{'Theo H'},,&,1/1,&
@@ -33881,7 +33881,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Ahlam '},{'Brian '},{'Theo H'},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Ahlam '},{'Brian '},{'Theo H'},,&,3/1,&
 &,{'Tiffan'},{'Angeli'},{'Ahlam '},{'Brian '},,,&,1/1,&
-&,{'Tiffan'},{'Angeli'},{'Ahlam '},{'Chris '},{'Ahlam '},,&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Ahlam '},{'Chris '},,,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Ahlam '},{'Chris '},{'Brian '},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Ahlam '},{'Chris '},{'Brian '},{'Jaclyn'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Ahlam '},{'Chris '},{'Brian '},{'Philip'},&,1/1,&
@@ -34174,7 +34174,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},{'Jesse '},&,8/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},{'Jonath'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},{'Kezia '},&,4/1,&
-&,{'Tiffan'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},{'Luke Z'},&,2/1,&
+&,{'Tiffan'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},,&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},{'Philip'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},{'Rex Bu'},&,12/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},{'Sandee'},&,2/1,&
@@ -34219,7 +34219,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Brian '},{'Ahlam '},{'Rex Bu'},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Brian '},{'Ahlam '},{'Theo H'},&,16/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Brian '},{'Ahlam '},,&,2/1,&
-&,{'Tiffan'},{'Angeli'},{'Chris '},{'Brian '},{'Chris '},{'Kennet'},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Chris '},{'Brian '},{'Kennet'},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Brian '},{'Crista'},{'Heart '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Brian '},{'Crista'},{'Luke Z'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Chris '},{'Brian '},{'Crista'},{'Theo H'},&,1/1,&
@@ -34823,7 +34823,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Chris '},{'Ahlam '},{'Rex Bu'},&,3/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Chris '},{'Ahlam '},{'Steve '},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Chris '},{'Ahlam '},,&,3/1,&
-&,{'Tiffan'},{'Angeli'},{'Jesse '},{'Chris '},{'Angeli'},{'Daniel'},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Jesse '},{'Chris '},{'Daniel'},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Chris '},{'Brian '},{'Dan Gi'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Chris '},{'Brian '},{'Harris'},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Chris '},{'Brian '},{'Luke Z'},&,2/1,&
@@ -34908,7 +34908,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Daniel'},{'Luke Z'},{'Sandee'},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Daniel'},{'Luke Z'},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Daniel'},{'Rex Bu'},{'Brian '},&,2/1,&
-&,{'Tiffan'},{'Angeli'},{'Jesse '},{'Daniel'},{'Rex Bu'},{'Daniel'},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Jesse '},{'Daniel'},{'Rex Bu'},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Daniel'},{'Rex Bu'},{'Philip'},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Daniel'},{'Rex Bu'},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Daniel'},{'Steve '},{'Ahlam '},&,1/1,&
@@ -34937,7 +34937,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Kezia '},{'Daniel'},{'Luke Z'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Kezia '},{'Harris'},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Kezia '},{'Harris'},,&,1/1,&
-&,{'Tiffan'},{'Angeli'},{'Jesse '},{'Kezia '},{'Jesse '},{'Angeli'},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Jesse '},{'Kezia '},,,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Kezia '},{'Luke Z'},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Kezia '},{'Rex Bu'},{'Cliffo'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Jesse '},{'Kezia '},{'Rex Bu'},{'Daniel'},&,1/1,&
@@ -35209,7 +35209,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Kezia '},{'Jesse '},{'Chris '},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Kezia '},{'Jesse '},{'Daniel'},{'Luke Z'},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Kezia '},{'Jesse '},{'Daniel'},{'Steve '},&,1/1,&
-&,{'Tiffan'},{'Angeli'},{'Kezia '},{'Jesse '},{'Steve '},{'Jesse '},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Kezia '},{'Jesse '},{'Steve '},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Kezia '},{'Jesse '},{'Steve '},{'Melodi'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Kezia '},{'Jesse '},{'Steve '},{'Rex Bu'},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Kezia '},{'Jonath'},{'Melodi'},{'Rex Bu'},&,1/1,&
@@ -35295,7 +35295,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Luke Z'},{'Harris'},,,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Luke Z'},{'Heart '},,,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Luke Z'},{'Jesse '},{'Ahlam '},{'Chris '},&,1/1,&
-&,{'Tiffan'},{'Angeli'},{'Luke Z'},{'Jesse '},{'Chris '},{'Chris '},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Luke Z'},{'Jesse '},{'Chris '},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Luke Z'},{'Jesse '},{'Chris '},{'Rex Bu'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Luke Z'},{'Jesse '},{'Chris '},,&,4/1,&
 &,{'Tiffan'},{'Angeli'},{'Luke Z'},{'Jesse '},{'Jonath'},{'Chris '},&,1/1,&
@@ -35441,7 +35441,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Ahlam '},{'Steve '},{'Cliffo'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Ahlam '},{'Steve '},{'Philip'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Ahlam '},,,&,6/1,&
-&,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Angeli'},,,&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Rex Bu'},,,,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Brian '},{'Chris '},{'Luke Z'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Brian '},{'Heart '},{'Luke Z'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Brian '},{'Jesse '},{'Luke Z'},&,1/1,&
@@ -35557,7 +35557,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Jesse '},{'Steve '},{'Cliffo'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Jesse '},{'Steve '},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Jesse '},{'Steve '},{'Daniel'},&,1/1,&
-&,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Jesse '},{'Steve '},{'Jesse '},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Jesse '},{'Steve '},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Jesse '},{'Steve '},{'Jonath'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Jesse '},{'Steve '},{'Kezia '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Rex Bu'},{'Jesse '},{'Steve '},{'Luke Z'},&,1/1,&
@@ -35739,7 +35739,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Chris '},{'Jonath'},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Chris '},{'Kezia '},,&,3/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Chris '},{'Luke Z'},{'Ahlam '},&,10/1,&
-&,{'Tiffan'},{'Angeli'},{'Steve '},{'Chris '},{'Luke Z'},{'Chris '},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Steve '},{'Chris '},{'Luke Z'},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Chris '},{'Luke Z'},{'Crista'},&,3/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Chris '},{'Luke Z'},{'Daniel'},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Chris '},{'Luke Z'},{'Jesse '},&,13/1,&
@@ -35804,7 +35804,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Dan Gi'},{'Rex Bu'},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Dan Gi'},,,&,3/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},{'Ahlam '},{'Crista'},&,2/1,&
-&,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},{'Angeli'},{'Steve '},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},,,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},{'Chris '},{'Ahlam '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},{'Crista'},{'Jesse '},&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},{'Crista'},{'Jonath'},&,2/1,&
@@ -35819,7 +35819,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},{'Rex Bu'},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},{'Chris '},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Daniel'},,,&,8/1,&
-&,{'Tiffan'},{'Angeli'},{'Steve '},{'Harris'},{'Chris '},{'Steve '},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Steve '},{'Harris'},{'Chris '},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Harris'},{'Crista'},{'Philip'},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Harris'},,,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Heart '},{'Jaclyn'},{'Sandee'},&,1/1,&
@@ -35981,7 +35981,7 @@ False
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Melodi'},{'Jesse '},{'Chris '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Melodi'},{'Kezia '},,&,2/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Melodi'},{'Rex Bu'},{'Dan Gi'},&,1/1,&
-&,{'Tiffan'},{'Angeli'},{'Steve '},{'Melodi'},{'Rex Bu'},{'Steve '},&,1/1,&
+&,{'Tiffan'},{'Angeli'},{'Steve '},{'Melodi'},{'Rex Bu'},,&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Melodi'},{'Sandee'},{'Ahlam '},&,1/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Melodi'},,,&,4/1,&
 &,{'Tiffan'},{'Angeli'},{'Steve '},{'Patric'},{'Brian '},{'Christ'},&,1/1,&
@@ -36212,7 +36212,7 @@ False
 &,{'Tiffan'},{'Chris '},{'Ahlam '},{'Angeli'},{'Philip'},{'Matthe'},&,2/1,&
 &,{'Tiffan'},{'Chris '},{'Ahlam '},{'Angeli'},{'Steve '},{'Jesse '},&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Ahlam '},{'Angeli'},{'Theo H'},{'Brian '},&,5/1,&
-&,{'Tiffan'},{'Chris '},{'Ahlam '},{'Angeli'},{'Theo H'},{'Chris '},&,1/1,&
+&,{'Tiffan'},{'Chris '},{'Ahlam '},{'Angeli'},{'Theo H'},,&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Ahlam '},{'Angeli'},{'Theo H'},,&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Ahlam '},{'Angeli'},{'Brian '},,&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Ahlam '},{'Brian '},{'Angeli'},{'Theo H'},&,2/1,&
@@ -36377,8 +36377,8 @@ False
 &,{'Tiffan'},{'Chris '},{'Brian '},{'Jesse '},{'Angeli'},{'Luke Z'},&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Brian '},{'Luke Z'},{'Angeli'},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Brian '},{'Theo H'},{'Rex Bu'},,&,1/1,&
-&,{'Tiffan'},{'Chris '},{'Chris '},{'Luke Z'},{'Theo H'},{'Heart '},&,1/1,&
-&,{'Tiffan'},{'Chris '},{'Chris '},{'Patric'},{'Theo H'},{'Terry '},&,1/1,&
+&,{'Tiffan'},{'Chris '},{'Luke Z'},{'Theo H'},{'Heart '},,&,1/1,&
+&,{'Tiffan'},{'Chris '},{'Patric'},{'Theo H'},{'Terry '},,&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Christ'},{'Matthe'},{'Heart '},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Cliffo'},{'Jesse '},{'Matthe'},{'Steve '},&,2/1,&
 &,{'Tiffan'},{'Chris '},{'Crista'},{'Ahlam '},{'Angeli'},{'Luke Z'},&,1/1,&
@@ -36536,7 +36536,7 @@ False
 &,{'Tiffan'},{'Chris '},{'Steve '},{'Kezia '},{'Angeli'},,&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Steve '},{'Kezia '},,,&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Steve '},{'Melodi'},,,&,1/1,&
-&,{'Tiffan'},{'Chris '},{'Steve '},{'Philip'},{'Crista'},{'Crista'},&,1/1,&
+&,{'Tiffan'},{'Chris '},{'Steve '},{'Philip'},{'Crista'},,&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Steve '},{'Philip'},{'Crista'},,&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Steve '},{'Rex Bu'},{'Kelly '},{'Jesse '},&,1/1,&
 &,{'Tiffan'},{'Chris '},{'Steve '},{'Rex Bu'},,,&,2/1,&
@@ -36784,7 +36784,7 @@ False
 &,{'Tiffan'},{'Crista'},{'Matthe'},{'Chris '},{'Daniel'},{'Jaclyn'},&,1/1,&
 &,{'Tiffan'},{'Crista'},{'Matthe'},{'Heart '},{'Harris'},{'Melodi'},&,1/1,&
 &,{'Tiffan'},{'Crista'},{'Matthe'},{'Philip'},,,&,1/1,&
-&,{'Tiffan'},{'Crista'},{'Matthe'},{'Sandee'},{'Sandee'},,&,1/1,&
+&,{'Tiffan'},{'Crista'},{'Matthe'},{'Sandee'},,,&,1/1,&
 &,{'Tiffan'},{'Crista'},{'Matthe'},{'Sandee'},{'Terry '},{'Jaclyn'},&,1/1,&
 &,{'Tiffan'},{'Crista'},{'Melodi'},{'Angeli'},{'Jesse '},{'Matthe'},&,1/1,&
 &,{'Tiffan'},{'Crista'},{'Melodi'},{'Brian '},{'Rex Bu'},{'Harris'},&,3/1,&
@@ -37101,7 +37101,7 @@ False
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Jesse '},{'Rex Bu'},{'Angeli'},&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Jesse '},{'Steve '},,&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Jonath'},{'Daniel'},{'Theo H'},&,1/1,&
-&,{'Tiffan'},{'Harris'},{'Kezia '},{'Jonath'},{'Jonath'},{'Jonath'},&,1/1,&
+&,{'Tiffan'},{'Harris'},{'Kezia '},{'Jonath'},,,&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Jonath'},{'Matthe'},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Jonath'},{'Sandee'},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Melodi'},{'Jesse '},{'Angeli'},&,1/1,&
@@ -37121,7 +37121,7 @@ False
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Steve '},{'Angeli'},{'Chris '},&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Steve '},{'Angeli'},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Steve '},{'Angeli'},,&,1/1,&
-&,{'Tiffan'},{'Harris'},{'Kezia '},{'Steve '},{'Harris'},{'Christ'},&,1/1,&
+&,{'Tiffan'},{'Harris'},{'Kezia '},{'Steve '},{'Christ'},,&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Steve '},{'Heart '},{'Matthe'},&,1/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Steve '},{'Jesse '},{'Crista'},&,2/1,&
 &,{'Tiffan'},{'Harris'},{'Kezia '},{'Steve '},{'Jesse '},,&,1/1,&
@@ -37950,7 +37950,7 @@ False
 &,{'Tiffan'},{'Kennet'},{'Matthe'},,,,&,1/1,&
 &,{'Tiffan'},{'Kennet'},{'Melodi'},{'Daniel'},,,&,1/1,&
 &,{'Tiffan'},{'Kennet'},{'Patric'},,,,&,1/1,&
-&,{'Tiffan'},{'Kennet'},{'Rex Bu'},{'Philip'},{'Kennet'},{'Kennet'},&,1/1,&
+&,{'Tiffan'},{'Kennet'},{'Rex Bu'},{'Philip'},,,&,1/1,&
 &,{'Tiffan'},{'Kennet'},{'Rex Bu'},{'Theo H'},{'Angeli'},{'Patric'},&,1/1,&
 &,{'Tiffan'},{'Kennet'},{'Steve '},{'Daniel'},{'Rex Bu'},,&,1/1,&
 &,{'Tiffan'},{'Kennet'},{'Steve '},{'Theo H'},{'Jesse '},{'Christ'},&,1/1,&
@@ -38157,7 +38157,7 @@ False
 &,{'Tiffan'},{'Kezia '},{'Harris'},{'Steve '},{'Kelly '},{'Theo H'},&,2/1,&
 &,{'Tiffan'},{'Kezia '},{'Harris'},{'Steve '},{'Matthe'},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Harris'},,,,&,6/1,&
-&,{'Tiffan'},{'Kezia '},{'Heart '},{'Angeli'},{'Jaclyn'},{'Tiffan'},&,1/1,&
+&,{'Tiffan'},{'Kezia '},{'Heart '},{'Angeli'},{'Jaclyn'},,&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Heart '},{'Angeli'},,,&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Heart '},{'Steve '},,,&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Jesse '},{'Angeli'},{'Harris'},{'Steve '},&,1/1,&
@@ -38398,7 +38398,7 @@ False
 &,{'Tiffan'},{'Kezia '},{'Sandee'},{'Daniel'},{'Jesse '},{'Angeli'},&,2/1,&
 &,{'Tiffan'},{'Kezia '},{'Sandee'},{'Jaclyn'},{'Luke Z'},{'Heart '},&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Sandee'},{'Jesse '},{'Angeli'},{'Daniel'},&,1/1,&
-&,{'Tiffan'},{'Kezia '},{'Sandee'},{'Jesse '},{'Jesse '},{'Jesse '},&,1/1,&
+&,{'Tiffan'},{'Kezia '},{'Sandee'},{'Jesse '},,,&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Sandee'},{'Jonath'},{'Terry '},{'John S'},&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Sandee'},{'Matthe'},{'Kelly '},{'John S'},&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Sandee'},{'Melodi'},{'Jonath'},{'Steve '},&,1/1,&
@@ -38426,7 +38426,7 @@ False
 &,{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Daniel'},{'Rex Bu'},&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Jesse '},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Jesse '},{'Daniel'},&,6/1,&
-&,{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Jesse '},{'Jesse '},&,1/1,&
+&,{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Jesse '},,&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Jesse '},{'Luke Z'},&,2/1,&
 &,{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Jesse '},{'Rex Bu'},&,1/1,&
 &,{'Tiffan'},{'Kezia '},{'Steve '},{'Angeli'},{'Jesse '},,&,1/1,&
@@ -38496,7 +38496,7 @@ False
 &,{'Tiffan'},{'Luke Z'},{'Ahlam '},{'Christ'},{'Jonath'},{'Matthe'},&,1/1,&
 &,{'Tiffan'},{'Luke Z'},{'Angeli'},{'Ahlam '},{'Daniel'},{'Jesse '},&,2/1,&
 &,{'Tiffan'},{'Luke Z'},{'Angeli'},{'Ahlam '},{'Melodi'},{'Jaclyn'},&,1/1,&
-&,{'Tiffan'},{'Luke Z'},{'Angeli'},{'Chris '},{'Ahlam '},{'Luke Z'},&,1/1,&
+&,{'Tiffan'},{'Luke Z'},{'Angeli'},{'Chris '},{'Ahlam '},,&,1/1,&
 &,{'Tiffan'},{'Luke Z'},{'Angeli'},{'Chris '},{'Ahlam '},,&,1/1,&
 &,{'Tiffan'},{'Luke Z'},{'Angeli'},{'Chris '},{'Brian '},{'Theo H'},&,1/1,&
 &,{'Tiffan'},{'Luke Z'},{'Angeli'},{'Chris '},{'Brian '},,&,1/1,&
@@ -38629,7 +38629,7 @@ False
 &,{'Tiffan'},{'Matthe'},{'Jesse '},{'Daniel'},{'Kezia '},,&,1/1,&
 &,{'Tiffan'},{'Matthe'},{'Jesse '},{'Steve '},{'Ahlam '},{'Jaclyn'},&,1/1,&
 &,{'Tiffan'},{'Matthe'},{'Jesse '},{'Steve '},,,&,1/1,&
-&,{'Tiffan'},{'Matthe'},{'Jesse '},{'Tiffan'},{'Matthe'},{'Jesse '},&,1/1,&
+&,{'Tiffan'},{'Matthe'},{'Jesse '},,,,&,1/1,&
 &,{'Tiffan'},{'Matthe'},{'Jesse '},,,,&,1/1,&
 &,{'Tiffan'},{'Matthe'},{'Jonath'},{'David '},{'Harris'},{'Luke Z'},&,1/1,&
 &,{'Tiffan'},{'Matthe'},{'Jonath'},{'Kelly '},,,&,1/1,&
@@ -39061,7 +39061,7 @@ False
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Crista'},{'Ahlam '},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Crista'},{'Sandee'},{'Ahlam '},&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Crista'},{'Steve '},{'Angeli'},&,1/1,&
-&,{'Tiffan'},{'Philip'},{'Harris'},{'Harris'},{'Harris'},{'Harris'},&,1/1,&
+&,{'Tiffan'},{'Philip'},{'Harris'},,,,&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Jesse '},{'Daniel'},{'Angeli'},&,2/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Jesse '},{'Melodi'},{'Terry '},&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Jonath'},{'Christ'},{'Melodi'},&,1/1,&
@@ -39070,7 +39070,7 @@ False
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},{'Angeli'},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},{'Dan Gi'},{'Brian '},&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},{'Jonath'},{'Crista'},&,1/1,&
-&,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},{'Jonath'},{'Jonath'},&,2/1,&
+&,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},{'Jonath'},,&,2/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},{'Jonath'},{'Melodi'},&,70/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},{'Jonath'},{'Sandee'},&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},{'Melodi'},{'Ahlam '},&,1/1,&
@@ -39217,7 +39217,7 @@ False
 &,{'Tiffan'},{'Philip'},{'Melodi'},{'Sandee'},{'Rex Bu'},{'Jesse '},&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Melodi'},{'Sandee'},,,&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Melodi'},,,,&,2/1,&
-&,{'Tiffan'},{'Philip'},{'Philip'},{'Philip'},{'Harris'},{'Kezia '},&,1/1,&
+&,{'Tiffan'},{'Philip'},{'Harris'},{'Kezia '},,,&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Rex Bu'},{'Angeli'},{'Brian '},{'Jesse '},&,2/1,&
 &,{'Tiffan'},{'Philip'},{'Rex Bu'},{'Angeli'},{'Brian '},{'Steve '},&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Jonath'},&,1/1,&
@@ -39313,7 +39313,7 @@ False
 &,{'Tiffan'},{'Philip'},{'Theo H'},{'Rex Bu'},{'Brian '},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Philip'},,,,,&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Dan Gi'},{'Chris '},{'Luke Z'},,&,1/1,&
-&,{'Tiffan'},{'Philip'},{'Tiffan'},,,,&,1/1,&
+&,{'Tiffan'},{'Philip'},,,,,&,1/1,&
 &,{'Tiffan'},{'Philip'},{'Daniel'},,,,&,1/1,&
 &,{'Tiffan'},{'Philip'},,,,,&,21/1,&
 &,{'Tiffan'},{'Rex Bu'},{'Ahlam '},{'Angeli'},{'Brian '},{'Jesse '},&,2/1,&
@@ -39412,7 +39412,7 @@ False
 &,{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Chris '},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Chris '},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Chris '},{'Heart '},&,1/1,&
-&,{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Chris '},{'Jesse '},&,1/1,&
+&,{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Chris '},,&,1/1,&
 &,{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Chris '},{'Luke Z'},&,4/1,&
 &,{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Chris '},{'Steve '},&,2/1,&
 &,{'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Crista'},{'Steve '},&,1/1,&
@@ -40248,7 +40248,7 @@ False
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},{'Ahlam '},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},{'Ahlam '},{'Jesse '},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},{'Ahlam '},{'Luke Z'},&,3/1,&
-&,{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},{'Chris '},{'Rex Bu'},&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},{'Rex Bu'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},{'Crista'},{'Rex Bu'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},{'Daniel'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Angeli'},{'Jesse '},{'Ahlam '},&,4/1,&
@@ -40293,7 +40293,7 @@ False
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Daniel'},{'Sandee'},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Daniel'},,,&,4/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Harris'},{'Jonath'},{'Rex Bu'},&,1/1,&
-&,{'Tiffan'},{'Steve '},{'Chris '},{'Heart '},{'Chris '},{'Melodi'},&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Chris '},{'Heart '},{'Melodi'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Heart '},{'Crista'},{'Rex Bu'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Jesse '},{'Angeli'},{'Ahlam '},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Jesse '},{'Angeli'},,&,2/1,&
@@ -40326,7 +40326,7 @@ False
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Rex Bu'},{'Jesse '},{'Angeli'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Rex Bu'},{'Jesse '},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Rex Bu'},{'Kezia '},,&,1/1,&
-&,{'Tiffan'},{'Steve '},{'Chris '},{'Rex Bu'},{'Sandee'},{'Rex Bu'},&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Chris '},{'Rex Bu'},{'Sandee'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Rex Bu'},,,&,2/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Sandee'},{'Rex Bu'},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Chris '},{'Sandee'},,,&,1/1,&
@@ -40428,7 +40428,7 @@ False
 &,{'Tiffan'},{'Steve '},{'Heart '},{'Jaclyn'},{'Luke Z'},{'Brian '},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Heart '},{'Jesse '},{'Rex Bu'},{'Daniel'},&,3/1,&
 &,{'Tiffan'},{'Steve '},{'Heart '},{'Luke Z'},{'Angeli'},{'Daniel'},&,1/1,&
-&,{'Tiffan'},{'Steve '},{'Heart '},{'Sandee'},{'Crista'},{'Steve '},&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Heart '},{'Sandee'},{'Crista'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Heart '},,,,&,3/1,&
 &,{'Tiffan'},{'Steve '},{'Jaclyn'},{'Chris '},{'Brian '},{'Melodi'},&,2/1,&
 &,{'Tiffan'},{'Steve '},{'Jaclyn'},{'John S'},{'Crista'},{'Melodi'},&,1/1,&
@@ -40452,7 +40452,7 @@ False
 &,{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},{'Daniel'},{'Luke Z'},&,2/1,&
 &,{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},{'Daniel'},{'Rex Bu'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},{'Harris'},{'Philip'},&,1/1,&
-&,{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},{'Jesse '},,&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},,,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},{'Jonath'},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},{'Jonath'},{'Rex Bu'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Jesse '},{'Angeli'},{'Kezia '},{'Rex Bu'},&,4/1,&
@@ -40705,7 +40705,7 @@ False
 &,{'Tiffan'},{'Steve '},{'Philip'},{'David '},{'Rex Bu'},{'Jesse '},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Philip'},{'Heart '},{'Angeli'},{'Jesse '},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Philip'},{'Jesse '},{'Ahlam '},,&,1/1,&
-&,{'Tiffan'},{'Steve '},{'Philip'},{'Jesse '},{'Angeli'},{'Jesse '},&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Philip'},{'Jesse '},{'Angeli'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Philip'},{'Jesse '},{'Crista'},{'Rex Bu'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Philip'},{'Jesse '},{'Kennet'},{'Ahlam '},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Philip'},{'Jesse '},,,&,1/1,&
@@ -40747,7 +40747,7 @@ False
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Matthe'},{'Patric'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Angeli'},{'Philip'},{'Jonath'},&,2/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Angeli'},,,&,11/1,&
-&,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Chris '},{'Angeli'},{'Angeli'},&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Chris '},{'Angeli'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Chris '},{'Angeli'},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Chris '},{'Angeli'},,&,4/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Chris '},{'Brian '},{'Angeli'},&,1/1,&
@@ -40777,7 +40777,7 @@ False
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jesse '},{'Daniel'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jesse '},{'Kezia '},{'Daniel'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jesse '},{'Luke Z'},{'Angeli'},&,2/1,&
-&,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jesse '},{'Steve '},{'Crista'},&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jesse '},{'Crista'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jesse '},,,&,5/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jonath'},{'Angeli'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Jonath'},{'Crista'},{'Angeli'},&,1/1,&
@@ -40813,10 +40813,10 @@ False
 &,{'Tiffan'},{'Steve '},{'Sandee'},{'Rex Bu'},{'Philip'},{'Crista'},&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Sandee'},{'Rex Bu'},,,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Sandee'},,,,&,5/1,&
-&,{'Tiffan'},{'Steve '},{'Steve '},{'Rex Bu'},{'Melodi'},{'Daniel'},&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Rex Bu'},{'Melodi'},{'Daniel'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Terry '},{'Theo H'},,,&,1/1,&
-&,{'Tiffan'},{'Steve '},{'Tiffan'},{'Philip'},{'Kezia '},{'Angeli'},&,1/1,&
-&,{'Tiffan'},{'Steve '},{'Tiffan'},,,,&,1/1,&
+&,{'Tiffan'},{'Steve '},{'Philip'},{'Kezia '},{'Angeli'},,&,1/1,&
+&,{'Tiffan'},{'Steve '},,,,,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Angeli'},{'Jesse '},{'Crista'},,&,1/1,&
 &,{'Tiffan'},{'Steve '},,,,,&,1/1,&
 &,{'Tiffan'},{'Steve '},{'Kennet'},,,,&,1/1,&
@@ -40866,10 +40866,10 @@ False
 &,{'Tiffan'},{'Theo H'},{'Steve '},,,,&,1/1,&
 &,{'Tiffan'},{'Theo H'},{'Angeli'},{'Jonath'},{'Crista'},,&,1/1,&
 &,{'Tiffan'},{'Theo H'},,,,,&,3/1,&
-&,{'Tiffan'},{'Tiffan'},{'Angeli'},{'Theo H'},{'Jesse '},{'Theo H'},&,1/1,&
-&,{'Tiffan'},{'Tiffan'},{'Jesse '},{'Angeli'},{'Rex Bu'},{'Luke Z'},&,1/1,&
-&,{'Tiffan'},{'Tiffan'},{'Jonath'},{'Jonath'},{'Kezia '},{'Kezia '},&,1/1,&
-&,{'Tiffan'},{'Tiffan'},{'Tiffan'},{'Tiffan'},{'Tiffan'},{'Tiffan'},&,13/1,&
+&,{'Tiffan'},{'Angeli'},{'Theo H'},{'Jesse '},,,&,1/1,&
+&,{'Tiffan'},{'Jesse '},{'Angeli'},{'Rex Bu'},{'Luke Z'},,&,1/1,&
+&,{'Tiffan'},{'Jonath'},{'Kezia '},,,,&,1/1,&
+&,{'Tiffan'},,,,,,&,13/1,&
 &,{'Tiffan'},{'Chris '},{'Ahlam '},{'Brian '},{'Theo H'},,&,1/1,&
 &,{'Tiffan'},{'Chris '},,,,,&,1/1,&
 &,{'Tiffan'},{'Heart '},,,,,&,1/1,&
@@ -40945,7 +40945,7 @@ False
 &,{'Steve '},{'Tiffan'},,,,,&,1/1,&
 &,{'Steve '},,,,,,&,4/1,&
 &,{'Tiffan'},{'Angeli'},,,,,&,1/1,&
-&,{'Tiffan'},{'Jesse '},{'Theo H'},{'Theo H'},{'Philip'},,&,1/1,&
+&,{'Tiffan'},{'Jesse '},{'Theo H'},{'Philip'},,,&,1/1,&
 &,{'Tiffan'},{'Jonath'},{'Patric'},{'Daniel'},{'Luke Z'},,&,1/1,&
 &,{'Tiffan'},{'Jonath'},{'Steve '},{'Ahlam '},{'Angeli'},,&,1/1,&
 &,{'Tiffan'},{'Rex Bu'},{'Kelly '},{'Crista'},{'Theo H'},,&,1/1,&
@@ -40969,7 +40969,7 @@ False
 &,{'Cliffo'},{'Theo H'},{'Jaclyn'},,,,&,1/1,&
 &,{'Dan Gi'},{'Christ'},{'Luke Z'},,,,&,1/1,&
 &,{'Dan Gi'},{'Steve '},,,,,&,1/1,&
-&,{'Daniel'},{'Luke Z'},{'Luke Z'},,,,&,1/1,&
+&,{'Daniel'},{'Luke Z'},,,,,&,1/1,&
 &,{'Daniel'},{'Luke Z'},{'Patric'},,,,&,2/1,&
 &,{'Heart '},{'Melodi'},{'Steve '},,,,&,1/1,&
 &,{'Heart '},{'Tiffan'},{'Melodi'},,,,&,1/1,&
@@ -41094,7 +41094,7 @@ False
 &,{'Cliffo'},,,,,,&,1/1,&
 &,{'Daniel'},{'Melodi'},,,,,&,1/1,&
 &,{'Daniel'},,,,,,&,2/1,&
-&,{'Harris'},{'Tiffan'},{'Harris'},{'Harris'},,,&,1/1,&
+&,{'Harris'},{'Tiffan'},,,,,&,1/1,&
 &,{'Harris'},,,,,,&,1/1,&
 &,{'Jesse '},,,,,,&,2/1,&
 &,{'John S'},{'Philip'},,,,,&,1/1,&
@@ -41161,7 +41161,7 @@ False
 &,{'Angeli'},,,,,,&,3/1,&
 &,{'Brian '},{'Matthe'},{'Kezia '},{'Harris'},,,&,1/1,&
 &,{'Brian '},{'Matthe'},{'Kezia '},{'Harris'},,,&,1/1,&
-&,{'Chris '},{'Steve '},{'Steve '},,,,&,1/1,&
+&,{'Chris '},{'Steve '},,,,,&,1/1,&
 &,{'Christ'},{'Matthe'},{'Jaclyn'},{'Brian '},,,&,1/1,&
 &,{'Christ'},,,,,,&,1/1,&
 &,{'Crista'},{'Philip'},{'Harris'},,,,&,1/1,&
@@ -41212,7 +41212,7 @@ False
 &,{'Rex Bu'},,,,,,&,2/1,&
 &,{'Sandee'},{'Crista'},,,,,&,1/1,&
 &,{'Steve '},{'Cliffo'},{'Christ'},{'Tiffan'},,,&,1/1,&
-&,{'Steve '},{'Kezia '},{'Jonath'},{'Steve '},{'Daniel'},,&,1/1,&
+&,{'Steve '},{'Kezia '},{'Jonath'},{'Daniel'},,,&,1/1,&
 &,{'Steve '},{'Kezia '},{'Rex Bu'},{'Jesse '},{'Daniel'},,&,1/1,&
 &,{'Steve '},{'Philip'},{'Crista'},,,,&,1/1,&
 &,{'Steve '},{'Rex Bu'},{'John S'},,,,&,1/1,&
@@ -41249,7 +41249,7 @@ False
 &,{'Crista'},{'Matthe'},{'Jesse '},{'Luke Z'},,,&,1/1,&
 &,{'Crista'},,,,,,&,1/1,&
 &,{'Dan Gi'},{'Sandee'},,,,,&,1/1,&
-&,{'Daniel'},{'Daniel'},{'Harris'},{'Philip'},,,&,1/1,&
+&,{'Daniel'},{'Harris'},{'Philip'},,,,&,1/1,&
 &,{'Daniel'},,,,,,&,1/1,&
 &,{'Daniel'},,,,,,&,1/1,&
 &,{'Heart '},{'Tiffan'},{'Patric'},{'John S'},,,&,1/1,&
