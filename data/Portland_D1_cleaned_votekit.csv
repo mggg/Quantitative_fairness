@@ -1,17 +1,17 @@
 VoteKit PreferenceProfile
 Candidates
-(Cayle Tern:Cayle),(Loretta Smith:Loret),(Joe Furi:Joe F),(David Linn:David),(Noah Ernst:Noah ),(Thomas Shervey:Thoma),(Jamie Dunphy:Jamie),(Doug Clove:Doug ),(Peggy Sue Owens:Peggy),(Steph Routh:Steph),(Candace Avalos:Canda),(Joe Allen:Joe A),(Michael (Mike) Sands:Micha),(Terrence Hayes:Terre),(Deian Salazar:Deian),(Timur Ender:Timur)
+(David Linn:David),(Joe Furi:Joe F),(Loretta Smith:Loret),(Candace Avalos:Canda),(Peggy Sue Owens:Peggy),(Deian Salazar:Deian),(Terrence Hayes:Terre),(Doug Clove:Doug ),(Thomas Shervey:Thoma),(Joe Allen:Joe A),(Noah Ernst:Noah ),(Steph Routh:Steph),(Michael (Mike) Sands:Micha),(Cayle Tern:Cayle),(Timur Ender:Timur),(Jamie Dunphy:Jamie)
 Max Ranking Length
 6
 Includes Voter Set
 False
 =,=,=,=,=,=,=,=,=,=
 &,Ranking_1,Ranking_2,Ranking_3,Ranking_4,Ranking_5,Ranking_6,&,Weight,&
-&,{'Canda'},{'Canda'},{'Canda'},{'Canda'},,,&,1/1,&
-&,{'Canda'},{'Canda'},{'Cayle'},{'Jamie'},,,&,1/1,&
-&,{'Canda'},{'Canda'},{'Loret'},{'Loret'},{'Steph'},{'Steph'},&,1/1,&
-&,{'Canda'},{'Cayle'},{'Canda'},{'Doug '},{'Micha'},{'David'},&,1/1,&
-&,{'Canda'},{'Cayle'},{'Canda'},{'Timur'},{'Steph'},,&,1/1,&
+&,{'Canda'},,,,,,&,1/1,&
+&,{'Canda'},{'Cayle'},{'Jamie'},,,,&,1/1,&
+&,{'Canda'},{'Loret'},{'Steph'},,,,&,1/1,&
+&,{'Canda'},{'Cayle'},{'Doug '},{'Micha'},{'David'},,&,1/1,&
+&,{'Canda'},{'Cayle'},{'Timur'},{'Steph'},,,&,1/1,&
 &,{'Canda'},{'Cayle'},{'David'},{'Deian'},{'Doug '},{'Micha'},&,1/1,&
 &,{'Canda'},{'Cayle'},{'David'},{'Doug '},{'Deian'},{'Peggy'},&,1/1,&
 &,{'Canda'},{'Cayle'},{'David'},{'Doug '},{'Jamie'},{'Joe A'},&,1/1,&
@@ -142,7 +142,7 @@ False
 &,{'Canda'},{'Cayle'},{'Micha'},{'Loret'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'Cayle'},{'Micha'},{'Steph'},{'Jamie'},{'Thoma'},&,1/1,&
 &,{'Canda'},{'Cayle'},{'Micha'},{'Steph'},{'Loret'},{'David'},&,1/1,&
-&,{'Canda'},{'Cayle'},{'Micha'},{'Steph'},{'Micha'},{'Micha'},&,1/1,&
+&,{'Canda'},{'Cayle'},{'Micha'},{'Steph'},,,&,1/1,&
 &,{'Canda'},{'Cayle'},{'Micha'},{'Steph'},,,&,2/1,&
 &,{'Canda'},{'Cayle'},{'Micha'},{'Terre'},{'Loret'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Cayle'},{'Micha'},{'Terre'},,,&,1/1,&
@@ -306,7 +306,7 @@ False
 &,{'Canda'},{'Cayle'},{'Timur'},,,,&,522/1,&
 &,{'Canda'},{'Cayle'},{'Joe F'},,,,&,1/1,&
 &,{'Canda'},{'Cayle'},,,,,&,27/1,&
-&,{'Canda'},{'David'},{'Canda'},{'Timur'},{'Joe A'},{'Micha'},&,2/1,&
+&,{'Canda'},{'David'},{'Timur'},{'Joe A'},{'Micha'},,&,2/1,&
 &,{'Canda'},{'David'},{'Cayle'},{'Deian'},{'Doug '},{'Micha'},&,1/1,&
 &,{'Canda'},{'David'},{'Cayle'},{'Deian'},{'Loret'},{'Steph'},&,4/1,&
 &,{'Canda'},{'David'},{'Cayle'},{'Doug '},{'Loret'},{'Jamie'},&,1/1,&
@@ -323,14 +323,14 @@ False
 &,{'Canda'},{'David'},{'Cayle'},{'Timur'},,,&,2/1,&
 &,{'Canda'},{'David'},{'Cayle'},,,,&,2/1,&
 &,{'Canda'},{'David'},{'Deian'},{'Cayle'},{'Loret'},{'Jamie'},&,2/1,&
-&,{'Canda'},{'David'},{'Deian'},{'David'},{'Thoma'},{'David'},&,1/1,&
+&,{'Canda'},{'David'},{'Deian'},{'Thoma'},,,&,1/1,&
 &,{'Canda'},{'David'},{'Deian'},{'Loret'},{'Micha'},,&,2/1,&
 &,{'Canda'},{'David'},{'Deian'},{'Loret'},{'Peggy'},{'Micha'},&,1/1,&
 &,{'Canda'},{'David'},{'Deian'},{'Loret'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'David'},{'Deian'},{'Peggy'},{'Noah '},{'Micha'},&,1/1,&
 &,{'Canda'},{'David'},{'Deian'},{'Steph'},{'Loret'},{'Joe F'},&,1/1,&
 &,{'Canda'},{'David'},{'Deian'},{'Terre'},{'Loret'},{'Jamie'},&,1/1,&
-&,{'Canda'},{'David'},{'Deian'},{'Terre'},{'Steph'},{'Canda'},&,1/1,&
+&,{'Canda'},{'David'},{'Deian'},{'Terre'},{'Steph'},,&,1/1,&
 &,{'Canda'},{'David'},{'Deian'},{'Terre'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'David'},{'Deian'},,,,&,3/1,&
 &,{'Canda'},{'David'},{'Doug '},{'Deian'},{'Terre'},{'Joe F'},&,1/1,&
@@ -356,7 +356,7 @@ False
 &,{'Canda'},{'David'},{'Jamie'},{'Timur'},{'Steph'},{'Loret'},&,2/1,&
 &,{'Canda'},{'David'},{'Jamie'},{'Timur'},{'Terre'},{'Steph'},&,1/1,&
 &,{'Canda'},{'David'},{'Jamie'},,,,&,3/1,&
-&,{'Canda'},{'David'},{'Joe A'},{'David'},{'Doug '},{'Joe F'},&,1/1,&
+&,{'Canda'},{'David'},{'Joe A'},{'Doug '},{'Joe F'},,&,1/1,&
 &,{'Canda'},{'David'},{'Joe A'},{'Joe F'},{'Timur'},{'Loret'},&,1/1,&
 &,{'Canda'},{'David'},{'Joe A'},{'Micha'},{'Terre'},{'Doug '},&,1/1,&
 &,{'Canda'},{'David'},{'Joe A'},{'Terre'},{'Doug '},{'Deian'},&,1/1,&
@@ -415,7 +415,7 @@ False
 &,{'Canda'},{'David'},{'Timur'},{'Cayle'},{'Jamie'},{'Steph'},&,1/1,&
 &,{'Canda'},{'David'},{'Timur'},{'Cayle'},{'Micha'},{'Steph'},&,1/1,&
 &,{'Canda'},{'David'},{'Timur'},{'Cayle'},{'Steph'},{'Jamie'},&,1/1,&
-&,{'Canda'},{'David'},{'Timur'},{'David'},{'Cayle'},{'Thoma'},&,1/1,&
+&,{'Canda'},{'David'},{'Timur'},{'Cayle'},{'Thoma'},,&,1/1,&
 &,{'Canda'},{'David'},{'Timur'},{'Jamie'},{'Cayle'},{'Steph'},&,1/1,&
 &,{'Canda'},{'David'},{'Timur'},{'Jamie'},{'Doug '},{'Terre'},&,1/1,&
 &,{'Canda'},{'David'},{'Timur'},{'Jamie'},{'Terre'},{'Noah '},&,3/1,&
@@ -431,7 +431,7 @@ False
 &,{'Canda'},{'David'},{'Timur'},,,,&,3/1,&
 &,{'Canda'},{'David'},,,,,&,1/1,&
 &,{'Canda'},{'David'},,,,,&,7/1,&
-&,{'Canda'},{'Deian'},{'Canda'},{'Deian'},{'Canda'},{'Deian'},&,1/1,&
+&,{'Canda'},{'Deian'},,,,,&,1/1,&
 &,{'Canda'},{'Deian'},{'Cayle'},{'Jamie'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Canda'},{'Deian'},{'Cayle'},{'Peggy'},{'Timur'},{'Loret'},&,1/1,&
 &,{'Canda'},{'Deian'},{'Cayle'},{'Terre'},{'Steph'},{'Timur'},&,1/1,&
@@ -475,7 +475,7 @@ False
 &,{'Canda'},{'Deian'},{'Loret'},{'Peggy'},,,&,1/1,&
 &,{'Canda'},{'Deian'},{'Loret'},{'Steph'},{'Jamie'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Deian'},{'Loret'},{'Steph'},{'Peggy'},{'Jamie'},&,1/1,&
-&,{'Canda'},{'Deian'},{'Loret'},{'Steph'},{'Steph'},{'Cayle'},&,1/1,&
+&,{'Canda'},{'Deian'},{'Loret'},{'Steph'},{'Cayle'},,&,1/1,&
 &,{'Canda'},{'Deian'},{'Loret'},{'Terre'},{'David'},{'Peggy'},&,1/1,&
 &,{'Canda'},{'Deian'},{'Loret'},{'Terre'},{'Doug '},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Deian'},{'Loret'},{'Terre'},{'Doug '},{'Peggy'},&,1/1,&
@@ -520,7 +520,7 @@ False
 &,{'Canda'},{'Deian'},{'Terre'},{'Peggy'},{'David'},{'Loret'},&,1/1,&
 &,{'Canda'},{'Deian'},{'Terre'},{'Steph'},{'Jamie'},{'Peggy'},&,1/1,&
 &,{'Canda'},{'Deian'},{'Terre'},{'Steph'},{'Loret'},{'Joe F'},&,1/1,&
-&,{'Canda'},{'Deian'},{'Terre'},{'Steph'},{'Terre'},,&,1/1,&
+&,{'Canda'},{'Deian'},{'Terre'},{'Steph'},,,&,1/1,&
 &,{'Canda'},{'Deian'},{'Terre'},{'Timur'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'Deian'},{'Terre'},,,,&,1/1,&
 &,{'Canda'},{'Deian'},{'Thoma'},{'Doug '},{'Joe A'},{'Peggy'},&,1/1,&
@@ -601,8 +601,8 @@ False
 &,{'Canda'},{'Doug '},{'Timur'},{'Thoma'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Canda'},{'Doug '},{'Timur'},,,,&,2/1,&
 &,{'Canda'},{'Doug '},,,,,&,8/1,&
-&,{'Canda'},{'Jamie'},{'Canda'},{'Noah '},{'David'},{'Steph'},&,1/1,&
-&,{'Canda'},{'Jamie'},{'Cayle'},{'Canda'},{'Steph'},,&,1/1,&
+&,{'Canda'},{'Jamie'},{'Noah '},{'David'},{'Steph'},,&,1/1,&
+&,{'Canda'},{'Jamie'},{'Cayle'},{'Steph'},,,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Cayle'},{'David'},{'Steph'},{'Loret'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Cayle'},{'David'},{'Steph'},{'Terre'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Cayle'},{'Deian'},{'Peggy'},{'Thoma'},&,1/1,&
@@ -667,7 +667,7 @@ False
 &,{'Canda'},{'Jamie'},{'Loret'},{'David'},,,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Loret'},{'Micha'},{'Steph'},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Loret'},{'Micha'},{'Steph'},{'Doug '},&,2/1,&
-&,{'Canda'},{'Jamie'},{'Loret'},{'Micha'},{'Timur'},{'Micha'},&,1/1,&
+&,{'Canda'},{'Jamie'},{'Loret'},{'Micha'},{'Timur'},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Loret'},{'Steph'},{'Cayle'},{'David'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Loret'},{'Steph'},{'David'},{'Terre'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Loret'},{'Steph'},{'Peggy'},{'Timur'},&,1/1,&
@@ -716,7 +716,7 @@ False
 &,{'Canda'},{'Jamie'},{'Noah '},{'Steph'},{'Cayle'},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Noah '},{'Steph'},,,&,4/1,&
 &,{'Canda'},{'Jamie'},{'Noah '},{'Terre'},{'Cayle'},,&,1/1,&
-&,{'Canda'},{'Jamie'},{'Noah '},{'Terre'},{'Steph'},{'Canda'},&,2/1,&
+&,{'Canda'},{'Jamie'},{'Noah '},{'Terre'},{'Steph'},,&,2/1,&
 &,{'Canda'},{'Jamie'},{'Noah '},{'Terre'},{'Steph'},,&,3/1,&
 &,{'Canda'},{'Jamie'},{'Noah '},{'Terre'},{'Thoma'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Noah '},{'Terre'},{'Timur'},{'Cayle'},&,1/1,&
@@ -851,9 +851,9 @@ False
 &,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Terre'},{'Loret'},&,4/1,&
 &,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Terre'},{'Thoma'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Terre'},,&,3/1,&
-&,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Thoma'},{'Canda'},&,1/1,&
+&,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Thoma'},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Thoma'},,&,2/1,&
-&,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Timur'},{'Terre'},&,1/1,&
+&,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Terre'},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},,,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Steph'},{'Timur'},,,&,57/1,&
 &,{'Canda'},{'Jamie'},{'Steph'},,,,&,136/1,&
@@ -906,7 +906,7 @@ False
 &,{'Canda'},{'Jamie'},{'Thoma'},{'Cayle'},{'Loret'},{'Deian'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Thoma'},{'Deian'},{'Cayle'},{'Steph'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Thoma'},{'Deian'},,,&,1/1,&
-&,{'Canda'},{'Jamie'},{'Thoma'},{'Jamie'},{'Micha'},{'Doug '},&,1/1,&
+&,{'Canda'},{'Jamie'},{'Thoma'},{'Micha'},{'Doug '},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Thoma'},{'Steph'},{'Loret'},{'Terre'},&,2/1,&
 &,{'Canda'},{'Jamie'},{'Thoma'},{'Steph'},{'Micha'},{'Joe F'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Thoma'},,,,&,2/1,&
@@ -925,7 +925,7 @@ False
 &,{'Canda'},{'Jamie'},{'Timur'},{'David'},{'Cayle'},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'David'},{'Micha'},{'Steph'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'David'},{'Steph'},{'Cayle'},&,1/1,&
-&,{'Canda'},{'Jamie'},{'Timur'},{'David'},{'Steph'},{'Jamie'},&,1/1,&
+&,{'Canda'},{'Jamie'},{'Timur'},{'David'},{'Steph'},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'David'},{'Steph'},{'Micha'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'David'},{'Thoma'},{'Terre'},&,4/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'David'},,,&,1/1,&
@@ -934,7 +934,7 @@ False
 &,{'Canda'},{'Jamie'},{'Timur'},{'Doug '},{'Noah '},{'Steph'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'Doug '},{'Noah '},{'Terre'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'Doug '},{'Steph'},,&,1/1,&
-&,{'Canda'},{'Jamie'},{'Timur'},{'Jamie'},{'Loret'},{'Cayle'},&,1/1,&
+&,{'Canda'},{'Jamie'},{'Timur'},{'Loret'},{'Cayle'},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'Joe A'},{'Doug '},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'Joe F'},{'Deian'},{'Terre'},&,1/1,&
 &,{'Canda'},{'Jamie'},{'Timur'},{'Joe F'},{'Steph'},{'David'},&,1/1,&
@@ -995,7 +995,7 @@ False
 &,{'Canda'},{'Jamie'},{'Timur'},,,,&,26/1,&
 &,{'Canda'},{'Jamie'},{'Deian'},{'Loret'},{'Thoma'},,&,1/1,&
 &,{'Canda'},{'Jamie'},{'Noah '},,,,&,1/1,&
-&,{'Canda'},{'Jamie'},{'Terre'},{'Canda'},{'Peggy'},,&,1/1,&
+&,{'Canda'},{'Jamie'},{'Terre'},{'Peggy'},,,&,1/1,&
 &,{'Canda'},{'Jamie'},,,,,&,58/1,&
 &,{'Canda'},{'Joe A'},{'Cayle'},{'Deian'},{'Doug '},{'Terre'},&,1/1,&
 &,{'Canda'},{'Joe A'},{'Cayle'},{'Doug '},{'Joe F'},{'Deian'},&,1/1,&
@@ -1117,8 +1117,8 @@ False
 &,{'Canda'},{'Loret'},{'David'},{'Cayle'},{'Timur'},{'Deian'},&,1/1,&
 &,{'Canda'},{'Loret'},{'David'},{'Cayle'},{'Timur'},{'Micha'},&,1/1,&
 &,{'Canda'},{'Loret'},{'David'},{'Jamie'},,,&,1/1,&
-&,{'Canda'},{'Loret'},{'David'},{'Joe A'},{'David'},{'Canda'},&,1/1,&
-&,{'Canda'},{'Loret'},{'David'},{'Joe F'},{'Loret'},{'Steph'},&,1/1,&
+&,{'Canda'},{'Loret'},{'David'},{'Joe A'},,,&,1/1,&
+&,{'Canda'},{'Loret'},{'David'},{'Joe F'},{'Steph'},,&,1/1,&
 &,{'Canda'},{'Loret'},{'David'},{'Micha'},,,&,1/1,&
 &,{'Canda'},{'Loret'},{'David'},{'Timur'},{'Terre'},{'Deian'},&,1/1,&
 &,{'Canda'},{'Loret'},{'Deian'},{'Cayle'},{'Peggy'},{'Jamie'},&,1/1,&
@@ -1141,7 +1141,7 @@ False
 &,{'Canda'},{'Loret'},{'Doug '},{'Steph'},{'Jamie'},,&,1/1,&
 &,{'Canda'},{'Loret'},{'Doug '},{'Terre'},{'Thoma'},{'Steph'},&,1/1,&
 &,{'Canda'},{'Loret'},{'Doug '},{'Thoma'},{'Jamie'},{'Steph'},&,1/1,&
-&,{'Canda'},{'Loret'},{'Jamie'},{'Cayle'},{'Canda'},{'Peggy'},&,1/1,&
+&,{'Canda'},{'Loret'},{'Jamie'},{'Cayle'},{'Peggy'},,&,1/1,&
 &,{'Canda'},{'Loret'},{'Jamie'},{'Cayle'},{'Deian'},{'Peggy'},&,1/1,&
 &,{'Canda'},{'Loret'},{'Jamie'},{'Cayle'},{'Joe A'},{'Peggy'},&,1/1,&
 &,{'Canda'},{'Loret'},{'Jamie'},{'Cayle'},{'Joe F'},{'Deian'},&,1/1,&
@@ -1259,7 +1259,7 @@ False
 &,{'Canda'},{'Loret'},{'Steph'},{'Jamie'},{'Timur'},,&,1/1,&
 &,{'Canda'},{'Loret'},{'Steph'},{'Jamie'},{'Timur'},,&,4/1,&
 &,{'Canda'},{'Loret'},{'Steph'},{'Jamie'},,,&,11/1,&
-&,{'Canda'},{'Loret'},{'Steph'},{'Loret'},{'David'},,&,1/1,&
+&,{'Canda'},{'Loret'},{'Steph'},{'David'},,,&,1/1,&
 &,{'Canda'},{'Loret'},{'Steph'},{'Micha'},{'Deian'},{'Terre'},&,1/1,&
 &,{'Canda'},{'Loret'},{'Steph'},{'Micha'},{'Jamie'},{'Joe A'},&,1/1,&
 &,{'Canda'},{'Loret'},{'Steph'},{'Micha'},{'Jamie'},{'Timur'},&,1/1,&
@@ -1304,7 +1304,7 @@ False
 &,{'Canda'},{'Loret'},{'Steph'},,,,&,1/1,&
 &,{'Canda'},{'Loret'},{'Steph'},{'Timur'},,,&,1/1,&
 &,{'Canda'},{'Loret'},{'Steph'},,,,&,30/1,&
-&,{'Canda'},{'Loret'},{'Terre'},{'Canda'},{'Noah '},{'Doug '},&,1/1,&
+&,{'Canda'},{'Loret'},{'Terre'},{'Noah '},{'Doug '},,&,1/1,&
 &,{'Canda'},{'Loret'},{'Terre'},{'Cayle'},{'David'},{'Deian'},&,1/1,&
 &,{'Canda'},{'Loret'},{'Terre'},{'Cayle'},{'Deian'},{'Steph'},&,1/1,&
 &,{'Canda'},{'Loret'},{'Terre'},{'Cayle'},{'Deian'},,&,1/1,&
@@ -1429,7 +1429,7 @@ False
 &,{'Canda'},{'Micha'},{'Jamie'},{'Cayle'},{'Timur'},{'Steph'},&,1/1,&
 &,{'Canda'},{'Micha'},{'Jamie'},{'Doug '},{'Joe A'},{'Noah '},&,1/1,&
 &,{'Canda'},{'Micha'},{'Jamie'},{'Joe A'},{'Timur'},,&,1/1,&
-&,{'Canda'},{'Micha'},{'Jamie'},{'Micha'},{'Peggy'},{'Thoma'},&,1/1,&
+&,{'Canda'},{'Micha'},{'Jamie'},{'Peggy'},{'Thoma'},,&,1/1,&
 &,{'Canda'},{'Micha'},{'Jamie'},{'Steph'},{'Cayle'},{'David'},&,1/1,&
 &,{'Canda'},{'Micha'},{'Jamie'},{'Steph'},{'Loret'},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Micha'},{'Jamie'},{'Thoma'},{'Joe F'},{'Doug '},&,1/1,&
@@ -1455,7 +1455,7 @@ False
 &,{'Canda'},{'Micha'},{'Loret'},{'Terre'},{'Steph'},{'Timur'},&,2/1,&
 &,{'Canda'},{'Micha'},{'Loret'},,,,&,3/1,&
 &,{'Canda'},{'Micha'},{'Peggy'},{'David'},{'Deian'},{'Loret'},&,1/1,&
-&,{'Canda'},{'Micha'},{'Peggy'},{'Joe A'},{'Canda'},{'Jamie'},&,1/1,&
+&,{'Canda'},{'Micha'},{'Peggy'},{'Joe A'},{'Jamie'},,&,1/1,&
 &,{'Canda'},{'Micha'},{'Steph'},{'Cayle'},{'Joe F'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Micha'},{'Steph'},{'Cayle'},{'Timur'},{'David'},&,2/1,&
 &,{'Canda'},{'Micha'},{'Steph'},{'David'},{'Cayle'},{'Timur'},&,1/1,&
@@ -1615,7 +1615,7 @@ False
 &,{'Canda'},{'Peggy'},{'Loret'},{'Joe F'},,,&,1/1,&
 &,{'Canda'},{'Peggy'},{'Loret'},{'Micha'},{'Cayle'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Peggy'},{'Loret'},{'Micha'},{'Noah '},{'Joe F'},&,1/1,&
-&,{'Canda'},{'Peggy'},{'Loret'},{'Peggy'},{'Micha'},{'Jamie'},&,1/1,&
+&,{'Canda'},{'Peggy'},{'Loret'},{'Micha'},{'Jamie'},,&,1/1,&
 &,{'Canda'},{'Peggy'},{'Loret'},{'Steph'},{'Deian'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'Peggy'},{'Loret'},{'Steph'},{'Jamie'},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Peggy'},{'Loret'},{'Steph'},{'Terre'},{'David'},&,1/1,&
@@ -1890,7 +1890,7 @@ False
 &,{'Canda'},{'Steph'},{'Loret'},{'Noah '},,,&,2/1,&
 &,{'Canda'},{'Steph'},{'Loret'},{'Peggy'},{'Jamie'},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Steph'},{'Loret'},{'Peggy'},{'Noah '},{'Jamie'},&,1/1,&
-&,{'Canda'},{'Steph'},{'Loret'},{'Steph'},{'Timur'},,&,1/1,&
+&,{'Canda'},{'Steph'},{'Loret'},{'Timur'},,,&,1/1,&
 &,{'Canda'},{'Steph'},{'Loret'},{'Terre'},{'Cayle'},{'David'},&,2/1,&
 &,{'Canda'},{'Steph'},{'Loret'},{'Terre'},{'Cayle'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Steph'},{'Loret'},{'Terre'},{'Cayle'},,&,1/1,&
@@ -1954,7 +1954,7 @@ False
 &,{'Canda'},{'Steph'},{'Noah '},{'Jamie'},,,&,4/1,&
 &,{'Canda'},{'Steph'},{'Noah '},{'Loret'},{'Jamie'},{'Micha'},&,1/1,&
 &,{'Canda'},{'Steph'},{'Noah '},{'Loret'},{'Terre'},{'Jamie'},&,1/1,&
-&,{'Canda'},{'Steph'},{'Noah '},{'Steph'},,,&,1/1,&
+&,{'Canda'},{'Steph'},{'Noah '},,,,&,1/1,&
 &,{'Canda'},{'Steph'},{'Noah '},{'Terre'},{'Loret'},,&,2/1,&
 &,{'Canda'},{'Steph'},{'Noah '},{'Timur'},{'Cayle'},{'Terre'},&,2/1,&
 &,{'Canda'},{'Steph'},{'Noah '},{'Timur'},,,&,1/1,&
@@ -1963,9 +1963,9 @@ False
 &,{'Canda'},{'Steph'},{'Peggy'},{'Jamie'},{'Timur'},{'Terre'},&,1/1,&
 &,{'Canda'},{'Steph'},{'Peggy'},{'Loret'},{'Cayle'},{'Noah '},&,1/1,&
 &,{'Canda'},{'Steph'},{'Peggy'},{'Loret'},{'Jamie'},,&,1/1,&
-&,{'Canda'},{'Steph'},{'Steph'},{'Noah '},,,&,2/1,&
-&,{'Canda'},{'Steph'},{'Steph'},{'Steph'},{'Steph'},{'Steph'},&,1/1,&
-&,{'Canda'},{'Steph'},{'Terre'},{'Canda'},,,&,1/1,&
+&,{'Canda'},{'Steph'},{'Noah '},,,,&,2/1,&
+&,{'Canda'},{'Steph'},,,,,&,1/1,&
+&,{'Canda'},{'Steph'},{'Terre'},,,,&,1/1,&
 &,{'Canda'},{'Steph'},{'Terre'},{'Cayle'},{'Thoma'},{'David'},&,3/1,&
 &,{'Canda'},{'Steph'},{'Terre'},{'Cayle'},{'Thoma'},{'Deian'},&,1/1,&
 &,{'Canda'},{'Steph'},{'Terre'},{'Cayle'},{'Timur'},{'Jamie'},&,1/1,&
@@ -2023,7 +2023,7 @@ False
 &,{'Canda'},{'Steph'},{'Timur'},{'Cayle'},{'Jamie'},{'David'},&,18/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Cayle'},{'Jamie'},{'Loret'},&,4/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Cayle'},{'Jamie'},{'Noah '},&,1/1,&
-&,{'Canda'},{'Steph'},{'Timur'},{'Cayle'},{'Jamie'},{'Steph'},&,1/1,&
+&,{'Canda'},{'Steph'},{'Timur'},{'Cayle'},{'Jamie'},,&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Cayle'},{'Jamie'},,&,14/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Cayle'},{'Loret'},{'Jamie'},&,3/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Cayle'},{'Loret'},,&,3/1,&
@@ -2102,7 +2102,7 @@ False
 &,{'Canda'},{'Steph'},{'Timur'},{'Jamie'},{'Peggy'},{'Doug '},&,2/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Jamie'},{'Peggy'},{'Loret'},&,2/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Jamie'},{'Peggy'},{'Noah '},&,1/1,&
-&,{'Canda'},{'Steph'},{'Timur'},{'Jamie'},{'Peggy'},{'Timur'},&,1/1,&
+&,{'Canda'},{'Steph'},{'Timur'},{'Jamie'},{'Peggy'},,&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Jamie'},{'Peggy'},,&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Jamie'},{'Terre'},{'Cayle'},&,2/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Jamie'},{'Terre'},{'David'},&,3/1,&
@@ -2140,8 +2140,8 @@ False
 &,{'Canda'},{'Steph'},{'Timur'},{'Peggy'},{'Loret'},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Peggy'},{'Noah '},{'Joe A'},&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Peggy'},{'Terre'},,&,1/1,&
-&,{'Canda'},{'Steph'},{'Timur'},{'Steph'},{'Thoma'},{'Doug '},&,1/1,&
-&,{'Canda'},{'Steph'},{'Timur'},{'Steph'},,,&,1/1,&
+&,{'Canda'},{'Steph'},{'Timur'},{'Thoma'},{'Doug '},,&,1/1,&
+&,{'Canda'},{'Steph'},{'Timur'},,,,&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Terre'},{'David'},,&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Terre'},{'Deian'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},{'Terre'},{'Deian'},,&,1/1,&
@@ -2171,7 +2171,7 @@ False
 &,{'Canda'},{'Steph'},,,,,&,1/1,&
 &,{'Canda'},{'Steph'},{'Timur'},,,,&,1/1,&
 &,{'Canda'},{'Steph'},,,,,&,80/1,&
-&,{'Canda'},{'Terre'},{'Cayle'},{'Cayle'},,,&,1/1,&
+&,{'Canda'},{'Terre'},{'Cayle'},,,,&,1/1,&
 &,{'Canda'},{'Terre'},{'Cayle'},{'David'},{'Steph'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Cayle'},{'Deian'},{'Jamie'},{'Thoma'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Cayle'},{'Deian'},,,&,4/1,&
@@ -2270,7 +2270,7 @@ False
 &,{'Canda'},{'Terre'},{'Loret'},{'Jamie'},{'Timur'},,&,1/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Jamie'},,,&,2/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Joe F'},{'Micha'},{'Noah '},&,1/1,&
-&,{'Canda'},{'Terre'},{'Loret'},{'Loret'},{'Micha'},{'Jamie'},&,1/1,&
+&,{'Canda'},{'Terre'},{'Loret'},{'Micha'},{'Jamie'},,&,1/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Micha'},,,&,1/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Noah '},{'Doug '},{'Deian'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Noah '},{'Doug '},{'Steph'},&,1/1,&
@@ -2282,7 +2282,7 @@ False
 &,{'Canda'},{'Terre'},{'Loret'},{'Steph'},{'Peggy'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Steph'},{'Thoma'},{'Micha'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Steph'},,,&,2/1,&
-&,{'Canda'},{'Terre'},{'Loret'},{'Terre'},{'David'},{'Jamie'},&,1/1,&
+&,{'Canda'},{'Terre'},{'Loret'},{'David'},{'Jamie'},,&,1/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Thoma'},{'Deian'},{'Joe F'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Timur'},{'Cayle'},{'Steph'},&,2/1,&
 &,{'Canda'},{'Terre'},{'Loret'},{'Timur'},{'Jamie'},{'Cayle'},&,1/1,&
@@ -2323,7 +2323,7 @@ False
 &,{'Canda'},{'Terre'},{'Peggy'},{'Deian'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Peggy'},{'Doug '},{'Noah '},{'Deian'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Peggy'},,,,&,1/1,&
-&,{'Canda'},{'Terre'},{'Steph'},{'Canda'},{'Terre'},{'Steph'},&,1/1,&
+&,{'Canda'},{'Terre'},{'Steph'},,,,&,1/1,&
 &,{'Canda'},{'Terre'},{'Steph'},{'Cayle'},{'Deian'},{'David'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Steph'},{'Cayle'},{'Deian'},{'Timur'},&,1/1,&
 &,{'Canda'},{'Terre'},{'Steph'},{'Cayle'},{'Timur'},{'David'},&,1/1,&
@@ -2606,7 +2606,7 @@ False
 &,{'Canda'},{'Timur'},{'Jamie'},{'David'},,,&,2/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Doug '},{'Loret'},{'Noah '},&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Doug '},{'Steph'},{'David'},&,2/1,&
-&,{'Canda'},{'Timur'},{'Jamie'},{'Jamie'},{'Cayle'},,&,1/1,&
+&,{'Canda'},{'Timur'},{'Jamie'},{'Cayle'},,,&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Joe A'},{'Joe F'},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Joe A'},{'Steph'},,&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Joe A'},,,&,1/1,&
@@ -2649,7 +2649,7 @@ False
 &,{'Canda'},{'Timur'},{'Jamie'},{'Terre'},{'Steph'},{'David'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Terre'},{'Steph'},{'Loret'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Terre'},{'Steph'},,&,1/1,&
-&,{'Canda'},{'Timur'},{'Jamie'},{'Terre'},{'Timur'},{'Steph'},&,1/1,&
+&,{'Canda'},{'Timur'},{'Jamie'},{'Terre'},{'Steph'},,&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Terre'},,,&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},{'Thoma'},{'Terre'},{'Steph'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Jamie'},,,,&,1/1,&
@@ -2660,7 +2660,7 @@ False
 &,{'Canda'},{'Timur'},{'Joe A'},{'Joe F'},{'Micha'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Joe A'},{'Loret'},{'Doug '},{'David'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Joe A'},{'Loret'},{'Terre'},{'Jamie'},&,1/1,&
-&,{'Canda'},{'Timur'},{'Joe A'},{'Micha'},{'Joe A'},{'Cayle'},&,1/1,&
+&,{'Canda'},{'Timur'},{'Joe A'},{'Micha'},{'Cayle'},,&,1/1,&
 &,{'Canda'},{'Timur'},{'Joe A'},{'Micha'},{'Steph'},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Joe A'},{'Micha'},{'Terre'},{'Steph'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Joe A'},{'Micha'},{'Thoma'},{'Terre'},&,3/1,&
@@ -2763,7 +2763,7 @@ False
 &,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'Loret'},{'David'},&,2/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'Loret'},{'Jamie'},&,2/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'Micha'},,&,1/1,&
-&,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'Noah '},{'Steph'},&,1/1,&
+&,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'Noah '},,&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'Terre'},{'Jamie'},&,3/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'Terre'},,&,1/1,&
@@ -2789,7 +2789,7 @@ False
 &,{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'Cayle'},{'Thoma'},&,2/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'Cayle'},,&,35/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'David'},{'Cayle'},&,24/1,&
-&,{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'David'},{'David'},&,1/1,&
+&,{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'David'},,&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'David'},{'Doug '},&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'David'},{'Joe A'},&,3/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'David'},{'Micha'},&,1/1,&
@@ -2852,7 +2852,7 @@ False
 &,{'Canda'},{'Timur'},{'Steph'},{'Micha'},{'Jamie'},{'Terre'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Micha'},{'Jamie'},,&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Micha'},{'Thoma'},{'Cayle'},&,1/1,&
-&,{'Canda'},{'Timur'},{'Steph'},{'Steph'},{'Cayle'},,&,1/1,&
+&,{'Canda'},{'Timur'},{'Steph'},{'Cayle'},,,&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Terre'},{'Cayle'},{'David'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Terre'},{'Cayle'},{'Noah '},&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},{'Terre'},{'Cayle'},,&,1/1,&
@@ -2889,7 +2889,7 @@ False
 &,{'Canda'},{'Timur'},{'Terre'},{'Doug '},{'Jamie'},{'Loret'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Terre'},{'Jamie'},{'Cayle'},{'Doug '},&,1/1,&
 &,{'Canda'},{'Timur'},{'Terre'},{'Jamie'},{'Cayle'},{'Steph'},&,1/1,&
-&,{'Canda'},{'Timur'},{'Terre'},{'Jamie'},{'Jamie'},{'Cayle'},&,1/1,&
+&,{'Canda'},{'Timur'},{'Terre'},{'Jamie'},{'Cayle'},,&,1/1,&
 &,{'Canda'},{'Timur'},{'Terre'},{'Jamie'},{'Loret'},{'Cayle'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Terre'},{'Jamie'},{'Micha'},,&,2/1,&
 &,{'Canda'},{'Timur'},{'Terre'},{'Jamie'},{'Steph'},{'Cayle'},&,1/1,&
@@ -2925,7 +2925,7 @@ False
 &,{'Canda'},{'Timur'},{'Thoma'},{'Loret'},,,&,1/1,&
 &,{'Canda'},{'Timur'},{'Thoma'},{'Steph'},{'Joe F'},{'Jamie'},&,1/1,&
 &,{'Canda'},{'Timur'},{'Thoma'},,,,&,2/1,&
-&,{'Canda'},{'Timur'},{'Timur'},{'Jamie'},{'Cayle'},,&,1/1,&
+&,{'Canda'},{'Timur'},{'Jamie'},{'Cayle'},,,&,1/1,&
 &,{'Canda'},{'Timur'},{'Cayle'},{'Loret'},,,&,1/1,&
 &,{'Canda'},{'Timur'},,,,,&,2/1,&
 &,{'Canda'},{'Timur'},{'Loret'},,,,&,1/1,&
@@ -2943,7 +2943,7 @@ False
 &,{'Canda'},{'Terre'},{'Steph'},{'Timur'},{'Joe F'},,&,1/1,&
 &,{'Canda'},{'Timur'},{'Doug '},{'Steph'},,,&,1/1,&
 &,{'Canda'},{'Timur'},{'Steph'},,,,&,1/1,&
-&,{'Canda'},{'Deian'},{'David'},{'Canda'},,,&,1/1,&
+&,{'Canda'},{'Deian'},{'David'},,,,&,1/1,&
 &,{'Canda'},{'Doug '},,,,,&,1/1,&
 &,{'Canda'},{'Timur'},{'Terre'},,,,&,1/1,&
 &,{'Canda'},{'Peggy'},,,,,&,1/1,&
@@ -2952,7 +2952,7 @@ False
 &,{'Canda'},,,,,,&,3/1,&
 &,{'Canda'},,,,,,&,1/1,&
 &,{'Canda'},,,,,,&,1/1,&
-&,{'Canda'},{'Canda'},,,,,&,1/1,&
+&,{'Canda'},,,,,,&,1/1,&
 &,{'Canda'},{'Deian'},{'Loret'},,,,&,1/1,&
 &,{'Canda'},{'Doug '},{'Deian'},,,,&,4/1,&
 &,{'Canda'},{'Jamie'},{'Noah '},,,,&,1/1,&
@@ -2962,8 +2962,8 @@ False
 &,{'Canda'},{'Cayle'},{'Loret'},{'Deian'},,,&,1/1,&
 &,{'Canda'},{'Deian'},,,,,&,1/1,&
 &,{'Canda'},,,,,,&,495/1,&
-&,{'Cayle'},{'Canda'},{'Canda'},{'Loret'},{'Jamie'},{'Deian'},&,1/1,&
-&,{'Cayle'},{'Canda'},{'David'},{'Canda'},{'Micha'},{'Doug '},&,1/1,&
+&,{'Cayle'},{'Canda'},{'Loret'},{'Jamie'},{'Deian'},,&,1/1,&
+&,{'Cayle'},{'Canda'},{'David'},{'Micha'},{'Doug '},,&,1/1,&
 &,{'Cayle'},{'Canda'},{'David'},{'Jamie'},{'Peggy'},{'Noah '},&,1/1,&
 &,{'Cayle'},{'Canda'},{'David'},{'Jamie'},{'Steph'},,&,1/1,&
 &,{'Cayle'},{'Canda'},{'David'},{'Jamie'},,,&,1/1,&
@@ -2995,7 +2995,7 @@ False
 &,{'Cayle'},{'Canda'},{'Joe A'},{'Joe F'},{'David'},{'Jamie'},&,1/1,&
 &,{'Cayle'},{'Canda'},{'Joe A'},{'Joe F'},{'Loret'},{'Jamie'},&,1/1,&
 &,{'Cayle'},{'Canda'},{'Joe A'},{'Terre'},{'Jamie'},{'Peggy'},&,1/1,&
-&,{'Cayle'},{'Canda'},{'Loret'},{'Cayle'},{'Cayle'},{'Cayle'},&,1/1,&
+&,{'Cayle'},{'Canda'},{'Loret'},,,,&,1/1,&
 &,{'Cayle'},{'Canda'},{'Loret'},{'David'},{'Timur'},{'Terre'},&,1/1,&
 &,{'Cayle'},{'Canda'},{'Loret'},{'Jamie'},{'Terre'},{'Steph'},&,2/1,&
 &,{'Cayle'},{'Canda'},{'Loret'},{'Steph'},{'Terre'},{'Timur'},&,1/1,&
@@ -3056,7 +3056,7 @@ False
 &,{'Cayle'},{'Canda'},{'Timur'},{'Loret'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Cayle'},{'Canda'},{'Timur'},{'Loret'},{'Terre'},{'Joe F'},&,1/1,&
 &,{'Cayle'},{'Canda'},{'Timur'},{'Loret'},{'Terre'},{'Steph'},&,1/1,&
-&,{'Cayle'},{'Canda'},{'Timur'},{'Noah '},{'Canda'},{'Doug '},&,1/1,&
+&,{'Cayle'},{'Canda'},{'Timur'},{'Noah '},{'Doug '},,&,1/1,&
 &,{'Cayle'},{'Canda'},{'Timur'},{'Noah '},{'Joe A'},{'Steph'},&,2/1,&
 &,{'Cayle'},{'Canda'},{'Timur'},{'Steph'},{'David'},{'Jamie'},&,1/1,&
 &,{'Cayle'},{'Canda'},{'Timur'},{'Steph'},{'Jamie'},{'Thoma'},&,1/1,&
@@ -3069,8 +3069,8 @@ False
 &,{'Cayle'},{'Canda'},{'Timur'},,,,&,10/1,&
 &,{'Cayle'},{'Canda'},,,,,&,1/1,&
 &,{'Cayle'},{'Canda'},,,,,&,10/1,&
-&,{'Cayle'},{'Cayle'},{'Cayle'},{'Cayle'},{'Cayle'},{'Cayle'},&,5/1,&
-&,{'Cayle'},{'Cayle'},{'Doug '},{'Micha'},{'Loret'},{'Thoma'},&,1/1,&
+&,{'Cayle'},,,,,,&,5/1,&
+&,{'Cayle'},{'Doug '},{'Micha'},{'Loret'},{'Thoma'},,&,1/1,&
 &,{'Cayle'},{'David'},{'Canda'},{'Jamie'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Cayle'},{'David'},{'Canda'},{'Loret'},{'Steph'},{'Timur'},&,1/1,&
 &,{'Cayle'},{'David'},{'Canda'},{'Noah '},{'Doug '},{'Deian'},&,1/1,&
@@ -3157,7 +3157,7 @@ False
 &,{'Cayle'},{'Jamie'},{'David'},{'Steph'},{'Joe F'},{'Doug '},&,1/1,&
 &,{'Cayle'},{'Jamie'},{'David'},{'Thoma'},{'Steph'},{'Peggy'},&,1/1,&
 &,{'Cayle'},{'Jamie'},{'Deian'},{'Micha'},{'Joe A'},{'Loret'},&,1/1,&
-&,{'Cayle'},{'Jamie'},{'Jamie'},{'Jamie'},{'Jamie'},{'Jamie'},&,1/1,&
+&,{'Cayle'},{'Jamie'},,,,,&,1/1,&
 &,{'Cayle'},{'Jamie'},{'Joe A'},{'David'},{'Terre'},,&,1/1,&
 &,{'Cayle'},{'Jamie'},{'Loret'},{'Deian'},{'Doug '},{'Joe F'},&,1/1,&
 &,{'Cayle'},{'Jamie'},{'Loret'},{'Timur'},{'Peggy'},{'Joe F'},&,1/1,&
@@ -3195,7 +3195,7 @@ False
 &,{'Cayle'},{'Joe F'},{'Loret'},{'Terre'},{'Peggy'},{'Jamie'},&,1/1,&
 &,{'Cayle'},{'Joe F'},{'Loret'},{'Terre'},{'Steph'},{'Canda'},&,1/1,&
 &,{'Cayle'},{'Joe F'},{'Peggy'},{'Deian'},{'Canda'},{'Steph'},&,1/1,&
-&,{'Cayle'},{'Joe F'},{'Peggy'},{'Steph'},{'Thoma'},{'Joe F'},&,1/1,&
+&,{'Cayle'},{'Joe F'},{'Peggy'},{'Steph'},{'Thoma'},,&,1/1,&
 &,{'Cayle'},{'Joe F'},{'Timur'},{'Peggy'},,,&,1/1,&
 &,{'Cayle'},{'Loret'},{'Canda'},{'David'},{'Noah '},{'Terre'},&,1/1,&
 &,{'Cayle'},{'Loret'},{'Canda'},{'Deian'},{'Timur'},{'Jamie'},&,1/1,&
@@ -3210,7 +3210,7 @@ False
 &,{'Cayle'},{'Loret'},{'Doug '},{'Deian'},{'Terre'},,&,1/1,&
 &,{'Cayle'},{'Loret'},{'Doug '},{'Noah '},{'Peggy'},{'Terre'},&,1/1,&
 &,{'Cayle'},{'Loret'},{'Jamie'},{'Canda'},{'Noah '},{'Micha'},&,1/1,&
-&,{'Cayle'},{'Loret'},{'Jamie'},{'Peggy'},{'Jamie'},{'Joe F'},&,1/1,&
+&,{'Cayle'},{'Loret'},{'Jamie'},{'Peggy'},{'Joe F'},,&,1/1,&
 &,{'Cayle'},{'Loret'},{'Jamie'},,,,&,2/1,&
 &,{'Cayle'},{'Loret'},{'Joe F'},{'David'},{'Canda'},{'Noah '},&,1/1,&
 &,{'Cayle'},{'Loret'},{'Joe F'},{'Jamie'},{'Thoma'},{'Joe A'},&,1/1,&
@@ -3251,7 +3251,7 @@ False
 &,{'Cayle'},{'Noah '},{'Canda'},{'Terre'},{'Loret'},{'Jamie'},&,1/1,&
 &,{'Cayle'},{'Noah '},{'Canda'},{'Timur'},{'Thoma'},{'Terre'},&,1/1,&
 &,{'Cayle'},{'Noah '},{'Deian'},{'Jamie'},{'Steph'},{'Joe F'},&,1/1,&
-&,{'Cayle'},{'Noah '},{'Deian'},{'Timur'},{'Cayle'},{'Steph'},&,1/1,&
+&,{'Cayle'},{'Noah '},{'Deian'},{'Timur'},{'Steph'},,&,1/1,&
 &,{'Cayle'},{'Noah '},{'Deian'},{'Canda'},{'Jamie'},,&,1/1,&
 &,{'Cayle'},{'Noah '},{'Doug '},{'Joe A'},{'Canda'},{'Timur'},&,1/1,&
 &,{'Cayle'},{'Noah '},{'Doug '},{'Loret'},{'Terre'},{'Deian'},&,3/1,&
@@ -3275,7 +3275,7 @@ False
 &,{'Cayle'},{'Noah '},{'Timur'},,,,&,1/1,&
 &,{'Cayle'},{'Noah '},,,,,&,2/1,&
 &,{'Cayle'},{'Peggy'},{'Canda'},{'Deian'},{'Steph'},{'Joe A'},&,1/1,&
-&,{'Cayle'},{'Peggy'},{'Canda'},{'Loret'},{'Cayle'},{'Peggy'},&,1/1,&
+&,{'Cayle'},{'Peggy'},{'Canda'},{'Loret'},,,&,1/1,&
 &,{'Cayle'},{'Peggy'},{'Canda'},{'Loret'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Cayle'},{'Peggy'},{'Canda'},{'Loret'},{'Terre'},{'Steph'},&,1/1,&
 &,{'Cayle'},{'Peggy'},{'David'},{'Joe F'},{'Thoma'},{'Steph'},&,1/1,&
@@ -3283,7 +3283,7 @@ False
 &,{'Cayle'},{'Peggy'},{'Doug '},{'Jamie'},{'Thoma'},{'Noah '},&,1/1,&
 &,{'Cayle'},{'Peggy'},{'Doug '},{'Noah '},{'Timur'},{'Jamie'},&,1/1,&
 &,{'Cayle'},{'Peggy'},{'Loret'},{'David'},{'Terre'},{'Noah '},&,1/1,&
-&,{'Cayle'},{'Peggy'},{'Loret'},{'Steph'},{'Loret'},{'Joe A'},&,1/1,&
+&,{'Cayle'},{'Peggy'},{'Loret'},{'Steph'},{'Joe A'},,&,1/1,&
 &,{'Cayle'},{'Peggy'},{'Loret'},,,,&,1/1,&
 &,{'Cayle'},{'Peggy'},{'Noah '},{'Jamie'},{'Joe F'},{'David'},&,1/1,&
 &,{'Cayle'},{'Peggy'},{'Noah '},{'Joe A'},{'Loret'},{'Steph'},&,1/1,&
@@ -3450,7 +3450,7 @@ False
 &,{'David'},{'Canda'},{'Jamie'},{'Deian'},{'Thoma'},{'Cayle'},&,1/1,&
 &,{'David'},{'Canda'},{'Jamie'},{'Timur'},{'Steph'},,&,1/1,&
 &,{'David'},{'Canda'},{'Jamie'},,,,&,2/1,&
-&,{'David'},{'Canda'},{'Joe A'},{'Canda'},{'Jamie'},{'Micha'},&,1/1,&
+&,{'David'},{'Canda'},{'Joe A'},{'Jamie'},{'Micha'},,&,1/1,&
 &,{'David'},{'Canda'},{'Joe F'},{'Deian'},{'Loret'},{'Jamie'},&,1/1,&
 &,{'David'},{'Canda'},{'Joe F'},{'Deian'},{'Timur'},{'Cayle'},&,1/1,&
 &,{'David'},{'Canda'},{'Joe F'},{'Jamie'},{'Cayle'},{'Timur'},&,1/1,&
@@ -3506,7 +3506,7 @@ False
 &,{'David'},{'Cayle'},{'Canda'},{'Loret'},{'Jamie'},{'Terre'},&,2/1,&
 &,{'David'},{'Cayle'},{'Canda'},{'Loret'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'David'},{'Cayle'},{'Canda'},,,,&,1/1,&
-&,{'David'},{'Cayle'},{'David'},{'Doug '},{'Cayle'},{'Doug '},&,1/1,&
+&,{'David'},{'Cayle'},{'Doug '},,,,&,1/1,&
 &,{'David'},{'Cayle'},{'Deian'},{'Loret'},{'Joe F'},{'Jamie'},&,1/1,&
 &,{'David'},{'Cayle'},{'Deian'},{'Thoma'},{'Timur'},,&,1/1,&
 &,{'David'},{'Cayle'},{'Deian'},,,,&,1/1,&
@@ -3549,7 +3549,7 @@ False
 &,{'David'},{'Cayle'},{'Timur'},{'Noah '},,,&,1/1,&
 &,{'David'},{'Cayle'},{'Timur'},,,,&,3/1,&
 &,{'David'},{'Cayle'},,,,,&,1/1,&
-&,{'David'},{'David'},{'David'},{'David'},{'David'},{'David'},&,2/1,&
+&,{'David'},,,,,,&,2/1,&
 &,{'David'},{'Deian'},{'Canda'},{'Cayle'},{'Terre'},{'Loret'},&,1/1,&
 &,{'David'},{'Deian'},{'Canda'},{'Terre'},{'Loret'},{'Joe F'},&,1/1,&
 &,{'David'},{'Deian'},{'Doug '},{'Joe A'},{'Canda'},{'Steph'},&,1/1,&
@@ -3579,7 +3579,7 @@ False
 &,{'David'},{'Doug '},{'Canda'},{'Peggy'},{'Joe F'},{'Timur'},&,1/1,&
 &,{'David'},{'Doug '},{'Cayle'},{'Joe F'},{'Deian'},{'Peggy'},&,1/1,&
 &,{'David'},{'Doug '},{'Cayle'},{'Terre'},{'Joe A'},{'Steph'},&,2/1,&
-&,{'David'},{'Doug '},{'Cayle'},{'Thoma'},{'David'},{'Noah '},&,1/1,&
+&,{'David'},{'Doug '},{'Cayle'},{'Thoma'},{'Noah '},,&,1/1,&
 &,{'David'},{'Doug '},{'Deian'},{'Loret'},{'Thoma'},{'Terre'},&,1/1,&
 &,{'David'},{'Doug '},{'Deian'},{'Loret'},{'Timur'},{'Terre'},&,1/1,&
 &,{'David'},{'Doug '},{'Deian'},{'Steph'},{'Cayle'},{'Joe F'},&,1/1,&
@@ -3798,7 +3798,7 @@ False
 &,{'David'},{'Loret'},,,,,&,3/1,&
 &,{'David'},{'Micha'},{'Canda'},{'Timur'},{'Joe F'},{'Loret'},&,1/1,&
 &,{'David'},{'Micha'},{'Canda'},,,,&,1/1,&
-&,{'David'},{'Micha'},{'Cayle'},{'Joe A'},{'Doug '},{'Micha'},&,1/1,&
+&,{'David'},{'Micha'},{'Cayle'},{'Joe A'},{'Doug '},,&,1/1,&
 &,{'David'},{'Micha'},{'Cayle'},{'Noah '},{'Deian'},{'Thoma'},&,1/1,&
 &,{'David'},{'Micha'},{'Cayle'},{'Noah '},{'Loret'},{'Terre'},&,1/1,&
 &,{'David'},{'Micha'},{'Doug '},{'Deian'},{'Cayle'},,&,1/1,&
@@ -3876,7 +3876,7 @@ False
 &,{'David'},{'Noah '},{'Steph'},{'Jamie'},,,&,1/1,&
 &,{'David'},{'Noah '},{'Steph'},{'Loret'},{'Cayle'},{'Jamie'},&,2/1,&
 &,{'David'},{'Noah '},{'Steph'},{'Peggy'},{'Joe F'},{'Loret'},&,2/1,&
-&,{'David'},{'Noah '},{'Steph'},{'Peggy'},{'Joe F'},{'Steph'},&,1/1,&
+&,{'David'},{'Noah '},{'Steph'},{'Peggy'},{'Joe F'},,&,1/1,&
 &,{'David'},{'Noah '},{'Steph'},,,,&,1/1,&
 &,{'David'},{'Noah '},{'Terre'},{'Canda'},{'Loret'},{'Steph'},&,1/1,&
 &,{'David'},{'Noah '},{'Terre'},{'Joe F'},{'Micha'},{'Joe A'},&,1/1,&
@@ -3958,7 +3958,7 @@ False
 &,{'David'},{'Steph'},{'Peggy'},{'Canda'},,,&,1/1,&
 &,{'David'},{'Steph'},{'Terre'},{'Doug '},{'Canda'},{'Deian'},&,1/1,&
 &,{'David'},{'Steph'},{'Terre'},{'Doug '},,,&,1/1,&
-&,{'David'},{'Steph'},{'Terre'},{'Jamie'},{'Thoma'},{'David'},&,1/1,&
+&,{'David'},{'Steph'},{'Terre'},{'Jamie'},{'Thoma'},,&,1/1,&
 &,{'David'},{'Steph'},{'Terre'},{'Loret'},{'Jamie'},{'Timur'},&,1/1,&
 &,{'David'},{'Steph'},{'Terre'},{'Loret'},{'Micha'},{'Deian'},&,1/1,&
 &,{'David'},{'Steph'},{'Terre'},{'Loret'},{'Timur'},,&,1/1,&
@@ -3986,7 +3986,7 @@ False
 &,{'David'},{'Terre'},{'Doug '},,,,&,1/1,&
 &,{'David'},{'Terre'},{'Jamie'},{'Loret'},{'Cayle'},{'Canda'},&,1/1,&
 &,{'David'},{'Terre'},{'Jamie'},{'Loret'},,,&,1/1,&
-&,{'David'},{'Terre'},{'Jamie'},{'Thoma'},{'Jamie'},{'Doug '},&,1/1,&
+&,{'David'},{'Terre'},{'Jamie'},{'Thoma'},{'Doug '},,&,1/1,&
 &,{'David'},{'Terre'},{'Jamie'},{'Timur'},{'Joe F'},{'Canda'},&,1/1,&
 &,{'David'},{'Terre'},{'Jamie'},,,,&,2/1,&
 &,{'David'},{'Terre'},{'Joe A'},{'Cayle'},,,&,2/1,&
@@ -4028,7 +4028,7 @@ False
 &,{'David'},{'Thoma'},{'Canda'},{'Timur'},{'Jamie'},{'Noah '},&,1/1,&
 &,{'David'},{'Thoma'},{'Cayle'},{'Jamie'},{'Loret'},{'Canda'},&,2/1,&
 &,{'David'},{'Thoma'},{'Cayle'},,,,&,1/1,&
-&,{'David'},{'Thoma'},{'David'},{'Joe A'},{'Loret'},{'Joe F'},&,1/1,&
+&,{'David'},{'Thoma'},{'Joe A'},{'Loret'},{'Joe F'},,&,1/1,&
 &,{'David'},{'Thoma'},{'Doug '},{'Noah '},{'Loret'},{'Joe F'},&,1/1,&
 &,{'David'},{'Thoma'},{'Doug '},{'Peggy'},{'Noah '},{'Canda'},&,1/1,&
 &,{'David'},{'Thoma'},{'Doug '},,,,&,1/1,&
@@ -4130,9 +4130,9 @@ False
 &,{'Deian'},{'Canda'},{'Joe F'},{'Loret'},{'Terre'},{'Doug '},&,1/1,&
 &,{'Deian'},{'Canda'},{'Joe F'},{'Noah '},{'Timur'},{'Joe A'},&,1/1,&
 &,{'Deian'},{'Canda'},{'Joe F'},{'Terre'},{'Steph'},{'Timur'},&,1/1,&
-&,{'Deian'},{'Canda'},{'Loret'},{'Canda'},{'Jamie'},{'Micha'},&,1/1,&
+&,{'Deian'},{'Canda'},{'Loret'},{'Jamie'},{'Micha'},,&,1/1,&
 &,{'Deian'},{'Canda'},{'Loret'},{'Cayle'},{'David'},{'Terre'},&,1/1,&
-&,{'Deian'},{'Canda'},{'Loret'},{'Cayle'},{'Deian'},{'Terre'},&,1/1,&
+&,{'Deian'},{'Canda'},{'Loret'},{'Cayle'},{'Terre'},,&,1/1,&
 &,{'Deian'},{'Canda'},{'Loret'},{'Cayle'},{'Peggy'},{'Jamie'},&,1/1,&
 &,{'Deian'},{'Canda'},{'Loret'},{'Jamie'},{'Noah '},{'Terre'},&,1/1,&
 &,{'Deian'},{'Canda'},{'Loret'},{'Steph'},{'David'},{'Joe F'},&,1/1,&
@@ -4218,7 +4218,7 @@ False
 &,{'Deian'},{'David'},{'Terre'},{'Peggy'},{'Thoma'},{'Canda'},&,1/1,&
 &,{'Deian'},{'David'},{'Terre'},,,,&,1/1,&
 &,{'Deian'},{'David'},{'Timur'},{'Noah '},{'Micha'},{'Loret'},&,1/1,&
-&,{'Deian'},{'Deian'},{'Deian'},{'Deian'},{'Deian'},{'Deian'},&,1/1,&
+&,{'Deian'},,,,,,&,1/1,&
 &,{'Deian'},{'Doug '},{'Canda'},{'Cayle'},{'Timur'},{'Joe F'},&,1/1,&
 &,{'Deian'},{'Doug '},{'Canda'},{'Joe F'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Deian'},{'Doug '},{'Canda'},{'Peggy'},{'David'},{'Cayle'},&,1/1,&
@@ -4335,7 +4335,7 @@ False
 &,{'Deian'},{'Loret'},{'Canda'},,,,&,1/1,&
 &,{'Deian'},{'Loret'},{'Cayle'},{'Jamie'},{'Canda'},{'Terre'},&,1/1,&
 &,{'Deian'},{'Loret'},{'David'},{'Peggy'},{'Noah '},{'Timur'},&,1/1,&
-&,{'Deian'},{'Loret'},{'Deian'},{'Jamie'},{'Deian'},{'Deian'},&,1/1,&
+&,{'Deian'},{'Loret'},{'Jamie'},,,,&,1/1,&
 &,{'Deian'},{'Loret'},{'Doug '},{'Micha'},{'Peggy'},{'Canda'},&,1/1,&
 &,{'Deian'},{'Loret'},{'Doug '},{'Terre'},{'Jamie'},{'Canda'},&,1/1,&
 &,{'Deian'},{'Loret'},{'Doug '},{'Timur'},{'Canda'},,&,2/1,&
@@ -4388,7 +4388,7 @@ False
 &,{'Deian'},{'Micha'},{'David'},{'Cayle'},,,&,1/1,&
 &,{'Deian'},{'Micha'},{'David'},{'Joe A'},{'Cayle'},{'Timur'},&,1/1,&
 &,{'Deian'},{'Micha'},{'David'},{'Timur'},{'Joe F'},{'Canda'},&,1/1,&
-&,{'Deian'},{'Micha'},{'Doug '},{'Joe A'},{'Loret'},{'Loret'},&,1/1,&
+&,{'Deian'},{'Micha'},{'Doug '},{'Joe A'},{'Loret'},,&,1/1,&
 &,{'Deian'},{'Micha'},{'Doug '},,,,&,1/1,&
 &,{'Deian'},{'Micha'},{'Joe A'},,,,&,1/1,&
 &,{'Deian'},{'Micha'},{'Joe F'},{'Doug '},{'Cayle'},{'David'},&,1/1,&
@@ -4436,7 +4436,7 @@ False
 &,{'Deian'},{'Peggy'},{'Joe A'},{'Joe F'},{'Terre'},{'Noah '},&,1/1,&
 &,{'Deian'},{'Peggy'},{'Joe A'},{'Joe F'},{'Thoma'},{'Steph'},&,1/1,&
 &,{'Deian'},{'Peggy'},{'Loret'},{'David'},{'Jamie'},{'Steph'},&,1/1,&
-&,{'Deian'},{'Peggy'},{'Loret'},{'Steph'},{'Deian'},{'Joe F'},&,1/1,&
+&,{'Deian'},{'Peggy'},{'Loret'},{'Steph'},{'Joe F'},,&,1/1,&
 &,{'Deian'},{'Peggy'},{'Loret'},{'Terre'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Deian'},{'Peggy'},{'Noah '},{'Canda'},{'Loret'},{'Terre'},&,1/1,&
 &,{'Deian'},{'Peggy'},{'Timur'},{'Canda'},{'Terre'},{'Cayle'},&,1/1,&
@@ -4507,7 +4507,7 @@ False
 &,{'Deian'},{'Terre'},{'Steph'},{'Timur'},{'Jamie'},,&,1/1,&
 &,{'Deian'},{'Terre'},{'Steph'},{'Timur'},{'Noah '},{'Jamie'},&,1/1,&
 &,{'Deian'},{'Terre'},{'Steph'},,,,&,3/1,&
-&,{'Deian'},{'Terre'},{'Thoma'},{'Terre'},,,&,1/1,&
+&,{'Deian'},{'Terre'},{'Thoma'},,,,&,1/1,&
 &,{'Deian'},{'Terre'},{'Timur'},{'Canda'},{'Cayle'},{'Jamie'},&,1/1,&
 &,{'Deian'},{'Terre'},{'Timur'},{'Canda'},{'Cayle'},,&,1/1,&
 &,{'Deian'},{'Terre'},{'Timur'},{'Noah '},,,&,1/1,&
@@ -4529,7 +4529,7 @@ False
 &,{'Deian'},{'Timur'},{'Canda'},{'Joe A'},{'Doug '},{'Micha'},&,1/1,&
 &,{'Deian'},{'Timur'},{'Canda'},{'Loret'},,,&,1/1,&
 &,{'Deian'},{'Timur'},{'Canda'},,,,&,1/1,&
-&,{'Deian'},{'Timur'},{'Cayle'},{'Timur'},{'Peggy'},{'David'},&,1/1,&
+&,{'Deian'},{'Timur'},{'Cayle'},{'Peggy'},{'David'},,&,1/1,&
 &,{'Deian'},{'Timur'},{'David'},{'Loret'},{'Steph'},{'Terre'},&,1/1,&
 &,{'Deian'},{'Timur'},{'Jamie'},{'Loret'},{'Noah '},{'Terre'},&,1/1,&
 &,{'Deian'},{'Timur'},{'Jamie'},{'Terre'},,,&,1/1,&
@@ -4597,7 +4597,7 @@ False
 &,{'Doug '},{'Canda'},,,,,&,7/1,&
 &,{'Doug '},{'Cayle'},{'Canda'},{'Jamie'},{'Steph'},{'Terre'},&,1/1,&
 &,{'Doug '},{'Cayle'},{'Canda'},{'Joe F'},{'Deian'},,&,1/1,&
-&,{'Doug '},{'Cayle'},{'Cayle'},{'Cayle'},{'Cayle'},{'Cayle'},&,1/1,&
+&,{'Doug '},{'Cayle'},,,,,&,1/1,&
 &,{'Doug '},{'Cayle'},{'David'},{'Deian'},,,&,2/1,&
 &,{'Doug '},{'Cayle'},{'David'},{'Joe A'},{'Canda'},{'Noah '},&,1/1,&
 &,{'Doug '},{'Cayle'},{'David'},{'Terre'},,,&,3/1,&
@@ -4636,7 +4636,7 @@ False
 &,{'Doug '},{'David'},{'Noah '},{'Joe F'},,,&,1/1,&
 &,{'Doug '},{'David'},{'Noah '},{'Micha'},,,&,2/1,&
 &,{'Doug '},{'David'},{'Noah '},,,,&,1/1,&
-&,{'Doug '},{'David'},{'Peggy'},{'Thoma'},{'David'},,&,1/1,&
+&,{'Doug '},{'David'},{'Peggy'},{'Thoma'},,,&,1/1,&
 &,{'Doug '},{'David'},{'Steph'},{'Canda'},{'Micha'},{'Jamie'},&,1/1,&
 &,{'Doug '},{'David'},{'Steph'},{'Loret'},{'Joe A'},{'Peggy'},&,1/1,&
 &,{'Doug '},{'David'},{'Terre'},,,,&,1/1,&
@@ -4700,13 +4700,13 @@ False
 &,{'Doug '},{'Deian'},{'Timur'},{'Canda'},{'Steph'},{'Joe A'},&,1/1,&
 &,{'Doug '},{'Deian'},{'Timur'},,,,&,1/1,&
 &,{'Doug '},{'Deian'},,,,,&,9/1,&
-&,{'Doug '},{'Doug '},{'Doug '},{'Doug '},{'Doug '},{'Doug '},&,5/1,&
-&,{'Doug '},{'Doug '},{'Doug '},{'Thoma'},{'Thoma'},{'Thoma'},&,1/1,&
-&,{'Doug '},{'Doug '},{'Doug '},,,,&,1/1,&
-&,{'Doug '},{'Doug '},{'Joe A'},{'Joe A'},{'Joe F'},{'Joe F'},&,2/1,&
-&,{'Doug '},{'Doug '},{'Thoma'},{'Cayle'},{'Micha'},{'Micha'},&,1/1,&
-&,{'Doug '},{'Doug '},{'Thoma'},{'Thoma'},{'Micha'},{'Micha'},&,1/1,&
-&,{'Doug '},{'Doug '},,,,,&,2/1,&
+&,{'Doug '},,,,,,&,5/1,&
+&,{'Doug '},{'Thoma'},,,,,&,1/1,&
+&,{'Doug '},,,,,,&,1/1,&
+&,{'Doug '},{'Joe A'},{'Joe F'},,,,&,2/1,&
+&,{'Doug '},{'Thoma'},{'Cayle'},{'Micha'},,,&,1/1,&
+&,{'Doug '},{'Thoma'},{'Micha'},,,,&,1/1,&
+&,{'Doug '},,,,,,&,2/1,&
 &,{'Doug '},{'Jamie'},{'Canda'},,,,&,1/1,&
 &,{'Doug '},{'Jamie'},{'Cayle'},{'Loret'},{'Noah '},{'David'},&,1/1,&
 &,{'Doug '},{'Jamie'},{'David'},{'Deian'},{'Cayle'},{'Timur'},&,1/1,&
@@ -4747,7 +4747,7 @@ False
 &,{'Doug '},{'Jamie'},{'Timur'},{'Noah '},{'Terre'},{'David'},&,1/1,&
 &,{'Doug '},{'Jamie'},{'Timur'},{'Steph'},{'Canda'},,&,1/1,&
 &,{'Doug '},{'Jamie'},{'Timur'},,,,&,2/1,&
-&,{'Doug '},{'Jamie'},{'Loret'},{'Jamie'},,,&,1/1,&
+&,{'Doug '},{'Jamie'},{'Loret'},,,,&,1/1,&
 &,{'Doug '},{'Jamie'},,,,,&,5/1,&
 &,{'Doug '},{'Joe A'},{'Canda'},{'David'},{'Steph'},{'Terre'},&,1/1,&
 &,{'Doug '},{'Joe A'},{'Canda'},{'Jamie'},,,&,1/1,&
@@ -5026,8 +5026,8 @@ False
 &,{'Doug '},{'Noah '},{'Deian'},{'Micha'},,,&,1/1,&
 &,{'Doug '},{'Noah '},{'Deian'},{'Terre'},{'David'},{'Thoma'},&,1/1,&
 &,{'Doug '},{'Noah '},{'Deian'},,,,&,4/1,&
-&,{'Doug '},{'Noah '},{'Doug '},{'Noah '},{'Doug '},{'Noah '},&,1/1,&
-&,{'Doug '},{'Noah '},{'Doug '},{'Thoma'},{'Canda'},{'Cayle'},&,1/1,&
+&,{'Doug '},{'Noah '},,,,,&,1/1,&
+&,{'Doug '},{'Noah '},{'Thoma'},{'Canda'},{'Cayle'},,&,1/1,&
 &,{'Doug '},{'Noah '},{'Jamie'},{'Canda'},{'Timur'},{'Joe F'},&,2/1,&
 &,{'Doug '},{'Noah '},{'Jamie'},{'Steph'},{'David'},{'Canda'},&,1/1,&
 &,{'Doug '},{'Noah '},{'Jamie'},{'Terre'},{'Loret'},{'Steph'},&,1/1,&
@@ -5167,7 +5167,7 @@ False
 &,{'Doug '},{'Terre'},{'Canda'},,,,&,2/1,&
 &,{'Doug '},{'Terre'},{'Cayle'},{'Joe F'},{'Timur'},{'Noah '},&,1/1,&
 &,{'Doug '},{'Terre'},{'David'},,,,&,2/1,&
-&,{'Doug '},{'Terre'},{'Deian'},{'Canda'},{'Peggy'},{'Deian'},&,1/1,&
+&,{'Doug '},{'Terre'},{'Deian'},{'Canda'},{'Peggy'},,&,1/1,&
 &,{'Doug '},{'Terre'},{'Deian'},{'David'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Doug '},{'Terre'},{'Deian'},{'Noah '},{'Joe A'},{'Joe F'},&,2/1,&
 &,{'Doug '},{'Terre'},{'Deian'},{'Steph'},{'Canda'},{'Noah '},&,1/1,&
@@ -5225,7 +5225,7 @@ False
 &,{'Doug '},{'Terre'},{'Steph'},{'Thoma'},{'Deian'},{'Timur'},&,1/1,&
 &,{'Doug '},{'Terre'},{'Steph'},{'Timur'},{'Loret'},{'Canda'},&,1/1,&
 &,{'Doug '},{'Terre'},{'Steph'},,,,&,5/1,&
-&,{'Doug '},{'Terre'},{'Terre'},,,,&,1/1,&
+&,{'Doug '},{'Terre'},,,,,&,1/1,&
 &,{'Doug '},{'Terre'},{'Thoma'},{'Jamie'},{'Micha'},{'Joe F'},&,1/1,&
 &,{'Doug '},{'Terre'},{'Thoma'},{'Joe A'},{'Joe F'},{'Micha'},&,2/1,&
 &,{'Doug '},{'Terre'},{'Thoma'},{'Joe A'},,,&,4/1,&
@@ -5245,7 +5245,7 @@ False
 &,{'Doug '},{'Thoma'},{'Deian'},{'Joe A'},{'Micha'},{'Joe F'},&,2/1,&
 &,{'Doug '},{'Thoma'},{'Deian'},{'Joe F'},{'Noah '},{'Terre'},&,1/1,&
 &,{'Doug '},{'Thoma'},{'Deian'},,,,&,3/1,&
-&,{'Doug '},{'Thoma'},{'Doug '},{'Thoma'},{'Doug '},{'Thoma'},&,1/1,&
+&,{'Doug '},{'Thoma'},,,,,&,1/1,&
 &,{'Doug '},{'Thoma'},{'Jamie'},{'Peggy'},{'Joe A'},{'David'},&,1/1,&
 &,{'Doug '},{'Thoma'},{'Jamie'},,,,&,1/1,&
 &,{'Doug '},{'Thoma'},{'Joe A'},{'Micha'},{'Joe F'},{'Canda'},&,1/1,&
@@ -5270,7 +5270,7 @@ False
 &,{'Doug '},{'Thoma'},{'Terre'},{'Joe F'},{'Canda'},{'Micha'},&,1/1,&
 &,{'Doug '},{'Thoma'},{'Terre'},{'Steph'},{'Micha'},{'Loret'},&,1/1,&
 &,{'Doug '},{'Thoma'},{'Terre'},,,,&,1/1,&
-&,{'Doug '},{'Thoma'},{'Thoma'},{'Noah '},,,&,1/1,&
+&,{'Doug '},{'Thoma'},{'Noah '},,,,&,1/1,&
 &,{'Doug '},{'Thoma'},{'Timur'},{'Noah '},,,&,1/1,&
 &,{'Doug '},{'Thoma'},{'Timur'},,,,&,1/1,&
 &,{'Doug '},{'Thoma'},,,,,&,7/1,&
@@ -5289,7 +5289,7 @@ False
 &,{'Doug '},{'Timur'},{'David'},{'Joe A'},,,&,1/1,&
 &,{'Doug '},{'Timur'},{'David'},{'Micha'},,,&,1/1,&
 &,{'Doug '},{'Timur'},{'David'},{'Thoma'},{'Deian'},{'Noah '},&,2/1,&
-&,{'Doug '},{'Timur'},{'David'},{'Timur'},{'Loret'},{'Jamie'},&,1/1,&
+&,{'Doug '},{'Timur'},{'David'},{'Loret'},{'Jamie'},,&,1/1,&
 &,{'Doug '},{'Timur'},{'David'},,,,&,2/1,&
 &,{'Doug '},{'Timur'},{'Deian'},{'Terre'},,,&,1/1,&
 &,{'Doug '},{'Timur'},{'Joe A'},{'David'},{'Thoma'},{'Terre'},&,1/1,&
@@ -5320,7 +5320,7 @@ False
 &,{'Doug '},{'Timur'},{'Terre'},{'Steph'},{'Jamie'},{'Joe F'},&,1/1,&
 &,{'Doug '},{'Timur'},{'Terre'},{'Steph'},{'Joe A'},{'David'},&,1/1,&
 &,{'Doug '},{'Timur'},{'Terre'},{'Steph'},,,&,1/1,&
-&,{'Doug '},{'Timur'},{'Terre'},{'Thoma'},{'Doug '},{'Canda'},&,1/1,&
+&,{'Doug '},{'Timur'},{'Terre'},{'Thoma'},{'Canda'},,&,1/1,&
 &,{'Doug '},{'Timur'},{'Thoma'},{'David'},{'Cayle'},,&,1/1,&
 &,{'Doug '},{'Timur'},{'Thoma'},{'Joe A'},{'Steph'},{'Noah '},&,1/1,&
 &,{'Doug '},{'Timur'},{'Thoma'},,,,&,2/1,&
@@ -5332,7 +5332,7 @@ False
 &,{'Doug '},,,,,,&,3/1,&
 &,{'Doug '},{'Jamie'},{'Steph'},,,,&,1/1,&
 &,{'Doug '},,,,,,&,1/1,&
-&,{'Doug '},{'Doug '},,,,,&,1/1,&
+&,{'Doug '},,,,,,&,1/1,&
 &,{'Doug '},{'Timur'},,,,,&,1/1,&
 &,{'Doug '},{'Canda'},,,,,&,1/1,&
 &,{'Doug '},{'Loret'},,,,,&,1/1,&
@@ -5344,7 +5344,7 @@ False
 &,{'Doug '},,,,,,&,350/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Deian'},{'Steph'},{'Timur'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Doug '},{'Terre'},{'Timur'},&,1/1,&
-&,{'Jamie'},{'Canda'},{'Cayle'},{'Jamie'},{'Timur'},,&,1/1,&
+&,{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},,,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Joe A'},{'Thoma'},{'Steph'},&,2/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Joe F'},{'Steph'},,&,2/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Loret'},{'Noah '},{'Joe F'},&,1/1,&
@@ -5358,7 +5358,7 @@ False
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Steph'},{'Timur'},,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Terre'},{'Steph'},{'Loret'},&,3/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Thoma'},{'Deian'},{'Micha'},&,1/1,&
-&,{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},{'David'},{'Cayle'},&,1/1,&
+&,{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},{'David'},,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},{'David'},{'Steph'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},{'Joe F'},{'Micha'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},{'Peggy'},{'Joe A'},&,1/1,&
@@ -5366,7 +5366,7 @@ False
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},{'Steph'},,&,3/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},,,&,7/1,&
 &,{'Jamie'},{'Canda'},{'Cayle'},,,,&,12/1,&
-&,{'Jamie'},{'Canda'},{'David'},{'Cayle'},{'Jamie'},,&,1/1,&
+&,{'Jamie'},{'Canda'},{'David'},{'Cayle'},,,&,1/1,&
 &,{'Jamie'},{'Canda'},{'David'},{'Cayle'},{'Joe F'},{'Deian'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'David'},{'Cayle'},{'Joe F'},{'Noah '},&,1/1,&
 &,{'Jamie'},{'Canda'},{'David'},{'Cayle'},{'Steph'},{'Terre'},&,1/1,&
@@ -5400,7 +5400,7 @@ False
 &,{'Jamie'},{'Canda'},{'Doug '},{'Timur'},{'Steph'},,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Doug '},{'Timur'},{'Terre'},{'Noah '},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Doug '},,,,&,1/1,&
-&,{'Jamie'},{'Canda'},{'Jamie'},,,,&,2/1,&
+&,{'Jamie'},{'Canda'},,,,,&,2/1,&
 &,{'Jamie'},{'Canda'},{'Joe A'},{'Cayle'},{'Noah '},{'Doug '},&,2/1,&
 &,{'Jamie'},{'Canda'},{'Joe A'},{'David'},{'Deian'},{'Steph'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Joe A'},{'Terre'},{'Timur'},{'Deian'},&,1/1,&
@@ -5468,10 +5468,10 @@ False
 &,{'Jamie'},{'Canda'},{'Peggy'},{'Cayle'},{'David'},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Peggy'},{'Joe A'},{'Terre'},,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Peggy'},,,,&,2/1,&
-&,{'Jamie'},{'Canda'},{'Steph'},{'Canda'},{'Cayle'},{'Loret'},&,1/1,&
-&,{'Jamie'},{'Canda'},{'Steph'},{'Canda'},{'David'},{'Loret'},&,4/1,&
-&,{'Jamie'},{'Canda'},{'Steph'},{'Canda'},{'Loret'},{'David'},&,1/1,&
-&,{'Jamie'},{'Canda'},{'Steph'},{'Canda'},{'Loret'},,&,1/1,&
+&,{'Jamie'},{'Canda'},{'Steph'},{'Cayle'},{'Loret'},,&,1/1,&
+&,{'Jamie'},{'Canda'},{'Steph'},{'David'},{'Loret'},,&,4/1,&
+&,{'Jamie'},{'Canda'},{'Steph'},{'Loret'},{'David'},,&,1/1,&
+&,{'Jamie'},{'Canda'},{'Steph'},{'Loret'},,,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Steph'},{'Cayle'},{'David'},{'Deian'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Steph'},{'Cayle'},{'David'},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Steph'},{'Cayle'},{'Noah '},{'Loret'},&,1/1,&
@@ -5665,7 +5665,7 @@ False
 &,{'Jamie'},{'Canda'},{'Thoma'},{'David'},{'Steph'},,&,2/1,&
 &,{'Jamie'},{'Canda'},{'Thoma'},{'Steph'},{'Doug '},{'Cayle'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Thoma'},{'Timur'},{'Steph'},{'Loret'},&,1/1,&
-&,{'Jamie'},{'Canda'},{'Timur'},{'Canda'},{'Steph'},{'Loret'},&,1/1,&
+&,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'Loret'},,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Cayle'},{'David'},{'Steph'},&,2/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Cayle'},{'David'},,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Cayle'},{'Doug '},{'Joe F'},&,3/1,&
@@ -5678,7 +5678,7 @@ False
 &,{'Jamie'},{'Canda'},{'Timur'},{'David'},,,&,2/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Doug '},{'Deian'},{'Terre'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Doug '},{'Steph'},{'Joe A'},&,1/1,&
-&,{'Jamie'},{'Canda'},{'Timur'},{'Jamie'},{'Loret'},{'Cayle'},&,1/1,&
+&,{'Jamie'},{'Canda'},{'Timur'},{'Loret'},{'Cayle'},,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Joe A'},{'Cayle'},{'Joe F'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Loret'},{'Steph'},{'Noah '},&,2/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Loret'},{'Steph'},{'Terre'},&,1/1,&
@@ -5694,7 +5694,7 @@ False
 &,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'Cayle'},{'David'},&,4/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'Cayle'},,&,8/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'David'},{'Cayle'},&,6/1,&
-&,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'David'},{'David'},&,1/1,&
+&,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'David'},,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'David'},{'Deian'},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'David'},{'Noah '},&,1/1,&
 &,{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'David'},{'Terre'},&,2/1,&
@@ -5766,7 +5766,7 @@ False
 &,{'Jamie'},{'Cayle'},{'Timur'},{'Canda'},{'Steph'},{'Micha'},&,1/1,&
 &,{'Jamie'},{'Cayle'},{'Timur'},{'Canda'},{'Steph'},,&,1/1,&
 &,{'Jamie'},{'Cayle'},{'Timur'},{'Micha'},{'Steph'},,&,1/1,&
-&,{'Jamie'},{'Cayle'},{'Timur'},{'Jamie'},{'Canda'},,&,1/1,&
+&,{'Jamie'},{'Cayle'},{'Timur'},{'Canda'},,,&,1/1,&
 &,{'Jamie'},{'Cayle'},,,,,&,2/1,&
 &,{'Jamie'},{'David'},{'Canda'},{'Noah '},{'Joe F'},{'Loret'},&,2/1,&
 &,{'Jamie'},{'David'},{'Canda'},{'Noah '},,,&,1/1,&
@@ -5903,12 +5903,12 @@ False
 &,{'Jamie'},{'Doug '},{'Timur'},{'Terre'},,,&,1/1,&
 &,{'Jamie'},{'Doug '},{'Timur'},,,,&,4/1,&
 &,{'Jamie'},{'Doug '},,,,,&,1/1,&
-&,{'Jamie'},{'Jamie'},{'David'},,,,&,1/1,&
-&,{'Jamie'},{'Jamie'},{'Jamie'},{'Jamie'},{'Jamie'},{'Jamie'},&,8/1,&
-&,{'Jamie'},{'Jamie'},{'Jamie'},{'Jamie'},{'Steph'},{'Steph'},&,1/1,&
-&,{'Jamie'},{'Jamie'},{'Jamie'},{'Jamie'},,,&,1/1,&
-&,{'Jamie'},{'Jamie'},{'Steph'},{'Canda'},{'Timur'},{'Timur'},&,1/1,&
-&,{'Jamie'},{'Jamie'},{'Steph'},{'Steph'},{'Steph'},{'Steph'},&,1/1,&
+&,{'Jamie'},{'David'},,,,,&,1/1,&
+&,{'Jamie'},,,,,,&,8/1,&
+&,{'Jamie'},{'Steph'},,,,,&,1/1,&
+&,{'Jamie'},,,,,,&,1/1,&
+&,{'Jamie'},{'Steph'},{'Canda'},{'Timur'},,,&,1/1,&
+&,{'Jamie'},{'Steph'},,,,,&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Canda'},{'Cayle'},{'Timur'},{'Doug '},&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Canda'},{'Joe F'},{'Loret'},{'Cayle'},&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Canda'},{'Micha'},{'Terre'},{'Thoma'},&,1/1,&
@@ -5927,14 +5927,14 @@ False
 &,{'Jamie'},{'Joe A'},{'Noah '},{'Cayle'},,,&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Noah '},{'David'},,,&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Peggy'},{'Doug '},{'Loret'},{'Deian'},&,1/1,&
-&,{'Jamie'},{'Joe A'},{'Peggy'},{'Joe A'},{'Joe F'},{'Loret'},&,1/1,&
+&,{'Jamie'},{'Joe A'},{'Peggy'},{'Joe F'},{'Loret'},,&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Peggy'},{'Loret'},{'Steph'},{'Doug '},&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Peggy'},{'Timur'},{'Canda'},,&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Steph'},{'Canda'},{'David'},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Steph'},{'Canda'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Steph'},{'Canda'},{'Terre'},{'Micha'},&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Steph'},{'Cayle'},{'Timur'},{'Micha'},&,1/1,&
-&,{'Jamie'},{'Joe A'},{'Steph'},{'Jamie'},{'Thoma'},{'Canda'},&,1/1,&
+&,{'Jamie'},{'Joe A'},{'Steph'},{'Thoma'},{'Canda'},,&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Steph'},{'Noah '},{'Deian'},,&,1/1,&
 &,{'Jamie'},{'Joe A'},{'Steph'},,,,&,3/1,&
 &,{'Jamie'},{'Joe A'},{'Timur'},{'Noah '},{'David'},{'Joe F'},&,1/1,&
@@ -6149,7 +6149,7 @@ False
 &,{'Jamie'},{'Loret'},{'Timur'},,,,&,3/1,&
 &,{'Jamie'},{'Loret'},{'Canda'},{'David'},{'Cayle'},,&,1/1,&
 &,{'Jamie'},{'Loret'},,,,,&,29/1,&
-&,{'Jamie'},{'Micha'},{'Canda'},{'Cayle'},{'David'},{'Canda'},&,1/1,&
+&,{'Jamie'},{'Micha'},{'Canda'},{'Cayle'},{'David'},,&,1/1,&
 &,{'Jamie'},{'Micha'},{'Canda'},{'Loret'},{'Timur'},{'Steph'},&,1/1,&
 &,{'Jamie'},{'Micha'},{'Canda'},{'Noah '},{'Steph'},,&,1/1,&
 &,{'Jamie'},{'Micha'},{'Canda'},{'Noah '},,,&,1/1,&
@@ -6164,7 +6164,7 @@ False
 &,{'Jamie'},{'Micha'},{'David'},{'Cayle'},{'Joe A'},{'Timur'},&,1/1,&
 &,{'Jamie'},{'Micha'},{'David'},{'Doug '},{'Timur'},{'Deian'},&,1/1,&
 &,{'Jamie'},{'Micha'},{'David'},{'Joe A'},{'Doug '},{'Loret'},&,1/1,&
-&,{'Jamie'},{'Micha'},{'David'},{'Micha'},{'Joe A'},{'Timur'},&,1/1,&
+&,{'Jamie'},{'Micha'},{'David'},{'Joe A'},{'Timur'},,&,1/1,&
 &,{'Jamie'},{'Micha'},{'David'},{'Thoma'},{'Noah '},{'Cayle'},&,3/1,&
 &,{'Jamie'},{'Micha'},{'David'},{'Timur'},,,&,1/1,&
 &,{'Jamie'},{'Micha'},{'David'},,,,&,2/1,&
@@ -6282,13 +6282,13 @@ False
 &,{'Jamie'},{'Peggy'},{'Noah '},{'Terre'},{'Loret'},{'Deian'},&,1/1,&
 &,{'Jamie'},{'Peggy'},{'Noah '},,,,&,1/1,&
 &,{'Jamie'},{'Peggy'},{'Steph'},{'Loret'},{'Canda'},{'Terre'},&,1/1,&
-&,{'Jamie'},{'Peggy'},{'Steph'},{'Micha'},{'Terre'},{'Peggy'},&,1/1,&
+&,{'Jamie'},{'Peggy'},{'Steph'},{'Micha'},{'Terre'},,&,1/1,&
 &,{'Jamie'},{'Peggy'},{'Thoma'},{'Canda'},{'Timur'},{'Joe F'},&,1/1,&
 &,{'Jamie'},{'Peggy'},{'Timur'},{'Canda'},{'Cayle'},{'Joe F'},&,1/1,&
 &,{'Jamie'},{'Peggy'},{'Timur'},{'Loret'},{'Deian'},{'David'},&,1/1,&
 &,{'Jamie'},{'Peggy'},{'Timur'},,,,&,1/1,&
 &,{'Jamie'},{'Peggy'},,,,,&,3/1,&
-&,{'Jamie'},{'Steph'},{'Canda'},{'Canda'},,,&,1/1,&
+&,{'Jamie'},{'Steph'},{'Canda'},,,,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Cayle'},{'Deian'},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Cayle'},{'Noah '},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Cayle'},{'Terre'},{'Noah '},&,1/1,&
@@ -6304,7 +6304,7 @@ False
 &,{'Jamie'},{'Steph'},{'Canda'},{'David'},{'Noah '},{'Terre'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'David'},{'Noah '},,&,4/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'David'},{'Terre'},{'Noah '},&,1/1,&
-&,{'Jamie'},{'Steph'},{'Canda'},{'David'},{'Timur'},{'David'},&,1/1,&
+&,{'Jamie'},{'Steph'},{'Canda'},{'David'},{'Timur'},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'David'},{'Timur'},{'Loret'},&,2/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'David'},,,&,5/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Deian'},{'Noah '},{'Micha'},&,1/1,&
@@ -6314,7 +6314,7 @@ False
 &,{'Jamie'},{'Steph'},{'Canda'},{'Doug '},{'Loret'},{'Deian'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Doug '},{'Timur'},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Doug '},,,&,2/1,&
-&,{'Jamie'},{'Steph'},{'Canda'},{'Jamie'},{'Steph'},{'Canda'},&,1/1,&
+&,{'Jamie'},{'Steph'},{'Canda'},,,,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Joe A'},{'Joe F'},{'Micha'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Joe A'},{'Loret'},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Joe F'},{'Joe A'},{'Deian'},&,1/1,&
@@ -6366,7 +6366,7 @@ False
 &,{'Jamie'},{'Steph'},{'Canda'},{'Terre'},{'David'},{'Timur'},&,2/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Terre'},{'Doug '},{'Cayle'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Terre'},{'Loret'},{'Joe A'},&,1/1,&
-&,{'Jamie'},{'Steph'},{'Canda'},{'Terre'},{'Noah '},{'Canda'},&,1/1,&
+&,{'Jamie'},{'Steph'},{'Canda'},{'Terre'},{'Noah '},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Terre'},{'Noah '},{'David'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Terre'},{'Noah '},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Canda'},{'Terre'},{'Noah '},,&,1/1,&
@@ -6455,7 +6455,7 @@ False
 &,{'Jamie'},{'Steph'},{'Deian'},{'Canda'},{'Joe F'},{'Noah '},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Deian'},{'Canda'},{'Timur'},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Deian'},{'Cayle'},{'Joe A'},{'Peggy'},&,1/1,&
-&,{'Jamie'},{'Steph'},{'Deian'},{'David'},{'Noah '},{'Jamie'},&,1/1,&
+&,{'Jamie'},{'Steph'},{'Deian'},{'David'},{'Noah '},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Deian'},{'Loret'},{'Canda'},{'Micha'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Deian'},{'Micha'},{'Noah '},{'Timur'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Deian'},{'Terre'},{'Canda'},{'Timur'},&,1/1,&
@@ -6569,7 +6569,7 @@ False
 &,{'Jamie'},{'Steph'},{'Peggy'},{'Joe A'},{'Loret'},{'Thoma'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Peggy'},{'Loret'},{'Joe F'},{'Doug '},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Peggy'},,,,&,2/1,&
-&,{'Jamie'},{'Steph'},{'Steph'},,,,&,1/1,&
+&,{'Jamie'},{'Steph'},,,,,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Terre'},{'Canda'},{'David'},{'Cayle'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Terre'},{'Canda'},{'Joe A'},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Terre'},{'Canda'},{'Loret'},{'Joe F'},&,1/1,&
@@ -6630,7 +6630,7 @@ False
 &,{'Jamie'},{'Steph'},{'Terre'},{'Timur'},{'Loret'},{'Noah '},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Terre'},{'Timur'},{'Noah '},{'David'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Terre'},,,,&,17/1,&
-&,{'Jamie'},{'Steph'},{'Thoma'},{'Canda'},{'Thoma'},{'David'},&,1/1,&
+&,{'Jamie'},{'Steph'},{'Thoma'},{'Canda'},{'David'},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Thoma'},{'Cayle'},{'David'},{'Timur'},&,1/1,&
 &,{'Jamie'},{'Steph'},{'Thoma'},{'David'},{'Timur'},{'Joe A'},&,2/1,&
 &,{'Jamie'},{'Steph'},{'Thoma'},{'Deian'},{'Joe F'},{'Doug '},&,1/1,&
@@ -6675,7 +6675,7 @@ False
 &,{'Jamie'},{'Steph'},{'Timur'},{'David'},{'Loret'},{'Terre'},&,2/1,&
 &,{'Jamie'},{'Steph'},{'Timur'},{'David'},,,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Timur'},{'Doug '},{'Canda'},{'Noah '},&,1/1,&
-&,{'Jamie'},{'Steph'},{'Timur'},{'Doug '},{'Joe F'},{'Jamie'},&,1/1,&
+&,{'Jamie'},{'Steph'},{'Timur'},{'Doug '},{'Joe F'},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Timur'},{'Joe A'},{'Deian'},{'Terre'},&,2/1,&
 &,{'Jamie'},{'Steph'},{'Timur'},{'Joe F'},{'David'},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Timur'},{'Joe F'},{'Loret'},{'Noah '},&,1/1,&
@@ -6713,7 +6713,7 @@ False
 &,{'Jamie'},{'Terre'},{'Canda'},{'Loret'},{'Noah '},{'Steph'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},{'Loret'},{'Steph'},{'Noah '},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},{'Loret'},,,&,3/1,&
-&,{'Jamie'},{'Terre'},{'Canda'},{'Micha'},{'Cayle'},{'Canda'},&,1/1,&
+&,{'Jamie'},{'Terre'},{'Canda'},{'Micha'},{'Cayle'},,&,1/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},{'Micha'},{'Timur'},{'Loret'},&,2/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},{'Noah '},{'Steph'},{'Timur'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},{'Noah '},{'Thoma'},{'Timur'},&,2/1,&
@@ -6724,7 +6724,7 @@ False
 &,{'Jamie'},{'Terre'},{'Canda'},{'Steph'},{'Noah '},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},{'Steph'},{'Timur'},{'Cayle'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},{'Steph'},,,&,2/1,&
-&,{'Jamie'},{'Terre'},{'Canda'},{'Timur'},{'Canda'},{'David'},&,1/1,&
+&,{'Jamie'},{'Terre'},{'Canda'},{'Timur'},{'David'},,&,1/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},{'Timur'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Canda'},,,,&,6/1,&
 &,{'Jamie'},{'Terre'},{'Cayle'},{'Canda'},,,&,1/1,&
@@ -6738,7 +6738,7 @@ False
 &,{'Jamie'},{'Terre'},{'David'},{'Deian'},,,&,2/1,&
 &,{'Jamie'},{'Terre'},{'David'},{'Doug '},{'Deian'},{'Peggy'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'David'},{'Joe A'},{'Loret'},{'Cayle'},&,1/1,&
-&,{'Jamie'},{'Terre'},{'David'},{'Loret'},{'Doug '},{'Loret'},&,1/1,&
+&,{'Jamie'},{'Terre'},{'David'},{'Loret'},{'Doug '},,&,1/1,&
 &,{'Jamie'},{'Terre'},{'David'},{'Steph'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'David'},{'Steph'},{'Loret'},,&,1/1,&
 &,{'Jamie'},{'Terre'},{'David'},,,,&,2/1,&
@@ -6754,7 +6754,7 @@ False
 &,{'Jamie'},{'Terre'},{'Doug '},{'Loret'},,,&,1/1,&
 &,{'Jamie'},{'Terre'},{'Doug '},{'Timur'},{'Loret'},{'Thoma'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Doug '},,,,&,1/1,&
-&,{'Jamie'},{'Terre'},{'Jamie'},{'Loret'},{'Deian'},{'Canda'},&,1/1,&
+&,{'Jamie'},{'Terre'},{'Loret'},{'Deian'},{'Canda'},,&,1/1,&
 &,{'Jamie'},{'Terre'},{'Joe A'},{'Doug '},{'Micha'},{'David'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Joe A'},{'Loret'},{'Canda'},{'Micha'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Joe F'},{'Joe A'},{'Deian'},{'Noah '},&,1/1,&
@@ -6788,7 +6788,7 @@ False
 &,{'Jamie'},{'Terre'},{'Loret'},{'Micha'},{'Doug '},{'Joe A'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Loret'},{'Micha'},{'Doug '},{'Peggy'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Loret'},{'Micha'},{'Timur'},{'Noah '},&,1/1,&
-&,{'Jamie'},{'Terre'},{'Loret'},{'Noah '},{'Jamie'},,&,1/1,&
+&,{'Jamie'},{'Terre'},{'Loret'},{'Noah '},,,&,1/1,&
 &,{'Jamie'},{'Terre'},{'Loret'},{'Steph'},{'Cayle'},{'Canda'},&,2/1,&
 &,{'Jamie'},{'Terre'},{'Loret'},{'Steph'},{'Joe A'},{'David'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Loret'},{'Steph'},{'Joe F'},{'Joe A'},&,1/1,&
@@ -6821,7 +6821,7 @@ False
 &,{'Jamie'},{'Terre'},{'Noah '},{'Joe A'},{'Deian'},{'Doug '},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Noah '},{'Joe F'},{'David'},,&,1/1,&
 &,{'Jamie'},{'Terre'},{'Noah '},{'Loret'},{'Steph'},,&,1/1,&
-&,{'Jamie'},{'Terre'},{'Noah '},{'Loret'},{'Thoma'},{'Terre'},&,1/1,&
+&,{'Jamie'},{'Terre'},{'Noah '},{'Loret'},{'Thoma'},,&,1/1,&
 &,{'Jamie'},{'Terre'},{'Noah '},{'Loret'},{'Timur'},{'Steph'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Noah '},{'Steph'},{'Canda'},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Terre'},{'Noah '},{'Timur'},{'Canda'},{'Steph'},&,1/1,&
@@ -6911,7 +6911,7 @@ False
 &,{'Jamie'},{'Thoma'},{'Micha'},{'Doug '},{'David'},{'Canda'},&,1/1,&
 &,{'Jamie'},{'Thoma'},{'Micha'},{'Doug '},{'David'},{'Joe A'},&,1/1,&
 &,{'Jamie'},{'Thoma'},{'Micha'},{'Noah '},{'Joe A'},{'Doug '},&,1/1,&
-&,{'Jamie'},{'Thoma'},{'Micha'},{'Timur'},{'Noah '},{'Thoma'},&,1/1,&
+&,{'Jamie'},{'Thoma'},{'Micha'},{'Timur'},{'Noah '},,&,1/1,&
 &,{'Jamie'},{'Thoma'},{'Micha'},,,,&,1/1,&
 &,{'Jamie'},{'Thoma'},{'Steph'},{'Canda'},{'Cayle'},{'David'},&,1/1,&
 &,{'Jamie'},{'Thoma'},{'Steph'},{'Canda'},{'Timur'},{'Doug '},&,1/1,&
@@ -7009,7 +7009,7 @@ False
 &,{'Jamie'},{'Timur'},{'Deian'},{'Terre'},{'Loret'},{'Canda'},&,2/1,&
 &,{'Jamie'},{'Timur'},{'Deian'},{'Terre'},{'Loret'},{'David'},&,1/1,&
 &,{'Jamie'},{'Timur'},{'Doug '},{'Canda'},{'Joe A'},{'Cayle'},&,1/1,&
-&,{'Jamie'},{'Timur'},{'Doug '},{'Micha'},{'Steph'},{'Doug '},&,1/1,&
+&,{'Jamie'},{'Timur'},{'Doug '},{'Micha'},{'Steph'},,&,1/1,&
 &,{'Jamie'},{'Timur'},{'Joe A'},{'Canda'},,,&,2/1,&
 &,{'Jamie'},{'Timur'},{'Joe A'},{'Cayle'},{'Canda'},{'Steph'},&,1/1,&
 &,{'Jamie'},{'Timur'},{'Joe A'},{'Deian'},{'Terre'},{'Loret'},&,2/1,&
@@ -7039,7 +7039,7 @@ False
 &,{'Jamie'},{'Timur'},{'Loret'},{'Thoma'},{'Terre'},,&,1/1,&
 &,{'Jamie'},{'Timur'},{'Loret'},,,,&,7/1,&
 &,{'Jamie'},{'Timur'},{'Micha'},{'Canda'},,,&,1/1,&
-&,{'Jamie'},{'Timur'},{'Micha'},{'Jamie'},{'Steph'},{'Loret'},&,1/1,&
+&,{'Jamie'},{'Timur'},{'Micha'},{'Steph'},{'Loret'},,&,1/1,&
 &,{'Jamie'},{'Timur'},{'Micha'},{'Joe F'},{'David'},,&,2/1,&
 &,{'Jamie'},{'Timur'},{'Micha'},{'Steph'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Jamie'},{'Timur'},{'Micha'},{'Steph'},{'David'},{'Terre'},&,1/1,&
@@ -7061,7 +7061,7 @@ False
 &,{'Jamie'},{'Timur'},{'Noah '},,,,&,6/1,&
 &,{'Jamie'},{'Timur'},{'Peggy'},{'Noah '},{'Canda'},{'Joe A'},&,1/1,&
 &,{'Jamie'},{'Timur'},{'Peggy'},,,,&,1/1,&
-&,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Cayle'},{'Canda'},&,1/1,&
+&,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Cayle'},,&,1/1,&
 &,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Cayle'},{'Thoma'},&,2/1,&
 &,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Cayle'},,&,1/1,&
 &,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'David'},{'Loret'},&,1/1,&
@@ -7078,7 +7078,7 @@ False
 &,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Noah '},{'David'},&,1/1,&
 &,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Terre'},{'Thoma'},&,1/1,&
-&,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Timur'},,&,1/1,&
+&,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},,,&,1/1,&
 &,{'Jamie'},{'Timur'},{'Steph'},{'Canda'},,,&,12/1,&
 &,{'Jamie'},{'Timur'},{'Steph'},{'Cayle'},{'Canda'},,&,1/1,&
 &,{'Jamie'},{'Timur'},{'Steph'},{'Cayle'},{'David'},{'Thoma'},&,1/1,&
@@ -7134,7 +7134,7 @@ False
 &,{'Jamie'},{'Timur'},{'Terre'},{'Steph'},,,&,2/1,&
 &,{'Jamie'},{'Timur'},{'Terre'},,,,&,2/1,&
 &,{'Jamie'},{'Timur'},{'Thoma'},{'Joe A'},{'Noah '},{'Doug '},&,1/1,&
-&,{'Jamie'},{'Timur'},{'Timur'},{'Timur'},{'Jamie'},{'Jamie'},&,1/1,&
+&,{'Jamie'},{'Timur'},,,,,&,1/1,&
 &,{'Jamie'},{'Timur'},{'Peggy'},{'Terre'},,,&,1/1,&
 &,{'Jamie'},{'Timur'},,,,,&,1/1,&
 &,{'Jamie'},{'Timur'},,,,,&,32/1,&
@@ -7158,7 +7158,7 @@ False
 &,{'Jamie'},,,,,,&,1/1,&
 &,{'Jamie'},,,,,,&,431/1,&
 &,{'Joe A'},{'Canda'},{'Cayle'},{'Deian'},{'Terre'},{'Doug '},&,1/1,&
-&,{'Joe A'},{'Canda'},{'Cayle'},{'Joe F'},{'Jamie'},{'Jamie'},&,1/1,&
+&,{'Joe A'},{'Canda'},{'Cayle'},{'Joe F'},{'Jamie'},,&,1/1,&
 &,{'Joe A'},{'Canda'},{'Cayle'},{'Steph'},{'Micha'},{'Timur'},&,1/1,&
 &,{'Joe A'},{'Canda'},{'David'},{'Doug '},{'Peggy'},{'Micha'},&,1/1,&
 &,{'Joe A'},{'Canda'},{'David'},{'Noah '},{'Cayle'},{'Timur'},&,1/1,&
@@ -7188,7 +7188,7 @@ False
 &,{'Joe A'},{'Canda'},{'Peggy'},{'Steph'},{'Joe F'},{'Timur'},&,1/1,&
 &,{'Joe A'},{'Canda'},{'Peggy'},{'Thoma'},{'Doug '},{'David'},&,1/1,&
 &,{'Joe A'},{'Canda'},{'Steph'},{'Jamie'},{'Loret'},{'Terre'},&,1/1,&
-&,{'Joe A'},{'Canda'},{'Terre'},{'Canda'},{'Noah '},{'Jamie'},&,1/1,&
+&,{'Joe A'},{'Canda'},{'Terre'},{'Noah '},{'Jamie'},,&,1/1,&
 &,{'Joe A'},{'Canda'},{'Terre'},{'Jamie'},{'Loret'},,&,1/1,&
 &,{'Joe A'},{'Canda'},{'Terre'},{'Micha'},{'Steph'},{'Joe F'},&,1/1,&
 &,{'Joe A'},{'Canda'},{'Timur'},{'Deian'},{'David'},{'Steph'},&,1/1,&
@@ -7271,7 +7271,7 @@ False
 &,{'Joe A'},{'David'},{'Doug '},,,,&,2/1,&
 &,{'Joe A'},{'David'},{'Jamie'},{'Thoma'},{'Timur'},{'Doug '},&,1/1,&
 &,{'Joe A'},{'David'},{'Joe F'},{'Doug '},{'Thoma'},{'Micha'},&,1/1,&
-&,{'Joe A'},{'David'},{'Joe F'},{'Thoma'},{'Joe F'},{'Doug '},&,1/1,&
+&,{'Joe A'},{'David'},{'Joe F'},{'Thoma'},{'Doug '},,&,1/1,&
 &,{'Joe A'},{'David'},{'Joe F'},{'Thoma'},{'Terre'},{'Noah '},&,3/1,&
 &,{'Joe A'},{'David'},{'Joe F'},{'Thoma'},,,&,1/1,&
 &,{'Joe A'},{'David'},{'Joe F'},{'Timur'},{'Thoma'},{'Doug '},&,1/1,&
@@ -7282,7 +7282,7 @@ False
 &,{'Joe A'},{'David'},{'Micha'},{'Deian'},,,&,1/1,&
 &,{'Joe A'},{'David'},{'Micha'},{'Loret'},{'Peggy'},{'Steph'},&,1/1,&
 &,{'Joe A'},{'David'},{'Micha'},{'Loret'},{'Thoma'},{'Jamie'},&,2/1,&
-&,{'Joe A'},{'David'},{'Micha'},{'Noah '},{'Joe A'},{'Joe F'},&,1/1,&
+&,{'Joe A'},{'David'},{'Micha'},{'Noah '},{'Joe F'},,&,1/1,&
 &,{'Joe A'},{'David'},{'Micha'},{'Thoma'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Joe A'},{'David'},{'Micha'},{'Timur'},{'Doug '},{'Terre'},&,2/1,&
 &,{'Joe A'},{'David'},{'Micha'},,,,&,2/1,&
@@ -7345,7 +7345,7 @@ False
 &,{'Joe A'},{'Doug '},{'Joe F'},{'Thoma'},{'Timur'},{'Steph'},&,2/1,&
 &,{'Joe A'},{'Doug '},{'Joe F'},{'Timur'},,,&,1/1,&
 &,{'Joe A'},{'Doug '},{'Loret'},{'Cayle'},{'Steph'},{'Timur'},&,1/1,&
-&,{'Joe A'},{'Doug '},{'Loret'},{'Jamie'},{'Loret'},{'Micha'},&,1/1,&
+&,{'Joe A'},{'Doug '},{'Loret'},{'Jamie'},{'Micha'},,&,1/1,&
 &,{'Joe A'},{'Doug '},{'Loret'},{'Joe F'},{'David'},{'Peggy'},&,1/1,&
 &,{'Joe A'},{'Doug '},{'Loret'},{'Joe F'},{'Deian'},{'Thoma'},&,1/1,&
 &,{'Joe A'},{'Doug '},{'Loret'},{'Micha'},{'Noah '},{'Joe F'},&,1/1,&
@@ -7357,7 +7357,7 @@ False
 &,{'Joe A'},{'Doug '},{'Loret'},{'Terre'},{'Noah '},{'Peggy'},&,1/1,&
 &,{'Joe A'},{'Doug '},{'Loret'},,,,&,3/1,&
 &,{'Joe A'},{'Doug '},{'Micha'},{'David'},{'Thoma'},{'Noah '},&,1/1,&
-&,{'Joe A'},{'Doug '},{'Micha'},{'Doug '},{'Joe A'},{'Doug '},&,1/1,&
+&,{'Joe A'},{'Doug '},{'Micha'},,,,&,1/1,&
 &,{'Joe A'},{'Doug '},{'Micha'},{'Jamie'},{'Thoma'},{'Timur'},&,3/1,&
 &,{'Joe A'},{'Doug '},{'Micha'},{'Jamie'},{'Thoma'},,&,1/1,&
 &,{'Joe A'},{'Doug '},{'Micha'},{'Jamie'},{'Timur'},{'Noah '},&,1/1,&
@@ -7399,7 +7399,7 @@ False
 &,{'Joe A'},{'Doug '},,,,,&,6/1,&
 &,{'Joe A'},{'Jamie'},{'Canda'},{'Timur'},{'Steph'},{'Micha'},&,1/1,&
 &,{'Joe A'},{'Jamie'},{'Cayle'},{'Micha'},{'Noah '},{'Thoma'},&,1/1,&
-&,{'Joe A'},{'Jamie'},{'David'},{'Loret'},{'Jamie'},{'Joe F'},&,1/1,&
+&,{'Joe A'},{'Jamie'},{'David'},{'Loret'},{'Joe F'},,&,1/1,&
 &,{'Joe A'},{'Jamie'},{'David'},{'Noah '},{'Thoma'},{'Timur'},&,1/1,&
 &,{'Joe A'},{'Jamie'},{'David'},{'Thoma'},{'Micha'},{'Doug '},&,1/1,&
 &,{'Joe A'},{'Jamie'},{'Doug '},{'David'},{'Noah '},,&,1/1,&
@@ -7421,15 +7421,15 @@ False
 &,{'Joe A'},{'Jamie'},{'Thoma'},{'Canda'},{'Peggy'},{'Joe F'},&,1/1,&
 &,{'Joe A'},{'Jamie'},{'Thoma'},,,,&,1/1,&
 &,{'Joe A'},{'Jamie'},{'Timur'},{'Steph'},{'Canda'},{'Noah '},&,1/1,&
-&,{'Joe A'},{'Joe A'},{'Joe A'},{'Joe A'},{'Joe A'},{'Joe A'},&,2/1,&
-&,{'Joe A'},{'Joe A'},{'Noah '},{'Noah '},,,&,1/1,&
+&,{'Joe A'},,,,,,&,2/1,&
+&,{'Joe A'},{'Noah '},,,,,&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Canda'},{'Thoma'},{'Jamie'},,&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Cayle'},{'Steph'},{'David'},{'Timur'},&,1/1,&
 &,{'Joe A'},{'Joe F'},{'David'},{'Deian'},{'Thoma'},{'Steph'},&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Deian'},{'Canda'},{'Terre'},,&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Doug '},{'Cayle'},{'Noah '},{'Deian'},&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Doug '},{'David'},{'Micha'},{'Noah '},&,1/1,&
-&,{'Joe A'},{'Joe F'},{'Doug '},{'Loret'},{'Terre'},{'Terre'},&,1/1,&
+&,{'Joe A'},{'Joe F'},{'Doug '},{'Loret'},{'Terre'},,&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Doug '},{'Noah '},{'Deian'},{'Terre'},&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Doug '},{'Peggy'},{'David'},{'Noah '},&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Doug '},{'Steph'},{'Cayle'},{'Peggy'},&,1/1,&
@@ -7516,7 +7516,7 @@ False
 &,{'Joe A'},{'Micha'},{'Cayle'},{'Steph'},{'Doug '},{'David'},&,1/1,&
 &,{'Joe A'},{'Micha'},{'Cayle'},,,,&,1/1,&
 &,{'Joe A'},{'Micha'},{'David'},{'Loret'},{'Steph'},{'Peggy'},&,1/1,&
-&,{'Joe A'},{'Micha'},{'David'},{'Peggy'},{'Doug '},{'David'},&,1/1,&
+&,{'Joe A'},{'Micha'},{'David'},{'Peggy'},{'Doug '},,&,1/1,&
 &,{'Joe A'},{'Micha'},{'David'},{'Thoma'},{'Terre'},{'Peggy'},&,1/1,&
 &,{'Joe A'},{'Micha'},{'David'},,,,&,2/1,&
 &,{'Joe A'},{'Micha'},{'Deian'},{'Timur'},{'Steph'},{'Canda'},&,1/1,&
@@ -7541,7 +7541,7 @@ False
 &,{'Joe A'},{'Micha'},{'Peggy'},{'Loret'},{'David'},,&,1/1,&
 &,{'Joe A'},{'Micha'},{'Peggy'},{'Steph'},{'David'},{'Doug '},&,1/1,&
 &,{'Joe A'},{'Micha'},{'Peggy'},{'Thoma'},{'David'},{'Timur'},&,1/1,&
-&,{'Joe A'},{'Micha'},{'Peggy'},{'Thoma'},{'Jamie'},{'Joe A'},&,1/1,&
+&,{'Joe A'},{'Micha'},{'Peggy'},{'Thoma'},{'Jamie'},,&,1/1,&
 &,{'Joe A'},{'Micha'},{'Peggy'},,,,&,1/1,&
 &,{'Joe A'},{'Micha'},{'Steph'},{'Noah '},{'David'},{'Joe F'},&,1/1,&
 &,{'Joe A'},{'Micha'},{'Steph'},,,,&,2/1,&
@@ -7579,7 +7579,7 @@ False
 &,{'Joe A'},{'Noah '},{'Doug '},,,,&,4/1,&
 &,{'Joe A'},{'Noah '},{'Joe F'},{'Cayle'},{'Peggy'},{'Thoma'},&,1/1,&
 &,{'Joe A'},{'Noah '},{'Joe F'},{'Jamie'},{'Terre'},{'Loret'},&,3/1,&
-&,{'Joe A'},{'Noah '},{'Joe F'},{'Joe A'},{'Loret'},{'Jamie'},&,1/1,&
+&,{'Joe A'},{'Noah '},{'Joe F'},{'Loret'},{'Jamie'},,&,1/1,&
 &,{'Joe A'},{'Noah '},{'Joe F'},,,,&,2/1,&
 &,{'Joe A'},{'Noah '},{'Loret'},{'Jamie'},{'Terre'},{'Micha'},&,1/1,&
 &,{'Joe A'},{'Noah '},{'Loret'},{'Steph'},,,&,1/1,&
@@ -7634,7 +7634,7 @@ False
 &,{'Joe A'},{'Peggy'},{'Micha'},{'Doug '},{'Noah '},{'Terre'},&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Micha'},{'Jamie'},{'David'},{'Doug '},&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Micha'},{'Jamie'},{'Joe F'},{'Noah '},&,1/1,&
-&,{'Joe A'},{'Peggy'},{'Micha'},{'Jamie'},{'Loret'},{'Joe A'},&,1/1,&
+&,{'Joe A'},{'Peggy'},{'Micha'},{'Jamie'},{'Loret'},,&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Micha'},{'Loret'},{'Noah '},{'Timur'},&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Micha'},{'Thoma'},{'Cayle'},{'David'},&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Micha'},{'Thoma'},{'Steph'},{'David'},&,1/1,&
@@ -7642,7 +7642,7 @@ False
 &,{'Joe A'},{'Peggy'},{'Noah '},{'David'},{'Timur'},{'Jamie'},&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Noah '},{'Jamie'},{'Steph'},{'Terre'},&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Noah '},,,,&,1/1,&
-&,{'Joe A'},{'Peggy'},{'Peggy'},,,,&,1/1,&
+&,{'Joe A'},{'Peggy'},,,,,&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Steph'},{'Jamie'},{'David'},{'Micha'},&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Steph'},{'Terre'},{'David'},{'Jamie'},&,1/1,&
 &,{'Joe A'},{'Peggy'},{'Terre'},{'Cayle'},{'Micha'},{'David'},&,1/1,&
@@ -7669,7 +7669,7 @@ False
 &,{'Joe A'},{'Terre'},{'Canda'},{'Jamie'},{'Steph'},{'Deian'},&,1/1,&
 &,{'Joe A'},{'Terre'},{'Canda'},{'Steph'},{'Deian'},{'Timur'},&,1/1,&
 &,{'Joe A'},{'Terre'},{'Cayle'},,,,&,1/1,&
-&,{'Joe A'},{'Terre'},{'David'},{'Doug '},{'Deian'},{'David'},&,1/1,&
+&,{'Joe A'},{'Terre'},{'David'},{'Doug '},{'Deian'},,&,1/1,&
 &,{'Joe A'},{'Terre'},{'David'},{'Noah '},{'Steph'},{'Micha'},&,1/1,&
 &,{'Joe A'},{'Terre'},{'Doug '},{'Canda'},{'Timur'},{'Peggy'},&,1/1,&
 &,{'Joe A'},{'Terre'},{'Doug '},{'David'},{'Deian'},{'Micha'},&,1/1,&
@@ -7679,7 +7679,7 @@ False
 &,{'Joe A'},{'Terre'},{'Jamie'},{'Loret'},{'David'},{'Noah '},&,1/1,&
 &,{'Joe A'},{'Terre'},{'Jamie'},{'Thoma'},,,&,1/1,&
 &,{'Joe A'},{'Terre'},{'Jamie'},,,,&,2/1,&
-&,{'Joe A'},{'Terre'},{'Joe A'},{'Deian'},{'Steph'},{'Noah '},&,1/1,&
+&,{'Joe A'},{'Terre'},{'Deian'},{'Steph'},{'Noah '},,&,1/1,&
 &,{'Joe A'},{'Terre'},{'Joe F'},,,,&,2/1,&
 &,{'Joe A'},{'Terre'},{'Loret'},{'Canda'},{'Jamie'},{'David'},&,2/1,&
 &,{'Joe A'},{'Terre'},{'Loret'},{'Doug '},{'Peggy'},{'Noah '},&,1/1,&
@@ -7797,7 +7797,7 @@ False
 &,{'Joe F'},{'Cayle'},{'Canda'},,,,&,1/1,&
 &,{'Joe F'},{'Cayle'},{'David'},,,,&,1/1,&
 &,{'Joe F'},{'Cayle'},{'Jamie'},,,,&,1/1,&
-&,{'Joe F'},{'Cayle'},{'Joe F'},{'Deian'},{'Thoma'},{'David'},&,1/1,&
+&,{'Joe F'},{'Cayle'},{'Deian'},{'Thoma'},{'David'},,&,1/1,&
 &,{'Joe F'},{'Cayle'},{'Loret'},{'Steph'},{'Joe A'},{'Timur'},&,1/1,&
 &,{'Joe F'},{'Cayle'},{'Loret'},{'Timur'},{'Jamie'},{'Steph'},&,1/1,&
 &,{'Joe F'},{'Cayle'},{'Micha'},{'Doug '},{'Deian'},{'Loret'},&,1/1,&
@@ -7887,7 +7887,7 @@ False
 &,{'Joe F'},{'Joe A'},{'Steph'},{'Terre'},{'Noah '},{'Peggy'},&,1/1,&
 &,{'Joe F'},{'Joe A'},{'Terre'},{'Jamie'},{'Thoma'},,&,1/1,&
 &,{'Joe F'},{'Joe A'},{'Thoma'},{'Micha'},{'Steph'},{'Jamie'},&,1/1,&
-&,{'Joe F'},{'Joe F'},{'Joe F'},{'Joe F'},{'Joe F'},{'Joe F'},&,2/1,&
+&,{'Joe F'},,,,,,&,2/1,&
 &,{'Joe F'},{'Loret'},{'Canda'},{'Peggy'},{'Jamie'},{'David'},&,1/1,&
 &,{'Joe F'},{'Loret'},{'Canda'},,,,&,1/1,&
 &,{'Joe F'},{'Loret'},{'Doug '},{'Deian'},{'Noah '},{'Terre'},&,1/1,&
@@ -7953,7 +7953,7 @@ False
 &,{'Joe F'},{'Terre'},{'Jamie'},{'Cayle'},{'Noah '},{'Peggy'},&,1/1,&
 &,{'Joe F'},{'Terre'},{'Jamie'},,,,&,1/1,&
 &,{'Joe F'},{'Terre'},{'Joe A'},{'Deian'},{'Noah '},{'Doug '},&,1/1,&
-&,{'Joe F'},{'Terre'},{'Joe F'},{'Terre'},{'Joe F'},{'Terre'},&,1/1,&
+&,{'Joe F'},{'Terre'},,,,,&,1/1,&
 &,{'Joe F'},{'Terre'},{'Loret'},{'Doug '},,,&,1/1,&
 &,{'Joe F'},{'Terre'},{'Loret'},{'Jamie'},{'Steph'},{'Deian'},&,1/1,&
 &,{'Joe F'},{'Terre'},{'Loret'},{'Steph'},{'David'},{'Doug '},&,1/1,&
@@ -7984,14 +7984,14 @@ False
 &,{'Joe F'},{'Canda'},{'Steph'},{'Joe A'},{'Terre'},,&,1/1,&
 &,{'Joe F'},{'Terre'},,,,,&,1/1,&
 &,{'Joe F'},,,,,,&,1/1,&
-&,{'Joe F'},{'Joe F'},{'Terre'},,,,&,1/1,&
+&,{'Joe F'},{'Terre'},,,,,&,1/1,&
 &,{'Joe F'},,,,,,&,65/1,&
 &,{'Loret'},{'Canda'},{'Cayle'},{'David'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Cayle'},{'Deian'},{'Micha'},{'Peggy'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Cayle'},{'Deian'},{'Terre'},{'David'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Cayle'},{'Deian'},{'Terre'},{'Noah '},&,1/1,&
 &,{'Loret'},{'Canda'},{'Cayle'},{'Deian'},{'Terre'},{'Steph'},&,1/1,&
-&,{'Loret'},{'Canda'},{'Cayle'},{'Doug '},{'Jamie'},{'Cayle'},&,1/1,&
+&,{'Loret'},{'Canda'},{'Cayle'},{'Doug '},{'Jamie'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Cayle'},{'Jamie'},{'David'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Cayle'},{'Jamie'},{'Peggy'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Cayle'},{'Joe F'},{'Jamie'},,&,1/1,&
@@ -8078,10 +8078,10 @@ False
 &,{'Loret'},{'Canda'},{'Jamie'},{'David'},{'Steph'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Jamie'},{'David'},,,&,1/1,&
 &,{'Loret'},{'Canda'},{'Jamie'},{'Doug '},{'Noah '},{'Peggy'},&,1/1,&
-&,{'Loret'},{'Canda'},{'Jamie'},{'Jamie'},{'Timur'},{'Thoma'},&,1/1,&
+&,{'Loret'},{'Canda'},{'Jamie'},{'Timur'},{'Thoma'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Jamie'},{'Peggy'},{'Cayle'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Jamie'},{'Peggy'},,,&,1/1,&
-&,{'Loret'},{'Canda'},{'Jamie'},{'Steph'},{'Deian'},{'Jamie'},&,1/1,&
+&,{'Loret'},{'Canda'},{'Jamie'},{'Steph'},{'Deian'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Jamie'},{'Steph'},{'Terre'},{'Peggy'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Jamie'},{'Steph'},{'Terre'},{'Timur'},&,2/1,&
 &,{'Loret'},{'Canda'},{'Jamie'},{'Steph'},{'Timur'},{'Cayle'},&,1/1,&
@@ -8112,7 +8112,7 @@ False
 &,{'Loret'},{'Canda'},{'Joe F'},{'Terre'},{'Deian'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Joe F'},{'Terre'},{'Jamie'},{'Joe A'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Joe F'},,,,&,1/1,&
-&,{'Loret'},{'Canda'},{'Loret'},{'Steph'},{'Peggy'},{'Jamie'},&,1/1,&
+&,{'Loret'},{'Canda'},{'Steph'},{'Peggy'},{'Jamie'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Micha'},{'Deian'},{'Jamie'},{'Peggy'},&,2/1,&
 &,{'Loret'},{'Canda'},{'Micha'},{'Deian'},{'Terre'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Micha'},{'Deian'},{'Terre'},{'Peggy'},&,1/1,&
@@ -8129,7 +8129,7 @@ False
 &,{'Loret'},{'Canda'},{'Noah '},{'Deian'},,,&,1/1,&
 &,{'Loret'},{'Canda'},{'Noah '},{'Doug '},{'Joe F'},{'Jamie'},&,2/1,&
 &,{'Loret'},{'Canda'},{'Noah '},{'Jamie'},{'Terre'},{'Timur'},&,1/1,&
-&,{'Loret'},{'Canda'},{'Noah '},{'Peggy'},{'Steph'},{'Steph'},&,1/1,&
+&,{'Loret'},{'Canda'},{'Noah '},{'Peggy'},{'Steph'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Noah '},{'Steph'},{'Terre'},{'Timur'},&,3/1,&
 &,{'Loret'},{'Canda'},{'Noah '},{'Steph'},{'Timur'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Noah '},{'Steph'},,,&,1/1,&
@@ -8168,8 +8168,8 @@ False
 &,{'Loret'},{'Canda'},{'Peggy'},{'Noah '},{'Deian'},{'Terre'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Peggy'},{'Steph'},,,&,1/1,&
 &,{'Loret'},{'Canda'},{'Peggy'},{'Terre'},{'Steph'},{'Jamie'},&,2/1,&
-&,{'Loret'},{'Canda'},{'Peggy'},{'Terre'},{'Terre'},{'Joe F'},&,1/1,&
-&,{'Loret'},{'Canda'},{'Peggy'},{'Terre'},{'Terre'},{'Steph'},&,1/1,&
+&,{'Loret'},{'Canda'},{'Peggy'},{'Terre'},{'Joe F'},,&,1/1,&
+&,{'Loret'},{'Canda'},{'Peggy'},{'Terre'},{'Steph'},,&,1/1,&
 &,{'Loret'},{'Canda'},{'Peggy'},{'Thoma'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Peggy'},{'Thoma'},{'Terre'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Peggy'},{'Timur'},{'Cayle'},{'Terre'},&,1/1,&
@@ -8260,7 +8260,7 @@ False
 &,{'Loret'},{'Canda'},{'Terre'},{'Jamie'},{'David'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Terre'},{'Jamie'},{'David'},{'Steph'},&,3/1,&
 &,{'Loret'},{'Canda'},{'Terre'},{'Jamie'},{'Deian'},{'David'},&,1/1,&
-&,{'Loret'},{'Canda'},{'Terre'},{'Jamie'},{'Loret'},{'Loret'},&,1/1,&
+&,{'Loret'},{'Canda'},{'Terre'},{'Jamie'},,,&,1/1,&
 &,{'Loret'},{'Canda'},{'Terre'},{'Jamie'},{'Steph'},{'Deian'},&,3/1,&
 &,{'Loret'},{'Canda'},{'Terre'},{'Jamie'},{'Steph'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Canda'},{'Terre'},{'Jamie'},{'Steph'},{'Peggy'},&,3/1,&
@@ -8464,7 +8464,7 @@ False
 &,{'Loret'},{'David'},{'Noah '},{'Micha'},{'Jamie'},{'Doug '},&,1/1,&
 &,{'Loret'},{'David'},{'Noah '},{'Micha'},{'Joe F'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'David'},{'Noah '},{'Peggy'},{'Micha'},{'Steph'},&,2/1,&
-&,{'Loret'},{'David'},{'Peggy'},{'Canda'},{'Cayle'},{'David'},&,1/1,&
+&,{'Loret'},{'David'},{'Peggy'},{'Canda'},{'Cayle'},,&,1/1,&
 &,{'Loret'},{'David'},{'Peggy'},{'Cayle'},{'Jamie'},{'Thoma'},&,1/1,&
 &,{'Loret'},{'David'},{'Peggy'},{'Jamie'},{'Canda'},{'Steph'},&,1/1,&
 &,{'Loret'},{'David'},{'Peggy'},{'Jamie'},{'Micha'},{'Thoma'},&,1/1,&
@@ -8530,7 +8530,7 @@ False
 &,{'Loret'},{'Deian'},{'Cayle'},{'Steph'},,,&,1/1,&
 &,{'Loret'},{'Deian'},{'David'},{'Canda'},{'Jamie'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Deian'},{'David'},{'Canda'},{'Jamie'},{'Peggy'},&,1/1,&
-&,{'Loret'},{'Deian'},{'David'},{'Doug '},{'Terre'},{'Loret'},&,1/1,&
+&,{'Loret'},{'Deian'},{'David'},{'Doug '},{'Terre'},,&,1/1,&
 &,{'Loret'},{'Deian'},{'David'},{'Jamie'},{'Steph'},{'Peggy'},&,1/1,&
 &,{'Loret'},{'Deian'},{'David'},{'Joe A'},{'Peggy'},{'Doug '},&,1/1,&
 &,{'Loret'},{'Deian'},{'David'},{'Steph'},{'Doug '},{'Terre'},&,1/1,&
@@ -8581,7 +8581,7 @@ False
 &,{'Loret'},{'Deian'},{'Terre'},{'Noah '},,,&,1/1,&
 &,{'Loret'},{'Deian'},{'Terre'},{'Steph'},{'Doug '},{'Cayle'},&,2/1,&
 &,{'Loret'},{'Deian'},{'Terre'},{'Steph'},{'Jamie'},{'Noah '},&,1/1,&
-&,{'Loret'},{'Deian'},{'Terre'},{'Terre'},{'Peggy'},{'Thoma'},&,1/1,&
+&,{'Loret'},{'Deian'},{'Terre'},{'Peggy'},{'Thoma'},,&,1/1,&
 &,{'Loret'},{'Deian'},{'Terre'},{'Thoma'},{'Canda'},{'Cayle'},&,2/1,&
 &,{'Loret'},{'Deian'},{'Terre'},{'Timur'},{'Canda'},{'Noah '},&,1/1,&
 &,{'Loret'},{'Deian'},{'Terre'},{'Timur'},{'Jamie'},{'Canda'},&,1/1,&
@@ -8600,7 +8600,7 @@ False
 &,{'Loret'},{'Deian'},{'Noah '},{'David'},,,&,1/1,&
 &,{'Loret'},{'Deian'},,,,,&,12/1,&
 &,{'Loret'},{'Doug '},{'Canda'},{'Cayle'},{'Jamie'},{'Joe A'},&,1/1,&
-&,{'Loret'},{'Doug '},{'Canda'},{'Jamie'},{'Loret'},{'Peggy'},&,1/1,&
+&,{'Loret'},{'Doug '},{'Canda'},{'Jamie'},{'Peggy'},,&,1/1,&
 &,{'Loret'},{'Doug '},{'Canda'},{'Joe A'},,,&,1/1,&
 &,{'Loret'},{'Doug '},{'Canda'},{'Peggy'},{'Jamie'},{'Joe F'},&,1/1,&
 &,{'Loret'},{'Doug '},{'Canda'},{'Peggy'},{'Steph'},{'Jamie'},&,1/1,&
@@ -8643,7 +8643,7 @@ False
 &,{'Loret'},{'Doug '},{'Joe A'},,,,&,2/1,&
 &,{'Loret'},{'Doug '},{'Joe F'},{'Joe A'},{'Peggy'},{'Timur'},&,1/1,&
 &,{'Loret'},{'Doug '},{'Joe F'},{'Micha'},{'Canda'},{'Cayle'},&,1/1,&
-&,{'Loret'},{'Doug '},{'Loret'},{'Canda'},{'Steph'},{'Peggy'},&,1/1,&
+&,{'Loret'},{'Doug '},{'Canda'},{'Steph'},{'Peggy'},,&,1/1,&
 &,{'Loret'},{'Doug '},{'Micha'},{'David'},{'Timur'},{'Terre'},&,1/1,&
 &,{'Loret'},{'Doug '},{'Micha'},{'Deian'},{'Jamie'},,&,1/1,&
 &,{'Loret'},{'Doug '},{'Micha'},{'Deian'},,,&,1/1,&
@@ -8731,7 +8731,7 @@ False
 &,{'Loret'},{'Jamie'},{'Doug '},{'Noah '},{'Peggy'},{'Timur'},&,1/1,&
 &,{'Loret'},{'Jamie'},{'Doug '},{'Timur'},{'Cayle'},{'Joe A'},&,1/1,&
 &,{'Loret'},{'Jamie'},{'Doug '},,,,&,3/1,&
-&,{'Loret'},{'Jamie'},{'Jamie'},{'Steph'},{'Steph'},{'Loret'},&,1/1,&
+&,{'Loret'},{'Jamie'},{'Steph'},,,,&,1/1,&
 &,{'Loret'},{'Jamie'},{'Joe A'},{'Doug '},{'Peggy'},{'Noah '},&,1/1,&
 &,{'Loret'},{'Jamie'},{'Joe A'},{'Doug '},{'Timur'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Jamie'},{'Joe A'},{'Micha'},{'Terre'},{'Steph'},&,1/1,&
@@ -8835,7 +8835,7 @@ False
 &,{'Loret'},{'Jamie'},{'Terre'},{'Doug '},{'Noah '},{'Steph'},&,1/1,&
 &,{'Loret'},{'Jamie'},{'Terre'},{'Doug '},{'Steph'},,&,1/1,&
 &,{'Loret'},{'Jamie'},{'Terre'},{'Joe F'},{'Cayle'},{'Canda'},&,1/1,&
-&,{'Loret'},{'Jamie'},{'Terre'},{'Loret'},{'Terre'},{'Loret'},&,1/1,&
+&,{'Loret'},{'Jamie'},{'Terre'},,,,&,1/1,&
 &,{'Loret'},{'Jamie'},{'Terre'},{'Micha'},{'Canda'},{'Timur'},&,1/1,&
 &,{'Loret'},{'Jamie'},{'Terre'},{'Micha'},{'David'},{'Steph'},&,1/1,&
 &,{'Loret'},{'Jamie'},{'Terre'},{'Micha'},{'Doug '},{'Timur'},&,2/1,&
@@ -8963,11 +8963,11 @@ False
 &,{'Loret'},{'Joe F'},{'Terre'},{'Timur'},{'David'},,&,1/1,&
 &,{'Loret'},{'Joe F'},{'Timur'},{'Peggy'},{'David'},{'Jamie'},&,2/1,&
 &,{'Loret'},{'Joe F'},,,,,&,3/1,&
-&,{'Loret'},{'Loret'},{'Loret'},{'Loret'},{'Loret'},{'Loret'},&,14/1,&
-&,{'Loret'},{'Loret'},{'Loret'},{'Loret'},{'Loret'},{'Terre'},&,1/1,&
-&,{'Loret'},{'Loret'},{'Loret'},{'Terre'},{'Terre'},{'Canda'},&,1/1,&
-&,{'Loret'},{'Loret'},{'Loret'},,,,&,3/1,&
-&,{'Loret'},{'Loret'},,,,,&,1/1,&
+&,{'Loret'},,,,,,&,14/1,&
+&,{'Loret'},{'Terre'},,,,,&,1/1,&
+&,{'Loret'},{'Terre'},{'Canda'},,,,&,1/1,&
+&,{'Loret'},,,,,,&,3/1,&
+&,{'Loret'},,,,,,&,1/1,&
 &,{'Loret'},{'Micha'},{'Canda'},{'David'},{'Cayle'},{'Doug '},&,1/1,&
 &,{'Loret'},{'Micha'},{'Canda'},{'Jamie'},{'Joe A'},{'Timur'},&,1/1,&
 &,{'Loret'},{'Micha'},{'Canda'},{'Joe F'},{'David'},{'Jamie'},&,1/1,&
@@ -9031,7 +9031,7 @@ False
 &,{'Loret'},{'Micha'},{'Terre'},{'David'},,,&,1/1,&
 &,{'Loret'},{'Micha'},{'Terre'},{'Jamie'},{'Peggy'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Micha'},{'Terre'},{'Joe A'},{'David'},{'Peggy'},&,2/1,&
-&,{'Loret'},{'Micha'},{'Terre'},{'Noah '},{'Noah '},{'Peggy'},&,1/1,&
+&,{'Loret'},{'Micha'},{'Terre'},{'Noah '},{'Peggy'},,&,1/1,&
 &,{'Loret'},{'Micha'},{'Terre'},{'Steph'},{'Jamie'},{'Doug '},&,1/1,&
 &,{'Loret'},{'Micha'},{'Terre'},{'Steph'},{'Timur'},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Micha'},{'Terre'},{'Steph'},,,&,2/1,&
@@ -9060,7 +9060,7 @@ False
 &,{'Loret'},{'Noah '},{'Cayle'},{'Deian'},{'Steph'},{'Timur'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Cayle'},{'Joe A'},{'Micha'},{'Steph'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Cayle'},{'Joe A'},{'Steph'},{'Joe F'},&,1/1,&
-&,{'Loret'},{'Noah '},{'Cayle'},{'Loret'},{'Micha'},{'David'},&,1/1,&
+&,{'Loret'},{'Noah '},{'Cayle'},{'Micha'},{'David'},,&,1/1,&
 &,{'Loret'},{'Noah '},{'Cayle'},,,,&,1/1,&
 &,{'Loret'},{'Noah '},{'David'},{'Canda'},{'Timur'},{'Thoma'},&,1/1,&
 &,{'Loret'},{'Noah '},{'David'},{'Cayle'},{'Thoma'},{'Terre'},&,1/1,&
@@ -9100,7 +9100,7 @@ False
 &,{'Loret'},{'Noah '},{'Joe A'},{'David'},{'Joe F'},{'Steph'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Joe A'},{'Doug '},{'Micha'},{'Deian'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Joe A'},{'Joe F'},{'Micha'},{'Peggy'},&,1/1,&
-&,{'Loret'},{'Noah '},{'Joe A'},{'Loret'},{'Loret'},{'Loret'},&,1/1,&
+&,{'Loret'},{'Noah '},{'Joe A'},,,,&,1/1,&
 &,{'Loret'},{'Noah '},{'Joe A'},{'Micha'},{'Peggy'},{'Doug '},&,1/1,&
 &,{'Loret'},{'Noah '},{'Joe A'},{'Terre'},{'Doug '},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Joe A'},{'Timur'},{'Micha'},{'David'},&,1/1,&
@@ -9114,7 +9114,7 @@ False
 &,{'Loret'},{'Noah '},{'Micha'},,,,&,2/1,&
 &,{'Loret'},{'Noah '},{'Peggy'},{'Canda'},{'Doug '},{'David'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Peggy'},{'David'},{'Thoma'},{'Jamie'},&,1/1,&
-&,{'Loret'},{'Noah '},{'Peggy'},{'Deian'},{'Noah '},{'Peggy'},&,1/1,&
+&,{'Loret'},{'Noah '},{'Peggy'},{'Deian'},,,&,1/1,&
 &,{'Loret'},{'Noah '},{'Peggy'},{'Micha'},{'Canda'},{'Joe A'},&,2/1,&
 &,{'Loret'},{'Noah '},{'Peggy'},{'Terre'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Peggy'},{'Terre'},,,&,1/1,&
@@ -9141,7 +9141,7 @@ False
 &,{'Loret'},{'Noah '},{'Terre'},{'Micha'},{'Peggy'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Terre'},{'Peggy'},,,&,3/1,&
 &,{'Loret'},{'Noah '},{'Terre'},{'Steph'},{'Jamie'},{'Timur'},&,1/1,&
-&,{'Loret'},{'Noah '},{'Terre'},{'Steph'},{'Steph'},{'Loret'},&,1/1,&
+&,{'Loret'},{'Noah '},{'Terre'},{'Steph'},,,&,1/1,&
 &,{'Loret'},{'Noah '},{'Terre'},{'Steph'},{'Timur'},{'Joe A'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Terre'},{'Steph'},{'Timur'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Noah '},{'Terre'},{'Thoma'},{'Doug '},{'Micha'},&,1/1,&
@@ -9188,8 +9188,8 @@ False
 &,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},{'Cayle'},{'Terre'},&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},{'Cayle'},,&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},{'Deian'},{'Cayle'},&,1/1,&
-&,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},{'Loret'},{'Cayle'},&,1/1,&
-&,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},{'Loret'},,&,1/1,&
+&,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},{'Cayle'},,&,1/1,&
+&,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},,,&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},{'Steph'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Jamie'},{'Terre'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Joe F'},{'Steph'},{'Jamie'},&,2/1,&
@@ -9200,7 +9200,7 @@ False
 &,{'Loret'},{'Peggy'},{'Canda'},{'Steph'},{'Jamie'},{'Joe A'},&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Steph'},{'Micha'},{'David'},&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Steph'},{'Thoma'},{'Joe F'},&,1/1,&
-&,{'Loret'},{'Peggy'},{'Canda'},{'Steph'},{'Thoma'},{'Thoma'},&,1/1,&
+&,{'Loret'},{'Peggy'},{'Canda'},{'Steph'},{'Thoma'},,&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Steph'},,,&,2/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Terre'},{'Cayle'},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Peggy'},{'Canda'},{'Terre'},{'Cayle'},{'Timur'},&,1/1,&
@@ -9440,7 +9440,7 @@ False
 &,{'Loret'},{'Steph'},{'Jamie'},{'Terre'},{'Doug '},{'David'},&,2/1,&
 &,{'Loret'},{'Steph'},{'Jamie'},{'Terre'},{'Doug '},{'Deian'},&,1/1,&
 &,{'Loret'},{'Steph'},{'Jamie'},{'Terre'},{'Doug '},,&,1/1,&
-&,{'Loret'},{'Steph'},{'Jamie'},{'Terre'},{'Jamie'},,&,1/1,&
+&,{'Loret'},{'Steph'},{'Jamie'},{'Terre'},,,&,1/1,&
 &,{'Loret'},{'Steph'},{'Jamie'},{'Terre'},{'Micha'},{'Doug '},&,1/1,&
 &,{'Loret'},{'Steph'},{'Jamie'},{'Terre'},{'Peggy'},{'Deian'},&,1/1,&
 &,{'Loret'},{'Steph'},{'Jamie'},{'Terre'},{'Thoma'},{'Peggy'},&,1/1,&
@@ -9484,7 +9484,7 @@ False
 &,{'Loret'},{'Steph'},{'Micha'},{'Thoma'},{'Timur'},{'Terre'},&,2/1,&
 &,{'Loret'},{'Steph'},{'Micha'},,,,&,3/1,&
 &,{'Loret'},{'Steph'},{'Noah '},{'Canda'},,,&,1/1,&
-&,{'Loret'},{'Steph'},{'Noah '},{'Cayle'},{'Loret'},{'Canda'},&,1/1,&
+&,{'Loret'},{'Steph'},{'Noah '},{'Cayle'},{'Canda'},,&,1/1,&
 &,{'Loret'},{'Steph'},{'Noah '},{'Cayle'},{'Timur'},{'David'},&,1/1,&
 &,{'Loret'},{'Steph'},{'Noah '},{'David'},{'Joe A'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Steph'},{'Noah '},{'Jamie'},{'Canda'},{'Terre'},&,1/1,&
@@ -9789,7 +9789,7 @@ False
 &,{'Loret'},{'Terre'},{'David'},{'Micha'},{'Timur'},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Terre'},{'David'},{'Micha'},{'Joe A'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'David'},{'Micha'},,,&,2/1,&
-&,{'Loret'},{'Terre'},{'David'},{'Peggy'},{'David'},{'Canda'},&,1/1,&
+&,{'Loret'},{'Terre'},{'David'},{'Peggy'},{'Canda'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'David'},{'Steph'},{'Jamie'},{'Canda'},&,2/1,&
 &,{'Loret'},{'Terre'},{'David'},{'Steph'},{'Timur'},{'Micha'},&,1/1,&
 &,{'Loret'},{'Terre'},{'David'},{'Steph'},,,&,3/1,&
@@ -9811,7 +9811,7 @@ False
 &,{'Loret'},{'Terre'},{'Deian'},{'Canda'},,,&,4/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'Cayle'},{'Canda'},{'Timur'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'Cayle'},{'David'},{'Canda'},&,1/1,&
-&,{'Loret'},{'Terre'},{'Deian'},{'Cayle'},{'Joe F'},{'Deian'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Deian'},{'Cayle'},{'Joe F'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'David'},{'Canda'},{'Cayle'},&,2/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'David'},{'Canda'},{'Thoma'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'David'},{'Canda'},{'Timur'},&,1/1,&
@@ -9824,7 +9824,7 @@ False
 &,{'Loret'},{'Terre'},{'Deian'},{'Noah '},{'Doug '},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'Noah '},{'Timur'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'Steph'},{'Canda'},{'Timur'},&,1/1,&
-&,{'Loret'},{'Terre'},{'Deian'},{'Steph'},{'Cayle'},{'Cayle'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Deian'},{'Steph'},{'Cayle'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'Steph'},{'Jamie'},{'David'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'Steph'},{'Noah '},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Deian'},{'Steph'},,,&,1/1,&
@@ -9836,7 +9836,7 @@ False
 &,{'Loret'},{'Terre'},{'Doug '},{'Canda'},{'Noah '},{'Steph'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Doug '},{'Canda'},{'Timur'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Doug '},{'Cayle'},{'David'},{'Deian'},&,1/1,&
-&,{'Loret'},{'Terre'},{'Doug '},{'Deian'},{'Noah '},{'Terre'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Doug '},{'Deian'},{'Noah '},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Doug '},{'Deian'},{'Noah '},{'Thoma'},&,2/1,&
 &,{'Loret'},{'Terre'},{'Doug '},{'Deian'},{'Noah '},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Doug '},{'Jamie'},,,&,1/1,&
@@ -9881,7 +9881,7 @@ False
 &,{'Loret'},{'Terre'},{'Jamie'},{'Doug '},{'Steph'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Jamie'},{'Doug '},,,&,2/1,&
 &,{'Loret'},{'Terre'},{'Jamie'},{'Joe A'},{'Canda'},{'Deian'},&,1/1,&
-&,{'Loret'},{'Terre'},{'Jamie'},{'Joe A'},{'Steph'},{'Jamie'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Jamie'},{'Joe A'},{'Steph'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Jamie'},{'Joe F'},{'Joe A'},{'David'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Jamie'},{'Joe F'},,,&,3/1,&
 &,{'Loret'},{'Terre'},{'Jamie'},{'Micha'},{'Canda'},{'Steph'},&,1/1,&
@@ -9919,7 +9919,7 @@ False
 &,{'Loret'},{'Terre'},{'Joe A'},{'Canda'},,,&,1/1,&
 &,{'Loret'},{'Terre'},{'Joe A'},{'Cayle'},{'Timur'},{'Doug '},&,1/1,&
 &,{'Loret'},{'Terre'},{'Joe A'},{'Cayle'},,,&,1/1,&
-&,{'Loret'},{'Terre'},{'Joe A'},{'David'},{'Terre'},{'Steph'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Joe A'},{'David'},{'Steph'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Joe A'},{'David'},{'Timur'},{'Doug '},&,1/1,&
 &,{'Loret'},{'Terre'},{'Joe A'},{'Jamie'},{'David'},{'Peggy'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Joe A'},{'Joe F'},{'Steph'},{'Jamie'},&,1/1,&
@@ -9939,8 +9939,8 @@ False
 &,{'Loret'},{'Terre'},{'Joe F'},{'Peggy'},{'Steph'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Joe F'},{'Timur'},,,&,1/1,&
 &,{'Loret'},{'Terre'},{'Joe F'},,,,&,4/1,&
-&,{'Loret'},{'Terre'},{'Loret'},{'Loret'},{'Loret'},{'Loret'},&,1/1,&
-&,{'Loret'},{'Terre'},{'Loret'},{'Terre'},{'Loret'},{'Terre'},&,1/1,&
+&,{'Loret'},{'Terre'},,,,,&,1/1,&
+&,{'Loret'},{'Terre'},,,,,&,1/1,&
 &,{'Loret'},{'Terre'},{'Micha'},{'Canda'},{'Deian'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Micha'},{'Canda'},{'Noah '},{'Peggy'},&,2/1,&
 &,{'Loret'},{'Terre'},{'Micha'},{'Cayle'},{'David'},{'Timur'},&,1/1,&
@@ -10027,7 +10027,7 @@ False
 &,{'Loret'},{'Terre'},{'Noah '},{'Cayle'},,,&,1/1,&
 &,{'Loret'},{'Terre'},{'Noah '},,,,&,56/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Canda'},{'Doug '},{'Joe F'},&,1/1,&
-&,{'Loret'},{'Terre'},{'Peggy'},{'Canda'},{'Joe A'},{'Peggy'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Peggy'},{'Canda'},{'Joe A'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Canda'},{'Joe F'},{'David'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Canda'},{'Micha'},{'Joe A'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Deian'},{'Canda'},{'Joe F'},&,1/1,&
@@ -10035,7 +10035,7 @@ False
 &,{'Loret'},{'Terre'},{'Peggy'},{'Jamie'},{'Doug '},{'Canda'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Jamie'},{'Joe A'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Joe A'},{'David'},,&,1/1,&
-&,{'Loret'},{'Terre'},{'Peggy'},{'Joe A'},{'Deian'},{'Loret'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Peggy'},{'Joe A'},{'Deian'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Noah '},{'Deian'},{'Canda'},&,2/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Noah '},{'Joe F'},{'Deian'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Peggy'},{'Timur'},{'David'},{'Canda'},&,3/1,&
@@ -10055,7 +10055,7 @@ False
 &,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Micha'},,&,2/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Noah '},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Noah '},,&,1/1,&
-&,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Steph'},{'Peggy'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Peggy'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Timur'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Timur'},{'David'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Timur'},{'Jamie'},&,2/1,&
@@ -10129,7 +10129,7 @@ False
 &,{'Loret'},{'Terre'},{'Steph'},{'Joe A'},{'Canda'},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Joe A'},{'Noah '},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Joe F'},{'Cayle'},{'Canda'},&,3/1,&
-&,{'Loret'},{'Terre'},{'Steph'},{'Loret'},{'Micha'},{'Doug '},&,1/1,&
+&,{'Loret'},{'Terre'},{'Steph'},{'Micha'},{'Doug '},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Micha'},{'Cayle'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Micha'},{'David'},{'Doug '},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Micha'},{'David'},{'Jamie'},&,1/1,&
@@ -10157,14 +10157,14 @@ False
 &,{'Loret'},{'Terre'},{'Steph'},{'Timur'},{'Jamie'},{'Deian'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Timur'},{'Jamie'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Timur'},{'Joe F'},,&,1/1,&
-&,{'Loret'},{'Terre'},{'Steph'},{'Timur'},{'Loret'},{'David'},&,1/1,&
+&,{'Loret'},{'Terre'},{'Steph'},{'Timur'},{'David'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Timur'},{'Micha'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Timur'},{'Noah '},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Timur'},,,&,4/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Canda'},{'Timur'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},{'Timur'},{'Cayle'},,&,1/1,&
 &,{'Loret'},{'Terre'},{'Steph'},,,,&,71/1,&
-&,{'Loret'},{'Terre'},{'Terre'},,,,&,1/1,&
+&,{'Loret'},{'Terre'},,,,,&,1/1,&
 &,{'Loret'},{'Terre'},{'Thoma'},{'Deian'},{'Doug '},{'Canda'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Thoma'},{'Deian'},{'Noah '},{'Peggy'},&,1/1,&
 &,{'Loret'},{'Terre'},{'Thoma'},{'Jamie'},{'Canda'},,&,1/1,&
@@ -10330,7 +10330,7 @@ False
 &,{'Loret'},{'Timur'},{'Canda'},{'Steph'},{'Terre'},,&,3/1,&
 &,{'Loret'},{'Timur'},{'Canda'},{'Steph'},{'Thoma'},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Timur'},{'Canda'},{'Steph'},,,&,1/1,&
-&,{'Loret'},{'Timur'},{'Canda'},{'Terre'},{'Canda'},,&,1/1,&
+&,{'Loret'},{'Timur'},{'Canda'},{'Terre'},,,&,1/1,&
 &,{'Loret'},{'Timur'},{'Canda'},{'Terre'},{'David'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Timur'},{'Canda'},{'Terre'},{'Deian'},,&,1/1,&
 &,{'Loret'},{'Timur'},{'Canda'},{'Terre'},{'Doug '},{'Jamie'},&,1/1,&
@@ -10343,7 +10343,7 @@ False
 &,{'Loret'},{'Timur'},{'Canda'},{'Terre'},{'Steph'},{'Noah '},&,1/1,&
 &,{'Loret'},{'Timur'},{'Canda'},{'Terre'},,,&,2/1,&
 &,{'Loret'},{'Timur'},{'Canda'},{'Thoma'},{'Steph'},{'Jamie'},&,2/1,&
-&,{'Loret'},{'Timur'},{'Canda'},{'Timur'},{'Deian'},{'Steph'},&,1/1,&
+&,{'Loret'},{'Timur'},{'Canda'},{'Deian'},{'Steph'},,&,1/1,&
 &,{'Loret'},{'Timur'},{'Canda'},,,,&,10/1,&
 &,{'Loret'},{'Timur'},{'Cayle'},{'Canda'},{'David'},,&,2/1,&
 &,{'Loret'},{'Timur'},{'Cayle'},{'Canda'},{'Terre'},{'Jamie'},&,2/1,&
@@ -10419,7 +10419,7 @@ False
 &,{'Loret'},{'Timur'},{'Noah '},{'Joe A'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Loret'},{'Timur'},{'Noah '},{'Steph'},{'David'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Timur'},{'Noah '},{'Steph'},{'David'},{'Jamie'},&,1/1,&
-&,{'Loret'},{'Timur'},{'Noah '},{'Steph'},{'David'},{'Steph'},&,1/1,&
+&,{'Loret'},{'Timur'},{'Noah '},{'Steph'},{'David'},,&,1/1,&
 &,{'Loret'},{'Timur'},{'Noah '},{'Terre'},,,&,1/1,&
 &,{'Loret'},{'Timur'},{'Noah '},,,,&,1/1,&
 &,{'Loret'},{'Timur'},{'Noah '},,,,&,4/1,&
@@ -10494,7 +10494,7 @@ False
 &,{'Loret'},{'Timur'},{'Terre'},{'Steph'},{'David'},{'Jamie'},&,1/1,&
 &,{'Loret'},{'Timur'},{'Terre'},{'Steph'},{'Jamie'},{'Canda'},&,3/1,&
 &,{'Loret'},{'Timur'},{'Terre'},{'Steph'},{'Jamie'},{'Deian'},&,1/1,&
-&,{'Loret'},{'Timur'},{'Terre'},{'Steph'},{'Jamie'},{'Jamie'},&,1/1,&
+&,{'Loret'},{'Timur'},{'Terre'},{'Steph'},{'Jamie'},,&,1/1,&
 &,{'Loret'},{'Timur'},{'Terre'},{'Steph'},{'Joe F'},{'Canda'},&,1/1,&
 &,{'Loret'},{'Timur'},{'Terre'},{'Steph'},,,&,3/1,&
 &,{'Loret'},{'Timur'},{'Terre'},,,,&,12/1,&
@@ -10539,7 +10539,7 @@ False
 &,{'Loret'},{'Canda'},{'Peggy'},,,,&,1/1,&
 &,{'Loret'},,,,,,&,1/1,&
 &,{'Loret'},{'David'},,,,,&,1/1,&
-&,{'Loret'},{'Loret'},,,,,&,1/1,&
+&,{'Loret'},,,,,,&,1/1,&
 &,{'Loret'},{'Peggy'},,,,,&,1/1,&
 &,{'Loret'},,,,,,&,1/1,&
 &,{'Loret'},{'Canda'},,,,,&,1/1,&
@@ -10641,13 +10641,13 @@ False
 &,{'Micha'},{'David'},{'Joe F'},{'Doug '},{'Noah '},{'Jamie'},&,1/1,&
 &,{'Micha'},{'David'},{'Joe F'},{'Steph'},{'Jamie'},{'Loret'},&,1/1,&
 &,{'Micha'},{'David'},{'Joe F'},,,,&,1/1,&
-&,{'Micha'},{'David'},{'Loret'},{'David'},{'Jamie'},{'Noah '},&,1/1,&
+&,{'Micha'},{'David'},{'Loret'},{'Jamie'},{'Noah '},,&,1/1,&
 &,{'Micha'},{'David'},{'Loret'},{'Deian'},{'Peggy'},{'Cayle'},&,1/1,&
 &,{'Micha'},{'David'},{'Loret'},{'Deian'},{'Peggy'},{'Terre'},&,1/1,&
 &,{'Micha'},{'David'},{'Loret'},{'Jamie'},{'Noah '},{'Canda'},&,3/1,&
 &,{'Micha'},{'David'},{'Loret'},{'Terre'},{'Steph'},{'Canda'},&,1/1,&
 &,{'Micha'},{'David'},{'Loret'},,,,&,2/1,&
-&,{'Micha'},{'David'},{'Micha'},{'Terre'},{'Loret'},{'Canda'},&,1/1,&
+&,{'Micha'},{'David'},{'Terre'},{'Loret'},{'Canda'},,&,1/1,&
 &,{'Micha'},{'David'},{'Noah '},{'Doug '},{'Jamie'},{'Thoma'},&,1/1,&
 &,{'Micha'},{'David'},{'Noah '},{'Terre'},{'Doug '},{'Timur'},&,1/1,&
 &,{'Micha'},{'David'},{'Noah '},{'Thoma'},{'Jamie'},{'Doug '},&,1/1,&
@@ -10678,9 +10678,9 @@ False
 &,{'Micha'},{'Deian'},{'Loret'},{'Jamie'},{'Cayle'},{'Doug '},&,1/1,&
 &,{'Micha'},{'Deian'},{'Loret'},{'Joe F'},{'Terre'},{'Steph'},&,1/1,&
 &,{'Micha'},{'Deian'},{'Loret'},{'Thoma'},{'Terre'},{'Steph'},&,3/1,&
-&,{'Micha'},{'Deian'},{'Loret'},{'Thoma'},{'Terre'},{'Terre'},&,1/1,&
+&,{'Micha'},{'Deian'},{'Loret'},{'Thoma'},{'Terre'},,&,1/1,&
 &,{'Micha'},{'Deian'},{'Loret'},,,,&,1/1,&
-&,{'Micha'},{'Deian'},{'Micha'},{'Doug '},{'Canda'},{'Loret'},&,1/1,&
+&,{'Micha'},{'Deian'},{'Doug '},{'Canda'},{'Loret'},,&,1/1,&
 &,{'Micha'},{'Deian'},{'Peggy'},{'David'},{'Noah '},{'Cayle'},&,2/1,&
 &,{'Micha'},{'Deian'},{'Peggy'},{'Jamie'},{'Loret'},{'Canda'},&,1/1,&
 &,{'Micha'},{'Deian'},{'Steph'},,,,&,1/1,&
@@ -10802,10 +10802,10 @@ False
 &,{'Micha'},{'Joe A'},{'Joe F'},{'Loret'},{'Canda'},{'Noah '},&,1/1,&
 &,{'Micha'},{'Joe A'},{'Loret'},{'Jamie'},{'Steph'},{'Joe F'},&,1/1,&
 &,{'Micha'},{'Joe A'},{'Loret'},{'Noah '},{'Jamie'},{'Doug '},&,1/1,&
-&,{'Micha'},{'Joe A'},{'Loret'},{'Terre'},{'David'},{'Joe A'},&,1/1,&
+&,{'Micha'},{'Joe A'},{'Loret'},{'Terre'},{'David'},,&,1/1,&
 &,{'Micha'},{'Joe A'},{'Loret'},,,,&,1/1,&
 &,{'Micha'},{'Joe A'},{'Noah '},{'David'},{'Doug '},{'Deian'},&,1/1,&
-&,{'Micha'},{'Joe A'},{'Noah '},{'David'},{'Joe A'},{'Canda'},&,1/1,&
+&,{'Micha'},{'Joe A'},{'Noah '},{'David'},{'Canda'},,&,1/1,&
 &,{'Micha'},{'Joe A'},{'Noah '},{'Peggy'},{'David'},{'Doug '},&,1/1,&
 &,{'Micha'},{'Joe A'},{'Noah '},{'Timur'},{'Steph'},{'Jamie'},&,2/1,&
 &,{'Micha'},{'Joe A'},{'Peggy'},{'Doug '},{'Steph'},{'Noah '},&,1/1,&
@@ -10830,7 +10830,7 @@ False
 &,{'Micha'},{'Joe F'},{'Doug '},{'Jamie'},{'Joe A'},{'Timur'},&,1/1,&
 &,{'Micha'},{'Joe F'},{'Doug '},{'Joe A'},{'David'},{'Peggy'},&,1/1,&
 &,{'Micha'},{'Joe F'},{'Doug '},{'Joe A'},{'Thoma'},{'Canda'},&,1/1,&
-&,{'Micha'},{'Joe F'},{'Doug '},{'Thoma'},{'Deian'},{'Micha'},&,1/1,&
+&,{'Micha'},{'Joe F'},{'Doug '},{'Thoma'},{'Deian'},,&,1/1,&
 &,{'Micha'},{'Joe F'},{'Doug '},{'Thoma'},{'Loret'},{'Deian'},&,1/1,&
 &,{'Micha'},{'Joe F'},{'Doug '},{'Thoma'},{'Terre'},{'Peggy'},&,1/1,&
 &,{'Micha'},{'Joe F'},{'Doug '},,,,&,1/1,&
@@ -10840,7 +10840,7 @@ False
 &,{'Micha'},{'Joe F'},{'Noah '},,,,&,1/1,&
 &,{'Micha'},{'Joe F'},{'Peggy'},{'Terre'},{'Deian'},,&,1/1,&
 &,{'Micha'},{'Joe F'},{'Steph'},{'Doug '},{'Jamie'},{'Peggy'},&,1/1,&
-&,{'Micha'},{'Joe F'},{'Steph'},{'Terre'},{'Thoma'},{'Joe F'},&,1/1,&
+&,{'Micha'},{'Joe F'},{'Steph'},{'Terre'},{'Thoma'},,&,1/1,&
 &,{'Micha'},{'Joe F'},{'Thoma'},{'David'},{'Timur'},{'Cayle'},&,1/1,&
 &,{'Micha'},{'Joe F'},{'Thoma'},{'Terre'},{'Jamie'},{'Steph'},&,1/1,&
 &,{'Micha'},{'Joe F'},{'Thoma'},{'Timur'},,,&,2/1,&
@@ -10915,8 +10915,8 @@ False
 &,{'Micha'},{'Loret'},{'Timur'},,,,&,1/1,&
 &,{'Micha'},{'Loret'},{'Noah '},{'Canda'},{'Joe A'},,&,1/1,&
 &,{'Micha'},{'Loret'},,,,,&,9/1,&
-&,{'Micha'},{'Micha'},{'Deian'},{'Joe F'},{'Canda'},{'Timur'},&,1/1,&
-&,{'Micha'},{'Micha'},{'Micha'},{'Micha'},{'Micha'},{'Micha'},&,3/1,&
+&,{'Micha'},{'Deian'},{'Joe F'},{'Canda'},{'Timur'},,&,1/1,&
+&,{'Micha'},,,,,,&,3/1,&
 &,{'Micha'},{'Noah '},{'Canda'},{'Thoma'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Micha'},{'Noah '},{'Canda'},{'Timur'},{'David'},{'Joe A'},&,1/1,&
 &,{'Micha'},{'Noah '},{'Cayle'},{'Deian'},{'Doug '},{'Terre'},&,2/1,&
@@ -10928,7 +10928,7 @@ False
 &,{'Micha'},{'Noah '},{'Doug '},{'David'},{'Joe F'},{'Joe A'},&,1/1,&
 &,{'Micha'},{'Noah '},{'Doug '},{'Deian'},{'Loret'},{'Canda'},&,1/1,&
 &,{'Micha'},{'Noah '},{'Doug '},{'Joe A'},,,&,1/1,&
-&,{'Micha'},{'Noah '},{'Doug '},{'Micha'},{'Loret'},{'Canda'},&,1/1,&
+&,{'Micha'},{'Noah '},{'Doug '},{'Loret'},{'Canda'},,&,1/1,&
 &,{'Micha'},{'Noah '},{'Doug '},{'Thoma'},{'Joe F'},{'Joe A'},&,1/1,&
 &,{'Micha'},{'Noah '},{'Jamie'},{'Doug '},{'Joe F'},{'Joe A'},&,1/1,&
 &,{'Micha'},{'Noah '},{'Jamie'},{'Loret'},{'Steph'},{'Thoma'},&,1/1,&
@@ -10992,7 +10992,7 @@ False
 &,{'Micha'},{'Steph'},{'Terre'},{'Loret'},{'Canda'},{'Timur'},&,3/1,&
 &,{'Micha'},{'Steph'},{'Terre'},{'Loret'},{'Cayle'},{'Deian'},&,1/1,&
 &,{'Micha'},{'Steph'},{'Terre'},{'Loret'},{'Jamie'},{'Canda'},&,2/1,&
-&,{'Micha'},{'Steph'},{'Terre'},{'Terre'},{'Terre'},,&,1/1,&
+&,{'Micha'},{'Steph'},{'Terre'},,,,&,1/1,&
 &,{'Micha'},{'Steph'},{'Terre'},,,,&,2/1,&
 &,{'Micha'},{'Steph'},{'Thoma'},{'Jamie'},,,&,2/1,&
 &,{'Micha'},{'Steph'},{'Thoma'},{'Terre'},{'Loret'},{'Jamie'},&,1/1,&
@@ -11022,7 +11022,7 @@ False
 &,{'Micha'},{'Terre'},{'Joe A'},{'Joe F'},{'Noah '},{'Doug '},&,1/1,&
 &,{'Micha'},{'Terre'},{'Joe A'},{'Joe F'},{'Thoma'},{'David'},&,1/1,&
 &,{'Micha'},{'Terre'},{'Joe A'},{'Noah '},{'Peggy'},{'Timur'},&,1/1,&
-&,{'Micha'},{'Terre'},{'Joe F'},{'Loret'},{'Terre'},{'Jamie'},&,1/1,&
+&,{'Micha'},{'Terre'},{'Joe F'},{'Loret'},{'Jamie'},,&,1/1,&
 &,{'Micha'},{'Terre'},{'Loret'},{'Joe F'},,,&,1/1,&
 &,{'Micha'},{'Terre'},{'Noah '},{'Canda'},,,&,2/1,&
 &,{'Micha'},{'Terre'},{'Noah '},{'Cayle'},{'Canda'},{'Joe A'},&,1/1,&
@@ -11066,7 +11066,7 @@ False
 &,{'Micha'},{'Thoma'},{'Noah '},{'Terre'},{'David'},{'Joe A'},&,2/1,&
 &,{'Micha'},{'Thoma'},{'Noah '},{'Terre'},{'Doug '},{'Joe A'},&,1/1,&
 &,{'Micha'},{'Thoma'},{'Peggy'},{'Jamie'},{'Canda'},{'Joe A'},&,1/1,&
-&,{'Micha'},{'Thoma'},{'Steph'},{'Jamie'},{'Canda'},{'Thoma'},&,1/1,&
+&,{'Micha'},{'Thoma'},{'Steph'},{'Jamie'},{'Canda'},,&,1/1,&
 &,{'Micha'},{'Thoma'},{'Steph'},{'Jamie'},{'Doug '},{'David'},&,1/1,&
 &,{'Micha'},{'Thoma'},{'Steph'},,,,&,1/1,&
 &,{'Micha'},{'Thoma'},{'Terre'},{'Jamie'},{'Doug '},{'Joe A'},&,1/1,&
@@ -11127,7 +11127,7 @@ False
 &,{'Micha'},,,,,,&,1/1,&
 &,{'Micha'},{'Doug '},{'David'},{'Timur'},,,&,1/1,&
 &,{'Micha'},{'Loret'},{'Doug '},,,,&,1/1,&
-&,{'Micha'},{'Micha'},{'Joe A'},{'Loret'},,,&,1/1,&
+&,{'Micha'},{'Joe A'},{'Loret'},,,,&,1/1,&
 &,{'Micha'},{'Canda'},,,,,&,2/1,&
 &,{'Micha'},{'Thoma'},,,,,&,1/1,&
 &,{'Micha'},{'Joe F'},,,,,&,1/1,&
@@ -11185,7 +11185,7 @@ False
 &,{'Noah '},{'Canda'},{'Joe A'},{'Loret'},{'Steph'},{'Thoma'},&,1/1,&
 &,{'Noah '},{'Canda'},{'Joe A'},{'Loret'},{'Terre'},{'Steph'},&,1/1,&
 &,{'Noah '},{'Canda'},{'Joe A'},{'Peggy'},{'Loret'},{'Steph'},&,1/1,&
-&,{'Noah '},{'Canda'},{'Joe A'},{'Thoma'},{'Peggy'},{'Canda'},&,1/1,&
+&,{'Noah '},{'Canda'},{'Joe A'},{'Thoma'},{'Peggy'},,&,1/1,&
 &,{'Noah '},{'Canda'},{'Joe A'},,,,&,2/1,&
 &,{'Noah '},{'Canda'},{'Joe F'},{'David'},{'Deian'},{'Cayle'},&,1/1,&
 &,{'Noah '},{'Canda'},{'Joe F'},{'Deian'},{'Micha'},{'Steph'},&,1/1,&
@@ -11227,7 +11227,7 @@ False
 &,{'Noah '},{'Canda'},{'Terre'},{'Jamie'},{'Steph'},{'Loret'},&,1/1,&
 &,{'Noah '},{'Canda'},{'Terre'},{'Jamie'},,,&,1/1,&
 &,{'Noah '},{'Canda'},{'Terre'},{'Loret'},{'David'},{'Jamie'},&,1/1,&
-&,{'Noah '},{'Canda'},{'Terre'},{'Loret'},{'Doug '},{'Terre'},&,1/1,&
+&,{'Noah '},{'Canda'},{'Terre'},{'Loret'},{'Doug '},,&,1/1,&
 &,{'Noah '},{'Canda'},{'Terre'},{'Loret'},{'Steph'},{'Micha'},&,1/1,&
 &,{'Noah '},{'Canda'},{'Terre'},{'Loret'},{'Timur'},{'Micha'},&,1/1,&
 &,{'Noah '},{'Canda'},{'Terre'},{'Steph'},{'Joe F'},{'Timur'},&,1/1,&
@@ -11252,7 +11252,7 @@ False
 &,{'Noah '},{'Cayle'},{'Canda'},{'David'},{'Timur'},{'Doug '},&,1/1,&
 &,{'Noah '},{'Cayle'},{'Canda'},{'Doug '},{'Steph'},,&,1/1,&
 &,{'Noah '},{'Cayle'},{'Canda'},{'Thoma'},{'Micha'},{'Doug '},&,1/1,&
-&,{'Noah '},{'Cayle'},{'David'},{'Joe A'},{'Canda'},{'Noah '},&,1/1,&
+&,{'Noah '},{'Cayle'},{'David'},{'Joe A'},{'Canda'},,&,1/1,&
 &,{'Noah '},{'Cayle'},{'Deian'},{'Doug '},{'Jamie'},,&,1/1,&
 &,{'Noah '},{'Cayle'},{'Deian'},{'Doug '},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Noah '},{'Cayle'},{'Deian'},{'Steph'},{'Loret'},{'Joe F'},&,1/1,&
@@ -11269,7 +11269,7 @@ False
 &,{'Noah '},{'Cayle'},{'Doug '},{'Terre'},,,&,2/1,&
 &,{'Noah '},{'Cayle'},{'Doug '},,,,&,2/1,&
 &,{'Noah '},{'Cayle'},{'Jamie'},{'David'},,,&,1/1,&
-&,{'Noah '},{'Cayle'},{'Jamie'},{'Jamie'},{'Thoma'},{'Thoma'},&,1/1,&
+&,{'Noah '},{'Cayle'},{'Jamie'},{'Thoma'},,,&,1/1,&
 &,{'Noah '},{'Cayle'},{'Jamie'},{'Peggy'},{'Deian'},{'Terre'},&,1/1,&
 &,{'Noah '},{'Cayle'},{'Jamie'},,,,&,1/1,&
 &,{'Noah '},{'Cayle'},{'Joe A'},{'Doug '},{'Deian'},{'Terre'},&,1/1,&
@@ -11315,7 +11315,7 @@ False
 &,{'Noah '},{'David'},{'Canda'},{'Doug '},{'Steph'},{'Deian'},&,2/1,&
 &,{'Noah '},{'David'},{'Canda'},{'Doug '},{'Terre'},{'Steph'},&,1/1,&
 &,{'Noah '},{'David'},{'Canda'},{'Peggy'},{'Thoma'},{'Timur'},&,1/1,&
-&,{'Noah '},{'David'},{'Canda'},{'Steph'},{'Jamie'},{'Canda'},&,1/1,&
+&,{'Noah '},{'David'},{'Canda'},{'Steph'},{'Jamie'},,&,1/1,&
 &,{'Noah '},{'David'},{'Cayle'},{'Doug '},{'Loret'},{'Steph'},&,1/1,&
 &,{'Noah '},{'David'},{'Cayle'},{'Doug '},{'Micha'},{'Steph'},&,1/1,&
 &,{'Noah '},{'David'},{'Cayle'},{'Jamie'},{'Terre'},{'Loret'},&,1/1,&
@@ -11327,7 +11327,7 @@ False
 &,{'Noah '},{'David'},{'Deian'},{'Steph'},{'Thoma'},{'Joe F'},&,1/1,&
 &,{'Noah '},{'David'},{'Deian'},{'Terre'},{'Loret'},{'Canda'},&,1/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Cayle'},{'Joe F'},,&,1/1,&
-&,{'Noah '},{'David'},{'Doug '},{'Deian'},{'Jamie'},{'David'},&,1/1,&
+&,{'Noah '},{'David'},{'Doug '},{'Deian'},{'Jamie'},,&,1/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Jamie'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Jamie'},,,&,2/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Joe A'},{'Joe F'},{'Deian'},&,1/1,&
@@ -11346,7 +11346,7 @@ False
 &,{'Noah '},{'David'},{'Doug '},{'Steph'},{'Deian'},{'Loret'},&,1/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Terre'},{'Deian'},{'Joe F'},&,1/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Terre'},{'Joe F'},{'Steph'},&,1/1,&
-&,{'Noah '},{'David'},{'Doug '},{'Terre'},{'Steph'},{'Terre'},&,1/1,&
+&,{'Noah '},{'David'},{'Doug '},{'Terre'},{'Steph'},,&,1/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Terre'},{'Steph'},{'Thoma'},&,2/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Thoma'},{'Timur'},{'Joe A'},&,1/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Timur'},,,&,3/1,&
@@ -11387,7 +11387,7 @@ False
 &,{'Noah '},{'David'},{'Micha'},{'Peggy'},{'Thoma'},{'Terre'},&,1/1,&
 &,{'Noah '},{'David'},{'Micha'},{'Steph'},{'Jamie'},{'Joe A'},&,1/1,&
 &,{'Noah '},{'David'},{'Micha'},{'Terre'},{'Thoma'},{'Jamie'},&,1/1,&
-&,{'Noah '},{'David'},{'Micha'},{'Thoma'},{'Noah '},{'Jamie'},&,1/1,&
+&,{'Noah '},{'David'},{'Micha'},{'Thoma'},{'Jamie'},,&,1/1,&
 &,{'Noah '},{'David'},{'Micha'},{'Timur'},{'Doug '},{'Thoma'},&,1/1,&
 &,{'Noah '},{'David'},{'Micha'},,,,&,1/1,&
 &,{'Noah '},{'David'},{'Peggy'},{'Deian'},{'Doug '},{'Terre'},&,1/1,&
@@ -11404,7 +11404,7 @@ False
 &,{'Noah '},{'David'},{'Terre'},{'Timur'},,,&,1/1,&
 &,{'Noah '},{'David'},{'Terre'},,,,&,1/1,&
 &,{'Noah '},{'David'},{'Thoma'},{'Cayle'},{'Timur'},{'Steph'},&,1/1,&
-&,{'Noah '},{'David'},{'Thoma'},{'Loret'},{'David'},{'Micha'},&,1/1,&
+&,{'Noah '},{'David'},{'Thoma'},{'Loret'},{'Micha'},,&,1/1,&
 &,{'Noah '},{'David'},{'Thoma'},{'Loret'},{'Steph'},{'Terre'},&,1/1,&
 &,{'Noah '},{'David'},{'Thoma'},{'Micha'},{'Doug '},{'Canda'},&,1/1,&
 &,{'Noah '},{'David'},{'Thoma'},{'Micha'},{'Peggy'},{'Steph'},&,1/1,&
@@ -11430,7 +11430,7 @@ False
 &,{'Noah '},{'Deian'},{'Cayle'},{'Thoma'},{'Joe F'},{'Jamie'},&,1/1,&
 &,{'Noah '},{'Deian'},{'Cayle'},{'Timur'},{'David'},{'Joe F'},&,1/1,&
 &,{'Noah '},{'Deian'},{'Cayle'},,,,&,1/1,&
-&,{'Noah '},{'Deian'},{'David'},{'Noah '},{'Thoma'},,&,1/1,&
+&,{'Noah '},{'Deian'},{'David'},{'Thoma'},,,&,1/1,&
 &,{'Noah '},{'Deian'},{'David'},,,,&,1/1,&
 &,{'Noah '},{'Deian'},{'Doug '},{'Cayle'},{'Canda'},{'Timur'},&,1/1,&
 &,{'Noah '},{'Deian'},{'Doug '},{'David'},{'Loret'},{'Joe A'},&,1/1,&
@@ -11531,7 +11531,7 @@ False
 &,{'Noah '},{'Doug '},{'David'},{'Terre'},{'Jamie'},{'Steph'},&,2/1,&
 &,{'Noah '},{'Doug '},{'David'},{'Terre'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Noah '},{'Doug '},{'David'},{'Terre'},{'Steph'},{'Canda'},&,1/1,&
-&,{'Noah '},{'Doug '},{'David'},{'Thoma'},{'Doug '},{'Steph'},&,1/1,&
+&,{'Noah '},{'Doug '},{'David'},{'Thoma'},{'Steph'},,&,1/1,&
 &,{'Noah '},{'Doug '},{'David'},,,,&,18/1,&
 &,{'Noah '},{'Doug '},{'Deian'},{'Cayle'},,,&,1/1,&
 &,{'Noah '},{'Doug '},{'Deian'},{'Jamie'},,,&,1/1,&
@@ -11564,7 +11564,7 @@ False
 &,{'Noah '},{'Doug '},{'Jamie'},{'Terre'},{'Deian'},{'Joe A'},&,1/1,&
 &,{'Noah '},{'Doug '},{'Jamie'},{'Terre'},{'Deian'},,&,1/1,&
 &,{'Noah '},{'Doug '},{'Jamie'},{'Terre'},,,&,1/1,&
-&,{'Noah '},{'Doug '},{'Jamie'},{'Thoma'},{'Deian'},{'Jamie'},&,1/1,&
+&,{'Noah '},{'Doug '},{'Jamie'},{'Thoma'},{'Deian'},,&,1/1,&
 &,{'Noah '},{'Doug '},{'Jamie'},{'Thoma'},{'Micha'},{'Joe A'},&,2/1,&
 &,{'Noah '},{'Doug '},{'Jamie'},,,,&,8/1,&
 &,{'Noah '},{'Doug '},{'Joe A'},{'Canda'},{'Terre'},{'Thoma'},&,1/1,&
@@ -11967,7 +11967,7 @@ False
 &,{'Noah '},{'Joe A'},{'Terre'},,,,&,3/1,&
 &,{'Noah '},{'Joe A'},{'Thoma'},{'Joe F'},{'Micha'},{'Peggy'},&,1/1,&
 &,{'Noah '},{'Joe A'},{'Thoma'},{'Micha'},{'Deian'},{'Canda'},&,1/1,&
-&,{'Noah '},{'Joe A'},{'Thoma'},{'Steph'},{'Noah '},{'Peggy'},&,1/1,&
+&,{'Noah '},{'Joe A'},{'Thoma'},{'Steph'},{'Peggy'},,&,1/1,&
 &,{'Noah '},{'Joe A'},{'Thoma'},{'Terre'},{'Doug '},{'Micha'},&,1/1,&
 &,{'Noah '},{'Joe A'},{'Thoma'},{'Timur'},{'Jamie'},{'Micha'},&,1/1,&
 &,{'Noah '},{'Joe A'},{'Thoma'},{'Timur'},{'Terre'},{'Joe F'},&,1/1,&
@@ -12112,7 +12112,7 @@ False
 &,{'Noah '},{'Loret'},{'Terre'},{'Deian'},{'Steph'},,&,1/1,&
 &,{'Noah '},{'Loret'},{'Terre'},{'Deian'},,,&,5/1,&
 &,{'Noah '},{'Loret'},{'Terre'},{'Doug '},{'David'},,&,1/1,&
-&,{'Noah '},{'Loret'},{'Terre'},{'Doug '},{'Terre'},{'Joe F'},&,1/1,&
+&,{'Noah '},{'Loret'},{'Terre'},{'Doug '},{'Joe F'},,&,1/1,&
 &,{'Noah '},{'Loret'},{'Terre'},{'Jamie'},{'Deian'},{'Joe A'},&,1/1,&
 &,{'Noah '},{'Loret'},{'Terre'},{'Jamie'},{'Joe A'},{'Deian'},&,1/1,&
 &,{'Noah '},{'Loret'},{'Terre'},{'Jamie'},{'Steph'},{'Timur'},&,1/1,&
@@ -12212,12 +12212,12 @@ False
 &,{'Noah '},{'Micha'},{'Jamie'},{'Terre'},{'David'},,&,1/1,&
 &,{'Noah '},{'Micha'},{'Doug '},{'Peggy'},,,&,1/1,&
 &,{'Noah '},{'Micha'},,,,,&,9/1,&
-&,{'Noah '},{'Noah '},{'David'},{'Noah '},{'Noah '},{'Noah '},&,1/1,&
-&,{'Noah '},{'Noah '},{'Loret'},{'Joe A'},,,&,1/1,&
-&,{'Noah '},{'Noah '},{'Noah '},{'Noah '},{'Noah '},{'Noah '},&,9/1,&
-&,{'Noah '},{'Noah '},{'Noah '},{'Noah '},,,&,1/1,&
-&,{'Noah '},{'Noah '},{'Noah '},,,,&,1/1,&
-&,{'Noah '},{'Noah '},{'Terre'},{'Joe F'},{'Loret'},{'Doug '},&,1/1,&
+&,{'Noah '},{'David'},,,,,&,1/1,&
+&,{'Noah '},{'Loret'},{'Joe A'},,,,&,1/1,&
+&,{'Noah '},,,,,,&,9/1,&
+&,{'Noah '},,,,,,&,1/1,&
+&,{'Noah '},,,,,,&,1/1,&
+&,{'Noah '},{'Terre'},{'Joe F'},{'Loret'},{'Doug '},,&,1/1,&
 &,{'Noah '},{'Peggy'},{'Canda'},{'David'},{'Cayle'},{'Doug '},&,1/1,&
 &,{'Noah '},{'Peggy'},{'Canda'},{'Loret'},{'Steph'},{'David'},&,1/1,&
 &,{'Noah '},{'Peggy'},{'Canda'},{'Terre'},{'Loret'},{'Micha'},&,1/1,&
@@ -12244,7 +12244,7 @@ False
 &,{'Noah '},{'Peggy'},{'Loret'},,,,&,4/1,&
 &,{'Noah '},{'Peggy'},{'Micha'},{'Terre'},{'David'},{'Joe A'},&,1/1,&
 &,{'Noah '},{'Peggy'},{'Micha'},,,,&,5/1,&
-&,{'Noah '},{'Peggy'},{'Noah '},{'Timur'},{'Noah '},{'Peggy'},&,1/1,&
+&,{'Noah '},{'Peggy'},{'Timur'},,,,&,1/1,&
 &,{'Noah '},{'Peggy'},{'Steph'},,,,&,4/1,&
 &,{'Noah '},{'Peggy'},{'Terre'},{'Steph'},{'Timur'},{'David'},&,1/1,&
 &,{'Noah '},{'Peggy'},{'Terre'},,,,&,1/1,&
@@ -12305,7 +12305,7 @@ False
 &,{'Noah '},{'Steph'},{'Micha'},{'Peggy'},{'Canda'},{'Jamie'},&,1/1,&
 &,{'Noah '},{'Steph'},{'Micha'},{'Thoma'},{'Loret'},{'David'},&,1/1,&
 &,{'Noah '},{'Steph'},{'Micha'},,,,&,2/1,&
-&,{'Noah '},{'Steph'},{'Noah '},,,,&,1/1,&
+&,{'Noah '},{'Steph'},,,,,&,1/1,&
 &,{'Noah '},{'Steph'},{'Peggy'},{'Doug '},{'Joe F'},{'Joe A'},&,2/1,&
 &,{'Noah '},{'Steph'},{'Peggy'},{'Doug '},{'Micha'},{'Loret'},&,1/1,&
 &,{'Noah '},{'Steph'},{'Peggy'},{'Loret'},{'David'},,&,1/1,&
@@ -12355,7 +12355,7 @@ False
 &,{'Noah '},{'Terre'},{'Cayle'},{'Canda'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Noah '},{'Terre'},{'Cayle'},{'Joe F'},{'Thoma'},,&,1/1,&
 &,{'Noah '},{'Terre'},{'Cayle'},{'Micha'},{'Steph'},{'Canda'},&,1/1,&
-&,{'Noah '},{'Terre'},{'Cayle'},{'Thoma'},{'Noah '},{'Jamie'},&,1/1,&
+&,{'Noah '},{'Terre'},{'Cayle'},{'Thoma'},{'Jamie'},,&,1/1,&
 &,{'Noah '},{'Terre'},{'Cayle'},{'Thoma'},{'Peggy'},{'Canda'},&,1/1,&
 &,{'Noah '},{'Terre'},{'Cayle'},{'Timur'},,,&,1/1,&
 &,{'Noah '},{'Terre'},{'Cayle'},,,,&,3/1,&
@@ -12382,7 +12382,7 @@ False
 &,{'Noah '},{'Terre'},{'Deian'},,,,&,4/1,&
 &,{'Noah '},{'Terre'},{'Doug '},{'David'},{'Joe A'},{'Thoma'},&,1/1,&
 &,{'Noah '},{'Terre'},{'Doug '},{'David'},{'Joe F'},{'Canda'},&,1/1,&
-&,{'Noah '},{'Terre'},{'Doug '},{'Deian'},{'Joe A'},{'Joe A'},&,1/1,&
+&,{'Noah '},{'Terre'},{'Doug '},{'Deian'},{'Joe A'},,&,1/1,&
 &,{'Noah '},{'Terre'},{'Doug '},{'Deian'},{'Joe A'},,&,1/1,&
 &,{'Noah '},{'Terre'},{'Doug '},{'Deian'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Noah '},{'Terre'},{'Doug '},{'Deian'},{'Steph'},{'Loret'},&,1/1,&
@@ -12453,7 +12453,7 @@ False
 &,{'Noah '},{'Terre'},{'Joe F'},{'Loret'},{'Doug '},,&,11/1,&
 &,{'Noah '},{'Terre'},{'Joe F'},{'Loret'},{'Doug '},,&,7/1,&
 &,{'Noah '},{'Terre'},{'Joe F'},{'Loret'},{'Doug '},,&,220/1,&
-&,{'Noah '},{'Terre'},{'Joe F'},{'Loret'},{'Joe F'},{'Jamie'},&,1/1,&
+&,{'Noah '},{'Terre'},{'Joe F'},{'Loret'},{'Jamie'},,&,1/1,&
 &,{'Noah '},{'Terre'},{'Joe F'},{'Loret'},{'Doug '},,&,4/1,&
 &,{'Noah '},{'Terre'},{'Joe F'},{'Loret'},,,&,6/1,&
 &,{'Noah '},{'Terre'},{'Joe F'},{'Micha'},{'Steph'},{'Loret'},&,1/1,&
@@ -12483,7 +12483,7 @@ False
 &,{'Noah '},{'Terre'},{'Loret'},{'Doug '},,,&,3/1,&
 &,{'Noah '},{'Terre'},{'Loret'},{'Jamie'},{'Deian'},,&,1/1,&
 &,{'Noah '},{'Terre'},{'Loret'},{'Jamie'},{'Micha'},{'David'},&,1/1,&
-&,{'Noah '},{'Terre'},{'Loret'},{'Jamie'},{'Noah '},{'Steph'},&,1/1,&
+&,{'Noah '},{'Terre'},{'Loret'},{'Jamie'},{'Steph'},,&,1/1,&
 &,{'Noah '},{'Terre'},{'Loret'},{'Jamie'},{'Peggy'},,&,1/1,&
 &,{'Noah '},{'Terre'},{'Loret'},{'Jamie'},{'Steph'},{'Timur'},&,1/1,&
 &,{'Noah '},{'Terre'},{'Loret'},{'Jamie'},{'Timur'},{'Steph'},&,1/1,&
@@ -12561,13 +12561,13 @@ False
 &,{'Noah '},{'Terre'},{'Timur'},{'Loret'},,,&,1/1,&
 &,{'Noah '},{'Terre'},{'Timur'},{'Steph'},,,&,2/1,&
 &,{'Noah '},{'Terre'},{'Timur'},,,,&,3/1,&
-&,{'Noah '},{'Terre'},{'Noah '},{'Doug '},,,&,1/1,&
+&,{'Noah '},{'Terre'},{'Doug '},,,,&,1/1,&
 &,{'Noah '},{'Terre'},,,,,&,94/1,&
 &,{'Noah '},{'Thoma'},{'Canda'},{'Deian'},{'Cayle'},{'Timur'},&,1/1,&
 &,{'Noah '},{'Thoma'},{'Canda'},{'Doug '},{'Steph'},,&,1/1,&
 &,{'Noah '},{'Thoma'},{'Canda'},,,,&,1/1,&
 &,{'Noah '},{'Thoma'},{'Cayle'},{'David'},{'Terre'},,&,1/1,&
-&,{'Noah '},{'Thoma'},{'Cayle'},{'Steph'},{'Joe A'},{'Noah '},&,1/1,&
+&,{'Noah '},{'Thoma'},{'Cayle'},{'Steph'},{'Joe A'},,&,1/1,&
 &,{'Noah '},{'Thoma'},{'David'},{'Deian'},{'Peggy'},{'Cayle'},&,2/1,&
 &,{'Noah '},{'Thoma'},{'David'},{'Micha'},{'Steph'},{'Terre'},&,2/1,&
 &,{'Noah '},{'Thoma'},{'David'},,,,&,3/1,&
@@ -12581,7 +12581,7 @@ False
 &,{'Noah '},{'Thoma'},{'Jamie'},{'Micha'},{'Doug '},{'Joe A'},&,1/1,&
 &,{'Noah '},{'Thoma'},{'Jamie'},{'Timur'},,,&,2/1,&
 &,{'Noah '},{'Thoma'},{'Joe A'},{'Joe F'},{'Micha'},,&,1/1,&
-&,{'Noah '},{'Thoma'},{'Joe A'},{'Joe F'},{'Noah '},,&,1/1,&
+&,{'Noah '},{'Thoma'},{'Joe A'},{'Joe F'},,,&,1/1,&
 &,{'Noah '},{'Thoma'},{'Joe F'},{'Doug '},{'Joe A'},{'Canda'},&,1/1,&
 &,{'Noah '},{'Thoma'},{'Joe F'},{'Doug '},,,&,1/1,&
 &,{'Noah '},{'Thoma'},{'Joe F'},{'Loret'},{'Doug '},,&,2/1,&
@@ -12630,7 +12630,7 @@ False
 &,{'Noah '},{'Timur'},{'David'},{'Cayle'},{'Canda'},{'Deian'},&,1/1,&
 &,{'Noah '},{'Timur'},{'David'},{'Cayle'},{'Canda'},{'Loret'},&,2/1,&
 &,{'Noah '},{'Timur'},{'David'},{'Cayle'},{'Steph'},,&,1/1,&
-&,{'Noah '},{'Timur'},{'David'},{'Deian'},{'Doug '},{'Timur'},&,1/1,&
+&,{'Noah '},{'Timur'},{'David'},{'Deian'},{'Doug '},,&,1/1,&
 &,{'Noah '},{'Timur'},{'David'},{'Doug '},{'Joe F'},{'Jamie'},&,2/1,&
 &,{'Noah '},{'Timur'},{'David'},{'Doug '},{'Terre'},,&,1/1,&
 &,{'Noah '},{'Timur'},{'David'},{'Joe A'},{'Loret'},,&,1/1,&
@@ -12701,17 +12701,17 @@ False
 &,{'Noah '},{'Timur'},{'Micha'},{'Joe A'},{'Joe F'},{'David'},&,1/1,&
 &,{'Noah '},{'Timur'},{'Micha'},{'Thoma'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Noah '},{'Timur'},{'Micha'},,,,&,2/1,&
-&,{'Noah '},{'Timur'},{'Noah '},{'Noah '},,,&,1/1,&
+&,{'Noah '},{'Timur'},,,,,&,1/1,&
 &,{'Noah '},{'Timur'},{'Peggy'},{'Canda'},{'Joe A'},{'David'},&,1/1,&
 &,{'Noah '},{'Timur'},{'Peggy'},{'Joe A'},{'Canda'},{'Loret'},&,1/1,&
-&,{'Noah '},{'Timur'},{'Peggy'},{'Timur'},{'Canda'},{'Joe A'},&,1/1,&
+&,{'Noah '},{'Timur'},{'Peggy'},{'Canda'},{'Joe A'},,&,1/1,&
 &,{'Noah '},{'Timur'},{'Peggy'},,,,&,3/1,&
 &,{'Noah '},{'Timur'},{'Steph'},{'Canda'},{'David'},{'Loret'},&,1/1,&
 &,{'Noah '},{'Timur'},{'Steph'},{'Doug '},{'Terre'},,&,1/1,&
 &,{'Noah '},{'Timur'},{'Steph'},{'Jamie'},{'Deian'},,&,1/1,&
 &,{'Noah '},{'Timur'},{'Steph'},{'Jamie'},{'Micha'},{'Loret'},&,1/1,&
 &,{'Noah '},{'Timur'},{'Steph'},{'Loret'},,,&,1/1,&
-&,{'Noah '},{'Timur'},{'Steph'},{'Steph'},{'David'},,&,1/1,&
+&,{'Noah '},{'Timur'},{'Steph'},{'David'},,,&,1/1,&
 &,{'Noah '},{'Timur'},{'Steph'},{'Terre'},{'Jamie'},{'David'},&,1/1,&
 &,{'Noah '},{'Timur'},{'Terre'},{'Canda'},{'Loret'},,&,1/1,&
 &,{'Noah '},{'Timur'},{'Terre'},{'Doug '},{'David'},{'Steph'},&,1/1,&
@@ -12720,11 +12720,11 @@ False
 &,{'Noah '},{'Timur'},{'Terre'},{'Joe F'},{'Canda'},,&,1/1,&
 &,{'Noah '},{'Timur'},{'Terre'},{'Loret'},{'Canda'},,&,1/1,&
 &,{'Noah '},{'Timur'},{'Terre'},{'Loret'},{'Steph'},,&,1/1,&
-&,{'Noah '},{'Timur'},{'Terre'},{'Steph'},{'Loret'},{'Timur'},&,1/1,&
+&,{'Noah '},{'Timur'},{'Terre'},{'Steph'},{'Loret'},,&,1/1,&
 &,{'Noah '},{'Timur'},{'Terre'},{'Steph'},,,&,3/1,&
 &,{'Noah '},{'Timur'},{'Terre'},,,,&,5/1,&
 &,{'Noah '},{'Timur'},{'Thoma'},,,,&,4/1,&
-&,{'Noah '},{'Timur'},{'Timur'},{'Timur'},{'Noah '},{'Doug '},&,1/1,&
+&,{'Noah '},{'Timur'},{'Doug '},,,,&,1/1,&
 &,{'Noah '},{'Timur'},,,,,&,16/1,&
 &,{'Noah '},{'David'},{'Doug '},{'Loret'},,,&,1/1,&
 &,{'Noah '},{'Timur'},{'Peggy'},,,,&,1/1,&
@@ -12795,7 +12795,7 @@ False
 &,{'Peggy'},{'Canda'},{'David'},{'Cayle'},{'Loret'},{'Terre'},&,1/1,&
 &,{'Peggy'},{'Canda'},{'David'},{'Deian'},{'Jamie'},{'Timur'},&,1/1,&
 &,{'Peggy'},{'Canda'},{'David'},{'Deian'},{'Noah '},{'Joe F'},&,1/1,&
-&,{'Peggy'},{'Canda'},{'David'},{'Deian'},{'Steph'},{'Deian'},&,1/1,&
+&,{'Peggy'},{'Canda'},{'David'},{'Deian'},{'Steph'},,&,1/1,&
 &,{'Peggy'},{'Canda'},{'David'},{'Doug '},{'Loret'},{'Micha'},&,1/1,&
 &,{'Peggy'},{'Canda'},{'David'},{'Doug '},{'Micha'},{'Jamie'},&,1/1,&
 &,{'Peggy'},{'Canda'},{'David'},{'Joe F'},{'Doug '},{'Deian'},&,1/1,&
@@ -12855,7 +12855,7 @@ False
 &,{'Peggy'},{'Canda'},{'Joe A'},{'Noah '},,,&,1/1,&
 &,{'Peggy'},{'Canda'},{'Joe A'},{'Timur'},{'Steph'},{'Loret'},&,1/1,&
 &,{'Peggy'},{'Canda'},{'Joe A'},,,,&,3/1,&
-&,{'Peggy'},{'Canda'},{'Joe F'},{'Cayle'},{'Joe F'},{'Deian'},&,1/1,&
+&,{'Peggy'},{'Canda'},{'Joe F'},{'Cayle'},{'Deian'},,&,1/1,&
 &,{'Peggy'},{'Canda'},{'Joe F'},{'Cayle'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Peggy'},{'Canda'},{'Joe F'},{'Deian'},{'Jamie'},{'Cayle'},&,1/1,&
 &,{'Peggy'},{'Canda'},{'Joe F'},{'Terre'},{'Timur'},{'Steph'},&,1/1,&
@@ -13017,7 +13017,7 @@ False
 &,{'Peggy'},{'David'},{'Micha'},{'Thoma'},{'Canda'},{'Joe F'},&,1/1,&
 &,{'Peggy'},{'David'},{'Noah '},{'Cayle'},{'Loret'},{'Thoma'},&,1/1,&
 &,{'Peggy'},{'David'},{'Noah '},{'Doug '},{'Micha'},{'Thoma'},&,1/1,&
-&,{'Peggy'},{'David'},{'Noah '},{'Loret'},{'Joe F'},{'Noah '},&,1/1,&
+&,{'Peggy'},{'David'},{'Noah '},{'Loret'},{'Joe F'},,&,1/1,&
 &,{'Peggy'},{'David'},{'Noah '},{'Thoma'},{'Micha'},{'Jamie'},&,1/1,&
 &,{'Peggy'},{'David'},{'Steph'},,,,&,2/1,&
 &,{'Peggy'},{'David'},{'Terre'},,,,&,4/1,&
@@ -13134,7 +13134,7 @@ False
 &,{'Peggy'},{'Joe A'},{'Joe F'},{'Terre'},{'Noah '},{'Doug '},&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Joe F'},{'Thoma'},{'Jamie'},{'Cayle'},&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Joe F'},,,,&,1/1,&
-&,{'Peggy'},{'Joe A'},{'Loret'},{'David'},{'Micha'},{'Micha'},&,1/1,&
+&,{'Peggy'},{'Joe A'},{'Loret'},{'David'},{'Micha'},,&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Loret'},{'Doug '},{'Steph'},{'Thoma'},&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Loret'},{'Micha'},{'David'},{'Noah '},&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Loret'},{'Micha'},{'Terre'},{'Canda'},&,1/1,&
@@ -13160,8 +13160,8 @@ False
 &,{'Peggy'},{'Joe A'},{'Noah '},{'Steph'},{'Deian'},{'Cayle'},&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Noah '},{'Steph'},{'Thoma'},{'Doug '},&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Noah '},,,,&,1/1,&
-&,{'Peggy'},{'Joe A'},{'Peggy'},{'Noah '},{'Loret'},{'Jamie'},&,1/1,&
-&,{'Peggy'},{'Joe A'},{'Peggy'},{'Noah '},{'Micha'},,&,1/1,&
+&,{'Peggy'},{'Joe A'},{'Noah '},{'Loret'},{'Jamie'},,&,1/1,&
+&,{'Peggy'},{'Joe A'},{'Noah '},{'Micha'},,,&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Steph'},,,,&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Terre'},{'David'},{'Doug '},{'Jamie'},&,1/1,&
 &,{'Peggy'},{'Joe A'},{'Timur'},{'David'},{'Cayle'},{'Canda'},&,1/1,&
@@ -13183,7 +13183,7 @@ False
 &,{'Peggy'},{'Joe F'},{'Joe A'},{'Loret'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Peggy'},{'Joe F'},{'Joe A'},{'Terre'},{'Doug '},{'David'},&,1/1,&
 &,{'Peggy'},{'Joe F'},{'Loret'},{'Cayle'},{'Canda'},{'Timur'},&,1/1,&
-&,{'Peggy'},{'Joe F'},{'Loret'},{'Loret'},{'Terre'},{'Cayle'},&,1/1,&
+&,{'Peggy'},{'Joe F'},{'Loret'},{'Terre'},{'Cayle'},,&,1/1,&
 &,{'Peggy'},{'Joe F'},{'Loret'},,,,&,1/1,&
 &,{'Peggy'},{'Joe F'},{'Micha'},{'Canda'},{'Deian'},{'Jamie'},&,1/1,&
 &,{'Peggy'},{'Joe F'},{'Noah '},{'Loret'},{'Canda'},{'Cayle'},&,1/1,&
@@ -13225,13 +13225,13 @@ False
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Canda'},{'Cayle'},{'Noah '},&,1/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Canda'},{'Deian'},{'Joe A'},&,1/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Canda'},{'Noah '},{'Joe A'},&,1/1,&
-&,{'Peggy'},{'Loret'},{'Jamie'},{'Canda'},{'Timur'},{'Peggy'},&,1/1,&
+&,{'Peggy'},{'Loret'},{'Jamie'},{'Canda'},{'Timur'},,&,1/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Canda'},,,&,1/1,&
-&,{'Peggy'},{'Loret'},{'Jamie'},{'Cayle'},{'Canda'},{'Cayle'},&,1/1,&
+&,{'Peggy'},{'Loret'},{'Jamie'},{'Cayle'},{'Canda'},,&,1/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Cayle'},{'Joe A'},{'Terre'},&,1/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'David'},{'Joe A'},{'Micha'},&,1/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Deian'},{'Canda'},{'Timur'},&,1/1,&
-&,{'Peggy'},{'Loret'},{'Jamie'},{'Joe A'},{'Canda'},{'Peggy'},&,1/1,&
+&,{'Peggy'},{'Loret'},{'Jamie'},{'Joe A'},{'Canda'},,&,1/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Joe A'},{'Joe F'},{'Deian'},&,2/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Joe A'},{'Micha'},{'Steph'},&,1/1,&
 &,{'Peggy'},{'Loret'},{'Jamie'},{'Joe F'},{'Thoma'},{'Canda'},&,1/1,&
@@ -13299,7 +13299,7 @@ False
 &,{'Peggy'},{'Micha'},{'Loret'},,,,&,2/1,&
 &,{'Peggy'},{'Micha'},{'Noah '},{'Canda'},,,&,1/1,&
 &,{'Peggy'},{'Micha'},{'Noah '},{'Joe F'},{'Cayle'},{'Thoma'},&,2/1,&
-&,{'Peggy'},{'Micha'},{'Peggy'},{'Micha'},{'Peggy'},{'Micha'},&,1/1,&
+&,{'Peggy'},{'Micha'},,,,,&,1/1,&
 &,{'Peggy'},{'Micha'},{'Steph'},{'Loret'},{'Jamie'},{'Cayle'},&,1/1,&
 &,{'Peggy'},{'Micha'},{'Steph'},,,,&,2/1,&
 &,{'Peggy'},{'Micha'},{'Terre'},{'Jamie'},{'Doug '},{'David'},&,4/1,&
@@ -13319,7 +13319,7 @@ False
 &,{'Peggy'},{'Noah '},{'Canda'},{'Joe A'},{'Joe F'},{'Steph'},&,1/1,&
 &,{'Peggy'},{'Noah '},{'Canda'},{'Loret'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Peggy'},{'Noah '},{'Canda'},{'Loret'},{'Terre'},{'Steph'},&,1/1,&
-&,{'Peggy'},{'Noah '},{'Canda'},{'Noah '},{'Joe A'},{'David'},&,1/1,&
+&,{'Peggy'},{'Noah '},{'Canda'},{'Joe A'},{'David'},,&,1/1,&
 &,{'Peggy'},{'Noah '},{'Canda'},{'Steph'},{'Deian'},{'Thoma'},&,1/1,&
 &,{'Peggy'},{'Noah '},{'Canda'},{'Timur'},{'Joe A'},{'David'},&,1/1,&
 &,{'Peggy'},{'Noah '},{'Canda'},,,,&,3/1,&
@@ -13335,7 +13335,7 @@ False
 &,{'Peggy'},{'Noah '},{'David'},{'Doug '},{'Joe F'},{'Micha'},&,1/1,&
 &,{'Peggy'},{'Noah '},{'David'},{'Doug '},{'Thoma'},{'Jamie'},&,2/1,&
 &,{'Peggy'},{'Noah '},{'David'},{'Joe A'},{'Micha'},{'Thoma'},&,1/1,&
-&,{'Peggy'},{'Noah '},{'David'},{'Joe F'},{'David'},{'Loret'},&,1/1,&
+&,{'Peggy'},{'Noah '},{'David'},{'Joe F'},{'Loret'},,&,1/1,&
 &,{'Peggy'},{'Noah '},{'David'},{'Joe F'},{'Deian'},{'Thoma'},&,1/1,&
 &,{'Peggy'},{'Noah '},{'David'},{'Loret'},{'Micha'},{'Thoma'},&,1/1,&
 &,{'Peggy'},{'Noah '},{'David'},{'Micha'},{'Deian'},{'Terre'},&,1/1,&
@@ -13392,8 +13392,8 @@ False
 &,{'Peggy'},{'Noah '},{'Timur'},{'Joe A'},{'Thoma'},,&,1/1,&
 &,{'Peggy'},{'Noah '},{'Timur'},,,,&,1/1,&
 &,{'Peggy'},{'Noah '},,,,,&,5/1,&
-&,{'Peggy'},{'Peggy'},{'Peggy'},{'Peggy'},{'Peggy'},{'Peggy'},&,4/1,&
-&,{'Peggy'},{'Peggy'},,,,,&,1/1,&
+&,{'Peggy'},,,,,,&,4/1,&
+&,{'Peggy'},,,,,,&,1/1,&
 &,{'Peggy'},{'Steph'},{'Canda'},{'Loret'},{'Deian'},{'Terre'},&,1/1,&
 &,{'Peggy'},{'Steph'},{'Canda'},{'Loret'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Peggy'},{'Steph'},{'Canda'},{'Loret'},{'Thoma'},{'Timur'},&,1/1,&
@@ -13450,7 +13450,7 @@ False
 &,{'Peggy'},{'Timur'},{'Canda'},{'Noah '},{'Thoma'},{'Terre'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Canda'},{'Doug '},,,&,1/1,&
 &,{'Peggy'},{'Timur'},{'Cayle'},{'Canda'},{'Doug '},{'Jamie'},&,1/1,&
-&,{'Peggy'},{'Timur'},{'David'},{'Cayle'},{'Micha'},{'Peggy'},&,1/1,&
+&,{'Peggy'},{'Timur'},{'David'},{'Cayle'},{'Micha'},,&,1/1,&
 &,{'Peggy'},{'Timur'},{'Doug '},{'Joe A'},{'Steph'},{'Deian'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Doug '},{'Loret'},{'Canda'},{'David'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Doug '},{'Steph'},{'Micha'},{'Joe A'},&,1/1,&
@@ -13465,12 +13465,12 @@ False
 &,{'Peggy'},{'Timur'},{'Joe A'},{'Micha'},{'Jamie'},{'Loret'},&,2/1,&
 &,{'Peggy'},{'Timur'},{'Loret'},{'Noah '},{'Joe A'},{'Joe F'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Loret'},{'Steph'},{'Canda'},{'Jamie'},&,1/1,&
-&,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Canda'},{'Joe A'},&,1/1,&
+&,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},,&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'David'},{'Joe F'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Doug '},{'Jamie'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},{'Cayle'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},{'David'},&,113/1,&
-&,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},{'Joe A'},&,2/1,&
+&,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},,&,2/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},{'Joe F'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},,&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},,&,1/1,&
@@ -13480,7 +13480,7 @@ False
 &,{'Peggy'},{'Timur'},{'Noah '},{'Deian'},{'Thoma'},{'Terre'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Joe A'},{'David'},{'Joe F'},&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'Joe A'},{'David'},,&,2/1,&
-&,{'Peggy'},{'Timur'},{'Noah '},{'Noah '},{'Canda'},{'Joe A'},&,1/1,&
+&,{'Peggy'},{'Timur'},{'Noah '},{'Canda'},{'Joe A'},,&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},{'David'},,,&,1/1,&
 &,{'Peggy'},{'Timur'},{'Noah '},,,,&,11/1,&
 &,{'Peggy'},{'Timur'},{'Steph'},{'Canda'},{'Jamie'},,&,1/1,&
@@ -13513,7 +13513,7 @@ False
 &,{'Peggy'},{'Noah '},{'Timur'},,,,&,1/1,&
 &,{'Peggy'},{'Noah '},,,,,&,1/1,&
 &,{'Peggy'},,,,,,&,159/1,&
-&,{'Steph'},{'Canda'},{'Canda'},{'Jamie'},,,&,1/1,&
+&,{'Steph'},{'Canda'},{'Jamie'},,,,&,1/1,&
 &,{'Steph'},{'Canda'},{'Cayle'},{'Doug '},{'Loret'},{'Noah '},&,1/1,&
 &,{'Steph'},{'Canda'},{'Cayle'},{'Jamie'},{'David'},,&,1/1,&
 &,{'Steph'},{'Canda'},{'Cayle'},{'Jamie'},{'Loret'},{'Joe A'},&,1/1,&
@@ -13685,7 +13685,7 @@ False
 &,{'Steph'},{'Canda'},{'Loret'},{'Jamie'},{'Timur'},,&,1/1,&
 &,{'Steph'},{'Canda'},{'Loret'},{'Jamie'},,,&,3/1,&
 &,{'Steph'},{'Canda'},{'Loret'},{'Joe A'},,,&,1/1,&
-&,{'Steph'},{'Canda'},{'Loret'},{'Noah '},{'Noah '},{'Steph'},&,1/1,&
+&,{'Steph'},{'Canda'},{'Loret'},{'Noah '},,,&,1/1,&
 &,{'Steph'},{'Canda'},{'Loret'},{'Peggy'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Steph'},{'Canda'},{'Loret'},{'Peggy'},,,&,2/1,&
 &,{'Steph'},{'Canda'},{'Loret'},{'Terre'},{'David'},{'Timur'},&,1/1,&
@@ -13815,7 +13815,7 @@ False
 &,{'Steph'},{'Canda'},{'Timur'},{'Jamie'},{'Terre'},{'Loret'},&,3/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Jamie'},{'Terre'},,&,1/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Jamie'},{'Thoma'},,&,1/1,&
-&,{'Steph'},{'Canda'},{'Timur'},{'Jamie'},{'Timur'},{'Noah '},&,1/1,&
+&,{'Steph'},{'Canda'},{'Timur'},{'Jamie'},{'Noah '},,&,1/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Jamie'},,,&,1/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Jamie'},,,&,68/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Joe A'},{'David'},,&,1/1,&
@@ -13843,8 +13843,8 @@ False
 &,{'Steph'},{'Canda'},{'Timur'},{'Noah '},{'Terre'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Noah '},{'Terre'},{'Thoma'},&,1/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Noah '},,,&,1/1,&
-&,{'Steph'},{'Canda'},{'Timur'},{'Steph'},{'Terre'},{'Loret'},&,1/1,&
-&,{'Steph'},{'Canda'},{'Timur'},{'Steph'},,,&,1/1,&
+&,{'Steph'},{'Canda'},{'Timur'},{'Terre'},{'Loret'},,&,1/1,&
+&,{'Steph'},{'Canda'},{'Timur'},,,,&,1/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Terre'},{'David'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Terre'},{'Doug '},{'Jamie'},&,1/1,&
 &,{'Steph'},{'Canda'},{'Timur'},{'Terre'},{'Jamie'},{'David'},&,2/1,&
@@ -13913,7 +13913,7 @@ False
 &,{'Steph'},{'David'},{'Canda'},{'Noah '},{'Peggy'},{'Loret'},&,1/1,&
 &,{'Steph'},{'David'},{'Canda'},{'Timur'},,,&,3/1,&
 &,{'Steph'},{'David'},{'Cayle'},{'Canda'},{'Timur'},{'Jamie'},&,2/1,&
-&,{'Steph'},{'David'},{'Cayle'},{'Deian'},{'Terre'},{'Terre'},&,1/1,&
+&,{'Steph'},{'David'},{'Cayle'},{'Deian'},{'Terre'},,&,1/1,&
 &,{'Steph'},{'David'},{'Cayle'},{'Doug '},{'Joe F'},{'Micha'},&,1/1,&
 &,{'Steph'},{'David'},{'Doug '},{'Loret'},{'Micha'},{'Peggy'},&,1/1,&
 &,{'Steph'},{'David'},{'Doug '},{'Timur'},{'Canda'},{'Thoma'},&,2/1,&
@@ -14029,7 +14029,7 @@ False
 &,{'Steph'},{'Doug '},{'Noah '},{'Timur'},{'Joe A'},{'David'},&,1/1,&
 &,{'Steph'},{'Doug '},{'Peggy'},{'Canda'},{'Noah '},{'Timur'},&,1/1,&
 &,{'Steph'},{'Doug '},{'Peggy'},,,,&,1/1,&
-&,{'Steph'},{'Doug '},{'Steph'},{'Timur'},,,&,1/1,&
+&,{'Steph'},{'Doug '},{'Timur'},,,,&,1/1,&
 &,{'Steph'},{'Doug '},{'Terre'},{'Canda'},{'Jamie'},{'Timur'},&,1/1,&
 &,{'Steph'},{'Doug '},{'Terre'},{'David'},{'Cayle'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Doug '},{'Terre'},{'Jamie'},{'Loret'},{'Canda'},&,2/1,&
@@ -14046,7 +14046,7 @@ False
 &,{'Steph'},{'Doug '},{'Timur'},{'Micha'},{'Joe F'},{'Deian'},&,1/1,&
 &,{'Steph'},{'Doug '},{'Timur'},,,,&,1/1,&
 &,{'Steph'},{'Doug '},,,,,&,2/1,&
-&,{'Steph'},{'Jamie'},{'Canda'},{'Canda'},,,&,1/1,&
+&,{'Steph'},{'Jamie'},{'Canda'},,,,&,1/1,&
 &,{'Steph'},{'Jamie'},{'Canda'},{'Cayle'},{'Terre'},{'Noah '},&,1/1,&
 &,{'Steph'},{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Jamie'},{'Canda'},{'Cayle'},{'Timur'},{'Terre'},&,1/1,&
@@ -14086,7 +14086,7 @@ False
 &,{'Steph'},{'Jamie'},{'Canda'},{'Noah '},{'David'},,&,5/1,&
 &,{'Steph'},{'Jamie'},{'Canda'},{'Noah '},{'Loret'},{'Timur'},&,2/1,&
 &,{'Steph'},{'Jamie'},{'Canda'},{'Noah '},{'Micha'},{'Joe A'},&,1/1,&
-&,{'Steph'},{'Jamie'},{'Canda'},{'Noah '},{'Noah '},{'Terre'},&,1/1,&
+&,{'Steph'},{'Jamie'},{'Canda'},{'Noah '},{'Terre'},,&,1/1,&
 &,{'Steph'},{'Jamie'},{'Canda'},{'Noah '},{'Terre'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Jamie'},{'Canda'},{'Noah '},{'Terre'},{'Timur'},&,1/1,&
 &,{'Steph'},{'Jamie'},{'Canda'},{'Noah '},{'Timur'},{'Loret'},&,1/1,&
@@ -14249,7 +14249,7 @@ False
 &,{'Steph'},{'Jamie'},{'Peggy'},{'Noah '},{'Doug '},{'Micha'},&,1/1,&
 &,{'Steph'},{'Jamie'},{'Peggy'},{'Timur'},{'Terre'},{'Deian'},&,1/1,&
 &,{'Steph'},{'Jamie'},{'Peggy'},,,,&,1/1,&
-&,{'Steph'},{'Jamie'},{'Steph'},{'Canda'},{'Loret'},,&,1/1,&
+&,{'Steph'},{'Jamie'},{'Canda'},{'Loret'},,,&,1/1,&
 &,{'Steph'},{'Jamie'},{'Terre'},{'Canda'},{'David'},{'Timur'},&,1/1,&
 &,{'Steph'},{'Jamie'},{'Terre'},{'Canda'},{'Doug '},{'Thoma'},&,1/1,&
 &,{'Steph'},{'Jamie'},{'Terre'},{'Canda'},{'Joe A'},{'Cayle'},&,1/1,&
@@ -14444,7 +14444,7 @@ False
 &,{'Steph'},{'Loret'},{'Canda'},{'Noah '},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Steph'},{'Loret'},{'Canda'},{'Peggy'},{'Cayle'},{'Deian'},&,1/1,&
 &,{'Steph'},{'Loret'},{'Canda'},{'Peggy'},{'Jamie'},{'Noah '},&,2/1,&
-&,{'Steph'},{'Loret'},{'Canda'},{'Peggy'},{'Jamie'},{'Steph'},&,1/1,&
+&,{'Steph'},{'Loret'},{'Canda'},{'Peggy'},{'Jamie'},,&,1/1,&
 &,{'Steph'},{'Loret'},{'Canda'},{'Peggy'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Steph'},{'Loret'},{'Canda'},{'Peggy'},{'Thoma'},{'Deian'},&,1/1,&
 &,{'Steph'},{'Loret'},{'Canda'},{'Peggy'},,,&,1/1,&
@@ -14610,7 +14610,7 @@ False
 &,{'Steph'},{'Loret'},{'Terre'},{'Canda'},{'Timur'},,&,3/1,&
 &,{'Steph'},{'Loret'},{'Terre'},{'Canda'},,,&,1/1,&
 &,{'Steph'},{'Loret'},{'Terre'},{'Cayle'},{'Canda'},{'Timur'},&,2/1,&
-&,{'Steph'},{'Loret'},{'Terre'},{'Cayle'},{'Noah '},{'Steph'},&,1/1,&
+&,{'Steph'},{'Loret'},{'Terre'},{'Cayle'},{'Noah '},,&,1/1,&
 &,{'Steph'},{'Loret'},{'Terre'},{'David'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Steph'},{'Loret'},{'Terre'},{'David'},{'Canda'},,&,1/1,&
 &,{'Steph'},{'Loret'},{'Terre'},{'David'},{'Deian'},,&,1/1,&
@@ -14819,10 +14819,10 @@ False
 &,{'Steph'},{'Peggy'},{'Thoma'},{'Noah '},,,&,1/1,&
 &,{'Steph'},{'Peggy'},{'Canda'},,,,&,1/1,&
 &,{'Steph'},{'Peggy'},,,,,&,5/1,&
-&,{'Steph'},{'Steph'},{'Loret'},{'Doug '},{'Joe F'},{'Noah '},&,1/1,&
-&,{'Steph'},{'Steph'},{'Loret'},,,,&,1/1,&
-&,{'Steph'},{'Steph'},{'Steph'},{'Steph'},{'Steph'},{'Steph'},&,4/1,&
-&,{'Steph'},{'Steph'},,,,,&,1/1,&
+&,{'Steph'},{'Loret'},{'Doug '},{'Joe F'},{'Noah '},,&,1/1,&
+&,{'Steph'},{'Loret'},,,,,&,1/1,&
+&,{'Steph'},,,,,,&,4/1,&
+&,{'Steph'},,,,,,&,1/1,&
 &,{'Steph'},{'Terre'},{'Canda'},{'Cayle'},{'Jamie'},{'Timur'},&,1/1,&
 &,{'Steph'},{'Terre'},{'Canda'},{'Cayle'},{'Loret'},{'Deian'},&,2/1,&
 &,{'Steph'},{'Terre'},{'Canda'},{'Cayle'},{'Loret'},,&,2/1,&
@@ -14979,7 +14979,7 @@ False
 &,{'Steph'},{'Terre'},{'Micha'},{'Deian'},{'Timur'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Terre'},{'Micha'},{'Doug '},{'Cayle'},{'Canda'},&,2/1,&
 &,{'Steph'},{'Terre'},{'Micha'},{'Joe F'},{'Cayle'},{'Canda'},&,2/1,&
-&,{'Steph'},{'Terre'},{'Micha'},{'Loret'},{'Micha'},,&,1/1,&
+&,{'Steph'},{'Terre'},{'Micha'},{'Loret'},,,&,1/1,&
 &,{'Steph'},{'Terre'},{'Micha'},{'Loret'},{'Timur'},{'Jamie'},&,2/1,&
 &,{'Steph'},{'Terre'},{'Micha'},{'Loret'},,,&,1/1,&
 &,{'Steph'},{'Terre'},{'Micha'},{'Timur'},{'Canda'},{'Jamie'},&,1/1,&
@@ -14998,7 +14998,7 @@ False
 &,{'Steph'},{'Terre'},{'Noah '},{'Timur'},,,&,2/1,&
 &,{'Steph'},{'Terre'},{'Noah '},,,,&,4/1,&
 &,{'Steph'},{'Terre'},{'Peggy'},{'David'},{'Timur'},{'Noah '},&,1/1,&
-&,{'Steph'},{'Terre'},{'Steph'},{'Cayle'},{'Canda'},{'Timur'},&,1/1,&
+&,{'Steph'},{'Terre'},{'Cayle'},{'Canda'},{'Timur'},,&,1/1,&
 &,{'Steph'},{'Terre'},{'Thoma'},{'Jamie'},{'Doug '},{'Micha'},&,1/1,&
 &,{'Steph'},{'Terre'},{'Thoma'},{'Jamie'},{'Micha'},{'Doug '},&,1/1,&
 &,{'Steph'},{'Terre'},{'Thoma'},{'Loret'},{'Deian'},{'Micha'},&,5/1,&
@@ -15143,7 +15143,7 @@ False
 &,{'Steph'},{'Timur'},{'Canda'},{'Micha'},{'Terre'},{'Deian'},&,1/1,&
 &,{'Steph'},{'Timur'},{'Canda'},{'Noah '},{'Loret'},{'Jamie'},&,1/1,&
 &,{'Steph'},{'Timur'},{'Canda'},{'Noah '},,,&,1/1,&
-&,{'Steph'},{'Timur'},{'Canda'},{'Steph'},{'Terre'},{'David'},&,1/1,&
+&,{'Steph'},{'Timur'},{'Canda'},{'Terre'},{'David'},,&,1/1,&
 &,{'Steph'},{'Timur'},{'Canda'},{'Terre'},{'Jamie'},{'David'},&,1/1,&
 &,{'Steph'},{'Timur'},{'Canda'},{'Terre'},{'Jamie'},{'Deian'},&,1/1,&
 &,{'Steph'},{'Timur'},{'Canda'},{'Terre'},{'Loret'},{'Cayle'},&,1/1,&
@@ -15168,7 +15168,7 @@ False
 &,{'Steph'},{'Timur'},{'David'},{'Canda'},{'Cayle'},{'Jamie'},&,1/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Canda'},{'Cayle'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Canda'},{'Deian'},{'Jamie'},&,2/1,&
-&,{'Steph'},{'Timur'},{'David'},{'Canda'},{'Doug '},{'Steph'},&,1/1,&
+&,{'Steph'},{'Timur'},{'David'},{'Canda'},{'Doug '},,&,1/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Canda'},{'Jamie'},,&,2/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Canda'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Canda'},,,&,1/1,&
@@ -15176,7 +15176,7 @@ False
 &,{'Steph'},{'Timur'},{'David'},{'Cayle'},{'Deian'},,&,2/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Cayle'},{'Jamie'},{'Canda'},&,1/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Deian'},{'Terre'},{'Cayle'},&,1/1,&
-&,{'Steph'},{'Timur'},{'David'},{'Doug '},{'Cayle'},{'Steph'},&,1/1,&
+&,{'Steph'},{'Timur'},{'David'},{'Doug '},{'Cayle'},,&,1/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Joe A'},{'Jamie'},{'Terre'},&,1/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Terre'},{'Doug '},{'Deian'},&,1/1,&
 &,{'Steph'},{'Timur'},{'David'},{'Terre'},{'Jamie'},{'Loret'},&,1/1,&
@@ -15240,7 +15240,7 @@ False
 &,{'Steph'},{'Timur'},{'Jamie'},,,,&,21/1,&
 &,{'Steph'},{'Timur'},{'Joe A'},{'Cayle'},{'David'},{'Doug '},&,1/1,&
 &,{'Steph'},{'Timur'},{'Joe A'},{'Cayle'},,,&,1/1,&
-&,{'Steph'},{'Timur'},{'Joe A'},{'David'},{'Jamie'},{'David'},&,1/1,&
+&,{'Steph'},{'Timur'},{'Joe A'},{'David'},{'Jamie'},,&,1/1,&
 &,{'Steph'},{'Timur'},{'Joe A'},{'Micha'},{'Deian'},{'Jamie'},&,1/1,&
 &,{'Steph'},{'Timur'},{'Joe A'},{'Terre'},{'Cayle'},{'Canda'},&,2/1,&
 &,{'Steph'},{'Timur'},{'Joe F'},{'Loret'},{'Canda'},{'David'},&,1/1,&
@@ -15288,9 +15288,9 @@ False
 &,{'Steph'},{'Timur'},{'Noah '},{'David'},{'Loret'},,&,1/1,&
 &,{'Steph'},{'Timur'},{'Noah '},{'Joe A'},{'David'},{'Cayle'},&,1/1,&
 &,{'Steph'},{'Timur'},{'Noah '},{'Loret'},{'Canda'},{'Terre'},&,2/1,&
-&,{'Steph'},{'Timur'},{'Noah '},{'Loret'},{'Noah '},{'Jamie'},&,1/1,&
+&,{'Steph'},{'Timur'},{'Noah '},{'Loret'},{'Jamie'},,&,1/1,&
 &,{'Steph'},{'Timur'},{'Noah '},{'Terre'},{'Doug '},{'Jamie'},&,1/1,&
-&,{'Steph'},{'Timur'},{'Steph'},{'Canda'},,,&,1/1,&
+&,{'Steph'},{'Timur'},{'Canda'},,,,&,1/1,&
 &,{'Steph'},{'Timur'},{'Terre'},{'Canda'},{'Cayle'},{'Loret'},&,1/1,&
 &,{'Steph'},{'Timur'},{'Terre'},{'Canda'},{'Cayle'},{'Micha'},&,1/1,&
 &,{'Steph'},{'Timur'},{'Terre'},{'Canda'},{'Jamie'},{'David'},&,2/1,&
@@ -15342,7 +15342,7 @@ False
 &,{'Terre'},{'Canda'},{'Cayle'},{'Jamie'},{'Loret'},{'Peggy'},&,1/1,&
 &,{'Terre'},{'Canda'},{'Cayle'},{'Joe A'},{'Steph'},{'Loret'},&,1/1,&
 &,{'Terre'},{'Canda'},{'Cayle'},{'Joe A'},{'Timur'},{'Doug '},&,1/1,&
-&,{'Terre'},{'Canda'},{'Cayle'},{'Joe F'},{'Cayle'},{'Peggy'},&,1/1,&
+&,{'Terre'},{'Canda'},{'Cayle'},{'Joe F'},{'Peggy'},,&,1/1,&
 &,{'Terre'},{'Canda'},{'Cayle'},{'Loret'},,,&,1/1,&
 &,{'Terre'},{'Canda'},{'Cayle'},{'Micha'},{'Loret'},{'Jamie'},&,1/1,&
 &,{'Terre'},{'Canda'},{'Cayle'},{'Steph'},{'Jamie'},{'Doug '},&,1/1,&
@@ -15423,7 +15423,7 @@ False
 &,{'Terre'},{'Canda'},{'Loret'},{'Steph'},{'Peggy'},{'Doug '},&,1/1,&
 &,{'Terre'},{'Canda'},{'Loret'},{'Steph'},{'Timur'},{'Noah '},&,1/1,&
 &,{'Terre'},{'Canda'},{'Loret'},{'Steph'},,,&,3/1,&
-&,{'Terre'},{'Canda'},{'Loret'},{'Terre'},{'Canda'},{'Loret'},&,1/1,&
+&,{'Terre'},{'Canda'},{'Loret'},,,,&,1/1,&
 &,{'Terre'},{'Canda'},{'Loret'},{'Thoma'},{'Jamie'},{'Joe F'},&,2/1,&
 &,{'Terre'},{'Canda'},{'Loret'},{'Timur'},{'David'},{'Jamie'},&,2/1,&
 &,{'Terre'},{'Canda'},{'Loret'},{'Timur'},{'Deian'},{'Cayle'},&,1/1,&
@@ -15591,7 +15591,7 @@ False
 &,{'Terre'},{'David'},{'Timur'},{'Jamie'},{'Loret'},{'Canda'},&,1/1,&
 &,{'Terre'},{'David'},{'Timur'},{'Loret'},{'Steph'},{'Cayle'},&,1/1,&
 &,{'Terre'},{'David'},{'Timur'},{'Noah '},{'Steph'},{'Deian'},&,3/1,&
-&,{'Terre'},{'David'},{'Timur'},{'Thoma'},{'Joe F'},{'David'},&,1/1,&
+&,{'Terre'},{'David'},{'Timur'},{'Thoma'},{'Joe F'},,&,1/1,&
 &,{'Terre'},{'David'},{'Timur'},,,,&,2/1,&
 &,{'Terre'},{'David'},,,,,&,2/1,&
 &,{'Terre'},{'Deian'},{'Canda'},{'Cayle'},{'Jamie'},{'Loret'},&,2/1,&
@@ -15614,11 +15614,11 @@ False
 &,{'Terre'},{'Deian'},{'David'},{'Canda'},{'Joe F'},{'Jamie'},&,1/1,&
 &,{'Terre'},{'Deian'},{'David'},{'Jamie'},,,&,3/1,&
 &,{'Terre'},{'Deian'},{'David'},{'Joe A'},,,&,1/1,&
-&,{'Terre'},{'Deian'},{'David'},{'Noah '},{'David'},{'Loret'},&,1/1,&
+&,{'Terre'},{'Deian'},{'David'},{'Noah '},{'Loret'},,&,1/1,&
 &,{'Terre'},{'Deian'},{'David'},{'Noah '},,,&,1/1,&
 &,{'Terre'},{'Deian'},{'David'},{'Steph'},{'Doug '},,&,1/1,&
 &,{'Terre'},{'Deian'},{'David'},,,,&,1/1,&
-&,{'Terre'},{'Deian'},{'Deian'},{'Terre'},{'Terre'},{'Terre'},&,1/1,&
+&,{'Terre'},{'Deian'},,,,,&,1/1,&
 &,{'Terre'},{'Deian'},{'Doug '},{'Canda'},{'Micha'},{'Thoma'},&,1/1,&
 &,{'Terre'},{'Deian'},{'Doug '},{'Noah '},{'Micha'},{'Loret'},&,1/1,&
 &,{'Terre'},{'Deian'},{'Jamie'},{'Canda'},,,&,1/1,&
@@ -15637,7 +15637,7 @@ False
 &,{'Terre'},{'Deian'},{'Loret'},{'Joe F'},{'Doug '},{'Canda'},&,1/1,&
 &,{'Terre'},{'Deian'},{'Loret'},{'Noah '},{'Cayle'},{'Canda'},&,1/1,&
 &,{'Terre'},{'Deian'},{'Loret'},{'Noah '},{'David'},{'Canda'},&,1/1,&
-&,{'Terre'},{'Deian'},{'Loret'},{'Steph'},{'Deian'},{'Canda'},&,1/1,&
+&,{'Terre'},{'Deian'},{'Loret'},{'Steph'},{'Canda'},,&,1/1,&
 &,{'Terre'},{'Deian'},{'Loret'},{'Canda'},,,&,1/1,&
 &,{'Terre'},{'Deian'},{'Loret'},,,,&,4/1,&
 &,{'Terre'},{'Deian'},{'Noah '},{'Cayle'},{'Steph'},{'Jamie'},&,2/1,&
@@ -15648,13 +15648,13 @@ False
 &,{'Terre'},{'Deian'},{'Noah '},{'Loret'},{'Canda'},{'Timur'},&,2/1,&
 &,{'Terre'},{'Deian'},{'Noah '},{'Loret'},{'Steph'},,&,1/1,&
 &,{'Terre'},{'Deian'},{'Noah '},,,,&,2/1,&
-&,{'Terre'},{'Deian'},{'Peggy'},{'David'},{'Deian'},{'Canda'},&,1/1,&
+&,{'Terre'},{'Deian'},{'Peggy'},{'David'},{'Canda'},,&,1/1,&
 &,{'Terre'},{'Deian'},{'Peggy'},{'David'},{'Joe A'},{'Doug '},&,1/1,&
 &,{'Terre'},{'Deian'},{'Peggy'},,,,&,1/1,&
 &,{'Terre'},{'Deian'},{'Steph'},{'Doug '},{'Noah '},{'Micha'},&,2/1,&
 &,{'Terre'},{'Deian'},{'Steph'},{'Doug '},,,&,2/1,&
 &,{'Terre'},{'Deian'},{'Steph'},{'Noah '},{'Jamie'},{'Doug '},&,2/1,&
-&,{'Terre'},{'Deian'},{'Terre'},{'Deian'},{'Terre'},{'Deian'},&,1/1,&
+&,{'Terre'},{'Deian'},,,,,&,1/1,&
 &,{'Terre'},{'Deian'},{'Thoma'},{'Canda'},{'Doug '},{'Steph'},&,1/1,&
 &,{'Terre'},{'Deian'},{'Timur'},{'Canda'},{'Cayle'},{'David'},&,1/1,&
 &,{'Terre'},{'Deian'},{'Timur'},{'Joe F'},{'Noah '},,&,1/1,&
@@ -15680,7 +15680,7 @@ False
 &,{'Terre'},{'Doug '},{'Deian'},{'Loret'},{'Jamie'},{'Timur'},&,1/1,&
 &,{'Terre'},{'Doug '},{'Deian'},{'Noah '},{'Joe A'},{'Canda'},&,1/1,&
 &,{'Terre'},{'Doug '},{'Deian'},{'Noah '},{'Loret'},{'Timur'},&,1/1,&
-&,{'Terre'},{'Doug '},{'Doug '},{'Timur'},{'Steph'},{'Loret'},&,1/1,&
+&,{'Terre'},{'Doug '},{'Timur'},{'Steph'},{'Loret'},,&,1/1,&
 &,{'Terre'},{'Doug '},{'Jamie'},{'Canda'},{'Peggy'},{'Joe A'},&,1/1,&
 &,{'Terre'},{'Doug '},{'Jamie'},{'Cayle'},{'David'},{'Noah '},&,1/1,&
 &,{'Terre'},{'Doug '},{'Jamie'},{'David'},{'Peggy'},{'Deian'},&,1/1,&
@@ -15702,7 +15702,7 @@ False
 &,{'Terre'},{'Doug '},{'Loret'},,,,&,6/1,&
 &,{'Terre'},{'Doug '},{'Micha'},{'Loret'},{'Jamie'},{'Joe F'},&,1/1,&
 &,{'Terre'},{'Doug '},{'Micha'},{'Loret'},,,&,1/1,&
-&,{'Terre'},{'Doug '},{'Micha'},{'Steph'},{'Doug '},{'Noah '},&,1/1,&
+&,{'Terre'},{'Doug '},{'Micha'},{'Steph'},{'Noah '},,&,1/1,&
 &,{'Terre'},{'Doug '},{'Noah '},{'Jamie'},{'Micha'},{'Peggy'},&,1/1,&
 &,{'Terre'},{'Doug '},{'Noah '},{'Timur'},,,&,1/1,&
 &,{'Terre'},{'Doug '},{'Noah '},,,,&,9/1,&
@@ -15822,7 +15822,7 @@ False
 &,{'Terre'},{'Jamie'},{'Steph'},{'Loret'},{'Thoma'},{'Timur'},&,1/1,&
 &,{'Terre'},{'Jamie'},{'Steph'},{'Loret'},{'Timur'},{'Cayle'},&,1/1,&
 &,{'Terre'},{'Jamie'},{'Steph'},{'Loret'},,,&,3/1,&
-&,{'Terre'},{'Jamie'},{'Steph'},{'Micha'},{'Micha'},{'Thoma'},&,1/1,&
+&,{'Terre'},{'Jamie'},{'Steph'},{'Micha'},{'Thoma'},,&,1/1,&
 &,{'Terre'},{'Jamie'},{'Steph'},{'Noah '},{'David'},{'Loret'},&,1/1,&
 &,{'Terre'},{'Jamie'},{'Steph'},{'Noah '},,,&,2/1,&
 &,{'Terre'},{'Jamie'},{'Steph'},{'Thoma'},{'David'},,&,2/1,&
@@ -15846,7 +15846,7 @@ False
 &,{'Terre'},{'Jamie'},{'Timur'},{'Loret'},{'Steph'},{'Noah '},&,1/1,&
 &,{'Terre'},{'Jamie'},{'Timur'},{'Loret'},{'Steph'},,&,1/1,&
 &,{'Terre'},{'Jamie'},{'Timur'},{'Noah '},,,&,1/1,&
-&,{'Terre'},{'Jamie'},{'Timur'},{'Steph'},{'Terre'},{'Canda'},&,1/1,&
+&,{'Terre'},{'Jamie'},{'Timur'},{'Steph'},{'Canda'},,&,1/1,&
 &,{'Terre'},{'Jamie'},{'Timur'},{'Steph'},{'Thoma'},{'Canda'},&,1/1,&
 &,{'Terre'},{'Jamie'},{'Timur'},{'Steph'},,,&,2/1,&
 &,{'Terre'},{'Jamie'},{'Timur'},{'Thoma'},{'Noah '},{'Steph'},&,2/1,&
@@ -15862,16 +15862,16 @@ False
 &,{'Terre'},{'Joe A'},{'Doug '},{'Thoma'},{'Timur'},{'David'},&,1/1,&
 &,{'Terre'},{'Joe A'},{'Doug '},,,,&,3/1,&
 &,{'Terre'},{'Joe A'},{'Jamie'},{'Loret'},{'Deian'},{'Joe F'},&,1/1,&
-&,{'Terre'},{'Joe A'},{'Jamie'},{'Steph'},{'Terre'},{'Cayle'},&,1/1,&
+&,{'Terre'},{'Joe A'},{'Jamie'},{'Steph'},{'Cayle'},,&,1/1,&
 &,{'Terre'},{'Joe A'},{'Jamie'},{'Steph'},{'Thoma'},{'Cayle'},&,1/1,&
 &,{'Terre'},{'Joe A'},{'Jamie'},{'Timur'},{'Noah '},{'Steph'},&,1/1,&
-&,{'Terre'},{'Joe A'},{'Joe A'},{'Doug '},{'Jamie'},{'Peggy'},&,1/1,&
+&,{'Terre'},{'Joe A'},{'Doug '},{'Jamie'},{'Peggy'},,&,1/1,&
 &,{'Terre'},{'Joe A'},{'Joe F'},{'Doug '},{'Loret'},,&,1/1,&
 &,{'Terre'},{'Joe A'},{'Joe F'},{'Doug '},{'Thoma'},,&,1/1,&
 &,{'Terre'},{'Joe A'},{'Joe F'},{'Jamie'},{'Peggy'},{'David'},&,1/1,&
 &,{'Terre'},{'Joe A'},{'Loret'},{'Jamie'},{'Canda'},{'Micha'},&,2/1,&
 &,{'Terre'},{'Joe A'},{'Loret'},{'Micha'},{'Timur'},{'David'},&,1/1,&
-&,{'Terre'},{'Joe A'},{'Loret'},{'Peggy'},{'Micha'},{'Loret'},&,1/1,&
+&,{'Terre'},{'Joe A'},{'Loret'},{'Peggy'},{'Micha'},,&,1/1,&
 &,{'Terre'},{'Joe A'},{'Loret'},,,,&,4/1,&
 &,{'Terre'},{'Joe A'},{'Micha'},{'Joe F'},{'Steph'},{'Timur'},&,1/1,&
 &,{'Terre'},{'Joe A'},{'Noah '},{'Canda'},{'Micha'},{'Thoma'},&,1/1,&
@@ -15915,7 +15915,7 @@ False
 &,{'Terre'},{'Joe F'},{'Noah '},{'Loret'},{'Doug '},,&,1/1,&
 &,{'Terre'},{'Joe F'},{'Noah '},{'Loret'},{'Jamie'},{'Micha'},&,1/1,&
 &,{'Terre'},{'Joe F'},{'Noah '},{'Peggy'},,,&,1/1,&
-&,{'Terre'},{'Joe F'},{'Noah '},{'Terre'},,,&,1/1,&
+&,{'Terre'},{'Joe F'},{'Noah '},,,,&,1/1,&
 &,{'Terre'},{'Joe F'},{'Noah '},,,,&,1/1,&
 &,{'Terre'},{'Joe F'},{'Peggy'},,,,&,1/1,&
 &,{'Terre'},{'Joe F'},{'Steph'},{'Cayle'},{'Timur'},,&,1/1,&
@@ -15945,7 +15945,7 @@ False
 &,{'Terre'},{'Loret'},{'Canda'},{'Jamie'},{'Steph'},{'Timur'},&,2/1,&
 &,{'Terre'},{'Loret'},{'Canda'},{'Jamie'},{'Steph'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Canda'},{'Joe A'},,,&,1/1,&
-&,{'Terre'},{'Loret'},{'Canda'},{'Loret'},{'Cayle'},{'Joe A'},&,1/1,&
+&,{'Terre'},{'Loret'},{'Canda'},{'Cayle'},{'Joe A'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Canda'},{'Micha'},{'Cayle'},{'Thoma'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Canda'},{'Micha'},{'Deian'},{'Steph'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Canda'},{'Micha'},{'Jamie'},{'Deian'},&,1/1,&
@@ -16028,7 +16028,7 @@ False
 &,{'Terre'},{'Loret'},{'Deian'},{'Jamie'},{'Canda'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Deian'},{'Jamie'},{'Doug '},{'Cayle'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Deian'},{'Jamie'},{'Timur'},,&,1/1,&
-&,{'Terre'},{'Loret'},{'Deian'},{'Joe A'},{'Cayle'},{'Deian'},&,1/1,&
+&,{'Terre'},{'Loret'},{'Deian'},{'Joe A'},{'Cayle'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Deian'},{'Joe A'},{'Noah '},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Deian'},{'Joe A'},{'Peggy'},{'David'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Deian'},{'Micha'},{'Canda'},{'Cayle'},&,1/1,&
@@ -16094,7 +16094,7 @@ False
 &,{'Terre'},{'Loret'},{'Joe A'},{'David'},{'Canda'},{'Peggy'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe A'},{'Doug '},{'Joe F'},{'Noah '},&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe A'},{'Doug '},{'Peggy'},,&,1/1,&
-&,{'Terre'},{'Loret'},{'Joe A'},{'Micha'},{'Micha'},{'Terre'},&,1/1,&
+&,{'Terre'},{'Loret'},{'Joe A'},{'Micha'},,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe A'},{'Peggy'},{'Canda'},{'Jamie'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe A'},{'Peggy'},{'Joe F'},{'Thoma'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe A'},{'Peggy'},{'Micha'},{'Deian'},&,1/1,&
@@ -16105,13 +16105,13 @@ False
 &,{'Terre'},{'Loret'},{'Joe F'},{'Canda'},{'Timur'},{'Cayle'},&,2/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},{'Canda'},,,&,3/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},{'Cayle'},{'David'},{'Joe A'},&,1/1,&
-&,{'Terre'},{'Loret'},{'Joe F'},{'Cayle'},{'Joe A'},{'Cayle'},&,1/1,&
+&,{'Terre'},{'Loret'},{'Joe F'},{'Cayle'},{'Joe A'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},{'Cayle'},{'Joe A'},{'Peggy'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},{'Cayle'},{'Peggy'},{'Noah '},&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},{'Doug '},,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},{'Jamie'},{'Timur'},{'David'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},{'Steph'},{'Canda'},{'Jamie'},&,1/1,&
-&,{'Terre'},{'Loret'},{'Joe F'},{'Terre'},{'Jamie'},{'Peggy'},&,1/1,&
+&,{'Terre'},{'Loret'},{'Joe F'},{'Jamie'},{'Peggy'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},{'Timur'},,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Joe F'},,,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Micha'},{'Canda'},{'Joe A'},{'Steph'},&,1/1,&
@@ -16149,7 +16149,7 @@ False
 &,{'Terre'},{'Loret'},{'Noah '},{'Joe F'},{'Doug '},{'Deian'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Joe F'},{'Micha'},{'Peggy'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Micha'},{'Deian'},{'Canda'},&,1/1,&
-&,{'Terre'},{'Loret'},{'Noah '},{'Noah '},{'Steph'},,&,1/1,&
+&,{'Terre'},{'Loret'},{'Noah '},{'Steph'},,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Peggy'},{'Canda'},{'Steph'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Peggy'},{'Cayle'},{'Jamie'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Peggy'},{'David'},{'Cayle'},&,1/1,&
@@ -16157,7 +16157,7 @@ False
 &,{'Terre'},{'Loret'},{'Noah '},{'Steph'},{'Thoma'},{'Joe F'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Steph'},{'Timur'},,&,2/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Steph'},,,&,2/1,&
-&,{'Terre'},{'Loret'},{'Noah '},{'Terre'},,,&,1/1,&
+&,{'Terre'},{'Loret'},{'Noah '},,,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Timur'},{'Jamie'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Timur'},{'Joe F'},{'Micha'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Noah '},{'Timur'},{'Micha'},{'Doug '},&,1/1,&
@@ -16224,10 +16224,10 @@ False
 &,{'Terre'},{'Loret'},{'Steph'},{'Timur'},{'Jamie'},,&,2/1,&
 &,{'Terre'},{'Loret'},{'Steph'},{'Timur'},,,&,3/1,&
 &,{'Terre'},{'Loret'},{'Steph'},,,,&,31/1,&
-&,{'Terre'},{'Loret'},{'Terre'},{'Jamie'},{'Timur'},{'Canda'},&,1/1,&
-&,{'Terre'},{'Loret'},{'Terre'},{'Loret'},{'Terre'},{'Loret'},&,2/1,&
-&,{'Terre'},{'Loret'},{'Terre'},{'Micha'},{'Noah '},{'Jamie'},&,1/1,&
-&,{'Terre'},{'Loret'},{'Terre'},{'Terre'},{'Terre'},{'Terre'},&,1/1,&
+&,{'Terre'},{'Loret'},{'Jamie'},{'Timur'},{'Canda'},,&,1/1,&
+&,{'Terre'},{'Loret'},,,,,&,2/1,&
+&,{'Terre'},{'Loret'},{'Micha'},{'Noah '},{'Jamie'},,&,1/1,&
+&,{'Terre'},{'Loret'},,,,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Thoma'},{'Joe F'},{'Cayle'},{'David'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Thoma'},{'Micha'},{'Cayle'},{'Steph'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Thoma'},{'Noah '},{'David'},{'Joe F'},&,1/1,&
@@ -16235,7 +16235,7 @@ False
 &,{'Terre'},{'Loret'},{'Thoma'},{'Steph'},{'Jamie'},{'Canda'},&,3/1,&
 &,{'Terre'},{'Loret'},{'Thoma'},,,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Timur'},{'Canda'},{'Deian'},{'Jamie'},&,1/1,&
-&,{'Terre'},{'Loret'},{'Timur'},{'Canda'},{'Joe F'},{'Joe F'},&,1/1,&
+&,{'Terre'},{'Loret'},{'Timur'},{'Canda'},{'Joe F'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Timur'},{'Canda'},{'Noah '},{'Peggy'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Timur'},{'Canda'},{'Noah '},{'Steph'},&,2/1,&
 &,{'Terre'},{'Loret'},{'Timur'},{'Canda'},{'Steph'},{'Cayle'},&,1/1,&
@@ -16258,7 +16258,7 @@ False
 &,{'Terre'},{'Loret'},{'Timur'},{'Noah '},{'Steph'},{'Deian'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Timur'},{'Noah '},,,&,1/1,&
 &,{'Terre'},{'Loret'},{'Timur'},{'Steph'},{'Jamie'},{'Canda'},&,1/1,&
-&,{'Terre'},{'Loret'},{'Timur'},{'Steph'},{'Jamie'},{'Loret'},&,1/1,&
+&,{'Terre'},{'Loret'},{'Timur'},{'Steph'},{'Jamie'},,&,1/1,&
 &,{'Terre'},{'Loret'},{'Timur'},{'Steph'},{'Noah '},{'Jamie'},&,2/1,&
 &,{'Terre'},{'Loret'},{'Timur'},{'Thoma'},{'Joe A'},{'Canda'},&,1/1,&
 &,{'Terre'},{'Loret'},{'Timur'},,,,&,22/1,&
@@ -16294,7 +16294,7 @@ False
 &,{'Terre'},{'Micha'},{'Loret'},{'Timur'},{'Canda'},,&,1/1,&
 &,{'Terre'},{'Micha'},{'Loret'},{'Timur'},{'Joe A'},,&,1/1,&
 &,{'Terre'},{'Micha'},{'Noah '},{'David'},{'Thoma'},{'Doug '},&,1/1,&
-&,{'Terre'},{'Micha'},{'Noah '},{'Doug '},{'Thoma'},{'Terre'},&,1/1,&
+&,{'Terre'},{'Micha'},{'Noah '},{'Doug '},{'Thoma'},,&,1/1,&
 &,{'Terre'},{'Micha'},{'Peggy'},{'Timur'},{'Canda'},{'Loret'},&,1/1,&
 &,{'Terre'},{'Micha'},{'Peggy'},,,,&,1/1,&
 &,{'Terre'},{'Micha'},{'Steph'},{'Canda'},{'Jamie'},{'Timur'},&,1/1,&
@@ -16343,9 +16343,9 @@ False
 &,{'Terre'},{'Noah '},{'Canda'},{'Steph'},{'Jamie'},{'Deian'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Canda'},{'Steph'},{'Jamie'},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Canda'},{'Steph'},{'Loret'},{'Jamie'},&,1/1,&
-&,{'Terre'},{'Noah '},{'Canda'},{'Steph'},{'Terre'},,&,1/1,&
+&,{'Terre'},{'Noah '},{'Canda'},{'Steph'},,,&,1/1,&
 &,{'Terre'},{'Noah '},{'Canda'},{'Steph'},,,&,5/1,&
-&,{'Terre'},{'Noah '},{'Canda'},{'Terre'},{'Noah '},{'Canda'},&,2/1,&
+&,{'Terre'},{'Noah '},{'Canda'},,,,&,2/1,&
 &,{'Terre'},{'Noah '},{'Canda'},{'Thoma'},{'Steph'},{'David'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Canda'},{'Timur'},{'David'},{'Micha'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Canda'},{'Timur'},{'Deian'},{'Joe A'},&,1/1,&
@@ -16403,14 +16403,14 @@ False
 &,{'Terre'},{'Noah '},{'Doug '},{'Joe F'},{'Loret'},{'Steph'},&,4/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Loret'},{'Cayle'},{'Peggy'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Loret'},{'David'},{'Steph'},&,1/1,&
-&,{'Terre'},{'Noah '},{'Doug '},{'Loret'},{'Doug '},,&,1/1,&
+&,{'Terre'},{'Noah '},{'Doug '},{'Loret'},,,&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Loret'},{'Jamie'},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Loret'},{'Joe F'},{'Jamie'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Loret'},{'Joe F'},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Loret'},{'Thoma'},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Loret'},,,&,5/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Peggy'},{'David'},{'Loret'},&,1/1,&
-&,{'Terre'},{'Noah '},{'Doug '},{'Peggy'},{'Timur'},{'Noah '},&,1/1,&
+&,{'Terre'},{'Noah '},{'Doug '},{'Peggy'},{'Timur'},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Steph'},{'Joe F'},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Steph'},{'Loret'},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Doug '},{'Thoma'},{'Joe A'},,&,2/1,&
@@ -16448,14 +16448,14 @@ False
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},{'David'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},{'Jamie'},&,2/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},{'Micha'},&,1/1,&
-&,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},{'Noah '},&,1/1,&
+&,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},{'Peggy'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},,&,25/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},,&,150/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},,&,9/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},,&,27/1,&
-&,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Joe F'},,&,1/1,&
+&,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},,,&,1/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Joe F'},{'Loret'},,,&,2/1,&
@@ -16529,7 +16529,7 @@ False
 &,{'Terre'},{'Noah '},{'Steph'},{'Loret'},,,&,4/1,&
 &,{'Terre'},{'Noah '},{'Steph'},{'Thoma'},{'Doug '},{'Joe A'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Steph'},,,,&,12/1,&
-&,{'Terre'},{'Noah '},{'Terre'},{'Noah '},{'Terre'},{'Noah '},&,1/1,&
+&,{'Terre'},{'Noah '},,,,,&,1/1,&
 &,{'Terre'},{'Noah '},{'Thoma'},{'Jamie'},{'Joe A'},,&,1/1,&
 &,{'Terre'},{'Noah '},{'Timur'},{'Canda'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Terre'},{'Noah '},{'Timur'},{'Canda'},{'Steph'},{'Jamie'},&,1/1,&
@@ -16562,7 +16562,7 @@ False
 &,{'Terre'},{'Noah '},{'Loret'},{'Doug '},,,&,2/1,&
 &,{'Terre'},{'Noah '},,,,,&,83/1,&
 &,{'Terre'},{'Peggy'},{'Canda'},{'Joe F'},{'Deian'},{'Jamie'},&,1/1,&
-&,{'Terre'},{'Peggy'},{'Canda'},{'Peggy'},{'Micha'},{'David'},&,1/1,&
+&,{'Terre'},{'Peggy'},{'Canda'},{'Micha'},{'David'},,&,1/1,&
 &,{'Terre'},{'Peggy'},{'Canda'},{'Timur'},{'David'},{'Steph'},&,1/1,&
 &,{'Terre'},{'Peggy'},{'Deian'},{'Canda'},{'Noah '},{'Cayle'},&,1/1,&
 &,{'Terre'},{'Peggy'},{'Deian'},{'Loret'},{'Noah '},{'Jamie'},&,1/1,&
@@ -16670,7 +16670,7 @@ False
 &,{'Terre'},{'Steph'},{'Jamie'},{'Loret'},{'David'},{'Canda'},&,1/1,&
 &,{'Terre'},{'Steph'},{'Jamie'},{'Loret'},{'David'},{'Noah '},&,1/1,&
 &,{'Terre'},{'Steph'},{'Jamie'},{'Loret'},{'Joe F'},{'David'},&,1/1,&
-&,{'Terre'},{'Steph'},{'Jamie'},{'Loret'},{'Terre'},{'Loret'},&,1/1,&
+&,{'Terre'},{'Steph'},{'Jamie'},{'Loret'},,,&,1/1,&
 &,{'Terre'},{'Steph'},{'Jamie'},{'Loret'},{'Timur'},{'Deian'},&,1/1,&
 &,{'Terre'},{'Steph'},{'Jamie'},{'Loret'},,,&,1/1,&
 &,{'Terre'},{'Steph'},{'Jamie'},{'Noah '},{'Canda'},{'Loret'},&,2/1,&
@@ -16752,7 +16752,7 @@ False
 &,{'Terre'},{'Steph'},{'Noah '},,,,&,4/1,&
 &,{'Terre'},{'Steph'},{'Peggy'},{'Canda'},{'Noah '},{'David'},&,1/1,&
 &,{'Terre'},{'Steph'},{'Peggy'},{'Timur'},{'Noah '},{'David'},&,1/1,&
-&,{'Terre'},{'Steph'},{'Terre'},,,,&,1/1,&
+&,{'Terre'},{'Steph'},,,,,&,1/1,&
 &,{'Terre'},{'Steph'},{'Thoma'},{'Canda'},{'Doug '},,&,1/1,&
 &,{'Terre'},{'Steph'},{'Thoma'},{'Doug '},{'David'},{'Canda'},&,2/1,&
 &,{'Terre'},{'Steph'},{'Thoma'},{'Jamie'},{'Loret'},{'Joe A'},&,1/1,&
@@ -16785,11 +16785,11 @@ False
 &,{'Terre'},{'Steph'},{'Timur'},,,,&,2/1,&
 &,{'Terre'},{'Steph'},,,,,&,1/1,&
 &,{'Terre'},{'Steph'},,,,,&,38/1,&
-&,{'Terre'},{'Terre'},{'Joe A'},{'Joe A'},,,&,1/1,&
-&,{'Terre'},{'Terre'},{'Terre'},{'Terre'},{'Loret'},{'Loret'},&,1/1,&
-&,{'Terre'},{'Terre'},{'Terre'},{'Terre'},{'Terre'},{'Terre'},&,9/1,&
-&,{'Terre'},{'Terre'},{'Terre'},{'Thoma'},{'Thoma'},{'Thoma'},&,1/1,&
-&,{'Terre'},{'Terre'},{'Terre'},,,,&,2/1,&
+&,{'Terre'},{'Joe A'},,,,,&,1/1,&
+&,{'Terre'},{'Loret'},,,,,&,1/1,&
+&,{'Terre'},,,,,,&,9/1,&
+&,{'Terre'},{'Thoma'},,,,,&,1/1,&
+&,{'Terre'},,,,,,&,2/1,&
 &,{'Terre'},{'Thoma'},{'Canda'},{'Noah '},,,&,1/1,&
 &,{'Terre'},{'Thoma'},{'Canda'},{'Steph'},{'Loret'},,&,1/1,&
 &,{'Terre'},{'Thoma'},{'Canda'},{'Timur'},{'David'},{'Steph'},&,1/1,&
@@ -16980,7 +16980,7 @@ False
 &,{'Terre'},{'Cayle'},{'Timur'},{'Canda'},{'Loret'},,&,1/1,&
 &,{'Terre'},{'David'},,,,,&,1/1,&
 &,{'Terre'},,,,,,&,1/1,&
-&,{'Terre'},{'Terre'},,,,,&,1/1,&
+&,{'Terre'},,,,,,&,1/1,&
 &,{'Terre'},,,,,,&,1/1,&
 &,{'Terre'},{'Canda'},{'Loret'},{'Steph'},{'Jamie'},,&,1/1,&
 &,{'Terre'},{'Deian'},{'Cayle'},,,,&,1/1,&
@@ -16992,12 +16992,12 @@ False
 &,{'Terre'},{'Loret'},,,,,&,1/1,&
 &,{'Terre'},,,,,,&,1/1,&
 &,{'Terre'},,,,,,&,453/1,&
-&,{'Thoma'},{'Canda'},{'Cayle'},{'Canda'},{'Peggy'},{'Micha'},&,1/1,&
+&,{'Thoma'},{'Canda'},{'Cayle'},{'Peggy'},{'Micha'},,&,1/1,&
 &,{'Thoma'},{'Canda'},{'Cayle'},{'Jamie'},{'Noah '},{'Terre'},&,2/1,&
 &,{'Thoma'},{'Canda'},{'Cayle'},{'Peggy'},{'David'},{'Terre'},&,1/1,&
 &,{'Thoma'},{'Canda'},{'Cayle'},{'Terre'},,,&,1/1,&
-&,{'Thoma'},{'Canda'},{'Joe A'},{'Cayle'},{'Canda'},{'Timur'},&,1/1,&
-&,{'Thoma'},{'Canda'},{'Joe A'},{'Joe A'},{'Joe F'},,&,1/1,&
+&,{'Thoma'},{'Canda'},{'Joe A'},{'Cayle'},{'Timur'},,&,1/1,&
+&,{'Thoma'},{'Canda'},{'Joe A'},{'Joe F'},,,&,1/1,&
 &,{'Thoma'},{'Canda'},{'Loret'},{'Terre'},{'Timur'},{'David'},&,1/1,&
 &,{'Thoma'},{'Canda'},{'Micha'},{'Cayle'},{'David'},{'Steph'},&,1/1,&
 &,{'Thoma'},{'Canda'},{'Micha'},{'Jamie'},{'Peggy'},{'Joe A'},&,1/1,&
@@ -17006,7 +17006,7 @@ False
 &,{'Thoma'},{'Canda'},{'Steph'},{'Peggy'},{'David'},{'Joe F'},&,1/1,&
 &,{'Thoma'},{'Canda'},{'Steph'},,,,&,2/1,&
 &,{'Thoma'},{'Canda'},{'Terre'},,,,&,2/1,&
-&,{'Thoma'},{'Canda'},{'Thoma'},{'Canda'},{'Thoma'},{'Thoma'},&,1/1,&
+&,{'Thoma'},{'Canda'},,,,,&,1/1,&
 &,{'Thoma'},{'Canda'},{'Timur'},{'David'},,,&,1/1,&
 &,{'Thoma'},{'Canda'},{'Timur'},{'Jamie'},{'David'},,&,2/1,&
 &,{'Thoma'},{'Canda'},{'Timur'},{'Jamie'},{'Steph'},{'Cayle'},&,1/1,&
@@ -17059,7 +17059,7 @@ False
 &,{'Thoma'},{'Doug '},{'Steph'},{'Joe A'},{'Joe F'},{'Peggy'},&,1/1,&
 &,{'Thoma'},{'Doug '},{'Steph'},{'Micha'},{'Noah '},{'Peggy'},&,2/1,&
 &,{'Thoma'},{'Doug '},{'Steph'},{'Timur'},{'Canda'},{'Joe F'},&,1/1,&
-&,{'Thoma'},{'Doug '},{'Thoma'},{'Micha'},{'Micha'},{'Loret'},&,1/1,&
+&,{'Thoma'},{'Doug '},{'Micha'},{'Loret'},,,&,1/1,&
 &,{'Thoma'},{'Doug '},{'Timur'},{'Deian'},{'David'},{'Jamie'},&,1/1,&
 &,{'Thoma'},{'Doug '},,,,,&,1/1,&
 &,{'Thoma'},{'Doug '},{'David'},{'Peggy'},,,&,1/1,&
@@ -17082,7 +17082,7 @@ False
 &,{'Thoma'},{'Jamie'},{'Terre'},{'Timur'},{'Canda'},{'Steph'},&,1/1,&
 &,{'Thoma'},{'Jamie'},{'Terre'},{'Timur'},,,&,2/1,&
 &,{'Thoma'},{'Jamie'},{'Terre'},,,,&,1/1,&
-&,{'Thoma'},{'Jamie'},{'Thoma'},{'David'},{'Joe A'},{'Jamie'},&,1/1,&
+&,{'Thoma'},{'Jamie'},{'David'},{'Joe A'},,,&,1/1,&
 &,{'Thoma'},{'Jamie'},{'Timur'},{'Noah '},{'Micha'},{'Deian'},&,1/1,&
 &,{'Thoma'},{'Jamie'},{'Timur'},{'Terre'},{'Noah '},,&,1/1,&
 &,{'Thoma'},{'Jamie'},{'Timur'},,,,&,1/1,&
@@ -17155,7 +17155,7 @@ False
 &,{'Thoma'},{'Noah '},{'Joe A'},,,,&,1/1,&
 &,{'Thoma'},{'Noah '},{'Joe F'},{'Cayle'},,,&,1/1,&
 &,{'Thoma'},{'Noah '},{'Joe F'},{'Loret'},{'Doug '},,&,1/1,&
-&,{'Thoma'},{'Noah '},{'Joe F'},{'Joe F'},,,&,1/1,&
+&,{'Thoma'},{'Noah '},{'Joe F'},,,,&,1/1,&
 &,{'Thoma'},{'Noah '},{'Timur'},,,,&,1/1,&
 &,{'Thoma'},{'Noah '},,,,,&,2/1,&
 &,{'Thoma'},{'Peggy'},{'Canda'},{'Doug '},{'Micha'},{'Jamie'},&,1/1,&
@@ -17198,12 +17198,12 @@ False
 &,{'Thoma'},{'Terre'},{'Deian'},{'Doug '},{'Joe A'},{'Jamie'},&,1/1,&
 &,{'Thoma'},{'Terre'},{'Deian'},,,,&,2/1,&
 &,{'Thoma'},{'Terre'},{'Doug '},{'Deian'},{'Noah '},{'Micha'},&,1/1,&
-&,{'Thoma'},{'Terre'},{'Doug '},{'Deian'},{'Terre'},,&,1/1,&
+&,{'Thoma'},{'Terre'},{'Doug '},{'Deian'},,,&,1/1,&
 &,{'Thoma'},{'Terre'},{'Jamie'},{'Canda'},{'Noah '},{'David'},&,2/1,&
 &,{'Thoma'},{'Terre'},{'Jamie'},{'Doug '},{'Micha'},,&,1/1,&
 &,{'Thoma'},{'Terre'},{'Jamie'},,,,&,1/1,&
 &,{'Thoma'},{'Terre'},{'Joe A'},{'Steph'},{'Deian'},{'Noah '},&,1/1,&
-&,{'Thoma'},{'Terre'},{'Loret'},{'Thoma'},{'Terre'},,&,1/1,&
+&,{'Thoma'},{'Terre'},{'Loret'},,,,&,1/1,&
 &,{'Thoma'},{'Terre'},{'Loret'},,,,&,3/1,&
 &,{'Thoma'},{'Terre'},{'Micha'},{'Canda'},{'Jamie'},{'Timur'},&,1/1,&
 &,{'Thoma'},{'Terre'},{'Micha'},{'Cayle'},{'Canda'},{'Timur'},&,1/1,&
@@ -17222,12 +17222,12 @@ False
 &,{'Thoma'},{'Terre'},{'Timur'},{'Jamie'},{'Steph'},{'Micha'},&,1/1,&
 &,{'Thoma'},{'Terre'},{'Joe F'},,,,&,1/1,&
 &,{'Thoma'},{'Terre'},,,,,&,6/1,&
-&,{'Thoma'},{'Thoma'},{'Cayle'},{'Cayle'},{'Jamie'},{'Jamie'},&,1/1,&
-&,{'Thoma'},{'Thoma'},{'Cayle'},{'Cayle'},{'Steph'},{'Steph'},&,1/1,&
-&,{'Thoma'},{'Thoma'},{'Steph'},{'Steph'},{'Thoma'},{'Canda'},&,1/1,&
-&,{'Thoma'},{'Thoma'},{'Thoma'},{'Steph'},{'Steph'},{'Canda'},&,1/1,&
-&,{'Thoma'},{'Thoma'},{'Thoma'},{'Thoma'},{'Steph'},{'Steph'},&,1/1,&
-&,{'Thoma'},{'Thoma'},{'Thoma'},{'Thoma'},{'Thoma'},{'Thoma'},&,1/1,&
+&,{'Thoma'},{'Cayle'},{'Jamie'},,,,&,1/1,&
+&,{'Thoma'},{'Cayle'},{'Steph'},,,,&,1/1,&
+&,{'Thoma'},{'Steph'},{'Canda'},,,,&,1/1,&
+&,{'Thoma'},{'Steph'},{'Canda'},,,,&,1/1,&
+&,{'Thoma'},{'Steph'},,,,,&,1/1,&
+&,{'Thoma'},,,,,,&,1/1,&
 &,{'Thoma'},{'Timur'},{'Canda'},{'Cayle'},{'Joe A'},{'Joe F'},&,2/1,&
 &,{'Thoma'},{'Timur'},{'Canda'},{'Cayle'},{'Steph'},{'Loret'},&,1/1,&
 &,{'Thoma'},{'Timur'},{'Canda'},{'Joe A'},{'Micha'},{'David'},&,2/1,&
@@ -17246,7 +17246,7 @@ False
 &,{'Thoma'},{'Deian'},,,,,&,1/1,&
 &,{'Thoma'},,,,,,&,2/1,&
 &,{'Thoma'},,,,,,&,1/1,&
-&,{'Thoma'},{'Doug '},{'Thoma'},,,,&,1/1,&
+&,{'Thoma'},{'Doug '},,,,,&,1/1,&
 &,{'Thoma'},,,,,,&,1/1,&
 &,{'Thoma'},,,,,,&,1/1,&
 &,{'Thoma'},,,,,,&,56/1,&
@@ -17324,7 +17324,7 @@ False
 &,{'Timur'},{'Canda'},{'Cayle'},{'Terre'},,,&,1/1,&
 &,{'Timur'},{'Canda'},{'Cayle'},{'Thoma'},{'Steph'},{'Deian'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Cayle'},{'Thoma'},{'Steph'},,&,2/1,&
-&,{'Timur'},{'Canda'},{'Cayle'},{'Thoma'},{'Terre'},{'Terre'},&,1/1,&
+&,{'Timur'},{'Canda'},{'Cayle'},{'Thoma'},{'Terre'},,&,1/1,&
 &,{'Timur'},{'Canda'},{'Cayle'},,,,&,30/1,&
 &,{'Timur'},{'Canda'},{'David'},{'Cayle'},{'Doug '},{'Deian'},&,1/1,&
 &,{'Timur'},{'Canda'},{'David'},{'Cayle'},{'Doug '},{'Jamie'},&,1/1,&
@@ -17408,7 +17408,7 @@ False
 &,{'Timur'},{'Canda'},{'Doug '},{'Deian'},{'Terre'},{'David'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Doug '},{'Deian'},{'Thoma'},{'Terre'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Doug '},{'Joe F'},{'Terre'},,&,1/1,&
-&,{'Timur'},{'Canda'},{'Doug '},{'Loret'},{'Canda'},{'Doug '},&,1/1,&
+&,{'Timur'},{'Canda'},{'Doug '},{'Loret'},,,&,1/1,&
 &,{'Timur'},{'Canda'},{'Doug '},{'Loret'},{'Jamie'},{'Cayle'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Doug '},{'Loret'},{'Jamie'},{'Steph'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Doug '},{'Loret'},{'Jamie'},{'Terre'},&,1/1,&
@@ -17503,7 +17503,7 @@ False
 &,{'Timur'},{'Canda'},{'Joe F'},{'David'},{'Doug '},{'Jamie'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Joe F'},{'Deian'},{'Micha'},{'Steph'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Joe F'},{'Doug '},,,&,1/1,&
-&,{'Timur'},{'Canda'},{'Joe F'},{'Micha'},{'Micha'},{'Terre'},&,1/1,&
+&,{'Timur'},{'Canda'},{'Joe F'},{'Micha'},{'Terre'},,&,1/1,&
 &,{'Timur'},{'Canda'},{'Joe F'},{'Terre'},{'Jamie'},{'Joe A'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Joe F'},{'Terre'},{'Loret'},{'Micha'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Loret'},{'Cayle'},{'David'},{'Deian'},&,1/1,&
@@ -17669,7 +17669,7 @@ False
 &,{'Timur'},{'Canda'},{'Steph'},{'Micha'},{'Loret'},{'Cayle'},&,2/1,&
 &,{'Timur'},{'Canda'},{'Steph'},{'Micha'},,,&,2/1,&
 &,{'Timur'},{'Canda'},{'Steph'},{'Peggy'},{'Micha'},{'Loret'},&,1/1,&
-&,{'Timur'},{'Canda'},{'Steph'},{'Steph'},,,&,1/1,&
+&,{'Timur'},{'Canda'},{'Steph'},,,,&,1/1,&
 &,{'Timur'},{'Canda'},{'Steph'},{'Terre'},{'Cayle'},{'Deian'},&,1/1,&
 &,{'Timur'},{'Canda'},{'Steph'},{'Terre'},{'Cayle'},,&,2/1,&
 &,{'Timur'},{'Canda'},{'Steph'},{'Terre'},{'Jamie'},{'Loret'},&,2/1,&
@@ -17840,7 +17840,7 @@ False
 &,{'Timur'},{'Cayle'},{'Steph'},{'Jamie'},{'Joe F'},{'Doug '},&,1/1,&
 &,{'Timur'},{'Cayle'},{'Steph'},{'Jamie'},,,&,3/1,&
 &,{'Timur'},{'Cayle'},{'Steph'},{'Loret'},{'Deian'},{'Canda'},&,1/1,&
-&,{'Timur'},{'Cayle'},{'Steph'},{'Timur'},{'Peggy'},{'Doug '},&,1/1,&
+&,{'Timur'},{'Cayle'},{'Steph'},{'Peggy'},{'Doug '},,&,1/1,&
 &,{'Timur'},{'Cayle'},{'Steph'},,,,&,2/1,&
 &,{'Timur'},{'Cayle'},{'Terre'},{'Canda'},{'Noah '},{'Joe A'},&,1/1,&
 &,{'Timur'},{'Cayle'},{'Terre'},{'David'},{'Canda'},,&,3/1,&
@@ -18046,7 +18046,7 @@ False
 &,{'Timur'},{'Doug '},{'Jamie'},{'Cayle'},{'David'},{'Canda'},&,1/1,&
 &,{'Timur'},{'Doug '},{'Jamie'},{'David'},{'Steph'},{'Canda'},&,1/1,&
 &,{'Timur'},{'Doug '},{'Jamie'},{'Joe F'},{'Loret'},{'Canda'},&,4/1,&
-&,{'Timur'},{'Doug '},{'Jamie'},{'Noah '},{'Doug '},{'David'},&,1/1,&
+&,{'Timur'},{'Doug '},{'Jamie'},{'Noah '},{'David'},,&,1/1,&
 &,{'Timur'},{'Doug '},{'Jamie'},{'Terre'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Timur'},{'Doug '},{'Jamie'},,,,&,2/1,&
 &,{'Timur'},{'Doug '},{'Joe A'},{'Canda'},,,&,1/1,&
@@ -18070,7 +18070,7 @@ False
 &,{'Timur'},{'Doug '},{'Loret'},{'Terre'},{'Jamie'},,&,1/1,&
 &,{'Timur'},{'Doug '},{'Loret'},{'Terre'},,,&,4/1,&
 &,{'Timur'},{'Doug '},{'Loret'},{'Thoma'},{'Terre'},{'Steph'},&,1/1,&
-&,{'Timur'},{'Doug '},{'Loret'},{'Doug '},{'Thoma'},,&,1/1,&
+&,{'Timur'},{'Doug '},{'Loret'},{'Thoma'},,,&,1/1,&
 &,{'Timur'},{'Doug '},{'Loret'},,,,&,8/1,&
 &,{'Timur'},{'Doug '},{'Micha'},{'Canda'},,,&,1/1,&
 &,{'Timur'},{'Doug '},{'Micha'},{'Cayle'},{'Joe A'},{'Noah '},&,1/1,&
@@ -18088,7 +18088,7 @@ False
 &,{'Timur'},{'Doug '},{'Steph'},,,,&,2/1,&
 &,{'Timur'},{'Doug '},{'Terre'},{'Loret'},{'Steph'},{'Deian'},&,2/1,&
 &,{'Timur'},{'Doug '},{'Terre'},,,,&,6/1,&
-&,{'Timur'},{'Doug '},{'Thoma'},{'Canda'},{'Thoma'},,&,1/1,&
+&,{'Timur'},{'Doug '},{'Thoma'},{'Canda'},,,&,1/1,&
 &,{'Timur'},{'Doug '},{'Thoma'},{'Steph'},{'Deian'},{'David'},&,1/1,&
 &,{'Timur'},{'Doug '},,,,,&,3/1,&
 &,{'Timur'},{'Jamie'},{'Canda'},{'Cayle'},{'Joe F'},{'Terre'},&,2/1,&
@@ -18306,7 +18306,7 @@ False
 &,{'Timur'},{'Joe A'},{'Jamie'},,,,&,2/1,&
 &,{'Timur'},{'Joe A'},{'Joe F'},{'David'},{'Noah '},{'Loret'},&,1/1,&
 &,{'Timur'},{'Joe A'},{'Joe F'},{'Jamie'},{'Steph'},{'Cayle'},&,1/1,&
-&,{'Timur'},{'Joe A'},{'Joe F'},{'Joe A'},{'Deian'},{'Steph'},&,1/1,&
+&,{'Timur'},{'Joe A'},{'Joe F'},{'Deian'},{'Steph'},,&,1/1,&
 &,{'Timur'},{'Joe A'},{'Joe F'},{'Loret'},{'Thoma'},{'Terre'},&,1/1,&
 &,{'Timur'},{'Joe A'},{'Joe F'},{'Noah '},{'Loret'},{'Steph'},&,1/1,&
 &,{'Timur'},{'Joe A'},{'Joe F'},{'Steph'},{'Terre'},{'Deian'},&,1/1,&
@@ -18334,7 +18334,7 @@ False
 &,{'Timur'},{'Joe A'},{'Terre'},,,,&,2/1,&
 &,{'Timur'},{'Joe A'},{'Thoma'},{'Steph'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Timur'},{'Joe A'},{'Thoma'},,,,&,1/1,&
-&,{'Timur'},{'Joe A'},{'Timur'},{'Cayle'},{'David'},{'Doug '},&,1/1,&
+&,{'Timur'},{'Joe A'},{'Cayle'},{'David'},{'Doug '},,&,1/1,&
 &,{'Timur'},{'Joe A'},{'Terre'},{'Loret'},,,&,1/1,&
 &,{'Timur'},{'Joe A'},{'Deian'},{'Thoma'},,,&,1/1,&
 &,{'Timur'},{'Joe A'},{'Canda'},{'Doug '},{'Terre'},,&,1/1,&
@@ -18375,7 +18375,7 @@ False
 &,{'Timur'},{'Loret'},{'Canda'},{'Cayle'},{'Steph'},{'Jamie'},&,2/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'Cayle'},,,&,1/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'David'},{'Cayle'},{'Joe A'},&,1/1,&
-&,{'Timur'},{'Loret'},{'Canda'},{'David'},{'Loret'},,&,1/1,&
+&,{'Timur'},{'Loret'},{'Canda'},{'David'},,,&,1/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'David'},{'Terre'},{'Steph'},&,1/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'David'},{'Terre'},{'Thoma'},&,1/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'Deian'},{'Jamie'},{'Joe A'},&,1/1,&
@@ -18403,7 +18403,7 @@ False
 &,{'Timur'},{'Loret'},{'Canda'},{'Terre'},{'Joe A'},{'Jamie'},&,2/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'Terre'},{'Joe A'},,&,1/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'Terre'},{'Micha'},{'Deian'},&,1/1,&
-&,{'Timur'},{'Loret'},{'Canda'},{'Terre'},{'Steph'},{'Canda'},&,2/1,&
+&,{'Timur'},{'Loret'},{'Canda'},{'Terre'},{'Steph'},,&,2/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'Terre'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'Terre'},,,&,1/1,&
 &,{'Timur'},{'Loret'},{'Canda'},{'Thoma'},{'David'},{'Jamie'},&,1/1,&
@@ -18542,7 +18542,7 @@ False
 &,{'Timur'},{'Loret'},{'Terre'},,,,&,11/1,&
 &,{'Timur'},{'Loret'},{'Thoma'},{'Canda'},{'Terre'},{'Noah '},&,1/1,&
 &,{'Timur'},{'Loret'},{'Thoma'},{'Terre'},{'Joe A'},{'Joe F'},&,1/1,&
-&,{'Timur'},{'Loret'},{'Timur'},,,,&,1/1,&
+&,{'Timur'},{'Loret'},,,,,&,1/1,&
 &,{'Timur'},{'Loret'},,,,,&,26/1,&
 &,{'Timur'},{'Micha'},{'Canda'},{'Cayle'},{'Doug '},{'Deian'},&,1/1,&
 &,{'Timur'},{'Micha'},{'Canda'},{'Cayle'},{'Loret'},{'Terre'},&,1/1,&
@@ -18602,7 +18602,7 @@ False
 &,{'Timur'},{'Micha'},{'Terre'},{'Loret'},{'David'},{'Noah '},&,1/1,&
 &,{'Timur'},{'Micha'},{'Terre'},{'Loret'},{'Steph'},{'Doug '},&,1/1,&
 &,{'Timur'},{'Micha'},{'Terre'},{'Steph'},{'Canda'},{'Loret'},&,1/1,&
-&,{'Timur'},{'Micha'},{'Terre'},{'Steph'},{'Steph'},{'Canda'},&,1/1,&
+&,{'Timur'},{'Micha'},{'Terre'},{'Steph'},{'Canda'},,&,1/1,&
 &,{'Timur'},{'Micha'},{'Terre'},{'Steph'},,,&,2/1,&
 &,{'Timur'},{'Micha'},{'Thoma'},{'Noah '},{'Joe A'},{'Doug '},&,1/1,&
 &,{'Timur'},{'Micha'},{'Thoma'},{'Terre'},{'Jamie'},{'Deian'},&,1/1,&
@@ -18649,7 +18649,7 @@ False
 &,{'Timur'},{'Noah '},{'Canda'},{'Joe A'},{'Loret'},{'Steph'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Joe A'},{'Loret'},{'Terre'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Joe A'},{'Loret'},{'Thoma'},&,2/1,&
-&,{'Timur'},{'Noah '},{'Canda'},{'Joe A'},{'Timur'},{'Noah '},&,1/1,&
+&,{'Timur'},{'Noah '},{'Canda'},{'Joe A'},,,&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Joe A'},,,&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Joe F'},{'Cayle'},{'Deian'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Joe F'},{'Micha'},{'Thoma'},&,2/1,&
@@ -18658,7 +18658,7 @@ False
 &,{'Timur'},{'Noah '},{'Canda'},{'Steph'},{'Joe F'},{'Cayle'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Steph'},{'Terre'},{'Loret'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Terre'},{'Deian'},{'Loret'},&,1/1,&
-&,{'Timur'},{'Noah '},{'Canda'},{'Terre'},{'Loret'},{'Terre'},&,1/1,&
+&,{'Timur'},{'Noah '},{'Canda'},{'Terre'},{'Loret'},,&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Terre'},,,&,2/1,&
 &,{'Timur'},{'Noah '},{'Canda'},,,,&,8/1,&
 &,{'Timur'},{'Noah '},{'Cayle'},{'Deian'},{'Steph'},{'Joe A'},&,1/1,&
@@ -18703,7 +18703,7 @@ False
 &,{'Timur'},{'Noah '},{'Doug '},{'Deian'},{'Steph'},{'Terre'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Doug '},{'Loret'},{'Steph'},{'Thoma'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Doug '},{'Loret'},,,&,1/1,&
-&,{'Timur'},{'Noah '},{'Doug '},{'Micha'},{'Doug '},{'Joe A'},&,1/1,&
+&,{'Timur'},{'Noah '},{'Doug '},{'Micha'},{'Joe A'},,&,1/1,&
 &,{'Timur'},{'Noah '},{'Doug '},{'Micha'},{'Steph'},{'Jamie'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Doug '},{'Steph'},{'Terre'},{'Jamie'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Doug '},{'Terre'},{'David'},{'Jamie'},&,1/1,&
@@ -18765,7 +18765,7 @@ False
 &,{'Timur'},{'Noah '},{'Peggy'},{'Micha'},{'Jamie'},,&,1/1,&
 &,{'Timur'},{'Noah '},{'Peggy'},{'Terre'},{'Loret'},{'Joe A'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Peggy'},,,,&,2/1,&
-&,{'Timur'},{'Noah '},{'Steph'},{'Canda'},{'Loret'},{'Canda'},&,1/1,&
+&,{'Timur'},{'Noah '},{'Steph'},{'Canda'},{'Loret'},,&,1/1,&
 &,{'Timur'},{'Noah '},{'Steph'},{'David'},{'Cayle'},{'Terre'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Steph'},{'Deian'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Steph'},{'Jamie'},{'Canda'},{'David'},&,2/1,&
@@ -18773,7 +18773,7 @@ False
 &,{'Timur'},{'Noah '},{'Steph'},{'Jamie'},{'Terre'},{'Canda'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Steph'},{'Jamie'},,,&,1/1,&
 &,{'Timur'},{'Noah '},{'Steph'},{'Loret'},{'Jamie'},,&,1/1,&
-&,{'Timur'},{'Noah '},{'Steph'},{'Steph'},,,&,1/1,&
+&,{'Timur'},{'Noah '},{'Steph'},,,,&,1/1,&
 &,{'Timur'},{'Noah '},{'Steph'},,,,&,3/1,&
 &,{'Timur'},{'Noah '},{'Terre'},{'Doug '},{'Thoma'},{'Deian'},&,1/1,&
 &,{'Timur'},{'Noah '},{'Terre'},{'Jamie'},{'Micha'},{'Thoma'},&,1/1,&
@@ -18904,7 +18904,7 @@ False
 &,{'Timur'},{'Steph'},{'Jamie'},{'Canda'},{'David'},{'Joe F'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Canda'},{'David'},{'Loret'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Canda'},{'David'},,&,1/1,&
-&,{'Timur'},{'Steph'},{'Jamie'},{'Canda'},{'Deian'},{'Deian'},&,1/1,&
+&,{'Timur'},{'Steph'},{'Jamie'},{'Canda'},{'Deian'},,&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Canda'},{'Joe F'},{'Thoma'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Canda'},{'Loret'},{'Cayle'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Canda'},{'Loret'},{'Noah '},&,2/1,&
@@ -18936,7 +18936,7 @@ False
 &,{'Timur'},{'Steph'},{'Jamie'},{'Micha'},,,&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Noah '},{'Joe F'},{'Thoma'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Noah '},,,&,1/1,&
-&,{'Timur'},{'Steph'},{'Jamie'},{'Peggy'},{'Peggy'},{'Micha'},&,1/1,&
+&,{'Timur'},{'Steph'},{'Jamie'},{'Peggy'},{'Micha'},,&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Terre'},{'Canda'},{'Cayle'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Terre'},{'Canda'},{'Deian'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Jamie'},{'Terre'},{'Canda'},{'Loret'},&,2/1,&
@@ -18950,7 +18950,7 @@ False
 &,{'Timur'},{'Steph'},{'Jamie'},,,,&,23/1,&
 &,{'Timur'},{'Steph'},{'Joe A'},{'David'},{'Jamie'},{'Terre'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Joe A'},{'Deian'},{'Loret'},{'Jamie'},&,1/1,&
-&,{'Timur'},{'Steph'},{'Joe F'},{'David'},{'Cayle'},{'Joe F'},&,1/1,&
+&,{'Timur'},{'Steph'},{'Joe F'},{'David'},{'Cayle'},,&,1/1,&
 &,{'Timur'},{'Steph'},{'Loret'},{'Canda'},{'Cayle'},{'Jamie'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Loret'},{'Canda'},{'Deian'},{'Micha'},&,1/1,&
 &,{'Timur'},{'Steph'},{'Loret'},{'Canda'},{'Jamie'},{'Terre'},&,2/1,&
@@ -19156,9 +19156,9 @@ False
 &,{'Timur'},{'Thoma'},{'Terre'},{'Steph'},{'Loret'},{'Joe A'},&,1/1,&
 &,{'Timur'},{'Thoma'},{'Terre'},{'Steph'},,,&,1/1,&
 &,{'Timur'},{'Thoma'},,,,,&,1/1,&
-&,{'Timur'},{'Timur'},{'Jamie'},{'Steph'},{'Terre'},{'Jamie'},&,1/1,&
-&,{'Timur'},{'Timur'},{'Noah '},{'Micha'},{'Loret'},{'Steph'},&,3/1,&
-&,{'Timur'},{'Timur'},{'Timur'},{'Timur'},{'Timur'},{'Timur'},&,7/1,&
+&,{'Timur'},{'Jamie'},{'Steph'},{'Terre'},,,&,1/1,&
+&,{'Timur'},{'Noah '},{'Micha'},{'Loret'},{'Steph'},,&,3/1,&
+&,{'Timur'},,,,,,&,7/1,&
 &,{'Timur'},{'Joe A'},{'Cayle'},{'Loret'},{'Doug '},,&,1/1,&
 &,{'Timur'},{'Canda'},{'Jamie'},{'Steph'},,,&,1/1,&
 &,{'Timur'},{'Loret'},{'Peggy'},,,,&,1/1,&
@@ -19220,7 +19220,7 @@ False
 &,{'Terre'},{'Loret'},{'Jamie'},{'Doug '},{'Canda'},,&,1/1,&
 &,{'Terre'},{'Micha'},{'Doug '},{'Joe A'},{'Peggy'},,&,1/1,&
 &,{'Terre'},,,,,,&,1/1,&
-&,{'Timur'},{'Canda'},{'Doug '},{'Cayle'},{'Doug '},,&,1/1,&
+&,{'Timur'},{'Canda'},{'Doug '},{'Cayle'},,,&,1/1,&
 &,{'Timur'},{'Canda'},{'Cayle'},{'Loret'},,,&,1/1,&
 &,{'Timur'},{'Loret'},{'Doug '},{'Joe F'},{'Micha'},,&,1/1,&
 &,{'Timur'},{'Noah '},{'Canda'},{'Doug '},{'Loret'},,&,1/1,&
@@ -19304,9 +19304,9 @@ False
 &,{'Cayle'},{'Steph'},{'Peggy'},{'Deian'},{'Joe A'},,&,1/1,&
 &,{'Jamie'},{'Steph'},{'Terre'},{'Thoma'},,,&,1/1,&
 &,{'Joe A'},{'Joe F'},{'Loret'},,,,&,1/1,&
-&,{'Canda'},{'Canda'},,,,,&,1/1,&
+&,{'Canda'},,,,,,&,1/1,&
 &,{'Canda'},{'Cayle'},,,,,&,1/1,&
-&,{'Canda'},{'Deian'},{'Doug '},{'Canda'},{'Timur'},,&,1/1,&
+&,{'Canda'},{'Deian'},{'Doug '},{'Timur'},,,&,1/1,&
 &,{'Canda'},{'Micha'},,,,,&,1/1,&
 &,{'Canda'},{'Steph'},{'Cayle'},,,,&,1/1,&
 &,{'Canda'},{'Timur'},{'Cayle'},{'Jamie'},,,&,1/1,&
@@ -19314,7 +19314,7 @@ False
 &,{'Canda'},{'Joe A'},,,,,&,1/1,&
 &,{'Canda'},,,,,,&,1/1,&
 &,{'Canda'},{'Steph'},,,,,&,1/1,&
-&,{'Canda'},{'Thoma'},{'Thoma'},{'Terre'},,,&,1/1,&
+&,{'Canda'},{'Thoma'},{'Terre'},,,,&,1/1,&
 &,{'Canda'},,,,,,&,4/1,&
 &,{'Cayle'},{'Loret'},,,,,&,1/1,&
 &,{'Cayle'},{'Terre'},,,,,&,1/1,&
@@ -19353,7 +19353,7 @@ False
 &,{'Loret'},{'Noah '},,,,,&,1/1,&
 &,{'Loret'},{'Terre'},{'Doug '},{'Jamie'},,,&,1/1,&
 &,{'Loret'},{'Timur'},{'David'},{'Terre'},{'Doug '},,&,1/1,&
-&,{'Loret'},{'Terre'},{'Terre'},{'Terre'},,,&,1/1,&
+&,{'Loret'},{'Terre'},,,,,&,1/1,&
 &,{'Loret'},,,,,,&,6/1,&
 &,{'Micha'},{'David'},,,,,&,1/1,&
 &,{'Micha'},{'Jamie'},{'Thoma'},,,,&,1/1,&
@@ -19383,7 +19383,7 @@ False
 &,{'Terre'},{'Deian'},{'Micha'},{'Cayle'},{'Timur'},,&,1/1,&
 &,{'Terre'},{'Jamie'},,,,,&,4/1,&
 &,{'Terre'},{'Loret'},{'Canda'},,,,&,1/1,&
-&,{'Terre'},{'Terre'},,,,,&,1/1,&
+&,{'Terre'},,,,,,&,1/1,&
 &,{'Terre'},{'Thoma'},{'Joe F'},{'David'},{'Canda'},,&,1/1,&
 &,{'Terre'},{'Joe F'},,,,,&,1/1,&
 &,{'Terre'},,,,,,&,3/1,&
@@ -19426,10 +19426,10 @@ False
 &,{'Noah '},,,,,,&,3/1,&
 &,{'Peggy'},{'Joe F'},{'Noah '},{'Timur'},,,&,1/1,&
 &,{'Peggy'},,,,,,&,2/1,&
-&,{'Steph'},{'Jamie'},{'Terre'},{'Jamie'},,,&,1/1,&
+&,{'Steph'},{'Jamie'},{'Terre'},,,,&,1/1,&
 &,{'Steph'},{'Timur'},,,,,&,1/1,&
 &,{'Terre'},{'Jamie'},,,,,&,1/1,&
-&,{'Terre'},{'Terre'},{'Terre'},,,,&,1/1,&
+&,{'Terre'},,,,,,&,1/1,&
 &,{'Terre'},,,,,,&,1/1,&
 &,{'Terre'},,,,,,&,1/1,&
 &,{'Thoma'},,,,,,&,1/1,&
@@ -19455,14 +19455,14 @@ False
 &,{'Joe A'},{'Doug '},,,,,&,1/1,&
 &,{'Joe A'},,,,,,&,1/1,&
 &,{'Joe F'},,,,,,&,1/1,&
-&,{'Loret'},{'Loret'},,,,,&,1/1,&
+&,{'Loret'},,,,,,&,1/1,&
 &,{'Loret'},{'Micha'},,,,,&,1/1,&
 &,{'Loret'},,,,,,&,1/1,&
 &,{'Loret'},{'Micha'},,,,,&,1/1,&
 &,{'Noah '},{'Jamie'},,,,,&,1/1,&
 &,{'Noah '},{'Steph'},,,,,&,1/1,&
 &,{'Noah '},,,,,,&,1/1,&
-&,{'Peggy'},{'Peggy'},{'Peggy'},,,,&,1/1,&
+&,{'Peggy'},,,,,,&,1/1,&
 &,{'Peggy'},,,,,,&,1/1,&
 &,{'Steph'},{'Cayle'},,,,,&,1/1,&
 &,{'Steph'},,,,,,&,1/1,&
@@ -19703,7 +19703,7 @@ False
 &,{'Doug '},{'Noah '},{'Timur'},{'Loret'},,,&,1/1,&
 &,{'Doug '},,,,,,&,1/1,&
 &,{'Jamie'},{'Canda'},{'Steph'},,,,&,1/1,&
-&,{'Jamie'},{'Loret'},{'Jamie'},{'Canda'},,,&,1/1,&
+&,{'Jamie'},{'Loret'},{'Canda'},,,,&,1/1,&
 &,{'Jamie'},{'Cayle'},,,,,&,1/1,&
 &,{'Jamie'},,,,,,&,1/1,&
 &,{'Jamie'},,,,,,&,1/1,&

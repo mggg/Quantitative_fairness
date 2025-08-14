@@ -1,13 +1,13 @@
 VoteKit PreferenceProfile
 Candidates
-(Stanley Penkin:Stanle),(Mike DiNapoli:Mike D),(Kevin Goldsmith:Kevin ),(Chloe Mason:Chloe ),(Mitch Green:Mitch ),(Kelly Doyle:Kelly ),(Moses Ross:Moses ),(Brandon Farley:Brando),(Chad Lykins:Chad L),(Tony Morse:Tony M),(Raquel Coyote:Raquel),(Joseph (Joe) Alfone:Joseph),(John J Goldsmith:John J),(Olivia Clark:Olivia),(Sarah Silkie:Sarah ),(Lee Odell:Lee Od),(Bob Weinstein:Bob We),(Bob Callahan:Bob Ca),(Eric Zimmerman:Eric Z),(Tony Schwartz:Tony S),(Michael Trimble:Michae),(Ciatta R Thompson:Ciatta),(Chris Henry:Chris ),(Patrick Cashman:Patric),(John Toran:John T),(Ben Hufford:Ben Hu),(Lisa Freeman:Lisa F),(Andra Vltavin:Andra ),(L Christopher Regis:L Chri),(Eli Arnold:Eli Ar)
+(Kelly Doyle:Kelly ),(Eric Zimmerman:Eric Z),(Mike DiNapoli:Mike D),(Bob Callahan:Bob Ca),(Kevin Goldsmith:Kevin ),(Michael Trimble:Michae),(Chloe Mason:Chloe ),(Bob Weinstein:Bob We),(Tony Morse:Tony M),(Raquel Coyote:Raquel),(Lisa Freeman:Lisa F),(Eli Arnold:Eli Ar),(Ciatta R Thompson:Ciatta),(Tony Schwartz:Tony S),(Olivia Clark:Olivia),(Chad Lykins:Chad L),(Andra Vltavin:Andra ),(Joseph (Joe) Alfone:Joseph),(Patrick Cashman:Patric),(Mitch Green:Mitch ),(Sarah Silkie:Sarah ),(Chris Henry:Chris ),(Ben Hufford:Ben Hu),(Brandon Farley:Brando),(L Christopher Regis:L Chri),(John Toran:John T),(Moses Ross:Moses ),(Stanley Penkin:Stanle),(John J Goldsmith:John J),(Lee Odell:Lee Od)
 Max Ranking Length
 6
 Includes Voter Set
 False
 =,=,=,=,=,=,=,=,=,=
 &,Ranking_1,Ranking_2,Ranking_3,Ranking_4,Ranking_5,Ranking_6,&,Weight,&
-&,{'Andra '},{'Andra '},{'Andra '},{'Andra '},{'Andra '},{'Andra '},&,1/1,&
+&,{'Andra '},,,,,,&,1/1,&
 &,{'Andra '},{'Ben Hu'},{'Chad L'},{'Moses '},{'Olivia'},{'Ciatta'},&,1/1,&
 &,{'Andra '},{'Ben Hu'},{'Chad L'},{'Moses '},{'Olivia'},,&,1/1,&
 &,{'Andra '},{'Ben Hu'},{'Chris '},{'Sarah '},{'Lisa F'},{'Michae'},&,1/1,&
@@ -40,7 +40,7 @@ False
 &,{'Andra '},{'Bob We'},{'Lee Od'},{'Lisa F'},{'Patric'},{'Mike D'},&,1/1,&
 &,{'Andra '},{'Bob We'},{'Lee Od'},{'Mitch '},{'Stanle'},{'Ciatta'},&,1/1,&
 &,{'Andra '},{'Bob We'},{'Lee Od'},{'Mitch '},{'Tony M'},{'Ciatta'},&,1/1,&
-&,{'Andra '},{'Bob We'},{'Lee Od'},{'Raquel'},{'Andra '},{'Moses '},&,1/1,&
+&,{'Andra '},{'Bob We'},{'Lee Od'},{'Raquel'},{'Moses '},,&,1/1,&
 &,{'Andra '},{'Bob We'},{'Lisa F'},{'Raquel'},{'Olivia'},{'Mike D'},&,1/1,&
 &,{'Andra '},{'Bob We'},{'Lisa F'},{'Sarah '},{'Chad L'},{'Mitch '},&,1/1,&
 &,{'Andra '},{'Bob We'},{'Michae'},{'Chloe '},,,&,1/1,&
@@ -373,10 +373,10 @@ False
 &,{'Andra '},{'John J'},{'Olivia'},{'Lisa F'},{'Sarah '},{'Chloe '},&,2/1,&
 &,{'Andra '},{'John T'},{'Bob Ca'},{'Chris '},{'Chloe '},{'Patric'},&,1/1,&
 &,{'Andra '},{'John T'},{'Chad L'},{'Eric Z'},{'Bob We'},{'Chris '},&,1/1,&
-&,{'Andra '},{'John T'},{'Chloe '},{'Eric Z'},{'Moses '},{'John T'},&,1/1,&
+&,{'Andra '},{'John T'},{'Chloe '},{'Eric Z'},{'Moses '},,&,1/1,&
 &,{'Andra '},{'John T'},{'Chloe '},{'Lisa F'},{'Sarah '},{'Michae'},&,1/1,&
 &,{'Andra '},{'John T'},{'Chloe '},{'Michae'},{'Tony M'},{'Joseph'},&,1/1,&
-&,{'Andra '},{'John T'},{'Chloe '},{'Mitch '},{'John T'},,&,1/1,&
+&,{'Andra '},{'John T'},{'Chloe '},{'Mitch '},,,&,1/1,&
 &,{'Andra '},{'John T'},{'Chloe '},{'Tony M'},{'Joseph'},{'Chad L'},&,1/1,&
 &,{'Andra '},{'John T'},{'Ciatta'},{'Chloe '},,,&,1/1,&
 &,{'Andra '},{'John T'},{'Ciatta'},{'Olivia'},{'Sarah '},{'Eric Z'},&,2/1,&
@@ -411,8 +411,8 @@ False
 &,{'Andra '},{'Joseph'},{'Moses '},{'Chris '},{'Sarah '},{'Bob Ca'},&,1/1,&
 &,{'Andra '},{'Joseph'},{'Olivia'},{'Chloe '},{'Moses '},{'Stanle'},&,1/1,&
 &,{'Andra '},{'Joseph'},{'Tony M'},{'Chad L'},{'Ciatta'},{'Sarah '},&,1/1,&
-&,{'Andra '},{'Joseph'},{'Tony M'},{'Chad L'},{'Sarah '},{'Joseph'},&,1/1,&
-&,{'Andra '},{'Joseph'},{'Tony M'},{'Chloe '},{'Chad L'},{'Joseph'},&,1/1,&
+&,{'Andra '},{'Joseph'},{'Tony M'},{'Chad L'},{'Sarah '},,&,1/1,&
+&,{'Andra '},{'Joseph'},{'Tony M'},{'Chloe '},{'Chad L'},,&,1/1,&
 &,{'Andra '},{'Joseph'},{'Tony M'},{'Ciatta'},{'Moses '},{'Michae'},&,2/1,&
 &,{'Andra '},{'Joseph'},{'Tony M'},{'Stanle'},{'Michae'},{'Chad L'},&,3/1,&
 &,{'Andra '},{'Joseph'},,,,,&,1/1,&
@@ -466,7 +466,7 @@ False
 &,{'Andra '},{'Lee Od'},{'Chloe '},{'Raquel'},{'Lisa F'},{'Sarah '},&,1/1,&
 &,{'Andra '},{'Lee Od'},{'Ciatta'},{'Raquel'},{'Sarah '},{'Eric Z'},&,1/1,&
 &,{'Andra '},{'Lee Od'},{'Eli Ar'},{'Tony M'},{'Michae'},{'Olivia'},&,1/1,&
-&,{'Andra '},{'Lee Od'},{'Eric Z'},{'Tony S'},{'Lee Od'},{'Eli Ar'},&,1/1,&
+&,{'Andra '},{'Lee Od'},{'Eric Z'},{'Tony S'},{'Eli Ar'},,&,1/1,&
 &,{'Andra '},{'Lee Od'},{'John J'},{'Bob We'},{'Stanle'},{'Chad L'},&,1/1,&
 &,{'Andra '},{'Lee Od'},{'John J'},{'Kevin '},{'Mitch '},{'Bob We'},&,1/1,&
 &,{'Andra '},{'Lee Od'},{'John J'},{'Kevin '},{'Joseph'},,&,1/1,&
@@ -699,7 +699,7 @@ False
 &,{'Andra '},{'Mitch '},{'Joseph'},{'Mike D'},,,&,1/1,&
 &,{'Andra '},{'Mitch '},{'Joseph'},{'Stanle'},{'Chloe '},{'Ciatta'},&,1/1,&
 &,{'Andra '},{'Mitch '},{'Joseph'},{'Tony M'},{'Chad L'},{'Olivia'},&,1/1,&
-&,{'Andra '},{'Mitch '},{'Kevin '},{'Andra '},{'Kevin '},{'Lee Od'},&,1/1,&
+&,{'Andra '},{'Mitch '},{'Kevin '},{'Lee Od'},,,&,1/1,&
 &,{'Andra '},{'Mitch '},{'Kevin '},{'Bob We'},{'Tony M'},{'Lisa F'},&,1/1,&
 &,{'Andra '},{'Mitch '},{'Kevin '},{'Chad L'},{'Bob We'},,&,1/1,&
 &,{'Andra '},{'Mitch '},{'Kevin '},{'Ciatta'},{'Chloe '},{'Chad L'},&,1/1,&
@@ -914,7 +914,7 @@ False
 &,{'Andra '},{'Sarah '},{'Ciatta'},{'Olivia'},{'Mitch '},,&,1/1,&
 &,{'Andra '},{'Sarah '},{'Eli Ar'},{'Lisa F'},{'Mitch '},{'Ciatta'},&,1/1,&
 &,{'Andra '},{'Sarah '},{'Eric Z'},{'Tony M'},{'Mitch '},{'Eli Ar'},&,1/1,&
-&,{'Andra '},{'Sarah '},{'Joseph'},{'Chad L'},{'Sarah '},{'Eric Z'},&,1/1,&
+&,{'Andra '},{'Sarah '},{'Joseph'},{'Chad L'},{'Eric Z'},,&,1/1,&
 &,{'Andra '},{'Sarah '},{'Joseph'},{'Lisa F'},,,&,1/1,&
 &,{'Andra '},{'Sarah '},{'Kelly '},{'Lisa F'},{'Olivia'},{'Chloe '},&,1/1,&
 &,{'Andra '},{'Sarah '},{'Kevin '},{'Lisa F'},{'Bob We'},{'Chloe '},&,1/1,&
@@ -1070,8 +1070,8 @@ False
 &,{'Ben Hu'},{'Andra '},{'Kevin '},{'Chloe '},{'Ciatta'},{'Olivia'},&,1/1,&
 &,{'Ben Hu'},{'Andra '},{'Lisa F'},,,,&,1/1,&
 &,{'Ben Hu'},{'Andra '},{'Tony M'},{'Lisa F'},{'Olivia'},{'Sarah '},&,1/1,&
-&,{'Ben Hu'},{'Ben Hu'},{'Ben Hu'},{'Ben Hu'},{'Ben Hu'},{'Ben Hu'},&,2/1,&
-&,{'Ben Hu'},{'Ben Hu'},{'Olivia'},{'Ben Hu'},{'Ben Hu'},{'Ben Hu'},&,1/1,&
+&,{'Ben Hu'},,,,,,&,2/1,&
+&,{'Ben Hu'},{'Olivia'},,,,,&,1/1,&
 &,{'Ben Hu'},{'Bob Ca'},{'Bob We'},{'Chad L'},{'Chloe '},{'Ciatta'},&,1/1,&
 &,{'Ben Hu'},{'Bob Ca'},{'Bob We'},{'Eli Ar'},{'Stanle'},{'Olivia'},&,1/1,&
 &,{'Ben Hu'},{'Bob Ca'},{'Bob We'},{'Eric Z'},{'Olivia'},{'Eli Ar'},&,2/1,&
@@ -1283,7 +1283,7 @@ False
 &,{'Ben Hu'},{'Ciatta'},{'John T'},{'Tony M'},,,&,1/1,&
 &,{'Ben Hu'},{'Ciatta'},{'Lisa F'},{'Eli Ar'},,,&,1/1,&
 &,{'Ben Hu'},{'Ciatta'},{'Michae'},{'Olivia'},{'Lisa F'},{'Chad L'},&,1/1,&
-&,{'Ben Hu'},{'Ciatta'},{'Mike D'},{'Joseph'},{'Joseph'},,&,1/1,&
+&,{'Ben Hu'},{'Ciatta'},{'Mike D'},{'Joseph'},,,&,1/1,&
 &,{'Ben Hu'},{'Ciatta'},{'Mitch '},,,,&,1/1,&
 &,{'Ben Hu'},{'Ciatta'},{'Olivia'},{'Sarah '},{'Lisa F'},{'Chad L'},&,1/1,&
 &,{'Ben Hu'},{'Eli Ar'},{'Bob Ca'},{'Bob We'},{'John J'},{'Ciatta'},&,1/1,&
@@ -1914,7 +1914,7 @@ False
 &,{'Ben Hu'},{'Olivia'},{'Mitch '},{'Tony M'},{'John T'},{'Chad L'},&,1/1,&
 &,{'Ben Hu'},{'Olivia'},{'Mitch '},,,,&,2/1,&
 &,{'Ben Hu'},{'Olivia'},{'Moses '},,,,&,1/1,&
-&,{'Ben Hu'},{'Olivia'},{'Olivia'},{'Ben Hu'},,,&,1/1,&
+&,{'Ben Hu'},{'Olivia'},,,,,&,1/1,&
 &,{'Ben Hu'},{'Olivia'},{'Patric'},{'Eli Ar'},{'Chad L'},{'Sarah '},&,1/1,&
 &,{'Ben Hu'},{'Olivia'},{'Raquel'},{'Ciatta'},{'L Chri'},{'Lisa F'},&,1/1,&
 &,{'Ben Hu'},{'Olivia'},{'Raquel'},{'Kevin '},{'Chloe '},{'Mike D'},&,1/1,&
@@ -2147,7 +2147,7 @@ False
 &,{'Bob Ca'},{'Ben Hu'},{'Eric Z'},{'Bob We'},{'Kevin '},{'Moses '},&,1/1,&
 &,{'Bob Ca'},{'Ben Hu'},{'Eric Z'},{'Chad L'},,,&,1/1,&
 &,{'Bob Ca'},{'Ben Hu'},{'Eric Z'},{'John T'},{'Tony M'},{'Kevin '},&,1/1,&
-&,{'Bob Ca'},{'Ben Hu'},{'Eric Z'},{'Mitch '},{'Mitch '},{'Eli Ar'},&,1/1,&
+&,{'Bob Ca'},{'Ben Hu'},{'Eric Z'},{'Mitch '},{'Eli Ar'},,&,1/1,&
 &,{'Bob Ca'},{'Ben Hu'},{'Eric Z'},{'Olivia'},{'Mitch '},{'Chad L'},&,1/1,&
 &,{'Bob Ca'},{'Ben Hu'},{'Eric Z'},{'Sarah '},{'Chad L'},{'John T'},&,1/1,&
 &,{'Bob Ca'},{'Ben Hu'},{'Eric Z'},,,,&,3/1,&
@@ -2165,8 +2165,8 @@ False
 &,{'Bob Ca'},{'Ben Hu'},{'Sarah '},,,,&,1/1,&
 &,{'Bob Ca'},{'Ben Hu'},{'Stanle'},{'Lisa F'},{'Olivia'},,&,1/1,&
 &,{'Bob Ca'},{'Ben Hu'},{'Tony M'},,,,&,4/1,&
-&,{'Bob Ca'},{'Bob Ca'},{'Bob Ca'},{'Bob Ca'},{'Bob Ca'},{'Bob Ca'},&,1/1,&
-&,{'Bob Ca'},{'Bob Ca'},,,,,&,1/1,&
+&,{'Bob Ca'},,,,,,&,1/1,&
+&,{'Bob Ca'},,,,,,&,1/1,&
 &,{'Bob Ca'},{'Bob We'},{'Chad L'},{'Olivia'},{'Eric Z'},{'Lisa F'},&,1/1,&
 &,{'Bob Ca'},{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},,&,1/1,&
 &,{'Bob Ca'},{'Bob We'},{'Eric Z'},{'Eli Ar'},{'Kevin '},{'John T'},&,1/1,&
@@ -2251,7 +2251,7 @@ False
 &,{'Bob Ca'},{'Eli Ar'},{'Ben Hu'},{'Sarah '},{'John T'},{'Kevin '},&,2/1,&
 &,{'Bob Ca'},{'Eli Ar'},{'Ben Hu'},{'Tony M'},,,&,2/1,&
 &,{'Bob Ca'},{'Eli Ar'},{'Ben Hu'},,,,&,5/1,&
-&,{'Bob Ca'},{'Eli Ar'},{'Bob Ca'},{'Mike D'},{'Lisa F'},{'Mitch '},&,1/1,&
+&,{'Bob Ca'},{'Eli Ar'},{'Mike D'},{'Lisa F'},{'Mitch '},,&,1/1,&
 &,{'Bob Ca'},{'Eli Ar'},{'Bob We'},{'Ben Hu'},,,&,1/1,&
 &,{'Bob Ca'},{'Eli Ar'},{'Bob We'},{'Eric Z'},{'Stanle'},{'Kelly '},&,1/1,&
 &,{'Bob Ca'},{'Eli Ar'},{'Bob We'},{'Kevin '},{'Mitch '},{'Ben Hu'},&,1/1,&
@@ -2426,7 +2426,7 @@ False
 &,{'Bob Ca'},{'Lisa F'},{'Kevin '},{'Bob We'},,,&,2/1,&
 &,{'Bob Ca'},{'Lisa F'},{'Kevin '},{'Mitch '},{'Eli Ar'},{'Ben Hu'},&,1/1,&
 &,{'Bob Ca'},{'Lisa F'},{'Kevin '},,,,&,1/1,&
-&,{'Bob Ca'},{'Lisa F'},{'Michae'},{'Sarah '},{'Sarah '},{'Sarah '},&,1/1,&
+&,{'Bob Ca'},{'Lisa F'},{'Michae'},{'Sarah '},,,&,1/1,&
 &,{'Bob Ca'},{'Lisa F'},{'Mitch '},{'Ben Hu'},,,&,2/1,&
 &,{'Bob Ca'},{'Lisa F'},{'Mitch '},{'Chloe '},{'Tony M'},{'Ciatta'},&,1/1,&
 &,{'Bob Ca'},{'Lisa F'},{'Mitch '},{'Chris '},{'Ben Hu'},{'Chad L'},&,1/1,&
@@ -2554,7 +2554,7 @@ False
 &,{'Bob Ca'},{'Olivia'},{'John T'},{'Chloe '},{'Eric Z'},{'Sarah '},&,1/1,&
 &,{'Bob Ca'},{'Olivia'},{'John T'},{'Eli Ar'},{'Mitch '},{'Chad L'},&,1/1,&
 &,{'Bob Ca'},{'Olivia'},{'John T'},{'Kevin '},{'Eli Ar'},{'Tony M'},&,1/1,&
-&,{'Bob Ca'},{'Olivia'},{'John T'},{'Olivia'},{'Eric Z'},{'Sarah '},&,1/1,&
+&,{'Bob Ca'},{'Olivia'},{'John T'},{'Eric Z'},{'Sarah '},,&,1/1,&
 &,{'Bob Ca'},{'Olivia'},{'Kelly '},{'Lisa F'},{'Chris '},{'Ben Hu'},&,1/1,&
 &,{'Bob Ca'},{'Olivia'},{'Kevin '},{'Eric Z'},,,&,1/1,&
 &,{'Bob Ca'},{'Olivia'},{'Kevin '},,,,&,1/1,&
@@ -2742,14 +2742,14 @@ False
 &,{'Bob We'},{'Andra '},{'Kevin '},{'Mitch '},{'Sarah '},{'Ben Hu'},&,1/1,&
 &,{'Bob We'},{'Andra '},{'Kevin '},{'Sarah '},{'Eric Z'},{'Olivia'},&,1/1,&
 &,{'Bob We'},{'Andra '},{'Lee Od'},{'Ciatta'},{'Lisa F'},{'Sarah '},&,1/1,&
-&,{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'John J'},{'John J'},&,1/1,&
+&,{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'John J'},,&,1/1,&
 &,{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'John J'},{'John T'},&,1/1,&
 &,{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'John J'},{'Mitch '},&,62/1,&
 &,{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'Mitch '},{'Tony M'},&,1/1,&
 &,{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'Raquel'},{'Lisa F'},&,1/1,&
 &,{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'Stanle'},{'Tony M'},&,1/1,&
-&,{'Bob We'},{'Andra '},{'Lee Od'},{'Lee Od'},{'Kevin '},{'John J'},&,2/1,&
-&,{'Bob We'},{'Andra '},{'Lee Od'},{'Mitch '},{'Mitch '},,&,1/1,&
+&,{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'John J'},,&,2/1,&
+&,{'Bob We'},{'Andra '},{'Lee Od'},{'Mitch '},,,&,1/1,&
 &,{'Bob We'},{'Andra '},{'Lee Od'},,,,&,3/1,&
 &,{'Bob We'},{'Andra '},{'Lisa F'},{'Olivia'},{'Sarah '},{'Bob Ca'},&,1/1,&
 &,{'Bob We'},{'Andra '},{'Michae'},{'Eric Z'},{'Brando'},{'Stanle'},&,1/1,&
@@ -2882,7 +2882,7 @@ False
 &,{'Bob We'},{'Bob Ca'},{'Eli Ar'},{'Ben Hu'},{'Olivia'},{'Tony M'},&,1/1,&
 &,{'Bob We'},{'Bob Ca'},{'Eli Ar'},{'Ben Hu'},{'Patric'},,&,1/1,&
 &,{'Bob We'},{'Bob Ca'},{'Eli Ar'},{'Ben Hu'},,,&,2/1,&
-&,{'Bob We'},{'Bob Ca'},{'Eli Ar'},{'Bob We'},{'Bob We'},{'Bob We'},&,1/1,&
+&,{'Bob We'},{'Bob Ca'},{'Eli Ar'},,,,&,1/1,&
 &,{'Bob We'},{'Bob Ca'},{'Eli Ar'},{'Chad L'},{'Mitch '},{'Olivia'},&,2/1,&
 &,{'Bob We'},{'Bob Ca'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},,&,1/1,&
 &,{'Bob We'},{'Bob Ca'},{'Eli Ar'},{'Eric Z'},,,&,5/1,&
@@ -2922,8 +2922,8 @@ False
 &,{'Bob We'},{'Bob Ca'},{'Tony M'},{'Eric Z'},,,&,1/1,&
 &,{'Bob We'},{'Bob Ca'},{'Tony S'},,,,&,1/1,&
 &,{'Bob We'},{'Bob Ca'},,,,,&,9/1,&
-&,{'Bob We'},{'Bob We'},{'Bob We'},{'Bob We'},{'Bob We'},{'Bob We'},&,2/1,&
-&,{'Bob We'},{'Bob We'},,,,,&,1/1,&
+&,{'Bob We'},,,,,,&,2/1,&
+&,{'Bob We'},,,,,,&,1/1,&
 &,{'Bob We'},{'Chad L'},{'Ben Hu'},{'Olivia'},{'Sarah '},{'Mitch '},&,1/1,&
 &,{'Bob We'},{'Chad L'},{'Ben Hu'},{'Olivia'},,,&,1/1,&
 &,{'Bob We'},{'Chad L'},{'Ben Hu'},{'Stanle'},{'Sarah '},{'Eric Z'},&,1/1,&
@@ -3176,7 +3176,7 @@ False
 &,{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Chad L'},{'Mitch '},&,1/1,&
 &,{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'John T'},{'Mike D'},&,1/1,&
 &,{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Kevin '},{'John T'},&,1/1,&
-&,{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Kevin '},{'Kevin '},&,1/1,&
+&,{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Kevin '},,&,1/1,&
 &,{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Kevin '},{'Stanle'},&,1/1,&
 &,{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Olivia'},{'John T'},&,3/1,&
 &,{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Olivia'},{'Stanle'},&,2/1,&
@@ -3335,7 +3335,7 @@ False
 &,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Ben Hu'},{'Stanle'},,&,2/1,&
 &,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Ben Hu'},,,&,1/1,&
 &,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Bob Ca'},{'Ben Hu'},{'John T'},&,2/1,&
-&,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Bob Ca'},{'Chris '},{'Bob We'},&,1/1,&
+&,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Bob Ca'},{'Chris '},,&,1/1,&
 &,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Bob Ca'},{'Lisa F'},,&,1/1,&
 &,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Bob Ca'},,,&,1/1,&
 &,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Brando'},{'Ben Hu'},{'Eric Z'},&,1/1,&
@@ -3488,7 +3488,7 @@ False
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Chad L'},{'John T'},{'Kevin '},&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Chad L'},{'Olivia'},,&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Chad L'},,,&,1/1,&
-&,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Eli Ar'},{'Eli Ar'},,&,1/1,&
+&,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Eli Ar'},,,&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Eli Ar'},{'Lisa F'},,&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Eli Ar'},{'Olivia'},,&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Eli Ar'},{'Stanle'},{'Olivia'},&,1/1,&
@@ -3505,7 +3505,7 @@ False
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Olivia'},{'Sarah '},{'Stanle'},&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Olivia'},{'Stanle'},{'Kevin '},&,2/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Olivia'},,,&,2/1,&
-&,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Sarah '},{'Olivia'},{'Olivia'},&,1/1,&
+&,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Sarah '},{'Olivia'},,&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Stanle'},{'Eli Ar'},,&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Stanle'},{'Lisa F'},{'Tony M'},&,1/1,&
 &,{'Bob We'},{'Eric Z'},{'Ben Hu'},{'Stanle'},{'Tony M'},{'Olivia'},&,1/1,&
@@ -3761,7 +3761,7 @@ False
 &,{'Bob We'},{'John J'},{'Tony S'},{'Eric Z'},{'Kelly '},{'Chloe '},&,1/1,&
 &,{'Bob We'},{'John J'},{'Tony S'},,,,&,3/1,&
 &,{'Bob We'},{'John J'},{'Patric'},{'Sarah '},{'Michae'},,&,1/1,&
-&,{'Bob We'},{'John J'},{'Eli Ar'},{'John J'},{'Raquel'},,&,1/1,&
+&,{'Bob We'},{'John J'},{'Eli Ar'},{'Raquel'},,,&,1/1,&
 &,{'Bob We'},{'John J'},,,,,&,1/1,&
 &,{'Bob We'},{'John T'},{'Andra '},{'Olivia'},{'Sarah '},{'Mike D'},&,1/1,&
 &,{'Bob We'},{'John T'},{'Ben Hu'},{'Bob Ca'},{'Eli Ar'},{'Eric Z'},&,1/1,&
@@ -3926,7 +3926,7 @@ False
 &,{'Bob We'},{'Kevin '},{'Eric Z'},{'Sarah '},{'Olivia'},{'Eli Ar'},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'Eric Z'},{'Stanle'},{'Andra '},,&,1/1,&
 &,{'Bob We'},{'Kevin '},{'Eric Z'},{'Stanle'},{'Eli Ar'},{'Chloe '},&,1/1,&
-&,{'Bob We'},{'Kevin '},{'Eric Z'},{'Tony S'},{'Sarah '},{'Sarah '},&,1/1,&
+&,{'Bob We'},{'Kevin '},{'Eric Z'},{'Tony S'},{'Sarah '},,&,1/1,&
 &,{'Bob We'},{'Kevin '},{'Eric Z'},,,,&,2/1,&
 &,{'Bob We'},{'Kevin '},{'John J'},{'Bob Ca'},{'Brando'},{'Moses '},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'John J'},{'Bob Ca'},{'Chloe '},{'Mitch '},&,1/1,&
@@ -3940,7 +3940,7 @@ False
 &,{'Bob We'},{'Kevin '},{'John J'},{'L Chri'},{'Eric Z'},{'Tony S'},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'John J'},{'Lisa F'},{'Eric Z'},{'Tony S'},&,2/1,&
 &,{'Bob We'},{'Kevin '},{'John J'},{'Lisa F'},{'Tony S'},{'Eric Z'},&,1/1,&
-&,{'Bob We'},{'Kevin '},{'John J'},{'Michae'},{'Bob Ca'},{'Bob Ca'},&,1/1,&
+&,{'Bob We'},{'Kevin '},{'John J'},{'Michae'},{'Bob Ca'},,&,1/1,&
 &,{'Bob We'},{'Kevin '},{'John J'},{'Mitch '},{'Patric'},{'Eric Z'},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'John J'},{'Mitch '},{'Sarah '},{'Eric Z'},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'John J'},{'Mitch '},{'Tony M'},{'Tony S'},&,1/1,&
@@ -3966,7 +3966,7 @@ False
 &,{'Bob We'},{'Kevin '},{'Joseph'},{'Ciatta'},{'Raquel'},{'Bob Ca'},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'Joseph'},{'Stanle'},{'Chris '},{'Mike D'},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'Kelly '},{'Joseph'},{'Olivia'},{'Eric Z'},&,1/1,&
-&,{'Bob We'},{'Kevin '},{'Kevin '},{'Bob We'},{'Kevin '},{'Kevin '},&,2/1,&
+&,{'Bob We'},{'Kevin '},,,,,&,2/1,&
 &,{'Bob We'},{'Kevin '},{'Lisa F'},{'Chad L'},{'Bob Ca'},{'Sarah '},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'Lisa F'},{'Chloe '},{'Eli Ar'},{'Tony S'},&,1/1,&
 &,{'Bob We'},{'Kevin '},{'Lisa F'},{'Tony S'},{'Moses '},{'Eric Z'},&,1/1,&
@@ -4155,7 +4155,7 @@ False
 &,{'Bob We'},{'Michae'},{'Olivia'},{'Eli Ar'},,,&,1/1,&
 &,{'Bob We'},{'Michae'},{'Olivia'},,,,&,1/1,&
 &,{'Bob We'},{'Michae'},{'Sarah '},{'Lisa F'},{'Bob Ca'},{'Chloe '},&,1/1,&
-&,{'Bob We'},{'Michae'},{'Sarah '},{'Moses '},{'Chad L'},{'Michae'},&,1/1,&
+&,{'Bob We'},{'Michae'},{'Sarah '},{'Moses '},{'Chad L'},,&,1/1,&
 &,{'Bob We'},{'Michae'},{'Tony M'},{'Mitch '},{'Andra '},{'Chris '},&,1/1,&
 &,{'Bob We'},{'Mike D'},{'Andra '},{'Bob Ca'},{'Sarah '},{'Lisa F'},&,1/1,&
 &,{'Bob We'},{'Mike D'},{'Chad L'},{'John T'},{'Chloe '},{'Lisa F'},&,1/1,&
@@ -4879,7 +4879,7 @@ False
 &,{'Bob We'},{'Sarah '},{'Chad L'},{'Mitch '},{'Olivia'},{'John T'},&,1/1,&
 &,{'Bob We'},{'Sarah '},{'Chad L'},{'Mitch '},{'Olivia'},{'Moses '},&,1/1,&
 &,{'Bob We'},{'Sarah '},{'Chad L'},{'Olivia'},{'Mitch '},,&,1/1,&
-&,{'Bob We'},{'Sarah '},{'Chloe '},{'Eric Z'},{'Mitch '},{'Chloe '},&,1/1,&
+&,{'Bob We'},{'Sarah '},{'Chloe '},{'Eric Z'},{'Mitch '},,&,1/1,&
 &,{'Bob We'},{'Sarah '},{'Chloe '},,,,&,1/1,&
 &,{'Bob We'},{'Sarah '},{'Chris '},{'Andra '},,,&,1/1,&
 &,{'Bob We'},{'Sarah '},{'Ciatta'},{'Eric Z'},,,&,1/1,&
@@ -4972,7 +4972,7 @@ False
 &,{'Bob We'},{'Stanle'},{'Bob Ca'},{'Chad L'},{'Eli Ar'},{'Tony M'},&,1/1,&
 &,{'Bob We'},{'Stanle'},{'Bob Ca'},{'Eric Z'},{'Kevin '},{'John J'},&,1/1,&
 &,{'Bob We'},{'Stanle'},{'Bob Ca'},,,,&,2/1,&
-&,{'Bob We'},{'Stanle'},{'Bob We'},{'Stanle'},{'Bob We'},{'Stanle'},&,1/1,&
+&,{'Bob We'},{'Stanle'},,,,,&,1/1,&
 &,{'Bob We'},{'Stanle'},{'Chad L'},{'Ciatta'},{'Lisa F'},,&,1/1,&
 &,{'Bob We'},{'Stanle'},{'Chad L'},{'Kevin '},{'Tony M'},,&,1/1,&
 &,{'Bob We'},{'Stanle'},{'Chad L'},{'Michae'},{'Lisa F'},{'Olivia'},&,3/1,&
@@ -5075,7 +5075,7 @@ False
 &,{'Bob We'},{'Stanle'},{'Tony M'},{'Mitch '},{'Olivia'},{'Bob Ca'},&,1/1,&
 &,{'Bob We'},{'Stanle'},{'Tony M'},{'Olivia'},{'Eric Z'},,&,1/1,&
 &,{'Bob We'},{'Stanle'},{'Tony M'},{'Olivia'},{'Sarah '},{'Eric Z'},&,1/1,&
-&,{'Bob We'},{'Stanle'},{'Tony M'},{'Tony M'},{'Eli Ar'},{'Eric Z'},&,1/1,&
+&,{'Bob We'},{'Stanle'},{'Tony M'},{'Eli Ar'},{'Eric Z'},,&,1/1,&
 &,{'Bob We'},{'Stanle'},{'Tony M'},,,,&,2/1,&
 &,{'Bob We'},{'Stanle'},,,,,&,20/1,&
 &,{'Bob We'},{'Tony M'},{'Andra '},{'Bob Ca'},{'Kevin '},{'Mike D'},&,1/1,&
@@ -5193,7 +5193,7 @@ False
 &,{'Bob We'},{'Eli Ar'},{'Olivia'},{'Bob Ca'},,,&,1/1,&
 &,{'Bob We'},{'Eli Ar'},,,,,&,2/1,&
 &,{'Bob We'},{'Eric Z'},,,,,&,1/1,&
-&,{'Bob We'},{'Kevin '},{'Andra '},{'Andra '},{'John J'},,&,1/1,&
+&,{'Bob We'},{'Kevin '},{'Andra '},{'John J'},,,&,1/1,&
 &,{'Bob We'},{'Tony M'},{'Olivia'},,,,&,1/1,&
 &,{'Bob We'},{'Andra '},,,,,&,1/1,&
 &,{'Bob We'},,,,,,&,1/1,&
@@ -5208,7 +5208,7 @@ False
 &,{'Brando'},{'Bob Ca'},{'Mike D'},{'Patric'},{'Kevin '},{'Bob We'},&,1/1,&
 &,{'Brando'},{'Bob We'},{'Ciatta'},{'Eli Ar'},{'Tony M'},{'Mitch '},&,1/1,&
 &,{'Brando'},{'Bob We'},{'Kevin '},{'Chloe '},{'Raquel'},{'Chris '},&,1/1,&
-&,{'Brando'},{'Brando'},{'Brando'},{'Brando'},{'Brando'},{'Brando'},&,1/1,&
+&,{'Brando'},,,,,,&,1/1,&
 &,{'Brando'},{'Chad L'},{'Eric Z'},{'Stanle'},,,&,1/1,&
 &,{'Brando'},{'Chad L'},,,,,&,1/1,&
 &,{'Brando'},{'Chloe '},{'Joseph'},{'Michae'},{'Sarah '},{'Chad L'},&,1/1,&
@@ -5244,7 +5244,7 @@ False
 &,{'Brando'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},,&,1/1,&
 &,{'Brando'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Sarah '},{'Mitch '},&,1/1,&
 &,{'Brando'},{'Eric Z'},{'Eli Ar'},{'Chad L'},,,&,1/1,&
-&,{'Brando'},{'Eric Z'},{'Eli Ar'},{'Olivia'},{'Olivia'},{'Olivia'},&,1/1,&
+&,{'Brando'},{'Eric Z'},{'Eli Ar'},{'Olivia'},,,&,1/1,&
 &,{'Brando'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},{'Mitch '},&,3/1,&
 &,{'Brando'},{'Eric Z'},{'Eli Ar'},,,,&,5/1,&
 &,{'Brando'},{'Eric Z'},{'John T'},{'Eli Ar'},{'Lisa F'},{'Bob We'},&,1/1,&
@@ -5316,7 +5316,7 @@ False
 &,{'Chad L'},{'Andra '},{'Ciatta'},{'Mitch '},{'John T'},{'Kevin '},&,1/1,&
 &,{'Chad L'},{'Andra '},{'Ciatta'},{'Mitch '},{'Sarah '},{'Lisa F'},&,1/1,&
 &,{'Chad L'},{'Andra '},{'Eli Ar'},{'Ben Hu'},{'Chloe '},{'Lisa F'},&,1/1,&
-&,{'Chad L'},{'Andra '},{'John J'},{'Andra '},{'Bob We'},{'Kevin '},&,1/1,&
+&,{'Chad L'},{'Andra '},{'John J'},{'Bob We'},{'Kevin '},,&,1/1,&
 &,{'Chad L'},{'Andra '},{'John T'},{'Raquel'},{'Eric Z'},{'Lisa F'},&,1/1,&
 &,{'Chad L'},{'Andra '},{'John T'},,,,&,1/1,&
 &,{'Chad L'},{'Andra '},{'Lisa F'},{'Eric Z'},{'Mitch '},{'Moses '},&,1/1,&
@@ -5549,7 +5549,7 @@ False
 &,{'Chad L'},{'Bob We'},{'Lisa F'},{'Olivia'},{'Eric Z'},,&,1/1,&
 &,{'Chad L'},{'Bob We'},{'Lisa F'},{'Sarah '},{'Eric Z'},{'Ben Hu'},&,1/1,&
 &,{'Chad L'},{'Bob We'},{'Lisa F'},{'Mitch '},,,&,1/1,&
-&,{'Chad L'},{'Bob We'},{'Michae'},{'Chad L'},{'Eric Z'},{'Mike D'},&,1/1,&
+&,{'Chad L'},{'Bob We'},{'Michae'},{'Eric Z'},{'Mike D'},,&,1/1,&
 &,{'Chad L'},{'Bob We'},{'Michae'},{'Chloe '},{'Sarah '},{'Lisa F'},&,1/1,&
 &,{'Chad L'},{'Bob We'},{'Michae'},{'Eric Z'},{'Kevin '},{'Olivia'},&,1/1,&
 &,{'Chad L'},{'Bob We'},{'Mike D'},{'Joseph'},{'Kevin '},,&,1/1,&
@@ -5614,8 +5614,8 @@ False
 &,{'Chad L'},{'Brando'},{'Lee Od'},{'Eric Z'},{'Stanle'},{'Michae'},&,2/1,&
 &,{'Chad L'},{'Brando'},{'Sarah '},{'Eric Z'},,,&,1/1,&
 &,{'Chad L'},{'Brando'},{'Stanle'},{'John J'},{'Ben Hu'},{'Eric Z'},&,1/1,&
-&,{'Chad L'},{'Chad L'},{'Chad L'},{'Chad L'},{'Chad L'},{'Chad L'},&,8/1,&
-&,{'Chad L'},{'Chad L'},{'Sarah '},{'Mitch '},{'Olivia'},{'Lisa F'},&,1/1,&
+&,{'Chad L'},,,,,,&,8/1,&
+&,{'Chad L'},{'Sarah '},{'Mitch '},{'Olivia'},{'Lisa F'},,&,1/1,&
 &,{'Chad L'},{'Chloe '},{'Andra '},{'Mike D'},,,&,1/1,&
 &,{'Chad L'},{'Chloe '},{'Andra '},{'Mitch '},{'Ciatta'},{'Michae'},&,1/1,&
 &,{'Chad L'},{'Chloe '},{'Andra '},{'Stanle'},{'Tony M'},{'Mike D'},&,1/1,&
@@ -5829,7 +5829,7 @@ False
 &,{'Chad L'},{'Eli Ar'},{'Olivia'},{'Tony M'},{'Mitch '},{'Bob Ca'},&,1/1,&
 &,{'Chad L'},{'Eli Ar'},{'Olivia'},{'Tony M'},{'Stanle'},{'Eric Z'},&,1/1,&
 &,{'Chad L'},{'Eli Ar'},{'Olivia'},,,,&,6/1,&
-&,{'Chad L'},{'Eli Ar'},{'Patric'},{'Andra '},{'Chris '},{'Chris '},&,1/1,&
+&,{'Chad L'},{'Eli Ar'},{'Patric'},{'Andra '},{'Chris '},,&,1/1,&
 &,{'Chad L'},{'Eli Ar'},{'Sarah '},{'Bob We'},{'Bob Ca'},{'Tony M'},&,1/1,&
 &,{'Chad L'},{'Eli Ar'},{'Sarah '},{'Eric Z'},{'Ben Hu'},{'Tony M'},&,1/1,&
 &,{'Chad L'},{'Eli Ar'},{'Sarah '},{'Eric Z'},{'Olivia'},{'Ben Hu'},&,1/1,&
@@ -6028,10 +6028,10 @@ False
 &,{'Chad L'},{'John J'},{'Mitch '},{'Olivia'},{'Ben Hu'},{'John T'},&,1/1,&
 &,{'Chad L'},{'John J'},{'Mitch '},{'Raquel'},{'Moses '},{'Bob We'},&,1/1,&
 &,{'Chad L'},{'John J'},{'Moses '},{'Chloe '},{'John T'},{'Bob Ca'},&,1/1,&
-&,{'Chad L'},{'John J'},{'Olivia'},{'John J'},{'Tony M'},{'Bob We'},&,1/1,&
+&,{'Chad L'},{'John J'},{'Olivia'},{'Tony M'},{'Bob We'},,&,1/1,&
 &,{'Chad L'},{'John J'},{'Tony M'},{'Sarah '},{'Lisa F'},{'Ben Hu'},&,1/1,&
 &,{'Chad L'},{'John J'},,,,,&,1/1,&
-&,{'Chad L'},{'John T'},{'Ben Hu'},{'Eric Z'},{'Bob Ca'},{'John T'},&,1/1,&
+&,{'Chad L'},{'John T'},{'Ben Hu'},{'Eric Z'},{'Bob Ca'},,&,1/1,&
 &,{'Chad L'},{'John T'},{'Ben Hu'},{'Eric Z'},{'Eli Ar'},{'Mitch '},&,1/1,&
 &,{'Chad L'},{'John T'},{'Ben Hu'},{'Lisa F'},{'Tony M'},{'Andra '},&,2/1,&
 &,{'Chad L'},{'John T'},{'Ben Hu'},{'Olivia'},{'Eric Z'},{'Eli Ar'},&,2/1,&
@@ -6476,7 +6476,7 @@ False
 &,{'Chad L'},{'Mitch '},{'Ben Hu'},{'Lisa F'},{'Bob We'},{'Sarah '},&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Ben Hu'},{'Lisa F'},{'Mike D'},,&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Ben Hu'},{'Lisa F'},,,&,4/1,&
-&,{'Chad L'},{'Mitch '},{'Ben Hu'},{'Mitch '},,,&,1/1,&
+&,{'Chad L'},{'Mitch '},{'Ben Hu'},,,,&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Ben Hu'},{'Olivia'},{'Lisa F'},{'Eli Ar'},&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Ben Hu'},{'Olivia'},{'Lisa F'},{'Stanle'},&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Ben Hu'},{'Olivia'},{'Sarah '},{'Kevin '},&,1/1,&
@@ -6506,7 +6506,7 @@ False
 &,{'Chad L'},{'Mitch '},{'Bob We'},,,,&,2/1,&
 &,{'Chad L'},{'Mitch '},{'Brando'},{'Lisa F'},{'Tony M'},{'Sarah '},&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Brando'},{'Sarah '},,,&,2/1,&
-&,{'Chad L'},{'Mitch '},{'Chad L'},{'Bob We'},{'Tony M'},{'Moses '},&,1/1,&
+&,{'Chad L'},{'Mitch '},{'Bob We'},{'Tony M'},{'Moses '},,&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Chloe '},{'Andra '},{'Sarah '},{'Bob Ca'},&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Chloe '},{'Chris '},{'Ciatta'},{'Sarah '},&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Chloe '},{'Eli Ar'},{'Sarah '},{'Eric Z'},&,1/1,&
@@ -6628,7 +6628,7 @@ False
 &,{'Chad L'},{'Mitch '},{'Lisa F'},{'John T'},{'Andra '},{'Mike D'},&,2/1,&
 &,{'Chad L'},{'Mitch '},{'Lisa F'},{'John T'},{'Bob We'},{'Chloe '},&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Lisa F'},{'John T'},{'Sarah '},{'Moses '},&,1/1,&
-&,{'Chad L'},{'Mitch '},{'Lisa F'},{'Lisa F'},,,&,1/1,&
+&,{'Chad L'},{'Mitch '},{'Lisa F'},,,,&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Lisa F'},{'Michae'},,,&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Lisa F'},{'Mike D'},{'Sarah '},,&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Lisa F'},{'Moses '},{'Bob We'},,&,1/1,&
@@ -7147,7 +7147,7 @@ False
 &,{'Chad L'},{'Olivia'},{'Eric Z'},{'Tony M'},,,&,4/1,&
 &,{'Chad L'},{'Olivia'},{'Eric Z'},,,,&,16/1,&
 &,{'Chad L'},{'Olivia'},{'John J'},{'Andra '},{'Moses '},{'Sarah '},&,1/1,&
-&,{'Chad L'},{'Olivia'},{'John T'},{'Ben Hu'},{'Ben Hu'},,&,1/1,&
+&,{'Chad L'},{'Olivia'},{'John T'},{'Ben Hu'},,,&,1/1,&
 &,{'Chad L'},{'Olivia'},{'John T'},{'Chloe '},{'Mitch '},{'Ben Hu'},&,1/1,&
 &,{'Chad L'},{'Olivia'},{'John T'},{'Lisa F'},{'Eric Z'},{'Mitch '},&,1/1,&
 &,{'Chad L'},{'Olivia'},{'John T'},{'Moses '},{'Tony M'},{'Eric Z'},&,1/1,&
@@ -7417,7 +7417,7 @@ False
 &,{'Chad L'},{'Sarah '},{'Bob We'},{'Lisa F'},{'Mitch '},{'Bob Ca'},&,1/1,&
 &,{'Chad L'},{'Sarah '},{'Bob We'},{'Mitch '},{'Eli Ar'},{'Lisa F'},&,1/1,&
 &,{'Chad L'},{'Sarah '},{'Bob We'},{'Mitch '},{'Lisa F'},{'Ciatta'},&,3/1,&
-&,{'Chad L'},{'Sarah '},{'Bob We'},{'Mitch '},{'Sarah '},{'Ciatta'},&,1/1,&
+&,{'Chad L'},{'Sarah '},{'Bob We'},{'Mitch '},{'Ciatta'},,&,1/1,&
 &,{'Chad L'},{'Sarah '},{'Bob We'},{'Moses '},{'Olivia'},{'Lisa F'},&,1/1,&
 &,{'Chad L'},{'Sarah '},{'Bob We'},{'Olivia'},{'Eric Z'},{'Eli Ar'},&,2/1,&
 &,{'Chad L'},{'Sarah '},{'Bob We'},{'Olivia'},{'Eric Z'},{'Michae'},&,1/1,&
@@ -7784,7 +7784,7 @@ False
 &,{'Chad L'},{'Stanle'},{'Lisa F'},{'Olivia'},{'Chris '},,&,1/1,&
 &,{'Chad L'},{'Stanle'},{'Lisa F'},{'Olivia'},{'Tony M'},{'Mitch '},&,1/1,&
 &,{'Chad L'},{'Stanle'},{'Lisa F'},,,,&,1/1,&
-&,{'Chad L'},{'Stanle'},{'Michae'},{'Bob We'},{'Stanle'},{'Lisa F'},&,1/1,&
+&,{'Chad L'},{'Stanle'},{'Michae'},{'Bob We'},{'Lisa F'},,&,1/1,&
 &,{'Chad L'},{'Stanle'},{'Mitch '},{'Bob We'},{'Olivia'},{'Sarah '},&,1/1,&
 &,{'Chad L'},{'Stanle'},{'Mitch '},{'Eric Z'},{'Sarah '},{'Bob We'},&,1/1,&
 &,{'Chad L'},{'Stanle'},{'Mitch '},{'Lisa F'},{'Eric Z'},{'Mike D'},&,1/1,&
@@ -7849,7 +7849,7 @@ False
 &,{'Chad L'},{'Tony M'},{'Lisa F'},{'Sarah '},{'Mitch '},{'John T'},&,1/1,&
 &,{'Chad L'},{'Tony M'},{'Lisa F'},{'Stanle'},{'Eli Ar'},{'Joseph'},&,1/1,&
 &,{'Chad L'},{'Tony M'},{'Lisa F'},,,,&,2/1,&
-&,{'Chad L'},{'Tony M'},{'Michae'},{'Olivia'},{'Eric Z'},{'Tony M'},&,1/1,&
+&,{'Chad L'},{'Tony M'},{'Michae'},{'Olivia'},{'Eric Z'},,&,1/1,&
 &,{'Chad L'},{'Tony M'},{'Mike D'},,,,&,1/1,&
 &,{'Chad L'},{'Tony M'},{'Mitch '},{'Bob We'},{'Kevin '},,&,1/1,&
 &,{'Chad L'},{'Tony M'},{'Mitch '},{'Eli Ar'},{'Sarah '},{'Eric Z'},&,1/1,&
@@ -7991,7 +7991,7 @@ False
 &,{'Chloe '},{'Bob Ca'},{'Olivia'},{'Mike D'},,,&,1/1,&
 &,{'Chloe '},{'Bob Ca'},,,,,&,2/1,&
 &,{'Chloe '},{'Bob We'},{'Andra '},{'Tony M'},{'John J'},{'Lee Od'},&,1/1,&
-&,{'Chloe '},{'Bob We'},{'Andra '},{'Tony M'},{'Olivia'},{'Olivia'},&,1/1,&
+&,{'Chloe '},{'Bob We'},{'Andra '},{'Tony M'},{'Olivia'},,&,1/1,&
 &,{'Chloe '},{'Bob We'},{'Andra '},{'Tony M'},{'Olivia'},{'Sarah '},&,1/1,&
 &,{'Chloe '},{'Bob We'},{'Ben Hu'},{'Eli Ar'},{'Mike D'},{'Lisa F'},&,1/1,&
 &,{'Chloe '},{'Bob We'},{'Ciatta'},{'Eric Z'},{'Olivia'},{'Sarah '},&,1/1,&
@@ -8086,7 +8086,7 @@ False
 &,{'Chloe '},{'Ciatta'},{'Eli Ar'},{'Raquel'},,,&,1/1,&
 &,{'Chloe '},{'Ciatta'},{'Eli Ar'},{'Tony M'},{'Kevin '},{'John T'},&,1/1,&
 &,{'Chloe '},{'Ciatta'},{'Eric Z'},{'Kevin '},{'Eli Ar'},{'Chad L'},&,1/1,&
-&,{'Chloe '},{'Ciatta'},{'John T'},{'Andra '},{'Chloe '},{'Chloe '},&,1/1,&
+&,{'Chloe '},{'Ciatta'},{'John T'},{'Andra '},,,&,1/1,&
 &,{'Chloe '},{'Ciatta'},{'John T'},{'Andra '},{'Sarah '},{'Tony M'},&,1/1,&
 &,{'Chloe '},{'Ciatta'},{'John T'},{'Andra '},{'Tony M'},{'Olivia'},&,1/1,&
 &,{'Chloe '},{'Ciatta'},{'John T'},{'Andra '},,,&,2/1,&
@@ -8246,7 +8246,7 @@ False
 &,{'Chloe '},{'John T'},{'Eli Ar'},{'Eric Z'},{'Ciatta'},{'Olivia'},&,1/1,&
 &,{'Chloe '},{'John T'},{'Eli Ar'},,,,&,1/1,&
 &,{'Chloe '},{'John T'},{'Eric Z'},{'Bob We'},{'Ciatta'},{'Chad L'},&,1/1,&
-&,{'Chloe '},{'John T'},{'Eric Z'},{'John T'},{'Ciatta'},{'Andra '},&,1/1,&
+&,{'Chloe '},{'John T'},{'Eric Z'},{'Ciatta'},{'Andra '},,&,1/1,&
 &,{'Chloe '},{'John T'},{'Eric Z'},,,,&,2/1,&
 &,{'Chloe '},{'John T'},{'Lisa F'},{'Andra '},{'Kelly '},{'Mike D'},&,1/1,&
 &,{'Chloe '},{'John T'},{'Lisa F'},{'Ciatta'},{'Andra '},{'Michae'},&,1/1,&
@@ -8486,7 +8486,7 @@ False
 &,{'Chloe '},{'Olivia'},{'Lisa F'},{'Mitch '},{'Moses '},{'Sarah '},&,1/1,&
 &,{'Chloe '},{'Olivia'},{'Lisa F'},{'Moses '},{'Andra '},,&,1/1,&
 &,{'Chloe '},{'Olivia'},{'Lisa F'},{'Moses '},{'Kelly '},{'Ciatta'},&,1/1,&
-&,{'Chloe '},{'Olivia'},{'Lisa F'},{'Olivia'},{'Sarah '},{'Kelly '},&,1/1,&
+&,{'Chloe '},{'Olivia'},{'Lisa F'},{'Sarah '},{'Kelly '},,&,1/1,&
 &,{'Chloe '},{'Olivia'},{'Lisa F'},{'Sarah '},{'Andra '},{'Kevin '},&,1/1,&
 &,{'Chloe '},{'Olivia'},{'Lisa F'},{'Sarah '},{'Andra '},{'Raquel'},&,1/1,&
 &,{'Chloe '},{'Olivia'},{'Lisa F'},{'Sarah '},{'Ciatta'},,&,1/1,&
@@ -8569,7 +8569,7 @@ False
 &,{'Chloe '},{'Sarah '},{'Ciatta'},{'Andra '},,,&,1/1,&
 &,{'Chloe '},{'Sarah '},{'Ciatta'},{'John T'},{'Andra '},{'Lee Od'},&,1/1,&
 &,{'Chloe '},{'Sarah '},{'Ciatta'},{'John T'},{'Andra '},{'Raquel'},&,1/1,&
-&,{'Chloe '},{'Sarah '},{'Ciatta'},{'John T'},{'Chloe '},{'Chloe '},&,1/1,&
+&,{'Chloe '},{'Sarah '},{'Ciatta'},{'John T'},,,&,1/1,&
 &,{'Chloe '},{'Sarah '},{'Ciatta'},{'Mike D'},{'Moses '},,&,2/1,&
 &,{'Chloe '},{'Sarah '},{'Ciatta'},,,,&,1/1,&
 &,{'Chloe '},{'Sarah '},{'Eli Ar'},{'Eric Z'},{'Lisa F'},{'John T'},&,1/1,&
@@ -8702,7 +8702,7 @@ False
 &,{'Chris '},{'Chloe '},{'Stanle'},{'Joseph'},{'Michae'},,&,1/1,&
 &,{'Chris '},{'Chloe '},{'Tony M'},{'Eric Z'},{'Raquel'},{'Bob Ca'},&,1/1,&
 &,{'Chris '},{'Chloe '},{'Tony M'},{'Michae'},{'Moses '},{'Ben Hu'},&,1/1,&
-&,{'Chris '},{'Chris '},{'Chris '},{'Chris '},{'Chris '},{'Chris '},&,1/1,&
+&,{'Chris '},,,,,,&,1/1,&
 &,{'Chris '},{'Ciatta'},{'Andra '},{'Mitch '},{'Tony M'},{'Joseph'},&,1/1,&
 &,{'Chris '},{'Ciatta'},{'Andra '},{'Olivia'},{'Mitch '},{'Sarah '},&,1/1,&
 &,{'Chris '},{'Ciatta'},{'Chad L'},{'Patric'},{'Mitch '},{'Lisa F'},&,1/1,&
@@ -8720,7 +8720,7 @@ False
 &,{'Chris '},{'John J'},{'Ciatta'},{'L Chri'},{'Brando'},{'Eli Ar'},&,1/1,&
 &,{'Chris '},{'John J'},{'Lisa F'},{'Chloe '},,,&,1/1,&
 &,{'Chris '},{'John J'},{'Lisa F'},{'L Chri'},{'Patric'},{'Olivia'},&,1/1,&
-&,{'Chris '},{'John J'},{'Tony S'},{'Tony S'},,,&,1/1,&
+&,{'Chris '},{'John J'},{'Tony S'},,,,&,1/1,&
 &,{'Chris '},{'John T'},{'Bob We'},{'Eli Ar'},{'Bob Ca'},,&,1/1,&
 &,{'Chris '},{'John T'},{'Eric Z'},,,,&,1/1,&
 &,{'Chris '},{'John T'},{'Lee Od'},{'Mike D'},{'Olivia'},{'Eli Ar'},&,1/1,&
@@ -8904,7 +8904,7 @@ False
 &,{'Ciatta'},{'Andra '},{'John T'},{'Sarah '},{'Stanle'},{'Tony M'},&,1/1,&
 &,{'Ciatta'},{'Andra '},{'John T'},,,,&,1/1,&
 &,{'Ciatta'},{'Andra '},{'Kevin '},{'Tony M'},{'Chad L'},{'Raquel'},&,1/1,&
-&,{'Ciatta'},{'Andra '},{'Lisa F'},{'Lisa F'},{'Mitch '},{'John T'},&,1/1,&
+&,{'Ciatta'},{'Andra '},{'Lisa F'},{'Mitch '},{'John T'},,&,1/1,&
 &,{'Ciatta'},{'Andra '},{'Lisa F'},{'Olivia'},{'Chloe '},{'Stanle'},&,1/1,&
 &,{'Ciatta'},{'Andra '},{'Lisa F'},{'Olivia'},{'Eric Z'},{'Sarah '},&,1/1,&
 &,{'Ciatta'},{'Andra '},{'Lisa F'},{'Olivia'},{'Sarah '},{'Chloe '},&,1/1,&
@@ -8936,7 +8936,7 @@ False
 &,{'Ciatta'},{'Bob Ca'},{'John J'},{'Sarah '},{'Andra '},{'Mitch '},&,1/1,&
 &,{'Ciatta'},{'Bob Ca'},{'John T'},{'Chloe '},{'Andra '},{'Kevin '},&,1/1,&
 &,{'Ciatta'},{'Bob Ca'},{'Mitch '},{'Chris '},{'Kelly '},{'Tony M'},&,1/1,&
-&,{'Ciatta'},{'Bob Ca'},{'Patric'},{'Lisa F'},{'Olivia'},{'Patric'},&,1/1,&
+&,{'Ciatta'},{'Bob Ca'},{'Patric'},{'Lisa F'},{'Olivia'},,&,1/1,&
 &,{'Ciatta'},{'Bob Ca'},{'Tony M'},{'Kevin '},{'Mitch '},{'Chad L'},&,1/1,&
 &,{'Ciatta'},{'Bob We'},{'Chloe '},{'John T'},{'Chad L'},{'Stanle'},&,1/1,&
 &,{'Ciatta'},{'Bob We'},{'Chloe '},{'Kevin '},{'Stanle'},{'Olivia'},&,1/1,&
@@ -9060,7 +9060,7 @@ False
 &,{'Ciatta'},{'Eric Z'},{'Mitch '},{'Sarah '},{'John T'},{'Eli Ar'},&,1/1,&
 &,{'Ciatta'},{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},{'Sarah '},&,1/1,&
 &,{'Ciatta'},{'Eric Z'},{'Olivia'},{'Mitch '},{'Sarah '},{'Chad L'},&,1/1,&
-&,{'Ciatta'},{'Eric Z'},{'Sarah '},{'Eric Z'},{'Mike D'},{'Lisa F'},&,1/1,&
+&,{'Ciatta'},{'Eric Z'},{'Sarah '},{'Mike D'},{'Lisa F'},,&,1/1,&
 &,{'Ciatta'},{'Eric Z'},,,,,&,1/1,&
 &,{'Ciatta'},{'John J'},{'Stanle'},{'Olivia'},{'Ben Hu'},{'Michae'},&,1/1,&
 &,{'Ciatta'},{'John T'},{'Andra '},{'Chloe '},{'Olivia'},{'Lisa F'},&,2/1,&
@@ -9194,7 +9194,7 @@ False
 &,{'Ciatta'},{'Mitch '},{'Sarah '},{'Lisa F'},{'John T'},{'Moses '},&,1/1,&
 &,{'Ciatta'},{'Mitch '},{'Sarah '},{'Lisa F'},{'Olivia'},{'Chad L'},&,1/1,&
 &,{'Ciatta'},{'Mitch '},{'Sarah '},,,,&,1/1,&
-&,{'Ciatta'},{'Mitch '},{'Stanle'},{'Lisa F'},{'Chris '},{'Chris '},&,1/1,&
+&,{'Ciatta'},{'Mitch '},{'Stanle'},{'Lisa F'},{'Chris '},,&,1/1,&
 &,{'Ciatta'},{'Moses '},{'Chloe '},{'Lisa F'},,,&,1/1,&
 &,{'Ciatta'},{'Moses '},{'Chloe '},,,,&,1/1,&
 &,{'Ciatta'},{'Moses '},{'Chris '},{'Eric Z'},{'Olivia'},{'Mitch '},&,1/1,&
@@ -9223,7 +9223,7 @@ False
 &,{'Ciatta'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Eric Z'},{'Stanle'},{'Chad L'},{'Joseph'},&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Eric Z'},,,,&,2/1,&
-&,{'Ciatta'},{'Olivia'},{'John T'},{'John T'},{'Sarah '},{'Chloe '},&,1/1,&
+&,{'Ciatta'},{'Olivia'},{'John T'},{'Sarah '},{'Chloe '},,&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Andra '},,,&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Ben Hu'},{'Eric Z'},{'Eli Ar'},&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Ben Hu'},,,&,1/1,&
@@ -9236,7 +9236,7 @@ False
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Sarah '},{'Michae'},{'Moses '},&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Sarah '},{'Mike D'},{'Bob We'},&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Sarah '},{'Mike D'},{'Raquel'},&,1/1,&
-&,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Sarah '},{'Olivia'},{'Lisa F'},&,1/1,&
+&,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Sarah '},,,&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Sarah '},,,&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},{'Stanle'},{'Andra '},{'Mitch '},&,1/1,&
 &,{'Ciatta'},{'Olivia'},{'Lisa F'},,,,&,2/1,&
@@ -9257,8 +9257,8 @@ False
 &,{'Ciatta'},{'Olivia'},,,,,&,4/1,&
 &,{'Ciatta'},{'Patric'},{'Moses '},{'Olivia'},{'Tony S'},{'Mike D'},&,1/1,&
 &,{'Ciatta'},{'Raquel'},{'Andra '},{'Eli Ar'},{'Chloe '},{'Brando'},&,1/1,&
-&,{'Ciatta'},{'Raquel'},{'Andra '},{'Olivia'},{'Ciatta'},{'Sarah '},&,1/1,&
-&,{'Ciatta'},{'Raquel'},{'Andra '},{'Olivia'},{'Sarah '},{'Ciatta'},&,1/1,&
+&,{'Ciatta'},{'Raquel'},{'Andra '},{'Olivia'},{'Sarah '},,&,1/1,&
+&,{'Ciatta'},{'Raquel'},{'Andra '},{'Olivia'},{'Sarah '},,&,1/1,&
 &,{'Ciatta'},{'Raquel'},{'Andra '},{'Olivia'},{'Sarah '},{'Kelly '},&,1/1,&
 &,{'Ciatta'},{'Raquel'},{'Andra '},,,,&,1/1,&
 &,{'Ciatta'},{'Raquel'},{'Bob Ca'},{'Patric'},{'Lisa F'},{'John T'},&,1/1,&
@@ -9376,7 +9376,7 @@ False
 &,{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'Eric Z'},{'Tony M'},{'Stanle'},&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'Eric Z'},,,&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'John T'},{'Bob Ca'},{'Eric Z'},&,2/1,&
-&,{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'John T'},{'Bob We'},,&,1/1,&
+&,{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'John T'},,,&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'John T'},{'Eric Z'},{'Olivia'},&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'John T'},,,&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'L Chri'},{'Olivia'},{'Tony M'},&,1/1,&
@@ -9409,7 +9409,7 @@ False
 &,{'Eli Ar'},{'Ben Hu'},{'Chad L'},,,,&,3/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Chloe '},{'Sarah '},{'Ciatta'},{'Bob We'},&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Ciatta'},{'Bob We'},{'Chad L'},{'Kevin '},&,1/1,&
-&,{'Eli Ar'},{'Ben Hu'},{'Ciatta'},{'Ciatta'},,,&,1/1,&
+&,{'Eli Ar'},{'Ben Hu'},{'Ciatta'},,,,&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Ciatta'},{'John T'},{'Eric Z'},{'Sarah '},&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Ciatta'},{'John T'},{'Sarah '},{'Eric Z'},&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Ciatta'},,,,&,3/1,&
@@ -9435,7 +9435,7 @@ False
 &,{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'Ciatta'},{'Bob Ca'},,&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'Ciatta'},{'Olivia'},{'Sarah '},&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'Ciatta'},,,&,3/1,&
-&,{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'Eli Ar'},{'Eli Ar'},{'Eli Ar'},&,1/1,&
+&,{'Eli Ar'},{'Ben Hu'},{'Eric Z'},,,,&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'John J'},{'John T'},{'Bob We'},&,3/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'John T'},{'Bob We'},{'Chloe '},&,1/1,&
 &,{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'John T'},{'Bob We'},{'Stanle'},&,1/1,&
@@ -9727,7 +9727,7 @@ False
 &,{'Eli Ar'},{'Bob Ca'},{'Mike D'},,,,&,1/1,&
 &,{'Eli Ar'},{'Bob Ca'},{'Mitch '},{'Bob We'},{'Kevin '},,&,1/1,&
 &,{'Eli Ar'},{'Bob Ca'},{'Mitch '},{'Eric Z'},{'Bob We'},{'Ciatta'},&,1/1,&
-&,{'Eli Ar'},{'Bob Ca'},{'Mitch '},{'Olivia'},{'Bob Ca'},,&,1/1,&
+&,{'Eli Ar'},{'Bob Ca'},{'Mitch '},{'Olivia'},,,&,1/1,&
 &,{'Eli Ar'},{'Bob Ca'},{'Mitch '},{'Sarah '},,,&,1/1,&
 &,{'Eli Ar'},{'Bob Ca'},{'Mitch '},{'Tony M'},{'Bob We'},,&,2/1,&
 &,{'Eli Ar'},{'Bob Ca'},{'Mitch '},,,,&,3/1,&
@@ -9844,7 +9844,7 @@ False
 &,{'Eli Ar'},{'Bob We'},{'Ben Hu'},{'Tony M'},,,&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Ben Hu'},,,,&,18/1,&
 &,{'Eli Ar'},{'Bob We'},{'Bob Ca'},{'Ben Hu'},{'John J'},{'Lee Od'},&,1/1,&
-&,{'Eli Ar'},{'Bob We'},{'Bob Ca'},{'Bob Ca'},{'Ben Hu'},{'Chad L'},&,1/1,&
+&,{'Eli Ar'},{'Bob We'},{'Bob Ca'},{'Ben Hu'},{'Chad L'},,&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Bob Ca'},{'Chad L'},{'Ben Hu'},{'John T'},&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Bob Ca'},{'Chad L'},{'Mitch '},{'Mike D'},&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Bob Ca'},{'Eric Z'},{'Ben Hu'},{'Chris '},&,1/1,&
@@ -10001,7 +10001,7 @@ False
 &,{'Eli Ar'},{'Bob We'},{'Mike D'},{'Brando'},,,&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Mitch '},{'Chad L'},{'Mike D'},{'Michae'},&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Mitch '},{'Chad L'},{'Olivia'},{'Eric Z'},&,1/1,&
-&,{'Eli Ar'},{'Bob We'},{'Mitch '},{'Eli Ar'},{'Tony M'},{'Chad L'},&,1/1,&
+&,{'Eli Ar'},{'Bob We'},{'Mitch '},{'Tony M'},{'Chad L'},,&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Mitch '},{'John T'},{'Ben Hu'},{'Chad L'},&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Mitch '},{'John T'},{'Olivia'},{'Eric Z'},&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Mitch '},{'Kevin '},{'Chloe '},{'Michae'},&,1/1,&
@@ -10109,7 +10109,7 @@ False
 &,{'Eli Ar'},{'Bob We'},{'Tony M'},{'Eric Z'},{'Ben Hu'},{'Olivia'},&,2/1,&
 &,{'Eli Ar'},{'Bob We'},{'Tony M'},{'Eric Z'},{'Ben Hu'},,&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Tony M'},{'Eric Z'},{'Mike D'},{'Joseph'},&,1/1,&
-&,{'Eli Ar'},{'Bob We'},{'Tony M'},{'Eric Z'},{'Tony M'},{'Olivia'},&,1/1,&
+&,{'Eli Ar'},{'Bob We'},{'Tony M'},{'Eric Z'},{'Olivia'},,&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Tony M'},{'John T'},{'Ciatta'},{'Bob Ca'},&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Tony M'},{'John T'},{'Eric Z'},,&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'Tony M'},{'John T'},{'Olivia'},,&,1/1,&
@@ -10397,15 +10397,15 @@ False
 &,{'Eli Ar'},{'Ciatta'},{'Tony M'},{'Bob We'},{'Eric Z'},{'Bob Ca'},&,1/1,&
 &,{'Eli Ar'},{'Ciatta'},{'Tony M'},{'John T'},{'Ben Hu'},{'Eric Z'},&,1/1,&
 &,{'Eli Ar'},{'Ciatta'},,,,,&,2/1,&
-&,{'Eli Ar'},{'Eli Ar'},{'Eli Ar'},{'Eli Ar'},{'Eli Ar'},{'Eli Ar'},&,9/1,&
-&,{'Eli Ar'},{'Eli Ar'},{'L Chri'},{'L Chri'},{'Eli Ar'},{'L Chri'},&,1/1,&
-&,{'Eli Ar'},{'Eli Ar'},,,,,&,1/1,&
+&,{'Eli Ar'},,,,,,&,9/1,&
+&,{'Eli Ar'},{'L Chri'},,,,,&,1/1,&
+&,{'Eli Ar'},,,,,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob Ca'},{'Bob We'},{'Olivia'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob Ca'},{'Brando'},,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob Ca'},{'Kevin '},,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Bob Ca'},{'Olivia'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Chad L'},{'Olivia'},&,2/1,&
-&,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Eli Ar'},{'Eli Ar'},&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob We'},,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Kevin '},,&,2/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Mitch '},{'John T'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Moses '},{'Patric'},&,1/1,&
@@ -10522,7 +10522,7 @@ False
 &,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'Bob Ca'},{'John T'},{'Ben Hu'},&,2/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'Bob Ca'},{'Stanle'},{'Ben Hu'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'Bob Ca'},{'Stanle'},{'Olivia'},&,1/1,&
-&,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'Bob We'},{'Stanle'},{'Ciatta'},&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'Stanle'},{'Ciatta'},,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'Brando'},{'Ben Hu'},{'Stanle'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'Brando'},,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'Chad L'},{'Lisa F'},{'Sarah '},&,2/1,&
@@ -10625,7 +10625,7 @@ False
 &,{'Eli Ar'},{'Eric Z'},{'Chad L'},{'Bob We'},{'Tony M'},{'Sarah '},&,2/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Chad L'},{'Chloe '},{'Bob We'},{'Olivia'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Chad L'},{'John T'},{'Bob We'},,&,1/1,&
-&,{'Eli Ar'},{'Eric Z'},{'Chad L'},{'John T'},{'Tony M'},{'Eric Z'},&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'Chad L'},{'John T'},{'Tony M'},,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Chad L'},{'John T'},{'Tony M'},,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Chad L'},{'Joseph'},{'Olivia'},{'Lisa F'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Chad L'},{'Mitch '},,,&,2/1,&
@@ -10656,8 +10656,8 @@ False
 &,{'Eli Ar'},{'Eric Z'},{'Ciatta'},{'Olivia'},,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ciatta'},{'Sarah '},,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ciatta'},,,,&,1/1,&
-&,{'Eli Ar'},{'Eric Z'},{'Eli Ar'},,,,&,1/1,&
-&,{'Eli Ar'},{'Eric Z'},{'Eric Z'},{'Eli Ar'},{'Olivia'},{'Olivia'},&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},,,,,&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'Olivia'},,,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'John J'},,,,&,2/1,&
 &,{'Eli Ar'},{'Eric Z'},{'John T'},{'Ben Hu'},{'Bob Ca'},{'Olivia'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'John T'},{'Ben Hu'},{'Bob Ca'},,&,1/1,&
@@ -10681,7 +10681,7 @@ False
 &,{'Eli Ar'},{'Eric Z'},{'John T'},{'Chloe '},{'Kevin '},,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'John T'},{'Chloe '},,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'John T'},{'Ciatta'},{'Tony M'},{'Olivia'},&,1/1,&
-&,{'Eli Ar'},{'Eric Z'},{'John T'},{'John T'},{'Olivia'},,&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'John T'},{'Olivia'},,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'John T'},{'Kevin '},{'Bob Ca'},{'Bob We'},&,2/1,&
 &,{'Eli Ar'},{'Eric Z'},{'John T'},{'Kevin '},{'Tony M'},{'Stanle'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'John T'},{'Kevin '},,,&,1/1,&
@@ -10777,8 +10777,8 @@ False
 &,{'Eli Ar'},{'Eric Z'},{'Moses '},{'Mike D'},{'Olivia'},{'Sarah '},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Moses '},,,,&,3/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Andra '},{'Bob We'},{'Lisa F'},&,1/1,&
-&,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Ben Hu'},{'Ben Hu'},{'John T'},&,1/1,&
-&,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Ben Hu'},{'Ben Hu'},{'Tony M'},&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Ben Hu'},{'John T'},,&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Ben Hu'},{'Tony M'},,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Ben Hu'},{'Bob We'},{'John T'},&,2/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Ben Hu'},{'Bob We'},{'Mitch '},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Ben Hu'},{'Bob We'},{'Stanle'},&,6/1,&
@@ -10882,7 +10882,7 @@ False
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Ciatta'},{'Tony M'},{'Stanle'},&,2/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'John T'},{'Ben Hu'},{'Bob Ca'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'John T'},{'Ben Hu'},{'Chad L'},&,1/1,&
-&,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'John T'},{'Ben Hu'},{'Eli Ar'},&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'John T'},{'Ben Hu'},,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'John T'},{'Ben Hu'},{'Mitch '},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'John T'},{'Ben Hu'},{'Stanle'},&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Olivia'},{'John T'},{'Ben Hu'},{'Tony M'},&,7/1,&
@@ -11374,7 +11374,7 @@ False
 &,{'Eli Ar'},{'Kevin '},{'Ben Hu'},{'Chad L'},{'Bob We'},{'Stanle'},&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Ben Hu'},{'Eric Z'},{'Chad L'},{'Brando'},&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Ben Hu'},{'Eric Z'},,,&,3/1,&
-&,{'Eli Ar'},{'Kevin '},{'Ben Hu'},{'Kevin '},,,&,1/1,&
+&,{'Eli Ar'},{'Kevin '},{'Ben Hu'},,,,&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Ben Hu'},{'Olivia'},,,&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Ben Hu'},{'Sarah '},,,&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Ben Hu'},,,,&,3/1,&
@@ -11384,7 +11384,7 @@ False
 &,{'Eli Ar'},{'Kevin '},{'Bob Ca'},{'Ben Hu'},{'Eric Z'},,&,4/1,&
 &,{'Eli Ar'},{'Kevin '},{'Bob Ca'},{'Ben Hu'},{'Olivia'},{'Eric Z'},&,3/1,&
 &,{'Eli Ar'},{'Kevin '},{'Bob Ca'},{'Ben Hu'},,,&,4/1,&
-&,{'Eli Ar'},{'Kevin '},{'Bob Ca'},{'Bob Ca'},{'Bob Ca'},{'Bob Ca'},&,1/1,&
+&,{'Eli Ar'},{'Kevin '},{'Bob Ca'},,,,&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Bob Ca'},{'Bob We'},{'Eric Z'},{'Olivia'},&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Bob Ca'},{'Chloe '},{'Olivia'},{'Ben Hu'},&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Bob Ca'},{'Eric Z'},{'Stanle'},{'Ben Hu'},&,1/1,&
@@ -11493,7 +11493,7 @@ False
 &,{'Eli Ar'},{'Kevin '},{'Stanle'},{'Chris '},,,&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Stanle'},{'John T'},{'Bob We'},{'Eric Z'},&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Stanle'},{'Joseph'},{'Mitch '},,&,1/1,&
-&,{'Eli Ar'},{'Kevin '},{'Stanle'},{'Olivia'},{'Eric Z'},{'Stanle'},&,1/1,&
+&,{'Eli Ar'},{'Kevin '},{'Stanle'},{'Olivia'},{'Eric Z'},,&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Stanle'},{'Tony M'},{'Chad L'},{'Eric Z'},&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Stanle'},{'Tony M'},,,&,1/1,&
 &,{'Eli Ar'},{'Kevin '},{'Stanle'},,,,&,4/1,&
@@ -12091,7 +12091,7 @@ False
 &,{'Eli Ar'},{'Olivia'},{'Ciatta'},{'Mitch '},{'Sarah '},{'Chad L'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Ciatta'},{'Stanle'},{'Bob Ca'},{'Tony M'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Ciatta'},,,,&,3/1,&
-&,{'Eli Ar'},{'Olivia'},{'Eli Ar'},{'John T'},{'Bob We'},{'Eric Z'},&,1/1,&
+&,{'Eli Ar'},{'Olivia'},{'John T'},{'Bob We'},{'Eric Z'},,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Andra '},{'Bob We'},{'Stanle'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Andra '},{'Chloe '},{'Ciatta'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Andra '},{'Chloe '},{'Moses '},&,1/1,&
@@ -12212,8 +12212,8 @@ False
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Ciatta'},{'Mitch '},{'Lisa F'},&,2/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Ciatta'},{'Mitch '},{'Sarah '},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Ciatta'},,,&,2/1,&
-&,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Eric Z'},{'Ben Hu'},,&,1/1,&
-&,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Eric Z'},{'Olivia'},{'Eli Ar'},&,1/1,&
+&,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Ben Hu'},,,&,1/1,&
+&,{'Eli Ar'},{'Olivia'},{'Eric Z'},,,,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'John T'},{'Ben Hu'},{'Stanle'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'John T'},{'Ben Hu'},{'Tony M'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'John T'},{'Ben Hu'},,&,1/1,&
@@ -12239,7 +12239,7 @@ False
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Lisa F'},{'Bob We'},{'Chad L'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Lisa F'},{'Bob We'},,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Lisa F'},{'Chad L'},,&,1/1,&
-&,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Lisa F'},{'Eric Z'},{'Mike D'},&,1/1,&
+&,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Lisa F'},{'Mike D'},,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Lisa F'},{'John J'},{'Mitch '},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Lisa F'},{'Joseph'},{'Mitch '},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Lisa F'},{'Mitch '},{'Stanle'},&,1/1,&
@@ -12343,7 +12343,7 @@ False
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Tony M'},{'Mitch '},,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Tony M'},{'Sarah '},{'Ben Hu'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Tony M'},{'Stanle'},{'Ben Hu'},&,1/1,&
-&,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Tony M'},{'Tony M'},{'Ben Hu'},&,1/1,&
+&,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Tony M'},{'Ben Hu'},,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Tony M'},,,&,19/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Tony S'},{'Bob We'},{'Chad L'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Tony S'},,,&,1/1,&
@@ -12369,7 +12369,7 @@ False
 &,{'Eli Ar'},{'Olivia'},{'John T'},{'Eric Z'},{'Bob We'},{'Mitch '},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'John T'},{'Eric Z'},{'Bob We'},{'Stanle'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'John T'},{'Eric Z'},{'Bob We'},,&,1/1,&
-&,{'Eli Ar'},{'Olivia'},{'John T'},{'Eric Z'},{'John T'},{'Stanle'},&,1/1,&
+&,{'Eli Ar'},{'Olivia'},{'John T'},{'Eric Z'},{'Stanle'},,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'John T'},{'Eric Z'},{'Sarah '},{'Bob Ca'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'John T'},{'Eric Z'},{'Tony M'},{'Bob We'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'John T'},{'Eric Z'},,,&,2/1,&
@@ -12477,7 +12477,7 @@ False
 &,{'Eli Ar'},{'Olivia'},{'Moses '},{'Lisa F'},{'Eric Z'},{'John J'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Moses '},{'Sarah '},{'Chad L'},{'Ben Hu'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Moses '},,,,&,3/1,&
-&,{'Eli Ar'},{'Olivia'},{'Olivia'},{'Bob Ca'},,,&,1/1,&
+&,{'Eli Ar'},{'Olivia'},{'Bob Ca'},,,,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Patric'},{'Ben Hu'},{'Eric Z'},{'Brando'},&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Patric'},{'Chris '},{'Chad L'},{'Raquel'},&,2/1,&
 &,{'Eli Ar'},{'Olivia'},{'Patric'},{'Mitch '},{'Kevin '},,&,1/1,&
@@ -12806,7 +12806,7 @@ False
 &,{'Eli Ar'},{'Stanle'},{'Chloe '},{'Olivia'},{'Lisa F'},{'Eric Z'},&,1/1,&
 &,{'Eli Ar'},{'Stanle'},{'Chris '},{'Eric Z'},,,&,1/1,&
 &,{'Eli Ar'},{'Stanle'},{'Ciatta'},{'Olivia'},{'Sarah '},{'Moses '},&,1/1,&
-&,{'Eli Ar'},{'Stanle'},{'Eli Ar'},{'Olivia'},{'Ben Hu'},{'Eric Z'},&,1/1,&
+&,{'Eli Ar'},{'Stanle'},{'Olivia'},{'Ben Hu'},{'Eric Z'},,&,1/1,&
 &,{'Eli Ar'},{'Stanle'},{'Eric Z'},{'Ben Hu'},{'Bob We'},,&,5/1,&
 &,{'Eli Ar'},{'Stanle'},{'Eric Z'},{'Ben Hu'},{'Brando'},{'Olivia'},&,1/1,&
 &,{'Eli Ar'},{'Stanle'},{'Eric Z'},{'Ben Hu'},{'John T'},{'Olivia'},&,1/1,&
@@ -13165,7 +13165,7 @@ False
 &,{'Eli Ar'},,,,,,&,1/1,&
 &,{'Eli Ar'},,,,,,&,1/1,&
 &,{'Eli Ar'},{'Bob We'},{'John T'},{'Stanle'},,,&,1/1,&
-&,{'Eli Ar'},{'Eli Ar'},{'Eric Z'},{'Bob We'},{'John T'},,&,1/1,&
+&,{'Eli Ar'},{'Eric Z'},{'Bob We'},{'John T'},,,&,1/1,&
 &,{'Eli Ar'},{'Eric Z'},{'Ciatta'},{'Joseph'},{'Bob We'},,&,1/1,&
 &,{'Eli Ar'},{'Olivia'},{'Ben Hu'},{'Bob We'},,,&,1/1,&
 &,{'Eli Ar'},{'Tony M'},{'Bob We'},,,,&,2/1,&
@@ -13217,7 +13217,7 @@ False
 &,{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Eli Ar'},{'Olivia'},,&,2/1,&
 &,{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Eli Ar'},{'Tony M'},{'John T'},&,1/1,&
 &,{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Eli Ar'},,,&,2/1,&
-&,{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Eric Z'},{'Eric Z'},{'Eric Z'},&,1/1,&
+&,{'Eric Z'},{'Ben Hu'},{'Bob We'},,,,&,1/1,&
 &,{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Lisa F'},{'Tony M'},{'Eli Ar'},&,1/1,&
 &,{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Lisa F'},,,&,2/1,&
 &,{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Mitch '},{'Tony M'},,&,1/1,&
@@ -13460,7 +13460,7 @@ False
 &,{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Mitch '},{'Kevin '},{'Chris '},&,1/1,&
 &,{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Mitch '},{'Lisa F'},,&,1/1,&
 &,{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Olivia'},{'Lisa F'},{'Chloe '},&,1/1,&
-&,{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Sarah '},{'Chad L'},{'Mitch '},&,1/1,&
+&,{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Sarah '},{'Mitch '},,&,1/1,&
 &,{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Tony M'},{'Ben Hu'},{'Lisa F'},&,1/1,&
 &,{'Eric Z'},{'Bob Ca'},{'Chad L'},,,,&,2/1,&
 &,{'Eric Z'},{'Bob Ca'},{'Chloe '},{'Chad L'},{'Tony M'},{'Eli Ar'},&,1/1,&
@@ -13568,7 +13568,7 @@ False
 &,{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Ben Hu'},{'Tony M'},{'Stanle'},&,1/1,&
 &,{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Ben Hu'},,,&,1/1,&
 &,{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Bob Ca'},{'Patric'},{'Olivia'},&,1/1,&
-&,{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Bob We'},,,&,1/1,&
+&,{'Eric Z'},{'Bob We'},{'Eli Ar'},,,,&,1/1,&
 &,{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Brando'},{'Ben Hu'},{'Ciatta'},&,1/1,&
 &,{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Chad L'},{'John T'},{'Olivia'},&,1/1,&
 &,{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Chad L'},{'Olivia'},{'Ciatta'},&,1/1,&
@@ -14109,7 +14109,7 @@ False
 &,{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Tony M'},{'Chad L'},{'John T'},&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Tony M'},{'Mitch '},{'John T'},&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Tony M'},{'Olivia'},{'Ben Hu'},&,1/1,&
-&,{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Tony M'},{'Olivia'},{'Tony M'},&,1/1,&
+&,{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Tony M'},{'Olivia'},,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Tony M'},{'Olivia'},,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Tony M'},,,&,2/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Bob We'},,,,&,1/1,&
@@ -14225,7 +14225,7 @@ False
 &,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Kevin '},{'Bob We'},,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Kevin '},{'Patric'},{'Bob Ca'},&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Tony M'},&,1/1,&
-&,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Mitch '},{'Eric Z'},{'Eli Ar'},&,1/1,&
+&,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Mitch '},,,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Moses '},{'Ben Hu'},{'Olivia'},&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Moses '},{'John T'},{'Bob Ca'},&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Olivia'},{'Bob We'},{'Chad L'},&,1/1,&
@@ -14620,15 +14620,15 @@ False
 &,{'Eric Z'},{'Eli Ar'},{'Tony M'},{'Stanle'},{'Chad L'},{'Bob We'},&,2/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Tony M'},{'Stanle'},{'Kevin '},{'Olivia'},&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Tony M'},{'Stanle'},,,&,1/1,&
-&,{'Eric Z'},{'Eli Ar'},{'Tony M'},{'Tony M'},{'Olivia'},{'Ben Hu'},&,1/1,&
+&,{'Eric Z'},{'Eli Ar'},{'Tony M'},{'Olivia'},{'Ben Hu'},,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Tony M'},,,,&,7/1,&
 &,{'Eric Z'},{'Eli Ar'},,,,,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Lisa F'},{'Mitch '},{'Ben Hu'},,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Olivia'},{'Bob We'},,,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Olivia'},,,,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},,,,,&,104/1,&
-&,{'Eric Z'},{'Eric Z'},{'Eric Z'},{'Eric Z'},{'Eric Z'},{'Eric Z'},&,1/1,&
-&,{'Eric Z'},{'Eric Z'},{'Eric Z'},,,,&,1/1,&
+&,{'Eric Z'},,,,,,&,1/1,&
+&,{'Eric Z'},,,,,,&,1/1,&
 &,{'Eric Z'},{'John J'},{'Bob Ca'},{'Sarah '},{'Tony S'},,&,1/1,&
 &,{'Eric Z'},{'John J'},{'Kevin '},{'Bob We'},{'Sarah '},{'Lisa F'},&,1/1,&
 &,{'Eric Z'},{'John J'},{'Kevin '},,,,&,1/1,&
@@ -14671,7 +14671,7 @@ False
 &,{'Eric Z'},{'John T'},{'Eli Ar'},{'Chad L'},{'Olivia'},,&,1/1,&
 &,{'Eric Z'},{'John T'},{'Eli Ar'},{'Chad L'},,,&,2/1,&
 &,{'Eric Z'},{'John T'},{'Eli Ar'},{'Chloe '},{'Kevin '},{'Olivia'},&,1/1,&
-&,{'Eric Z'},{'John T'},{'Eli Ar'},{'Eli Ar'},{'Olivia'},,&,1/1,&
+&,{'Eric Z'},{'John T'},{'Eli Ar'},{'Olivia'},,,&,1/1,&
 &,{'Eric Z'},{'John T'},{'Eli Ar'},{'Lisa F'},{'Olivia'},{'Bob We'},&,1/1,&
 &,{'Eric Z'},{'John T'},{'Eli Ar'},{'Mitch '},{'Bob We'},,&,1/1,&
 &,{'Eric Z'},{'John T'},{'Eli Ar'},{'Mitch '},,,&,2/1,&
@@ -14815,7 +14815,7 @@ False
 &,{'Eric Z'},{'Lisa F'},{'Ben Hu'},{'Mitch '},,,&,1/1,&
 &,{'Eric Z'},{'Lisa F'},{'Ben Hu'},{'Olivia'},{'Bob We'},{'Eli Ar'},&,2/1,&
 &,{'Eric Z'},{'Lisa F'},{'Ben Hu'},{'Olivia'},{'Eli Ar'},{'Chloe '},&,1/1,&
-&,{'Eric Z'},{'Lisa F'},{'Bob Ca'},{'Eli Ar'},{'Lisa F'},{'Stanle'},&,1/1,&
+&,{'Eric Z'},{'Lisa F'},{'Bob Ca'},{'Eli Ar'},{'Stanle'},,&,1/1,&
 &,{'Eric Z'},{'Lisa F'},{'Bob Ca'},{'John J'},{'Raquel'},{'Moses '},&,1/1,&
 &,{'Eric Z'},{'Lisa F'},{'Bob Ca'},{'John T'},{'Moses '},{'L Chri'},&,1/1,&
 &,{'Eric Z'},{'Lisa F'},{'Bob Ca'},{'Mitch '},{'Bob We'},{'Tony M'},&,1/1,&
@@ -15367,7 +15367,7 @@ False
 &,{'Eric Z'},{'Olivia'},{'Chad L'},{'Mitch '},{'Sarah '},{'Lisa F'},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Chad L'},{'Mitch '},{'Tony M'},{'Sarah '},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Chad L'},{'Mitch '},,,&,4/1,&
-&,{'Eric Z'},{'Olivia'},{'Chad L'},{'Olivia'},{'Eli Ar'},{'Bob Ca'},&,1/1,&
+&,{'Eric Z'},{'Olivia'},{'Chad L'},{'Eli Ar'},{'Bob Ca'},,&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Chad L'},{'Sarah '},{'Bob We'},,&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Chad L'},{'Sarah '},{'John T'},{'Ben Hu'},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Chad L'},{'Sarah '},{'John T'},{'Eli Ar'},&,1/1,&
@@ -15478,7 +15478,7 @@ False
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},{'Chad L'},,&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},{'Ciatta'},{'Mitch '},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},{'Ciatta'},{'Moses '},&,1/1,&
-&,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},{'Eli Ar'},,&,1/1,&
+&,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},,,&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},{'John T'},{'Ben Hu'},&,3/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},{'John T'},{'Moses '},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Bob We'},{'John T'},{'Stanle'},&,2/1,&
@@ -15572,8 +15572,8 @@ False
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Ciatta'},{'Ben Hu'},{'Bob Ca'},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Ciatta'},{'Sarah '},{'Bob We'},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Ciatta'},{'Sarah '},,&,1/1,&
-&,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Eli Ar'},{'Chad L'},{'Sarah '},&,1/1,&
-&,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Chad L'},&,1/1,&
+&,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Chad L'},{'Sarah '},,&,1/1,&
+&,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Chad L'},,,&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'John J'},{'Ciatta'},{'Chloe '},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'John T'},{'Ben Hu'},,&,3/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'John T'},{'Bob Ca'},{'Sarah '},&,1/1,&
@@ -15744,7 +15744,7 @@ False
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},{'Sarah '},{'Chris '},&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},{'Sarah '},{'Lisa F'},&,2/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},{'Sarah '},{'Mitch '},&,1/1,&
-&,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},{'Stanle'},{'Ben Hu'},&,1/1,&
+&,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},{'Ben Hu'},,&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},{'Tony M'},{'Ben Hu'},&,3/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},{'Tony M'},{'Bob We'},&,4/1,&
 &,{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},{'Tony M'},{'Mitch '},&,2/1,&
@@ -16168,8 +16168,8 @@ False
 &,{'Eric Z'},{'Olivia'},{'Tony M'},{'Stanle'},{'Eli Ar'},,&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Tony M'},{'Stanle'},{'Mitch '},{'Lisa F'},&,2/1,&
 &,{'Eric Z'},{'Olivia'},{'Tony M'},{'Stanle'},,,&,2/1,&
-&,{'Eric Z'},{'Olivia'},{'Tony M'},{'Tony M'},{'Ben Hu'},{'Chris '},&,1/1,&
-&,{'Eric Z'},{'Olivia'},{'Tony M'},{'Tony M'},{'Moses '},{'Ben Hu'},&,1/1,&
+&,{'Eric Z'},{'Olivia'},{'Tony M'},{'Ben Hu'},{'Chris '},,&,1/1,&
+&,{'Eric Z'},{'Olivia'},{'Tony M'},{'Moses '},{'Ben Hu'},,&,1/1,&
 &,{'Eric Z'},{'Olivia'},{'Tony M'},,,,&,39/1,&
 &,{'Eric Z'},{'Olivia'},{'Tony S'},{'Mike D'},{'Andra '},{'Eli Ar'},&,2/1,&
 &,{'Eric Z'},{'Olivia'},{'Joseph'},{'John T'},{'Bob Ca'},,&,1/1,&
@@ -16276,7 +16276,7 @@ False
 &,{'Eric Z'},{'Sarah '},{'John T'},{'Mitch '},{'Olivia'},{'Tony M'},&,1/1,&
 &,{'Eric Z'},{'Sarah '},{'John T'},{'Olivia'},{'Ben Hu'},{'Tony M'},&,1/1,&
 &,{'Eric Z'},{'Sarah '},{'John T'},{'Olivia'},{'Eli Ar'},{'Ben Hu'},&,1/1,&
-&,{'Eric Z'},{'Sarah '},{'John T'},{'Stanle'},{'Bob Ca'},{'Stanle'},&,1/1,&
+&,{'Eric Z'},{'Sarah '},{'John T'},{'Stanle'},{'Bob Ca'},,&,1/1,&
 &,{'Eric Z'},{'Sarah '},{'John T'},,,,&,1/1,&
 &,{'Eric Z'},{'Sarah '},{'Kevin '},{'Mitch '},{'Bob Ca'},,&,1/1,&
 &,{'Eric Z'},{'Sarah '},{'Kevin '},{'Mitch '},{'Bob We'},{'Andra '},&,1/1,&
@@ -16613,7 +16613,7 @@ False
 &,{'Eric Z'},{'Tony S'},{'Sarah '},,,,&,1/1,&
 &,{'Eric Z'},,,,,,&,1/1,&
 &,{'Eric Z'},{'Tony M'},{'Bob We'},{'John T'},,,&,1/1,&
-&,{'Eric Z'},{'Eric Z'},,,,,&,1/1,&
+&,{'Eric Z'},,,,,,&,1/1,&
 &,{'Eric Z'},{'Sarah '},,,,,&,1/1,&
 &,{'Eric Z'},{'Bob We'},{'Eli Ar'},,,,&,1/1,&
 &,{'Eric Z'},{'Eli Ar'},{'Ben Hu'},,,,&,1/1,&
@@ -16639,7 +16639,7 @@ False
 &,{'John J'},{'Bob We'},{'Chloe '},{'Kelly '},,,&,1/1,&
 &,{'John J'},{'Bob We'},{'Chloe '},{'Lisa F'},{'Moses '},{'Raquel'},&,1/1,&
 &,{'John J'},{'Bob We'},{'Eli Ar'},{'Tony M'},{'Chad L'},{'Sarah '},&,1/1,&
-&,{'John J'},{'Bob We'},{'Eric Z'},{'Mike D'},{'Tony S'},{'Tony S'},&,1/1,&
+&,{'John J'},{'Bob We'},{'Eric Z'},{'Mike D'},{'Tony S'},,&,1/1,&
 &,{'John J'},{'Bob We'},{'Kevin '},{'Bob Ca'},{'Sarah '},{'Eric Z'},&,1/1,&
 &,{'John J'},{'Bob We'},{'Kevin '},{'Mitch '},{'Eli Ar'},{'Stanle'},&,1/1,&
 &,{'John J'},{'Bob We'},{'Kevin '},,,,&,1/1,&
@@ -16692,7 +16692,7 @@ False
 &,{'John J'},{'Eric Z'},{'Kevin '},{'Bob We'},{'Raquel'},{'Moses '},&,1/1,&
 &,{'John J'},{'Eric Z'},{'Patric'},{'John T'},{'Chloe '},{'Joseph'},&,1/1,&
 &,{'John J'},{'Eric Z'},,,,,&,1/1,&
-&,{'John J'},{'John J'},{'John J'},{'John J'},{'John J'},{'John J'},&,1/1,&
+&,{'John J'},,,,,,&,1/1,&
 &,{'John J'},{'John T'},{'Bob Ca'},{'Patric'},{'Chris '},{'Moses '},&,1/1,&
 &,{'John J'},{'John T'},{'Bob Ca'},,,,&,1/1,&
 &,{'John J'},{'John T'},{'Eli Ar'},{'Tony S'},{'Olivia'},{'Eric Z'},&,1/1,&
@@ -16767,7 +16767,7 @@ False
 &,{'John J'},{'Mitch '},{'Kelly '},{'Chloe '},{'Michae'},{'Olivia'},&,1/1,&
 &,{'John J'},{'Mitch '},{'Kelly '},{'Sarah '},{'Olivia'},{'Bob Ca'},&,1/1,&
 &,{'John J'},{'Mitch '},{'Kevin '},,,,&,3/1,&
-&,{'John J'},{'Mitch '},{'Olivia'},{'Lisa F'},{'Lisa F'},{'Eric Z'},&,1/1,&
+&,{'John J'},{'Mitch '},{'Olivia'},{'Lisa F'},{'Eric Z'},,&,1/1,&
 &,{'John J'},{'Mitch '},{'Olivia'},,,,&,2/1,&
 &,{'John J'},{'Mitch '},,,,,&,2/1,&
 &,{'John J'},{'Moses '},{'Eric Z'},,,,&,2/1,&
@@ -16802,7 +16802,7 @@ False
 &,{'John J'},{'Sarah '},{'Lisa F'},{'Eric Z'},{'Chad L'},{'Bob Ca'},&,1/1,&
 &,{'John J'},{'Stanle'},{'Bob Ca'},,,,&,2/1,&
 &,{'John J'},{'Stanle'},{'Brando'},{'John T'},{'Eli Ar'},{'Mike D'},&,1/1,&
-&,{'John J'},{'Stanle'},{'Chad L'},{'Michae'},{'Chad L'},{'Ciatta'},&,1/1,&
+&,{'John J'},{'Stanle'},{'Chad L'},{'Michae'},{'Ciatta'},,&,1/1,&
 &,{'John J'},{'Stanle'},{'Chloe '},{'John T'},{'Michae'},{'Bob Ca'},&,1/1,&
 &,{'John J'},{'Stanle'},{'Chloe '},{'Michae'},{'Olivia'},{'Moses '},&,1/1,&
 &,{'John J'},{'Stanle'},{'Ciatta'},{'Brando'},{'Moses '},{'Mike D'},&,1/1,&
@@ -17666,7 +17666,7 @@ False
 &,{'Joseph'},{'Kevin '},{'Eric Z'},,,,&,1/1,&
 &,{'Joseph'},{'Kevin '},{'Mitch '},{'Chloe '},{'John T'},{'Chris '},&,1/1,&
 &,{'Joseph'},{'L Chri'},{'Chris '},,,,&,1/1,&
-&,{'Joseph'},{'Lee Od'},{'Bob Ca'},{'Bob Ca'},{'Bob Ca'},{'Bob Ca'},&,1/1,&
+&,{'Joseph'},{'Lee Od'},{'Bob Ca'},,,,&,1/1,&
 &,{'Joseph'},{'Lee Od'},{'Chad L'},{'Ciatta'},{'Kelly '},{'Raquel'},&,1/1,&
 &,{'Joseph'},{'Lee Od'},{'Michae'},{'Stanle'},{'Olivia'},{'Kevin '},&,1/1,&
 &,{'Joseph'},{'Lisa F'},{'Chad L'},,,,&,6/1,&
@@ -17721,7 +17721,7 @@ False
 &,{'Joseph'},{'Olivia'},{'Lisa F'},{'Moses '},,,&,1/1,&
 &,{'Joseph'},{'Olivia'},{'Mike D'},{'Bob Ca'},{'Lisa F'},{'Chloe '},&,1/1,&
 &,{'Joseph'},{'Olivia'},{'Mike D'},{'Bob We'},{'Bob Ca'},,&,1/1,&
-&,{'Joseph'},{'Olivia'},{'Mike D'},{'Kelly '},{'Chloe '},{'Olivia'},&,1/1,&
+&,{'Joseph'},{'Olivia'},{'Mike D'},{'Kelly '},{'Chloe '},,&,1/1,&
 &,{'Joseph'},{'Olivia'},{'Mike D'},{'Lisa F'},{'Chad L'},{'Andra '},&,1/1,&
 &,{'Joseph'},{'Olivia'},{'Mike D'},{'Lisa F'},{'Chad L'},{'Tony M'},&,2/1,&
 &,{'Joseph'},{'Olivia'},{'Mike D'},{'Lisa F'},,,&,1/1,&
@@ -17739,7 +17739,7 @@ False
 &,{'Joseph'},{'Raquel'},{'L Chri'},{'Andra '},{'Lee Od'},{'Eric Z'},&,1/1,&
 &,{'Joseph'},{'Raquel'},{'Mitch '},,,,&,1/1,&
 &,{'Joseph'},{'Raquel'},{'Tony S'},{'John J'},{'Bob Ca'},{'Mike D'},&,1/1,&
-&,{'Joseph'},{'Sarah '},{'Chad L'},{'Joseph'},{'Brando'},,&,1/1,&
+&,{'Joseph'},{'Sarah '},{'Chad L'},{'Brando'},,,&,1/1,&
 &,{'Joseph'},{'Sarah '},{'Chad L'},,,,&,1/1,&
 &,{'Joseph'},{'Sarah '},{'Chloe '},{'Olivia'},{'Eli Ar'},{'Moses '},&,1/1,&
 &,{'Joseph'},{'Sarah '},{'Kelly '},{'Lisa F'},{'Mitch '},{'Raquel'},&,1/1,&
@@ -17819,7 +17819,7 @@ False
 &,{'Kelly '},{'Joseph'},{'Lee Od'},{'Andra '},{'Moses '},{'Chloe '},&,1/1,&
 &,{'Kelly '},{'Joseph'},{'Lisa F'},{'Olivia'},{'Kevin '},{'Michae'},&,1/1,&
 &,{'Kelly '},{'Joseph'},{'Olivia'},{'Mike D'},{'Kevin '},{'Michae'},&,1/1,&
-&,{'Kelly '},{'Kelly '},{'Kelly '},{'Kelly '},{'Kelly '},{'Kelly '},&,1/1,&
+&,{'Kelly '},,,,,,&,1/1,&
 &,{'Kelly '},{'Kevin '},{'Chloe '},{'Brando'},{'Tony S'},{'Eric Z'},&,1/1,&
 &,{'Kelly '},{'Kevin '},{'Chloe '},{'John T'},,,&,1/1,&
 &,{'Kelly '},{'Kevin '},{'Chloe '},,,,&,1/1,&
@@ -17902,7 +17902,7 @@ False
 &,{'Kelly '},{'Sarah '},{'Raquel'},{'Andra '},{'John J'},{'Patric'},&,1/1,&
 &,{'Kelly '},{'Sarah '},{'Raquel'},{'Chloe '},{'Lisa F'},{'Olivia'},&,1/1,&
 &,{'Kelly '},{'Sarah '},{'Olivia'},{'Lisa F'},{'Bob Ca'},,&,1/1,&
-&,{'Kelly '},{'Stanle'},{'Lisa F'},{'Joseph'},{'Sarah '},{'Joseph'},&,1/1,&
+&,{'Kelly '},{'Stanle'},{'Lisa F'},{'Joseph'},{'Sarah '},,&,1/1,&
 &,{'Kelly '},{'Stanle'},{'Mitch '},{'Bob We'},,,&,1/1,&
 &,{'Kelly '},{'Tony M'},{'Eric Z'},{'Chad L'},,,&,1/1,&
 &,{'Kelly '},{'Tony S'},{'Michae'},{'Bob We'},{'Mitch '},{'Olivia'},&,1/1,&
@@ -17972,11 +17972,11 @@ False
 &,{'Kevin '},{'Bob Ca'},{'Eli Ar'},{'Eric Z'},{'Sarah '},{'Mitch '},&,2/1,&
 &,{'Kevin '},{'Bob Ca'},{'Eli Ar'},{'Stanle'},{'Chloe '},{'Chad L'},&,1/1,&
 &,{'Kevin '},{'Bob Ca'},{'Eli Ar'},,,,&,3/1,&
-&,{'Kevin '},{'Bob Ca'},{'Eric Z'},{'Ben Hu'},{'John T'},{'Kevin '},&,1/1,&
+&,{'Kevin '},{'Bob Ca'},{'Eric Z'},{'Ben Hu'},{'John T'},,&,1/1,&
 &,{'Kevin '},{'Bob Ca'},{'Eric Z'},{'Eli Ar'},{'Olivia'},{'Ben Hu'},&,1/1,&
 &,{'Kevin '},{'Bob Ca'},{'Eric Z'},{'John T'},{'Ciatta'},{'Bob We'},&,1/1,&
 &,{'Kevin '},{'Bob Ca'},{'John T'},{'Eli Ar'},{'Eric Z'},{'Bob We'},&,1/1,&
-&,{'Kevin '},{'Bob Ca'},{'Kelly '},{'Bob We'},{'Chris '},{'Kelly '},&,1/1,&
+&,{'Kevin '},{'Bob Ca'},{'Kelly '},{'Bob We'},{'Chris '},,&,1/1,&
 &,{'Kevin '},{'Bob Ca'},{'Lisa F'},{'Chloe '},{'Chris '},{'Raquel'},&,1/1,&
 &,{'Kevin '},{'Bob Ca'},{'Lisa F'},{'Stanle'},{'Lee Od'},{'Mitch '},&,1/1,&
 &,{'Kevin '},{'Bob Ca'},{'Michae'},,,,&,1/1,&
@@ -17996,7 +17996,7 @@ False
 &,{'Kevin '},{'Bob Ca'},,,,,&,6/1,&
 &,{'Kevin '},{'Bob We'},{'Andra '},{'John J'},{'Eli Ar'},{'Ciatta'},&,1/1,&
 &,{'Kevin '},{'Bob We'},{'Andra '},{'Lee Od'},{'John J'},{'Mitch '},&,1/1,&
-&,{'Kevin '},{'Bob We'},{'Andra '},{'Lee Od'},{'Kevin '},{'John J'},&,1/1,&
+&,{'Kevin '},{'Bob We'},{'Andra '},{'Lee Od'},{'John J'},,&,1/1,&
 &,{'Kevin '},{'Bob We'},{'Andra '},{'Moses '},,,&,1/1,&
 &,{'Kevin '},{'Bob We'},{'Andra '},,,,&,1/1,&
 &,{'Kevin '},{'Bob We'},{'Ben Hu'},{'Eli Ar'},{'Bob Ca'},{'Andra '},&,1/1,&
@@ -18144,7 +18144,7 @@ False
 &,{'Kevin '},{'Eli Ar'},{'Ben Hu'},{'Bob We'},{'Sarah '},{'John T'},&,1/1,&
 &,{'Kevin '},{'Eli Ar'},{'Ben Hu'},{'Chad L'},{'Olivia'},{'Lisa F'},&,1/1,&
 &,{'Kevin '},{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'Bob Ca'},,&,1/1,&
-&,{'Kevin '},{'Eli Ar'},{'Ben Hu'},{'John T'},{'Olivia'},{'Ben Hu'},&,1/1,&
+&,{'Kevin '},{'Eli Ar'},{'Ben Hu'},{'John T'},{'Olivia'},,&,1/1,&
 &,{'Kevin '},{'Eli Ar'},{'Ben Hu'},{'John T'},,,&,1/1,&
 &,{'Kevin '},{'Eli Ar'},{'Ben Hu'},{'Olivia'},{'Eric Z'},{'Tony M'},&,1/1,&
 &,{'Kevin '},{'Eli Ar'},{'Ben Hu'},{'Olivia'},{'Stanle'},{'Andra '},&,1/1,&
@@ -18306,9 +18306,9 @@ False
 &,{'Kevin '},{'Eric Z'},{'Mitch '},,,,&,1/1,&
 &,{'Kevin '},{'Eric Z'},{'Moses '},{'Brando'},{'Raquel'},{'Tony M'},&,1/1,&
 &,{'Kevin '},{'Eric Z'},{'Olivia'},{'Bob Ca'},{'Bob We'},{'Sarah '},&,1/1,&
-&,{'Kevin '},{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Eli Ar'},{'Tony M'},&,1/1,&
+&,{'Kevin '},{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Tony M'},,&,1/1,&
 &,{'Kevin '},{'Eric Z'},{'Olivia'},{'Eli Ar'},,,&,1/1,&
-&,{'Kevin '},{'Eric Z'},{'Olivia'},{'Michae'},{'John T'},{'Eric Z'},&,1/1,&
+&,{'Kevin '},{'Eric Z'},{'Olivia'},{'Michae'},{'John T'},,&,1/1,&
 &,{'Kevin '},{'Eric Z'},{'Sarah '},{'Bob Ca'},{'Bob We'},{'Eli Ar'},&,1/1,&
 &,{'Kevin '},{'Eric Z'},{'Sarah '},{'Eli Ar'},,,&,1/1,&
 &,{'Kevin '},{'Eric Z'},{'Sarah '},{'Olivia'},{'Bob Ca'},{'John T'},&,1/1,&
@@ -18427,7 +18427,7 @@ False
 &,{'Kevin '},{'John J'},{'Tony M'},{'Bob Ca'},{'Brando'},{'Kelly '},&,1/1,&
 &,{'Kevin '},{'John J'},{'Tony M'},{'Bob Ca'},{'Olivia'},{'Chloe '},&,1/1,&
 &,{'Kevin '},{'John J'},{'Tony M'},{'Brando'},{'Moses '},{'Kelly '},&,1/1,&
-&,{'Kevin '},{'John J'},{'Tony M'},{'John T'},{'Kevin '},{'Patric'},&,1/1,&
+&,{'Kevin '},{'John J'},{'Tony M'},{'John T'},{'Patric'},,&,1/1,&
 &,{'Kevin '},{'John J'},{'Tony M'},{'Lisa F'},{'Moses '},{'John T'},&,1/1,&
 &,{'Kevin '},{'John J'},{'Tony M'},{'Michae'},{'Sarah '},{'Eli Ar'},&,1/1,&
 &,{'Kevin '},{'John J'},{'Tony M'},{'Raquel'},{'Brando'},{'Moses '},&,1/1,&
@@ -18485,8 +18485,8 @@ False
 &,{'Kevin '},{'Kelly '},{'Raquel'},,,,&,1/1,&
 &,{'Kevin '},{'Kelly '},{'Sarah '},,,,&,1/1,&
 &,{'Kevin '},{'Kelly '},,,,,&,1/1,&
-&,{'Kevin '},{'Kevin '},{'Kevin '},{'Kevin '},{'Kevin '},{'Kevin '},&,5/1,&
-&,{'Kevin '},{'Kevin '},{'Mike D'},{'Kelly '},{'Raquel'},{'Kevin '},&,1/1,&
+&,{'Kevin '},,,,,,&,5/1,&
+&,{'Kevin '},{'Mike D'},{'Kelly '},{'Raquel'},,,&,1/1,&
 &,{'Kevin '},{'Lee Od'},{'Lisa F'},{'Brando'},{'Mike D'},{'Chloe '},&,1/1,&
 &,{'Kevin '},{'Lee Od'},{'Mitch '},{'Eli Ar'},{'Bob Ca'},{'Brando'},&,1/1,&
 &,{'Kevin '},{'Lee Od'},{'Raquel'},{'Mike D'},{'Kelly '},{'Joseph'},&,1/1,&
@@ -18778,7 +18778,7 @@ False
 &,{'Kevin '},{'Sarah '},{'Moses '},{'Mike D'},{'Eric Z'},{'Ciatta'},&,1/1,&
 &,{'Kevin '},{'Sarah '},{'Moses '},{'Mike D'},{'Eric Z'},{'John T'},&,1/1,&
 &,{'Kevin '},{'Sarah '},{'Moses '},{'Mitch '},{'Stanle'},{'Michae'},&,1/1,&
-&,{'Kevin '},{'Sarah '},{'Olivia'},{'Chad L'},{'Kevin '},{'Sarah '},&,1/1,&
+&,{'Kevin '},{'Sarah '},{'Olivia'},{'Chad L'},,,&,1/1,&
 &,{'Kevin '},{'Sarah '},{'Olivia'},{'Eli Ar'},,,&,1/1,&
 &,{'Kevin '},{'Sarah '},{'Olivia'},{'John T'},{'John J'},{'Mike D'},&,1/1,&
 &,{'Kevin '},{'Sarah '},{'Olivia'},{'Lisa F'},{'Bob We'},{'Tony M'},&,2/1,&
@@ -18874,7 +18874,7 @@ False
 &,{'L Chri'},{'Chris '},{'Bob Ca'},,,,&,1/1,&
 &,{'L Chri'},{'John T'},{'Chris '},,,,&,1/1,&
 &,{'L Chri'},{'Mitch '},{'Olivia'},{'Eli Ar'},{'Tony M'},{'Sarah '},&,1/1,&
-&,{'L Chri'},{'Moses '},{'Ben Hu'},{'Chris '},{'Tony S'},{'L Chri'},&,1/1,&
+&,{'L Chri'},{'Moses '},{'Ben Hu'},{'Chris '},{'Tony S'},,&,1/1,&
 &,{'L Chri'},{'Moses '},{'Kevin '},{'Raquel'},{'Mike D'},{'Joseph'},&,1/1,&
 &,{'L Chri'},{'Moses '},{'Lisa F'},{'Olivia'},{'Patric'},{'Tony M'},&,1/1,&
 &,{'L Chri'},{'Moses '},,,,,&,1/1,&
@@ -18956,7 +18956,7 @@ False
 &,{'Lee Od'},{'Patric'},{'Michae'},{'Ben Hu'},{'Ciatta'},{'Stanle'},&,1/1,&
 &,{'Lee Od'},{'Sarah '},{'Ben Hu'},{'Lisa F'},,,&,1/1,&
 &,{'Lee Od'},{'Stanle'},{'Chad L'},{'Ben Hu'},,,&,1/1,&
-&,{'Lee Od'},{'Stanle'},{'Michae'},{'Chad L'},{'Lee Od'},{'Bob We'},&,1/1,&
+&,{'Lee Od'},{'Stanle'},{'Michae'},{'Chad L'},{'Bob We'},,&,1/1,&
 &,{'Lee Od'},{'Tony M'},{'John T'},{'Bob Ca'},{'Kevin '},{'John J'},&,1/1,&
 &,{'Lee Od'},{'Tony M'},{'John T'},{'Lisa F'},{'Chris '},{'Kelly '},&,1/1,&
 &,{'Lee Od'},{'Tony M'},,,,,&,2/1,&
@@ -19068,7 +19068,7 @@ False
 &,{'Lisa F'},{'Ben Hu'},{'Eric Z'},{'Bob Ca'},{'Mitch '},{'Olivia'},&,1/1,&
 &,{'Lisa F'},{'Ben Hu'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},&,1/1,&
 &,{'Lisa F'},{'Ben Hu'},{'Eric Z'},{'Eli Ar'},{'Olivia'},{'Bob Ca'},&,1/1,&
-&,{'Lisa F'},{'Ben Hu'},{'Eric Z'},{'John T'},{'Chloe '},{'John T'},&,1/1,&
+&,{'Lisa F'},{'Ben Hu'},{'Eric Z'},{'John T'},{'Chloe '},,&,1/1,&
 &,{'Lisa F'},{'Ben Hu'},{'Eric Z'},{'Olivia'},{'Kevin '},{'Mitch '},&,1/1,&
 &,{'Lisa F'},{'Ben Hu'},{'Eric Z'},{'Olivia'},{'Tony M'},,&,1/1,&
 &,{'Lisa F'},{'Ben Hu'},{'Michae'},{'Olivia'},{'Andra '},,&,1/1,&
@@ -19160,10 +19160,10 @@ False
 &,{'Lisa F'},{'Bob We'},{'Eric Z'},{'Sarah '},{'Eli Ar'},{'Chad L'},&,1/1,&
 &,{'Lisa F'},{'Bob We'},{'Eric Z'},{'Sarah '},{'Olivia'},{'Mitch '},&,1/1,&
 &,{'Lisa F'},{'Bob We'},{'Eric Z'},,,,&,1/1,&
-&,{'Lisa F'},{'Bob We'},{'John T'},{'Michae'},{'Eli Ar'},{'Lisa F'},&,1/1,&
+&,{'Lisa F'},{'Bob We'},{'John T'},{'Michae'},{'Eli Ar'},,&,1/1,&
 &,{'Lisa F'},{'Bob We'},{'Kelly '},{'Mitch '},{'Olivia'},{'Eric Z'},&,2/1,&
 &,{'Lisa F'},{'Bob We'},{'Kevin '},{'Mitch '},,,&,1/1,&
-&,{'Lisa F'},{'Bob We'},{'Lisa F'},,,,&,1/1,&
+&,{'Lisa F'},{'Bob We'},,,,,&,1/1,&
 &,{'Lisa F'},{'Bob We'},{'Mike D'},,,,&,1/1,&
 &,{'Lisa F'},{'Bob We'},{'Mitch '},{'Andra '},{'Tony M'},{'Bob Ca'},&,1/1,&
 &,{'Lisa F'},{'Bob We'},{'Mitch '},{'Chad L'},,,&,1/1,&
@@ -19220,7 +19220,7 @@ False
 &,{'Lisa F'},{'Chad L'},{'Andra '},{'Sarah '},,,&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Andra '},{'Tony M'},{'Mike D'},{'Mitch '},&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Andra '},,,,&,1/1,&
-&,{'Lisa F'},{'Chad L'},{'Ben Hu'},{'Bob We'},{'Chad L'},,&,1/1,&
+&,{'Lisa F'},{'Chad L'},{'Ben Hu'},{'Bob We'},,,&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Ben Hu'},{'Eric Z'},{'Olivia'},{'Sarah '},&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Ben Hu'},{'Mitch '},,,&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Ben Hu'},{'Moses '},{'Sarah '},{'Olivia'},&,1/1,&
@@ -19267,8 +19267,8 @@ False
 &,{'Lisa F'},{'Chad L'},{'Joseph'},{'Sarah '},{'Tony M'},{'Olivia'},&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Kelly '},{'Mitch '},{'Chris '},{'Chloe '},&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Kevin '},{'Eric Z'},{'Patric'},{'Eli Ar'},&,1/1,&
-&,{'Lisa F'},{'Chad L'},{'Lisa F'},{'Mitch '},{'Andra '},,&,1/1,&
-&,{'Lisa F'},{'Chad L'},{'Lisa F'},{'Mitch '},{'Bob We'},{'Tony M'},&,1/1,&
+&,{'Lisa F'},{'Chad L'},{'Mitch '},{'Andra '},,,&,1/1,&
+&,{'Lisa F'},{'Chad L'},{'Mitch '},{'Bob We'},{'Tony M'},,&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Mitch '},{'Andra '},{'Ciatta'},{'Chloe '},&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Mitch '},{'Andra '},{'Olivia'},{'Michae'},&,1/1,&
 &,{'Lisa F'},{'Chad L'},{'Mitch '},{'Andra '},{'Sarah '},{'Mike D'},&,2/1,&
@@ -19515,7 +19515,7 @@ False
 &,{'Lisa F'},{'Chloe '},{'Olivia'},{'Stanle'},{'Bob Ca'},,&,1/1,&
 &,{'Lisa F'},{'Chloe '},{'Olivia'},,,,&,1/1,&
 &,{'Lisa F'},{'Chloe '},{'Raquel'},{'Brando'},{'Moses '},{'Kevin '},&,1/1,&
-&,{'Lisa F'},{'Chloe '},{'Raquel'},{'Tony S'},{'Eli Ar'},{'Raquel'},&,1/1,&
+&,{'Lisa F'},{'Chloe '},{'Raquel'},{'Tony S'},{'Eli Ar'},,&,1/1,&
 &,{'Lisa F'},{'Chloe '},{'Sarah '},{'Andra '},{'Ciatta'},{'Olivia'},&,1/1,&
 &,{'Lisa F'},{'Chloe '},{'Sarah '},{'Andra '},{'Mitch '},{'Chad L'},&,1/1,&
 &,{'Lisa F'},{'Chloe '},{'Sarah '},{'Ciatta'},{'Andra '},{'Mitch '},&,1/1,&
@@ -19899,9 +19899,9 @@ False
 &,{'Lisa F'},{'Kevin '},{'Tony M'},{'Ben Hu'},{'Eric Z'},{'Mitch '},&,1/1,&
 &,{'Lisa F'},{'Kevin '},{'Tony M'},{'Eric Z'},,,&,1/1,&
 &,{'Lisa F'},{'Kevin '},,,,,&,2/1,&
-&,{'Lisa F'},{'Lisa F'},{'Lisa F'},{'Lisa F'},{'Lisa F'},{'Lisa F'},&,2/1,&
-&,{'Lisa F'},{'Lisa F'},{'Mitch '},{'Bob We'},{'Tony M'},{'Chad L'},&,1/1,&
-&,{'Lisa F'},{'Lisa F'},{'Stanle'},{'Sarah '},,,&,1/1,&
+&,{'Lisa F'},,,,,,&,2/1,&
+&,{'Lisa F'},{'Mitch '},{'Bob We'},{'Tony M'},{'Chad L'},,&,1/1,&
+&,{'Lisa F'},{'Stanle'},{'Sarah '},,,,&,1/1,&
 &,{'Lisa F'},{'Michae'},{'Ben Hu'},,,,&,1/1,&
 &,{'Lisa F'},{'Michae'},{'Chad L'},{'Bob We'},{'Ben Hu'},{'Stanle'},&,1/1,&
 &,{'Lisa F'},{'Michae'},{'Chad L'},{'Mitch '},{'Ciatta'},{'Moses '},&,2/1,&
@@ -20045,8 +20045,8 @@ False
 &,{'Lisa F'},{'Mitch '},{'Chad L'},{'Kelly '},{'Sarah '},{'Ciatta'},&,1/1,&
 &,{'Lisa F'},{'Mitch '},{'Chad L'},{'Kevin '},{'L Chri'},,&,1/1,&
 &,{'Lisa F'},{'Mitch '},{'Chad L'},{'Kevin '},{'Olivia'},{'Tony M'},&,1/1,&
-&,{'Lisa F'},{'Mitch '},{'Chad L'},{'Lisa F'},{'Lisa F'},{'Lisa F'},&,1/1,&
-&,{'Lisa F'},{'Mitch '},{'Chad L'},{'Lisa F'},{'Mitch '},{'Kevin '},&,1/1,&
+&,{'Lisa F'},{'Mitch '},{'Chad L'},,,,&,1/1,&
+&,{'Lisa F'},{'Mitch '},{'Chad L'},{'Kevin '},,,&,1/1,&
 &,{'Lisa F'},{'Mitch '},{'Chad L'},{'Mike D'},{'Chris '},,&,1/1,&
 &,{'Lisa F'},{'Mitch '},{'Chad L'},{'Mike D'},{'Eric Z'},,&,1/1,&
 &,{'Lisa F'},{'Mitch '},{'Chad L'},{'Mike D'},{'Eric Z'},,&,1/1,&
@@ -20808,7 +20808,7 @@ False
 &,{'Lisa F'},{'Raquel'},{'Ciatta'},{'Chloe '},{'Olivia'},{'Kelly '},&,1/1,&
 &,{'Lisa F'},{'Raquel'},{'John J'},{'Sarah '},{'Ciatta'},{'Tony M'},&,1/1,&
 &,{'Lisa F'},{'Raquel'},{'John J'},,,,&,1/1,&
-&,{'Lisa F'},{'Raquel'},{'Joseph'},{'Joseph'},{'Chloe '},{'Sarah '},&,1/1,&
+&,{'Lisa F'},{'Raquel'},{'Joseph'},{'Chloe '},{'Sarah '},,&,1/1,&
 &,{'Lisa F'},{'Raquel'},{'Michae'},{'Eric Z'},{'John J'},,&,1/1,&
 &,{'Lisa F'},{'Raquel'},{'Olivia'},{'Chloe '},{'Sarah '},{'Andra '},&,1/1,&
 &,{'Lisa F'},{'Raquel'},{'Olivia'},{'Eric Z'},{'Andra '},{'Mitch '},&,1/1,&
@@ -21054,7 +21054,7 @@ False
 &,{'Lisa F'},{'Sarah '},{'Moses '},{'Mike D'},{'Eric Z'},{'Tony S'},&,1/1,&
 &,{'Lisa F'},{'Sarah '},{'Moses '},{'Mitch '},{'Andra '},{'Chad L'},&,1/1,&
 &,{'Lisa F'},{'Sarah '},{'Moses '},{'Olivia'},{'Ciatta'},{'Eric Z'},&,1/1,&
-&,{'Lisa F'},{'Sarah '},{'Moses '},{'Patric'},{'Moses '},{'John T'},&,1/1,&
+&,{'Lisa F'},{'Sarah '},{'Moses '},{'Patric'},{'John T'},,&,1/1,&
 &,{'Lisa F'},{'Sarah '},{'Moses '},,,,&,4/1,&
 &,{'Lisa F'},{'Sarah '},{'Olivia'},{'Andra '},{'Ben Hu'},{'Chad L'},&,1/1,&
 &,{'Lisa F'},{'Sarah '},{'Olivia'},{'Andra '},{'Chloe '},{'Ciatta'},&,1/1,&
@@ -21248,7 +21248,7 @@ False
 &,{'Lisa F'},{'Tony S'},{'Chris '},{'Ben Hu'},{'Moses '},{'Patric'},&,1/1,&
 &,{'Lisa F'},{'Tony S'},{'Eric Z'},,,,&,1/1,&
 &,{'Lisa F'},{'Tony S'},{'Kevin '},{'Bob We'},{'Ciatta'},{'Chloe '},&,1/1,&
-&,{'Lisa F'},{'Tony S'},{'Mike D'},{'Bob Ca'},{'Chloe '},{'Lisa F'},&,1/1,&
+&,{'Lisa F'},{'Tony S'},{'Mike D'},{'Bob Ca'},{'Chloe '},,&,1/1,&
 &,{'Lisa F'},{'Tony S'},{'Patric'},{'Bob We'},{'Stanle'},{'Mitch '},&,1/1,&
 &,{'Lisa F'},{'Tony S'},{'Sarah '},{'Chad L'},{'Andra '},{'Mitch '},&,1/1,&
 &,{'Lisa F'},{'Tony S'},{'Sarah '},{'Moses '},{'Patric'},{'Kevin '},&,1/1,&
@@ -21350,7 +21350,7 @@ False
 &,{'Michae'},{'Eric Z'},{'Tony M'},{'Andra '},{'Chloe '},{'Mitch '},&,1/1,&
 &,{'Michae'},{'John J'},{'Eli Ar'},,,,&,1/1,&
 &,{'Michae'},{'John T'},{'Andra '},{'Bob We'},{'John J'},{'Joseph'},&,1/1,&
-&,{'Michae'},{'John T'},{'Chad L'},{'Raquel'},{'Michae'},{'Brando'},&,1/1,&
+&,{'Michae'},{'John T'},{'Chad L'},{'Raquel'},{'Brando'},,&,1/1,&
 &,{'Michae'},{'John T'},{'Eric Z'},{'Eli Ar'},,,&,1/1,&
 &,{'Michae'},{'John T'},{'Olivia'},{'Stanle'},{'Bob We'},{'Lisa F'},&,1/1,&
 &,{'Michae'},{'Joseph'},{'Andra '},{'Tony M'},{'Lee Od'},{'Ciatta'},&,1/1,&
@@ -21587,7 +21587,7 @@ False
 &,{'Mike D'},{'Michae'},{'Joseph'},{'Moses '},{'Chris '},{'Sarah '},&,1/1,&
 &,{'Mike D'},{'Michae'},{'Moses '},{'Sarah '},{'Mitch '},{'Bob We'},&,1/1,&
 &,{'Mike D'},{'Michae'},{'Sarah '},{'Ben Hu'},{'Bob We'},{'Bob Ca'},&,1/1,&
-&,{'Mike D'},{'Mike D'},{'Mike D'},{'Mike D'},{'Mike D'},{'Mike D'},&,3/1,&
+&,{'Mike D'},,,,,,&,3/1,&
 &,{'Mike D'},{'Mitch '},{'Andra '},{'Ben Hu'},{'Eric Z'},{'Ciatta'},&,1/1,&
 &,{'Mike D'},{'Mitch '},{'Andra '},{'Chad L'},{'Ciatta'},{'Chris '},&,1/1,&
 &,{'Mike D'},{'Mitch '},{'Andra '},{'Lisa F'},{'Chad L'},{'Sarah '},&,1/1,&
@@ -21638,7 +21638,7 @@ False
 &,{'Mike D'},{'Olivia'},{'Mitch '},{'Lisa F'},{'John T'},{'Kelly '},&,1/1,&
 &,{'Mike D'},{'Olivia'},{'Mitch '},,,,&,1/1,&
 &,{'Mike D'},{'Olivia'},{'Raquel'},{'Stanle'},{'Lee Od'},{'Kelly '},&,1/1,&
-&,{'Mike D'},{'Olivia'},{'Tony S'},{'Mike D'},{'Mitch '},{'Bob We'},&,1/1,&
+&,{'Mike D'},{'Olivia'},{'Tony S'},{'Mitch '},{'Bob We'},,&,1/1,&
 &,{'Mike D'},{'Olivia'},,,,,&,4/1,&
 &,{'Mike D'},{'Patric'},{'Chad L'},{'Raquel'},{'Chris '},{'John J'},&,1/1,&
 &,{'Mike D'},{'Patric'},{'Mitch '},{'Bob We'},{'Kevin '},{'Michae'},&,1/1,&
@@ -22069,7 +22069,7 @@ False
 &,{'Mitch '},{'Bob We'},{'Eric Z'},{'Chad L'},{'Tony M'},{'Eli Ar'},&,1/1,&
 &,{'Mitch '},{'Bob We'},{'Eric Z'},{'Chad L'},{'Tony M'},{'Olivia'},&,1/1,&
 &,{'Mitch '},{'Bob We'},{'Eric Z'},{'John T'},{'Stanle'},{'Olivia'},&,2/1,&
-&,{'Mitch '},{'Bob We'},{'Eric Z'},{'Lisa F'},{'Chad L'},{'Lisa F'},&,1/1,&
+&,{'Mitch '},{'Bob We'},{'Eric Z'},{'Lisa F'},{'Chad L'},,&,1/1,&
 &,{'Mitch '},{'Bob We'},{'Eric Z'},{'Olivia'},{'Bob Ca'},{'Moses '},&,1/1,&
 &,{'Mitch '},{'Bob We'},{'Eric Z'},{'Olivia'},{'Eli Ar'},{'Stanle'},&,1/1,&
 &,{'Mitch '},{'Bob We'},{'Eric Z'},{'Olivia'},{'Sarah '},{'Eli Ar'},&,1/1,&
@@ -22429,7 +22429,7 @@ False
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Michae'},{'Andra '},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Mike D'},{'Sarah '},{'Stanle'},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Mike D'},,,&,3/1,&
-&,{'Mitch '},{'Chad L'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Lisa F'},&,2/1,&
+&,{'Mitch '},{'Chad L'},{'Lisa F'},,,,&,2/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Moses '},{'Eric Z'},{'Olivia'},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Moses '},{'Olivia'},{'Chris '},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Moses '},{'Sarah '},{'Ben Hu'},&,1/1,&
@@ -22523,9 +22523,9 @@ False
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Olivia'},{'Stanle'},&,2/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Olivia'},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Olivia'},,&,12/1,&
-&,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Raquel'},{'Chad L'},&,1/1,&
+&,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Raquel'},,&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Stanle'},{'Mike D'},&,1/1,&
-&,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Stanle'},{'Stanle'},&,1/1,&
+&,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Stanle'},,&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Stanle'},,&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Tony M'},{'Andra '},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Lisa F'},{'Sarah '},{'Tony M'},{'Chris '},&,2/1,&
@@ -22706,7 +22706,7 @@ False
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Bob Ca'},{'Lisa F'},,&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Bob Ca'},,,&,2/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Bob We'},{'Ben Hu'},,&,1/1,&
-&,{'Mitch '},{'Chad L'},{'Sarah '},{'Bob We'},{'Lisa F'},{'Bob We'},&,1/1,&
+&,{'Mitch '},{'Chad L'},{'Sarah '},{'Bob We'},{'Lisa F'},,&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Bob We'},{'Lisa F'},{'Kevin '},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Bob We'},{'Lisa F'},{'Moses '},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Bob We'},{'Olivia'},{'Lisa F'},&,1/1,&
@@ -22763,7 +22763,7 @@ False
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Olivia'},{'Lisa F'},&,3/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Olivia'},,&,2/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Raquel'},{'Chloe '},&,1/1,&
-&,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Sarah '},{'Eli Ar'},&,1/1,&
+&,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Eli Ar'},,&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Stanle'},{'Chloe '},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Stanle'},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Tony M'},{'Lisa F'},&,2/1,&
@@ -22927,7 +22927,7 @@ False
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Raquel'},{'Olivia'},{'Andra '},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Raquel'},{'Olivia'},{'Mike D'},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Raquel'},,,&,1/1,&
-&,{'Mitch '},{'Chad L'},{'Sarah '},{'Sarah '},{'Eric Z'},{'Olivia'},&,1/1,&
+&,{'Mitch '},{'Chad L'},{'Sarah '},{'Eric Z'},{'Olivia'},,&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Stanle'},{'Bob We'},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Stanle'},{'Brando'},{'Lisa F'},&,1/1,&
 &,{'Mitch '},{'Chad L'},{'Sarah '},{'Stanle'},{'Eli Ar'},{'Chloe '},&,1/1,&
@@ -23260,7 +23260,7 @@ False
 &,{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Lisa F'},{'Sarah '},{'Olivia'},&,1/1,&
 &,{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Olivia'},{'John T'},{'Tony M'},&,2/1,&
 &,{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Sarah '},{'Chad L'},&,1/1,&
-&,{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Sarah '},{'Mitch '},&,1/1,&
+&,{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Sarah '},,&,1/1,&
 &,{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Sarah '},,&,1/1,&
 &,{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Olivia'},{'Tony M'},{'Chad L'},&,1/1,&
 &,{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Olivia'},,,&,2/1,&
@@ -23740,7 +23740,7 @@ False
 &,{'Mitch '},{'Kevin '},{'Tony M'},{'Olivia'},{'Moses '},{'Mike D'},&,1/1,&
 &,{'Mitch '},{'Kevin '},{'Tony M'},{'Stanle'},{'John T'},{'Chad L'},&,1/1,&
 &,{'Mitch '},{'Kevin '},{'Tony M'},{'Stanle'},,,&,1/1,&
-&,{'Mitch '},{'Kevin '},{'Tony M'},{'Tony M'},,,&,1/1,&
+&,{'Mitch '},{'Kevin '},{'Tony M'},,,,&,1/1,&
 &,{'Mitch '},{'Kevin '},{'Tony M'},,,,&,2/1,&
 &,{'Mitch '},{'Kevin '},,,,,&,4/1,&
 &,{'Mitch '},{'Lee Od'},{'Chloe '},{'Ciatta'},{'Olivia'},{'Lisa F'},&,1/1,&
@@ -23761,7 +23761,7 @@ False
 &,{'Mitch '},{'Lisa F'},{'Andra '},{'Chris '},,,&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Andra '},{'John T'},{'Eric Z'},{'Sarah '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Andra '},{'Moses '},{'Sarah '},{'Ben Hu'},&,1/1,&
-&,{'Mitch '},{'Lisa F'},{'Andra '},{'Olivia'},{'Mike D'},{'Lisa F'},&,1/1,&
+&,{'Mitch '},{'Lisa F'},{'Andra '},{'Olivia'},{'Mike D'},,&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Andra '},{'Sarah '},{'Chad L'},{'Chloe '},&,2/1,&
 &,{'Mitch '},{'Lisa F'},{'Andra '},{'Sarah '},{'Chad L'},{'Chris '},&,2/1,&
 &,{'Mitch '},{'Lisa F'},{'Andra '},{'Sarah '},{'Chad L'},{'Mike D'},&,1/1,&
@@ -23909,7 +23909,7 @@ False
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Mike D'},{'Olivia'},{'Eric Z'},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Mike D'},{'Sarah '},,&,2/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Mike D'},,,&,12/1,&
-&,{'Mitch '},{'Lisa F'},{'Chad L'},{'Mitch '},{'Lisa F'},{'Chad L'},&,1/1,&
+&,{'Mitch '},{'Lisa F'},{'Chad L'},,,,&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Moses '},{'Eli Ar'},{'Andra '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Moses '},{'Sarah '},{'Chloe '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Moses '},,,&,2/1,&
@@ -23921,7 +23921,7 @@ False
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Olivia'},{'Ben Hu'},{'Sarah '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Olivia'},{'Ben Hu'},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Olivia'},{'Ben Hu'},,&,2/1,&
-&,{'Mitch '},{'Lisa F'},{'Chad L'},{'Olivia'},{'Bob Ca'},{'Lisa F'},&,1/1,&
+&,{'Mitch '},{'Lisa F'},{'Chad L'},{'Olivia'},{'Bob Ca'},,&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Olivia'},{'Bob Ca'},{'Sarah '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Olivia'},{'Bob We'},{'Moses '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chad L'},{'Olivia'},{'Chris '},{'Kelly '},&,1/1,&
@@ -24070,7 +24070,7 @@ False
 &,{'Mitch '},{'Lisa F'},{'Chloe '},{'Andra '},{'Chad L'},{'Chris '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chloe '},{'Ben Hu'},{'Stanle'},{'John T'},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chloe '},{'Bob We'},{'John T'},{'Joseph'},&,1/1,&
-&,{'Mitch '},{'Lisa F'},{'Chloe '},{'Brando'},{'Brando'},,&,1/1,&
+&,{'Mitch '},{'Lisa F'},{'Chloe '},{'Brando'},,,&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chloe '},{'Chad L'},{'Eli Ar'},,&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Chloe '},{'Chad L'},{'Stanle'},{'Tony M'},&,2/1,&
 &,{'Mitch '},{'Lisa F'},{'Chloe '},{'Chad L'},,,&,1/1,&
@@ -24116,7 +24116,7 @@ False
 &,{'Mitch '},{'Lisa F'},{'Eli Ar'},{'Chad L'},{'Eric Z'},{'Olivia'},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Eli Ar'},{'Chad L'},{'Tony M'},{'Sarah '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Eli Ar'},{'Chris '},{'Andra '},{'Sarah '},&,2/1,&
-&,{'Mitch '},{'Lisa F'},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Andra '},&,1/1,&
+&,{'Mitch '},{'Lisa F'},{'Eli Ar'},{'Bob We'},{'Andra '},,&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Eli Ar'},{'Olivia'},{'Chad L'},{'Chloe '},&,1/1,&
 &,{'Mitch '},{'Lisa F'},{'Eli Ar'},{'Olivia'},{'Sarah '},,&,2/1,&
 &,{'Mitch '},{'Lisa F'},{'Eli Ar'},{'Olivia'},{'Stanle'},{'Chad L'},&,1/1,&
@@ -24424,9 +24424,9 @@ False
 &,{'Mitch '},{'Mike D'},{'Sarah '},{'Lisa F'},{'Chad L'},{'Andra '},&,1/1,&
 &,{'Mitch '},{'Mike D'},{'Sarah '},{'Lisa F'},{'Chad L'},{'Joseph'},&,1/1,&
 &,{'Mitch '},{'Mike D'},,,,,&,1/1,&
-&,{'Mitch '},{'Mitch '},{'Mitch '},{'Mitch '},{'Eric Z'},{'Olivia'},&,1/1,&
-&,{'Mitch '},{'Mitch '},{'Mitch '},{'Mitch '},{'Mitch '},{'Mitch '},&,3/1,&
-&,{'Mitch '},{'Mitch '},{'Raquel'},{'Tony M'},,,&,1/1,&
+&,{'Mitch '},{'Eric Z'},{'Olivia'},,,,&,1/1,&
+&,{'Mitch '},,,,,,&,3/1,&
+&,{'Mitch '},{'Raquel'},{'Tony M'},,,,&,1/1,&
 &,{'Mitch '},{'Moses '},{'Andra '},{'Bob We'},{'Eli Ar'},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Moses '},{'Andra '},{'Bob We'},,,&,1/1,&
 &,{'Mitch '},{'Moses '},{'Andra '},{'Lisa F'},{'John J'},{'Ben Hu'},&,1/1,&
@@ -24605,7 +24605,7 @@ False
 &,{'Mitch '},{'Olivia'},{'Eli Ar'},{'Lisa F'},{'Kevin '},{'Chloe '},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Eli Ar'},{'Lisa F'},{'Sarah '},{'Ben Hu'},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Eli Ar'},{'Moses '},{'Eric Z'},,&,1/1,&
-&,{'Mitch '},{'Olivia'},{'Eli Ar'},{'Olivia'},{'Chad L'},{'Bob We'},&,1/1,&
+&,{'Mitch '},{'Olivia'},{'Eli Ar'},{'Chad L'},{'Bob We'},,&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Eli Ar'},{'Sarah '},{'Eric Z'},{'Bob We'},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Eli Ar'},{'Sarah '},{'Eric Z'},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Eli Ar'},{'Sarah '},{'Moses '},{'Chad L'},&,1/1,&
@@ -24652,7 +24652,7 @@ False
 &,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Chad L'},&,6/1,&
 &,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Kevin '},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Lisa F'},&,1/1,&
-&,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Mitch '},&,1/1,&
+&,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},,&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},,&,2/1,&
 &,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Tony M'},{'Ben Hu'},&,1/1,&
@@ -24786,7 +24786,7 @@ False
 &,{'Mitch '},{'Olivia'},{'Lisa F'},,,,&,12/1,&
 &,{'Mitch '},{'Olivia'},{'Michae'},{'Eric Z'},{'Ben Hu'},{'Eli Ar'},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Mike D'},{'Eli Ar'},,,&,1/1,&
-&,{'Mitch '},{'Olivia'},{'Mitch '},{'Andra '},,,&,1/1,&
+&,{'Mitch '},{'Olivia'},{'Andra '},,,,&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Moses '},{'Chad L'},,,&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Moses '},{'Eric Z'},{'Sarah '},{'Lee Od'},&,2/1,&
 &,{'Mitch '},{'Olivia'},{'Moses '},{'Mike D'},,,&,1/1,&
@@ -24932,7 +24932,7 @@ False
 &,{'Mitch '},{'Olivia'},{'Tony M'},{'Sarah '},{'Ben Hu'},{'John T'},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Tony M'},{'Sarah '},{'Chad L'},{'Andra '},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Tony M'},{'Sarah '},{'Chad L'},{'Stanle'},&,1/1,&
-&,{'Mitch '},{'Olivia'},{'Tony M'},{'Sarah '},{'Chad L'},{'Tony M'},&,1/1,&
+&,{'Mitch '},{'Olivia'},{'Tony M'},{'Sarah '},{'Chad L'},,&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Tony M'},{'Sarah '},{'Chloe '},{'Chad L'},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Tony M'},{'Sarah '},{'Eric Z'},{'Eli Ar'},&,1/1,&
 &,{'Mitch '},{'Olivia'},{'Tony M'},{'Sarah '},{'Lisa F'},{'Eli Ar'},&,1/1,&
@@ -24954,7 +24954,7 @@ False
 &,{'Mitch '},{'Raquel'},{'Ciatta'},{'Tony S'},{'Eric Z'},{'Olivia'},&,1/1,&
 &,{'Mitch '},{'Raquel'},{'Olivia'},{'Chris '},{'John T'},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Raquel'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},&,1/1,&
-&,{'Mitch '},{'Raquel'},{'Olivia'},{'Eric Z'},{'Mike D'},{'Eric Z'},&,1/1,&
+&,{'Mitch '},{'Raquel'},{'Olivia'},{'Eric Z'},{'Mike D'},,&,1/1,&
 &,{'Mitch '},{'Raquel'},{'Olivia'},{'Kelly '},{'Ben Hu'},{'Sarah '},&,1/1,&
 &,{'Mitch '},{'Raquel'},{'Olivia'},{'Lisa F'},{'Sarah '},{'Kelly '},&,1/1,&
 &,{'Mitch '},{'Raquel'},{'Patric'},{'Sarah '},{'Mike D'},,&,1/1,&
@@ -24984,7 +24984,7 @@ False
 &,{'Mitch '},{'Sarah '},{'Andra '},{'Chris '},{'Chad L'},,&,3/1,&
 &,{'Mitch '},{'Sarah '},{'Andra '},{'Chris '},{'Lisa F'},{'Ciatta'},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Andra '},{'Chris '},{'Michae'},{'Joseph'},&,1/1,&
-&,{'Mitch '},{'Sarah '},{'Andra '},{'Chris '},{'Sarah '},{'Chad L'},&,1/1,&
+&,{'Mitch '},{'Sarah '},{'Andra '},{'Chris '},{'Chad L'},,&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Andra '},{'Chris '},,,&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Andra '},{'Ciatta'},{'Bob We'},{'Chris '},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Andra '},{'Lisa F'},{'Chad L'},{'Mike D'},&,1/1,&
@@ -25116,7 +25116,7 @@ False
 &,{'Mitch '},{'Sarah '},{'Chad L'},{'Lisa F'},{'Bob We'},{'Olivia'},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Chad L'},{'Lisa F'},{'Bob We'},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Chad L'},{'Lisa F'},{'Bob We'},,&,1/1,&
-&,{'Mitch '},{'Sarah '},{'Chad L'},{'Lisa F'},{'Chad L'},,&,1/1,&
+&,{'Mitch '},{'Sarah '},{'Chad L'},{'Lisa F'},,,&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Chad L'},{'Lisa F'},{'Chloe '},{'Tony M'},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Chad L'},{'Lisa F'},{'Chloe '},,&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Chad L'},{'Lisa F'},{'Chris '},{'Andra '},&,1/1,&
@@ -25421,7 +25421,7 @@ False
 &,{'Mitch '},{'Sarah '},{'Lisa F'},{'Eric Z'},{'Bob We'},{'Olivia'},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Lisa F'},{'Eric Z'},{'Tony M'},{'Olivia'},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Lisa F'},{'Kevin '},,,&,1/1,&
-&,{'Mitch '},{'Sarah '},{'Lisa F'},{'Lisa F'},,,&,1/1,&
+&,{'Mitch '},{'Sarah '},{'Lisa F'},,,,&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Lisa F'},{'Michae'},{'Chad L'},{'Chloe '},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Lisa F'},{'Mike D'},{'Andra '},{'Chris '},&,1/1,&
 &,{'Mitch '},{'Sarah '},{'Lisa F'},{'Moses '},{'Ben Hu'},{'Chad L'},&,1/1,&
@@ -25746,7 +25746,7 @@ False
 &,{'Mitch '},{'Tony M'},{'Chad L'},{'Olivia'},{'Sarah '},{'Eric Z'},&,1/1,&
 &,{'Mitch '},{'Tony M'},{'Chad L'},{'Olivia'},{'Sarah '},,&,5/1,&
 &,{'Mitch '},{'Tony M'},{'Chad L'},{'Olivia'},,,&,2/1,&
-&,{'Mitch '},{'Tony M'},{'Chad L'},{'Sarah '},{'Eli Ar'},{'Sarah '},&,1/1,&
+&,{'Mitch '},{'Tony M'},{'Chad L'},{'Sarah '},{'Eli Ar'},,&,1/1,&
 &,{'Mitch '},{'Tony M'},{'Chad L'},{'Sarah '},{'Eric Z'},{'Chloe '},&,1/1,&
 &,{'Mitch '},{'Tony M'},{'Chad L'},{'Sarah '},{'Eric Z'},{'Lisa F'},&,1/1,&
 &,{'Mitch '},{'Tony M'},{'Chad L'},{'Sarah '},{'Eric Z'},{'Olivia'},&,2/1,&
@@ -25918,7 +25918,7 @@ False
 &,{'Mitch '},{'Tony S'},{'John T'},{'Brando'},{'Lisa F'},,&,1/1,&
 &,{'Mitch '},{'Tony S'},{'Raquel'},{'Chris '},{'Kelly '},{'John J'},&,1/1,&
 &,{'Mitch '},{'Tony S'},{'Sarah '},{'Eric Z'},,,&,1/1,&
-&,{'Mitch '},{'Tony S'},{'Sarah '},{'Sarah '},{'L Chri'},,&,1/1,&
+&,{'Mitch '},{'Tony S'},{'Sarah '},{'L Chri'},,,&,1/1,&
 &,{'Mitch '},{'Tony S'},,,,,&,2/1,&
 &,{'Mitch '},{'Olivia'},{'Eric Z'},{'Eli Ar'},,,&,1/1,&
 &,{'Mitch '},{'Raquel'},{'Ciatta'},{'Sarah '},{'Olivia'},,&,1/1,&
@@ -26167,7 +26167,7 @@ False
 &,{'Moses '},{'Lisa F'},{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},&,2/1,&
 &,{'Moses '},{'Lisa F'},{'Olivia'},{'Sarah '},{'Mitch '},{'Andra '},&,1/1,&
 &,{'Moses '},{'Lisa F'},{'Olivia'},,,,&,1/1,&
-&,{'Moses '},{'Lisa F'},{'Raquel'},{'Patric'},{'Stanle'},{'Lisa F'},&,1/1,&
+&,{'Moses '},{'Lisa F'},{'Raquel'},{'Patric'},{'Stanle'},,&,1/1,&
 &,{'Moses '},{'Lisa F'},{'Sarah '},{'Chad L'},,,&,1/1,&
 &,{'Moses '},{'Lisa F'},{'Sarah '},{'Mitch '},{'Kevin '},{'Ciatta'},&,1/1,&
 &,{'Moses '},{'Lisa F'},{'Sarah '},{'Mitch '},,,&,1/1,&
@@ -26222,8 +26222,8 @@ False
 &,{'Moses '},{'Mitch '},{'Tony M'},{'Olivia'},{'Lisa F'},{'Ciatta'},&,1/1,&
 &,{'Moses '},{'Mitch '},{'Tony M'},,,,&,1/1,&
 &,{'Moses '},{'Mitch '},,,,,&,6/1,&
-&,{'Moses '},{'Moses '},{'L Chri'},{'Moses '},{'John T'},{'Raquel'},&,1/1,&
-&,{'Moses '},{'Moses '},{'Moses '},{'Moses '},{'Moses '},{'Moses '},&,2/1,&
+&,{'Moses '},{'L Chri'},{'John T'},{'Raquel'},,,&,1/1,&
+&,{'Moses '},,,,,,&,2/1,&
 &,{'Moses '},{'Olivia'},{'Ben Hu'},{'John T'},{'Tony M'},,&,1/1,&
 &,{'Moses '},{'Olivia'},{'Bob Ca'},{'Lisa F'},,,&,1/1,&
 &,{'Moses '},{'Olivia'},{'Bob We'},{'Chad L'},{'Eric Z'},{'Mitch '},&,1/1,&
@@ -26323,7 +26323,7 @@ False
 &,{'Moses '},{'Sarah '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},&,1/1,&
 &,{'Moses '},{'Sarah '},{'Olivia'},{'Lisa F'},{'Eric Z'},{'Kevin '},&,1/1,&
 &,{'Moses '},{'Sarah '},{'Olivia'},{'Mitch '},{'Tony M'},{'Bob We'},&,1/1,&
-&,{'Moses '},{'Sarah '},{'Olivia'},{'Sarah '},{'Eric Z'},{'Ciatta'},&,1/1,&
+&,{'Moses '},{'Sarah '},{'Olivia'},{'Eric Z'},{'Ciatta'},,&,1/1,&
 &,{'Moses '},{'Sarah '},{'Olivia'},{'Tony M'},{'Chad L'},{'Stanle'},&,2/1,&
 &,{'Moses '},{'Sarah '},{'Olivia'},{'Tony M'},{'Eric Z'},,&,1/1,&
 &,{'Moses '},{'Sarah '},{'Olivia'},,,,&,2/1,&
@@ -26350,7 +26350,7 @@ False
 &,{'Moses '},{'Tony M'},{'Eric Z'},{'Eli Ar'},{'Olivia'},,&,2/1,&
 &,{'Moses '},{'Tony M'},{'Eric Z'},{'Olivia'},,,&,1/1,&
 &,{'Moses '},{'Tony M'},{'Kevin '},{'John J'},{'Olivia'},{'Mike D'},&,1/1,&
-&,{'Moses '},{'Tony M'},{'Mitch '},{'Mitch '},{'Stanle'},{'Tony M'},&,1/1,&
+&,{'Moses '},{'Tony M'},{'Mitch '},{'Stanle'},,,&,1/1,&
 &,{'Moses '},{'Tony M'},{'Olivia'},{'Eric Z'},,,&,1/1,&
 &,{'Moses '},{'Tony M'},{'Olivia'},{'Lisa F'},{'John T'},{'Bob Ca'},&,1/1,&
 &,{'Moses '},{'Tony M'},{'Olivia'},{'Sarah '},,,&,1/1,&
@@ -26447,7 +26447,7 @@ False
 &,{'Olivia'},{'Ben Hu'},{'Chad L'},{'Ciatta'},{'Lisa F'},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Ben Hu'},{'Chad L'},{'Eric Z'},{'Stanle'},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Ben Hu'},{'Chad L'},{'Kevin '},{'Mitch '},{'Bob Ca'},&,1/1,&
-&,{'Olivia'},{'Ben Hu'},{'Chad L'},{'Olivia'},{'Ben Hu'},{'Chad L'},&,3/1,&
+&,{'Olivia'},{'Ben Hu'},{'Chad L'},,,,&,3/1,&
 &,{'Olivia'},{'Ben Hu'},{'Chad L'},{'Sarah '},{'Eli Ar'},{'Eric Z'},&,2/1,&
 &,{'Olivia'},{'Ben Hu'},{'Chad L'},{'Sarah '},{'Eric Z'},{'Tony M'},&,1/1,&
 &,{'Olivia'},{'Ben Hu'},{'Chad L'},{'Tony M'},{'Ciatta'},{'Sarah '},&,2/1,&
@@ -26474,7 +26474,7 @@ False
 &,{'Olivia'},{'Ben Hu'},{'Eli Ar'},{'John T'},{'Bob We'},{'Kevin '},&,1/1,&
 &,{'Olivia'},{'Ben Hu'},{'Eli Ar'},{'John T'},{'Chad L'},{'Eric Z'},&,1/1,&
 &,{'Olivia'},{'Ben Hu'},{'Eli Ar'},{'John T'},{'Chad L'},,&,1/1,&
-&,{'Olivia'},{'Ben Hu'},{'Eli Ar'},{'John T'},{'John T'},,&,1/1,&
+&,{'Olivia'},{'Ben Hu'},{'Eli Ar'},{'John T'},,,&,1/1,&
 &,{'Olivia'},{'Ben Hu'},{'Eli Ar'},{'John T'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Ben Hu'},{'Eli Ar'},{'Kevin '},{'Eric Z'},{'Lisa F'},&,1/1,&
 &,{'Olivia'},{'Ben Hu'},{'Eli Ar'},{'Lisa F'},{'Chad L'},{'Sarah '},&,1/1,&
@@ -26673,7 +26673,7 @@ False
 &,{'Olivia'},{'Bob Ca'},{'Eli Ar'},{'Ben Hu'},,,&,1/1,&
 &,{'Olivia'},{'Bob Ca'},{'Eli Ar'},{'Bob We'},{'Andra '},{'Lee Od'},&,1/1,&
 &,{'Olivia'},{'Bob Ca'},{'Eli Ar'},{'Bob We'},,,&,1/1,&
-&,{'Olivia'},{'Bob Ca'},{'Eli Ar'},{'Eli Ar'},,,&,2/1,&
+&,{'Olivia'},{'Bob Ca'},{'Eli Ar'},,,,&,2/1,&
 &,{'Olivia'},{'Bob Ca'},{'Eli Ar'},{'Eric Z'},{'Bob We'},,&,1/1,&
 &,{'Olivia'},{'Bob Ca'},{'Eli Ar'},{'Eric Z'},{'John T'},{'Tony M'},&,1/1,&
 &,{'Olivia'},{'Bob Ca'},{'Eli Ar'},{'Eric Z'},{'Mitch '},,&,1/1,&
@@ -26793,7 +26793,7 @@ False
 &,{'Olivia'},{'Bob We'},{'Bob Ca'},{'Sarah '},{'Eric Z'},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Bob Ca'},{'Tony M'},{'Mitch '},{'Eric Z'},&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Bob Ca'},,,,&,3/1,&
-&,{'Olivia'},{'Bob We'},{'Bob We'},{'Bob We'},{'Bob We'},{'Bob We'},&,2/1,&
+&,{'Olivia'},{'Bob We'},,,,,&,2/1,&
 &,{'Olivia'},{'Bob We'},{'Brando'},{'Michae'},{'Moses '},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Chad L'},{'Ben Hu'},{'Eric Z'},{'Eli Ar'},&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Chad L'},{'Ben Hu'},{'Mitch '},{'Stanle'},&,1/1,&
@@ -26820,7 +26820,7 @@ False
 &,{'Olivia'},{'Bob We'},{'Ciatta'},{'Lisa F'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Ciatta'},{'Sarah '},{'Lisa F'},,&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Ciatta'},{'Eric Z'},,,&,1/1,&
-&,{'Olivia'},{'Bob We'},{'Eli Ar'},{'Ben Hu'},{'Bob We'},,&,1/1,&
+&,{'Olivia'},{'Bob We'},{'Eli Ar'},{'Ben Hu'},,,&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Eli Ar'},{'Ben Hu'},{'Lisa F'},{'Tony M'},&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Eli Ar'},{'Ben Hu'},,,&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Eli Ar'},{'Bob Ca'},,,&,1/1,&
@@ -26941,7 +26941,7 @@ False
 &,{'Olivia'},{'Bob We'},{'Eric Z'},{'Lisa F'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Eric Z'},{'Lisa F'},,,&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Eric Z'},{'Mitch '},{'Ben Hu'},{'Eli Ar'},&,1/1,&
-&,{'Olivia'},{'Bob We'},{'Eric Z'},{'Mitch '},{'Bob We'},{'Mitch '},&,1/1,&
+&,{'Olivia'},{'Bob We'},{'Eric Z'},{'Mitch '},,,&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'Sarah '},&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Eric Z'},{'Mitch '},{'Eli Ar'},,&,1/1,&
 &,{'Olivia'},{'Bob We'},{'Eric Z'},{'Mitch '},{'John T'},{'Chad L'},&,2/1,&
@@ -27680,7 +27680,7 @@ False
 &,{'Olivia'},{'Chloe '},{'Kelly '},{'Ciatta'},{'Andra '},{'Raquel'},&,1/1,&
 &,{'Olivia'},{'Chloe '},{'Kelly '},{'Sarah '},{'John J'},{'Raquel'},&,1/1,&
 &,{'Olivia'},{'Chloe '},{'Kelly '},{'Tony S'},{'Tony M'},{'Ciatta'},&,1/1,&
-&,{'Olivia'},{'Chloe '},{'Kevin '},{'Lisa F'},{'Sarah '},{'Kevin '},&,1/1,&
+&,{'Olivia'},{'Chloe '},{'Kevin '},{'Lisa F'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Chloe '},{'Kevin '},{'Mitch '},{'Tony M'},{'Lisa F'},&,1/1,&
 &,{'Olivia'},{'Chloe '},{'Lee Od'},{'Eric Z'},{'Lisa F'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Chloe '},{'Lee Od'},{'Eric Z'},{'Lisa F'},{'Chris '},&,1/1,&
@@ -28148,7 +28148,7 @@ False
 &,{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Mitch '},{'Chad L'},{'Lisa F'},&,2/1,&
 &,{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Mitch '},{'Chad L'},{'Sarah '},&,3/1,&
 &,{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Mitch '},{'Chad L'},,&,1/1,&
-&,{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Mitch '},{'Eric Z'},,&,1/1,&
+&,{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Mitch '},,,&,1/1,&
 &,{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Mitch '},{'John T'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Mitch '},{'John T'},{'Lisa F'},&,1/1,&
 &,{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Mitch '},{'John T'},{'Tony M'},&,3/1,&
@@ -28732,11 +28732,11 @@ False
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Ben Hu'},{'Chris '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Ben Hu'},{'Eli Ar'},,&,2/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Ben Hu'},,,&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Bob Ca'},{'Eli Ar'},{'Stanle'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Eli Ar'},{'Stanle'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Bob We'},{'Andra '},{'Eli Ar'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Bob We'},{'Chad L'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Bob We'},{'Kevin '},{'Stanle'},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Chad L'},{'Moses '},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Moses '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Tony M'},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Chad L'},{'Tony M'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Chris '},{'Sarah '},{'Lisa F'},&,1/1,&
@@ -28755,7 +28755,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},{'Tony M'},,,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob Ca'},,,,&,7/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob We'},{'Andra '},{'Mitch '},{'Ben Hu'},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Bob We'},{'Andra '},{'Mitch '},{'Bob We'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Bob We'},{'Andra '},{'Mitch '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob We'},{'Ben Hu'},{'Eli Ar'},{'Tony M'},&,4/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob We'},{'Ben Hu'},{'Eli Ar'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Bob We'},{'Bob Ca'},{'Stanle'},{'Eli Ar'},&,1/1,&
@@ -29086,7 +29086,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Chloe '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Ciatta'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Ciatta'},,&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Eric Z'},{'Lisa F'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Lisa F'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'John T'},{'Ben Hu'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'John T'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'John T'},{'Moses '},&,1/1,&
@@ -29105,7 +29105,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},{'Chad L'},&,7/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},{'Ciatta'},&,3/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},{'Eli Ar'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},{'Lisa F'},&,9/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},{'Sarah '},&,38/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},{'Stanle'},&,4/1,&
@@ -29218,8 +29218,8 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Ciatta'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Ciatta'},{'Tony M'},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Ciatta'},,,&,6/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Eli Ar'},{'Bob We'},{'Moses '},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Eli Ar'},,,&,2/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Moses '},,&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},,,,&,2/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'John J'},{'Raquel'},{'Sarah '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'John J'},{'Sarah '},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'John J'},,,&,1/1,&
@@ -29324,7 +29324,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Ciatta'},&,2/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Bob We'},{'John T'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Lisa F'},&,2/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Mitch '},&,2/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Bob We'},,&,2/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Sarah '},&,19/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Stanle'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Tony M'},&,3/1,&
@@ -29380,9 +29380,9 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Moses '},{'Sarah '},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Moses '},{'Tony M'},{'Sarah '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Moses '},,,&,7/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Olivia'},{'Bob We'},{'Sarah '},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Eli Ar'},&,2/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Olivia'},{'Olivia'},{'Olivia'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Sarah '},,&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},,,,&,2/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},,,,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Raquel'},{'Chloe '},{'Lisa F'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Raquel'},{'Ciatta'},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Raquel'},{'Kevin '},{'Bob We'},&,1/1,&
@@ -29398,7 +29398,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob Ca'},{'Mitch '},&,5/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},{'Ben Hu'},&,8/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},{'Bob Ca'},&,5/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},{'Bob We'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},{'Chad L'},&,17/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},{'Ciatta'},&,17/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},{'John J'},&,13/1,&
@@ -29431,8 +29431,8 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Ciatta'},{'Joseph'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Ciatta'},{'Mitch '},&,3/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Ciatta'},{'Raquel'},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Eli Ar'},{'Chad L'},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Eric Z'},{'John T'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Chad L'},,&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'John T'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'John T'},{'Bob We'},&,4/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'John T'},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'John T'},{'Ciatta'},&,1/1,&
@@ -29473,7 +29473,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Raquel'},{'Andra '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Raquel'},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Raquel'},{'Ciatta'},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Sarah '},,&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},,,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Stanle'},{'Bob We'},&,2/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Stanle'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Stanle'},{'Joseph'},&,2/1,&
@@ -29521,7 +29521,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Raquel'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Sarah '},{'Bob We'},&,3/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Sarah '},{'Chad L'},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Sarah '},{'Eric Z'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Sarah '},{'Mitch '},&,4/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Tony M'},{'Chad L'},&,1/1,&
@@ -29805,7 +29805,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'Chad L'},{'Sarah '},&,5/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'Ciatta'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'Ciatta'},{'Sarah '},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'Eli Ar'},{'Sarah '},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'John T'},{'Ben Hu'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'John T'},{'Lisa F'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'John T'},,&,1/1,&
@@ -29827,7 +29827,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'Tony M'},{'Stanle'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},{'Bob We'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eli Ar'},,,&,10/1,&
-&,{'Olivia'},{'Eric Z'},{'Mitch '},{'Eric Z'},{'Sarah '},{'Bob We'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Mitch '},{'Sarah '},{'Bob We'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'John J'},{'Eli Ar'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'John T'},{'Bob We'},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Mitch '},{'John T'},,,&,2/1,&
@@ -30082,7 +30082,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Bob We'},{'Ben Hu'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Bob We'},{'Chad L'},&,4/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eli Ar'},&,10/1,&
-&,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Bob We'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Bob We'},{'Lisa F'},&,4/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Bob We'},{'Tony M'},&,3/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Bob We'},,&,6/1,&
@@ -30120,7 +30120,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Mike D'},{'Eli Ar'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Moses '},{'Ciatta'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Moses '},{'Tony M'},&,1/1,&
-&,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Sarah '},{'Eli Ar'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Eli Ar'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Tony M'},{'Ben Hu'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Tony M'},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},{'Tony M'},{'Ciatta'},&,1/1,&
@@ -30208,7 +30208,7 @@ False
 &,{'Olivia'},{'Eric Z'},{'Stanle'},{'Lisa F'},{'Joseph'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Stanle'},{'Lisa F'},{'Tony M'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Stanle'},{'Mitch '},{'Bob We'},,&,2/1,&
-&,{'Olivia'},{'Eric Z'},{'Stanle'},{'Mitch '},{'Eli Ar'},{'Stanle'},&,1/1,&
+&,{'Olivia'},{'Eric Z'},{'Stanle'},{'Mitch '},{'Eli Ar'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Stanle'},{'Mitch '},{'Eli Ar'},,&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Stanle'},{'Mitch '},{'Kevin '},{'Eli Ar'},&,1/1,&
 &,{'Olivia'},{'Eric Z'},{'Stanle'},{'Mitch '},{'Sarah '},{'Lisa F'},&,2/1,&
@@ -30485,7 +30485,7 @@ False
 &,{'Olivia'},{'Joseph'},{'Lisa F'},,,,&,1/1,&
 &,{'Olivia'},{'Joseph'},{'Mike D'},{'Lisa F'},{'Mitch '},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Joseph'},{'Mike D'},,,,&,2/1,&
-&,{'Olivia'},{'Joseph'},{'Mitch '},{'Eric Z'},{'Eric Z'},{'Sarah '},&,1/1,&
+&,{'Olivia'},{'Joseph'},{'Mitch '},{'Eric Z'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Joseph'},{'Mitch '},{'Eric Z'},{'Sarah '},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Joseph'},{'Sarah '},{'Bob Ca'},,,&,1/1,&
 &,{'Olivia'},{'Joseph'},{'Sarah '},{'Mitch '},,,&,1/1,&
@@ -30565,7 +30565,7 @@ False
 &,{'Olivia'},{'Kevin '},{'Kelly '},{'Chad L'},,,&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Kelly '},{'Ciatta'},{'Bob Ca'},{'Tony M'},&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Kelly '},,,,&,1/1,&
-&,{'Olivia'},{'Kevin '},{'Kevin '},{'Kevin '},{'Kevin '},{'Kevin '},&,1/1,&
+&,{'Olivia'},{'Kevin '},,,,,&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Lisa F'},{'Andra '},{'Eli Ar'},{'Mike D'},&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Lisa F'},{'Eli Ar'},{'Eric Z'},{'Tony M'},&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Lisa F'},{'Mitch '},{'Chad L'},{'Chloe '},&,1/1,&
@@ -30585,7 +30585,7 @@ False
 &,{'Olivia'},{'Kevin '},{'Sarah '},{'Eric Z'},{'John T'},,&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Sarah '},{'Lisa F'},,,&,2/1,&
 &,{'Olivia'},{'Kevin '},{'Sarah '},{'Moses '},{'Stanle'},{'John T'},&,1/1,&
-&,{'Olivia'},{'Kevin '},{'Sarah '},{'Sarah '},{'Sarah '},{'Sarah '},&,1/1,&
+&,{'Olivia'},{'Kevin '},{'Sarah '},,,,&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Stanle'},{'Eli Ar'},,,&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Stanle'},{'Michae'},{'Lisa F'},{'Chris '},&,1/1,&
 &,{'Olivia'},{'Kevin '},{'Tony M'},{'Eli Ar'},,,&,1/1,&
@@ -30760,7 +30760,7 @@ False
 &,{'Olivia'},{'Lisa F'},{'Chloe '},{'Raquel'},{'Ciatta'},{'Sarah '},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Chloe '},{'Sarah '},{'Bob We'},{'Eli Ar'},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Chloe '},{'Sarah '},{'Ciatta'},{'Moses '},&,1/1,&
-&,{'Olivia'},{'Lisa F'},{'Chloe '},{'Sarah '},{'Eric Z'},{'Olivia'},&,1/1,&
+&,{'Olivia'},{'Lisa F'},{'Chloe '},{'Sarah '},{'Eric Z'},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Chloe '},{'Sarah '},{'Eric Z'},{'Stanle'},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Chloe '},{'Sarah '},{'Eric Z'},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Chloe '},{'Sarah '},{'Moses '},{'Eric Z'},&,1/1,&
@@ -30888,7 +30888,7 @@ False
 &,{'Olivia'},{'Lisa F'},{'Eric Z'},{'Mitch '},{'Sarah '},{'Eli Ar'},&,2/1,&
 &,{'Olivia'},{'Lisa F'},{'Eric Z'},{'Mitch '},{'Tony M'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Eric Z'},{'Mitch '},,,&,2/1,&
-&,{'Olivia'},{'Lisa F'},{'Eric Z'},{'Moses '},{'Sarah '},{'Moses '},&,1/1,&
+&,{'Olivia'},{'Lisa F'},{'Eric Z'},{'Moses '},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Eric Z'},{'Moses '},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Eric Z'},{'Moses '},,,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Eric Z'},{'Sarah '},{'Ben Hu'},{'Bob Ca'},&,1/1,&
@@ -30958,7 +30958,7 @@ False
 &,{'Olivia'},{'Lisa F'},{'L Chri'},{'Eli Ar'},{'Bob We'},{'Ciatta'},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Lee Od'},{'Joseph'},,,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Michae'},{'Chad L'},{'Sarah '},{'Moses '},&,1/1,&
-&,{'Olivia'},{'Lisa F'},{'Michae'},{'Ciatta'},{'Raquel'},{'Lisa F'},&,1/1,&
+&,{'Olivia'},{'Lisa F'},{'Michae'},{'Ciatta'},{'Raquel'},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Michae'},{'Tony M'},{'Ciatta'},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Michae'},{'Tony M'},{'Moses '},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Michae'},,,,&,2/1,&
@@ -30995,7 +30995,7 @@ False
 &,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Moses '},{'John T'},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Moses '},{'Michae'},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Moses '},{'Tony M'},&,1/1,&
-&,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Olivia'},{'Mike D'},&,1/1,&
+&,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Mike D'},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Sarah '},{'Andra '},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Sarah '},{'Chloe '},&,3/1,&
 &,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Sarah '},{'Eli Ar'},&,2/1,&
@@ -31313,7 +31313,7 @@ False
 &,{'Olivia'},{'Lisa F'},{'Tony M'},{'Sarah '},{'Mitch '},{'Andra '},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Tony M'},{'Sarah '},{'Mitch '},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Tony M'},,,,&,6/1,&
-&,{'Olivia'},{'Lisa F'},{'Tony S'},{'Kelly '},{'Olivia'},,&,1/1,&
+&,{'Olivia'},{'Lisa F'},{'Tony S'},{'Kelly '},,,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Mitch '},{'Chad L'},{'Sarah '},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Moses '},{'Mitch '},{'Andra '},,&,1/1,&
 &,{'Olivia'},{'Lisa F'},{'Chad L'},,,,&,1/1,&
@@ -31899,7 +31899,7 @@ False
 &,{'Olivia'},{'Mitch '},{'Sarah '},{'Lisa F'},,,&,4/1,&
 &,{'Olivia'},{'Mitch '},{'Sarah '},{'Moses '},{'Ben Hu'},,&,1/1,&
 &,{'Olivia'},{'Mitch '},{'Sarah '},{'Moses '},{'Tony M'},,&,1/1,&
-&,{'Olivia'},{'Mitch '},{'Sarah '},{'Olivia'},{'Eric Z'},,&,1/1,&
+&,{'Olivia'},{'Mitch '},{'Sarah '},{'Eric Z'},,,&,1/1,&
 &,{'Olivia'},{'Mitch '},{'Sarah '},{'Stanle'},{'Eric Z'},{'Eli Ar'},&,2/1,&
 &,{'Olivia'},{'Mitch '},{'Sarah '},{'Tony M'},{'Ben Hu'},{'Eric Z'},&,1/1,&
 &,{'Olivia'},{'Mitch '},{'Sarah '},{'Tony M'},{'Bob We'},{'Chad L'},&,1/1,&
@@ -32048,7 +32048,7 @@ False
 &,{'Olivia'},{'Moses '},{'Mitch '},,,,&,3/1,&
 &,{'Olivia'},{'Moses '},{'Sarah '},{'Bob We'},{'Eli Ar'},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Moses '},{'Sarah '},{'Bob We'},{'Mitch '},{'Tony M'},&,2/1,&
-&,{'Olivia'},{'Moses '},{'Sarah '},{'Chad L'},{'Chad L'},{'Bob We'},&,1/1,&
+&,{'Olivia'},{'Moses '},{'Sarah '},{'Chad L'},{'Bob We'},,&,1/1,&
 &,{'Olivia'},{'Moses '},{'Sarah '},{'Eric Z'},{'Mitch '},{'Stanle'},&,2/1,&
 &,{'Olivia'},{'Moses '},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},&,1/1,&
 &,{'Olivia'},{'Moses '},{'Stanle'},{'Eli Ar'},{'Sarah '},{'Bob We'},&,1/1,&
@@ -32060,9 +32060,9 @@ False
 &,{'Olivia'},{'Moses '},{'Tony M'},{'Mitch '},{'Stanle'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Moses '},{'Mitch '},{'Eli Ar'},{'Tony M'},,&,1/1,&
 &,{'Olivia'},{'Moses '},,,,,&,6/1,&
-&,{'Olivia'},{'Olivia'},{'Olivia'},{'Eli Ar'},{'Eli Ar'},{'Eli Ar'},&,1/1,&
-&,{'Olivia'},{'Olivia'},{'Olivia'},{'Sarah '},{'Sarah '},{'Olivia'},&,1/1,&
-&,{'Olivia'},{'Olivia'},,,,,&,1/1,&
+&,{'Olivia'},{'Eli Ar'},,,,,&,1/1,&
+&,{'Olivia'},{'Sarah '},,,,,&,1/1,&
+&,{'Olivia'},,,,,,&,1/1,&
 &,{'Olivia'},{'Patric'},{'Bob Ca'},{'Raquel'},{'Michae'},{'Ciatta'},&,1/1,&
 &,{'Olivia'},{'Patric'},{'Eli Ar'},{'Eric Z'},,,&,1/1,&
 &,{'Olivia'},{'Patric'},{'John T'},{'Sarah '},{'Eric Z'},{'Tony M'},&,1/1,&
@@ -32229,13 +32229,13 @@ False
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Chloe '},{'Lisa F'},{'Moses '},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Chloe '},{'Tony M'},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Ciatta'},,,&,1/1,&
-&,{'Olivia'},{'Sarah '},{'Chad L'},{'Eli Ar'},{'Eric Z'},{'Eli Ar'},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Chad L'},{'Eli Ar'},{'Eric Z'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Eli Ar'},{'Mitch '},{'Lisa F'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Eli Ar'},{'Mitch '},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Eli Ar'},{'Tony M'},{'Bob Ca'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Eli Ar'},{'Tony M'},{'Eric Z'},&,2/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Eli Ar'},,,&,2/1,&
-&,{'Olivia'},{'Sarah '},{'Chad L'},{'Eric Z'},{'Ben Hu'},{'Ben Hu'},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Chad L'},{'Eric Z'},{'Ben Hu'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Eric Z'},{'Bob We'},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Eric Z'},{'Eli Ar'},{'Lisa F'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Chad L'},{'Eric Z'},{'Eli Ar'},{'Mitch '},&,1/1,&
@@ -32398,7 +32398,7 @@ False
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Lisa F'},{'Mitch '},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Lisa F'},{'Moses '},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Lisa F'},,,&,1/1,&
-&,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Eli Ar'},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Bob We'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Bob We'},{'Tony M'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Chad L'},{'Ciatta'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Chad L'},{'Eric Z'},&,3/1,&
@@ -32407,7 +32407,7 @@ False
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Eric Z'},{'Bob We'},&,4/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Eric Z'},{'Chad L'},&,3/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Eric Z'},{'Ciatta'},&,1/1,&
-&,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Eric Z'},{'Sarah '},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Eric Z'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'Eric Z'},,&,5/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'John J'},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eli Ar'},{'Mitch '},{'John T'},{'Moses '},&,1/1,&
@@ -32442,7 +32442,7 @@ False
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Bob We'},{'Lisa F'},{'Eli Ar'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Bob We'},{'Lisa F'},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Bob We'},{'Lisa F'},,&,1/1,&
-&,{'Olivia'},{'Sarah '},{'Eric Z'},{'Bob We'},{'Mitch '},{'Bob We'},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Eric Z'},{'Bob We'},{'Mitch '},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Bob We'},{'Mitch '},{'Chad L'},&,2/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Bob We'},{'Mitch '},,&,3/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Bob We'},{'Moses '},{'Mitch '},&,2/1,&
@@ -32580,7 +32580,7 @@ False
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Moses '},{'Lisa F'},{'John T'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Moses '},{'Lisa F'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Moses '},,,&,1/1,&
-&,{'Olivia'},{'Sarah '},{'Eric Z'},{'Olivia'},{'Sarah '},{'Eric Z'},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Eric Z'},,,,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Stanle'},{'Bob We'},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Stanle'},{'Chad L'},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Stanle'},{'Eli Ar'},{'John T'},&,2/1,&
@@ -32596,7 +32596,7 @@ False
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},{'Eli Ar'},{'Lisa F'},&,2/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},{'Eli Ar'},{'Mitch '},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},{'Mitch '},{'Lisa F'},&,1/1,&
-&,{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},{'Sarah '},{'Chad L'},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},{'Chad L'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},{'Stanle'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},{'Stanle'},{'Lisa F'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Eric Z'},{'Tony M'},,,&,2/1,&
@@ -32783,7 +32783,7 @@ False
 &,{'Olivia'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},{'Ciatta'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},{'Eli Ar'},&,4/1,&
 &,{'Olivia'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},{'Lisa F'},&,1/1,&
-&,{'Olivia'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},{'Sarah '},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},{'Tony M'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Mitch '},{'Bob We'},{'Eric Z'},,&,2/1,&
@@ -33060,7 +33060,7 @@ False
 &,{'Olivia'},{'Sarah '},{'Tony M'},{'Moses '},{'Eric Z'},{'Mike D'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Tony M'},{'Moses '},{'Eric Z'},,&,2/1,&
 &,{'Olivia'},{'Sarah '},{'Tony M'},{'Moses '},{'Lee Od'},{'Chad L'},&,1/1,&
-&,{'Olivia'},{'Sarah '},{'Tony M'},{'Sarah '},{'Mitch '},{'Chad L'},&,1/1,&
+&,{'Olivia'},{'Sarah '},{'Tony M'},{'Mitch '},{'Chad L'},,&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Tony M'},{'Stanle'},{'Chloe '},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Sarah '},{'Tony M'},{'Stanle'},,,&,2/1,&
 &,{'Olivia'},{'Sarah '},{'Tony M'},,,,&,7/1,&
@@ -33181,10 +33181,10 @@ False
 &,{'Olivia'},{'Stanle'},{'Eric Z'},{'Mitch '},{'Tony M'},{'Chad L'},&,1/1,&
 &,{'Olivia'},{'Stanle'},{'Eric Z'},{'Sarah '},{'Ben Hu'},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Stanle'},{'Eric Z'},{'Sarah '},{'John T'},,&,1/1,&
-&,{'Olivia'},{'Stanle'},{'Eric Z'},{'Stanle'},{'Mitch '},{'Lisa F'},&,1/1,&
+&,{'Olivia'},{'Stanle'},{'Eric Z'},{'Mitch '},{'Lisa F'},,&,1/1,&
 &,{'Olivia'},{'Stanle'},{'Eric Z'},{'Tony M'},{'Bob We'},,&,1/1,&
 &,{'Olivia'},{'Stanle'},{'Eric Z'},,,,&,8/1,&
-&,{'Olivia'},{'Stanle'},{'John J'},{'Bob We'},{'John J'},{'Eli Ar'},&,1/1,&
+&,{'Olivia'},{'Stanle'},{'John J'},{'Bob We'},{'Eli Ar'},,&,1/1,&
 &,{'Olivia'},{'Stanle'},{'John J'},{'Kevin '},{'Bob We'},{'Eli Ar'},&,1/1,&
 &,{'Olivia'},{'Stanle'},{'John J'},{'Kevin '},,,&,1/1,&
 &,{'Olivia'},{'Stanle'},{'John J'},{'Lisa F'},,,&,1/1,&
@@ -33356,7 +33356,7 @@ False
 &,{'Olivia'},{'Tony M'},{'Eli Ar'},{'Stanle'},{'John J'},{'Chloe '},&,1/1,&
 &,{'Olivia'},{'Tony M'},{'Eli Ar'},{'Stanle'},{'John T'},{'Bob We'},&,1/1,&
 &,{'Olivia'},{'Tony M'},{'Eli Ar'},{'Stanle'},{'Sarah '},{'Chloe '},&,1/1,&
-&,{'Olivia'},{'Tony M'},{'Eli Ar'},{'Stanle'},{'Tony M'},{'Ben Hu'},&,2/1,&
+&,{'Olivia'},{'Tony M'},{'Eli Ar'},{'Stanle'},{'Ben Hu'},,&,2/1,&
 &,{'Olivia'},{'Tony M'},{'Eli Ar'},,,,&,11/1,&
 &,{'Olivia'},{'Tony M'},{'Eric Z'},{'Ben Hu'},{'Eli Ar'},{'Stanle'},&,2/1,&
 &,{'Olivia'},{'Tony M'},{'Eric Z'},{'Ben Hu'},{'Eli Ar'},,&,1/1,&
@@ -33575,7 +33575,7 @@ False
 &,{'Patric'},{'Brando'},{'Mike D'},{'Kevin '},{'Mitch '},{'Sarah '},&,1/1,&
 &,{'Patric'},{'Chloe '},{'Kelly '},{'Raquel'},{'Mitch '},{'Bob We'},&,1/1,&
 &,{'Patric'},{'Chloe '},{'Lee Od'},{'Kevin '},{'John T'},{'Raquel'},&,1/1,&
-&,{'Patric'},{'Ciatta'},{'Ciatta'},,,,&,1/1,&
+&,{'Patric'},{'Ciatta'},,,,,&,1/1,&
 &,{'Patric'},{'Ciatta'},{'L Chri'},{'John J'},{'Sarah '},,&,1/1,&
 &,{'Patric'},{'Eli Ar'},{'Ben Hu'},{'Eric Z'},{'Bob We'},{'Tony M'},&,1/1,&
 &,{'Patric'},{'Eli Ar'},{'Bob We'},{'Brando'},,,&,1/1,&
@@ -33603,7 +33603,7 @@ False
 &,{'Patric'},{'Eric Z'},{'Sarah '},{'Bob We'},{'Mitch '},,&,1/1,&
 &,{'Patric'},{'Eric Z'},,,,,&,3/1,&
 &,{'Patric'},{'John T'},{'Eli Ar'},,,,&,1/1,&
-&,{'Patric'},{'John T'},{'Olivia'},{'John T'},{'Joseph'},{'Mike D'},&,1/1,&
+&,{'Patric'},{'John T'},{'Olivia'},{'Joseph'},{'Mike D'},,&,1/1,&
 &,{'Patric'},{'Joseph'},{'Bob We'},{'Michae'},{'Moses '},{'Eric Z'},&,1/1,&
 &,{'Patric'},{'Joseph'},{'Tony M'},{'Raquel'},{'Moses '},{'Bob Ca'},&,1/1,&
 &,{'Patric'},{'Kelly '},{'Bob We'},{'Andra '},{'Stanle'},{'Chloe '},&,1/1,&
@@ -33627,7 +33627,7 @@ False
 &,{'Patric'},{'Olivia'},{'Chad L'},{'Stanle'},{'Tony M'},,&,1/1,&
 &,{'Patric'},{'Olivia'},{'Sarah '},{'Tony M'},{'Mitch '},{'Bob We'},&,1/1,&
 &,{'Patric'},{'Olivia'},{'Lisa F'},{'Chad L'},{'Ciatta'},,&,1/1,&
-&,{'Patric'},{'Patric'},{'Patric'},{'Patric'},{'Patric'},{'Patric'},&,2/1,&
+&,{'Patric'},,,,,,&,2/1,&
 &,{'Patric'},{'Raquel'},{'Ciatta'},{'Chad L'},{'Tony M'},{'Eli Ar'},&,1/1,&
 &,{'Patric'},{'Raquel'},{'Mitch '},{'Tony S'},{'Mike D'},{'Ciatta'},&,1/1,&
 &,{'Patric'},{'Raquel'},{'Olivia'},{'John T'},{'Lisa F'},{'Tony S'},&,1/1,&
@@ -33674,7 +33674,7 @@ False
 &,{'Raquel'},{'Chloe '},{'Andra '},{'Lisa F'},{'Sarah '},{'Olivia'},&,1/1,&
 &,{'Raquel'},{'Chloe '},{'Andra '},{'Olivia'},{'Ciatta'},{'Brando'},&,1/1,&
 &,{'Raquel'},{'Chloe '},{'Ciatta'},{'Olivia'},{'Andra '},{'Lisa F'},&,1/1,&
-&,{'Raquel'},{'Chloe '},{'Lee Od'},{'Lisa F'},{'Moses '},{'Raquel'},&,1/1,&
+&,{'Raquel'},{'Chloe '},{'Lee Od'},{'Lisa F'},{'Moses '},,&,1/1,&
 &,{'Raquel'},{'Chloe '},{'Lisa F'},{'Andra '},{'Moses '},{'Olivia'},&,1/1,&
 &,{'Raquel'},{'Chloe '},{'Lisa F'},{'Kelly '},,,&,1/1,&
 &,{'Raquel'},{'Chloe '},{'Lisa F'},{'Sarah '},{'Andra '},{'John T'},&,1/1,&
@@ -33693,7 +33693,7 @@ False
 &,{'Raquel'},{'Chloe '},{'Sarah '},{'Ciatta'},{'Bob Ca'},{'Lisa F'},&,1/1,&
 &,{'Raquel'},{'Chloe '},{'Sarah '},{'Kevin '},{'Kelly '},{'Ciatta'},&,1/1,&
 &,{'Raquel'},{'Chloe '},{'Sarah '},{'Mitch '},{'Kevin '},{'Olivia'},&,1/1,&
-&,{'Raquel'},{'Chloe '},{'Sarah '},{'Raquel'},{'Mitch '},,&,1/1,&
+&,{'Raquel'},{'Chloe '},{'Sarah '},{'Mitch '},,,&,1/1,&
 &,{'Raquel'},{'Chloe '},{'Tony S'},,,,&,1/1,&
 &,{'Raquel'},{'Chloe '},,,,,&,1/1,&
 &,{'Raquel'},{'Chloe '},,,,,&,1/1,&
@@ -33738,7 +33738,7 @@ False
 &,{'Raquel'},{'Kelly '},{'Sarah '},{'Andra '},,,&,1/1,&
 &,{'Raquel'},{'Kelly '},{'Sarah '},{'Bob We'},{'Stanle'},{'Moses '},&,1/1,&
 &,{'Raquel'},{'Kelly '},{'Sarah '},{'Ciatta'},{'Andra '},{'Eli Ar'},&,1/1,&
-&,{'Raquel'},{'Kelly '},{'Sarah '},{'Joseph'},{'Lisa F'},{'Lisa F'},&,1/1,&
+&,{'Raquel'},{'Kelly '},{'Sarah '},{'Joseph'},{'Lisa F'},,&,1/1,&
 &,{'Raquel'},{'Kelly '},{'Sarah '},{'Olivia'},{'Chloe '},{'Andra '},&,1/1,&
 &,{'Raquel'},{'Kevin '},{'Brando'},,,,&,1/1,&
 &,{'Raquel'},{'Kevin '},{'John J'},,,,&,1/1,&
@@ -33760,7 +33760,7 @@ False
 &,{'Raquel'},{'Lisa F'},{'Kelly '},{'Eli Ar'},{'John T'},{'Andra '},&,1/1,&
 &,{'Raquel'},{'Lisa F'},{'Kelly '},{'Olivia'},{'Ciatta'},,&,1/1,&
 &,{'Raquel'},{'Lisa F'},{'Kelly '},{'Sarah '},{'Ciatta'},{'Chloe '},&,1/1,&
-&,{'Raquel'},{'Lisa F'},{'Kevin '},{'Bob We'},{'John T'},{'Lisa F'},&,1/1,&
+&,{'Raquel'},{'Lisa F'},{'Kevin '},{'Bob We'},{'John T'},,&,1/1,&
 &,{'Raquel'},{'Lisa F'},{'Mitch '},{'Moses '},{'Lee Od'},{'Andra '},&,1/1,&
 &,{'Raquel'},{'Lisa F'},{'Olivia'},{'Sarah '},{'Chloe '},{'Andra '},&,1/1,&
 &,{'Raquel'},{'Lisa F'},{'Sarah '},{'Eric Z'},{'Ciatta'},{'Chloe '},&,1/1,&
@@ -34107,7 +34107,7 @@ False
 &,{'Sarah '},{'Bob We'},{'John T'},{'Mitch '},,,&,1/1,&
 &,{'Sarah '},{'Bob We'},{'Kevin '},{'Bob Ca'},{'Brando'},{'Moses '},&,1/1,&
 &,{'Sarah '},{'Bob We'},{'Kevin '},{'Lisa F'},{'Tony M'},{'Ciatta'},&,2/1,&
-&,{'Sarah '},{'Bob We'},{'Kevin '},{'Mitch '},{'Eli Ar'},{'Kevin '},&,1/1,&
+&,{'Sarah '},{'Bob We'},{'Kevin '},{'Mitch '},{'Eli Ar'},,&,1/1,&
 &,{'Sarah '},{'Bob We'},{'Kevin '},{'Mitch '},{'Tony M'},{'Olivia'},&,1/1,&
 &,{'Sarah '},{'Bob We'},{'Lisa F'},{'Ben Hu'},{'Andra '},,&,1/1,&
 &,{'Sarah '},{'Bob We'},{'Lisa F'},{'Chad L'},,,&,1/1,&
@@ -34480,7 +34480,7 @@ False
 &,{'Sarah '},{'Chloe '},{'Eli Ar'},{'Andra '},{'Bob We'},{'Ciatta'},&,1/1,&
 &,{'Sarah '},{'Chloe '},{'Eric Z'},{'Lisa F'},{'Mitch '},{'Olivia'},&,1/1,&
 &,{'Sarah '},{'Chloe '},{'John T'},{'Eric Z'},{'Chad L'},{'Lisa F'},&,1/1,&
-&,{'Sarah '},{'Chloe '},{'John T'},{'Eric Z'},{'John T'},{'Lisa F'},&,1/1,&
+&,{'Sarah '},{'Chloe '},{'John T'},{'Eric Z'},{'Lisa F'},,&,1/1,&
 &,{'Sarah '},{'Chloe '},{'Kelly '},{'Lisa F'},{'Olivia'},{'Mitch '},&,1/1,&
 &,{'Sarah '},{'Chloe '},{'Kelly '},,,,&,1/1,&
 &,{'Sarah '},{'Chloe '},{'Kevin '},,,,&,1/1,&
@@ -34887,7 +34887,7 @@ False
 &,{'Sarah '},{'John T'},{'Chad L'},{'Olivia'},{'Lisa F'},{'Moses '},&,1/1,&
 &,{'Sarah '},{'John T'},{'Chloe '},,,,&,1/1,&
 &,{'Sarah '},{'John T'},{'Ciatta'},{'Chloe '},{'Chad L'},{'Eli Ar'},&,1/1,&
-&,{'Sarah '},{'John T'},{'Ciatta'},{'Olivia'},{'Sarah '},{'Chad L'},&,1/1,&
+&,{'Sarah '},{'John T'},{'Ciatta'},{'Olivia'},{'Chad L'},,&,1/1,&
 &,{'Sarah '},{'John T'},{'Ciatta'},,,,&,1/1,&
 &,{'Sarah '},{'John T'},{'Eli Ar'},{'Bob We'},,,&,1/1,&
 &,{'Sarah '},{'John T'},{'Eli Ar'},{'Mitch '},,,&,1/1,&
@@ -35129,7 +35129,7 @@ False
 &,{'Sarah '},{'Lisa F'},{'John T'},{'Chloe '},{'Kelly '},{'Raquel'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Joseph'},{'Andra '},{'Tony S'},{'Mike D'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Kelly '},{'Andra '},{'Chloe '},{'Olivia'},&,1/1,&
-&,{'Sarah '},{'Lisa F'},{'Kelly '},{'Ciatta'},{'Lisa F'},{'Mike D'},&,1/1,&
+&,{'Sarah '},{'Lisa F'},{'Kelly '},{'Ciatta'},{'Mike D'},,&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Kelly '},{'Raquel'},{'Andra '},{'Chloe '},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Kevin '},{'Eli Ar'},{'Stanle'},{'Joseph'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Kevin '},{'Eric Z'},{'Andra '},{'Mitch '},&,1/1,&
@@ -35162,7 +35162,7 @@ False
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Chad L'},{'Bob We'},{'Brando'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Chad L'},{'Chloe '},{'Kelly '},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Chad L'},{'Chloe '},,&,2/1,&
-&,{'Sarah '},{'Lisa F'},{'Mitch '},{'Chad L'},{'Chris '},{'Chris '},&,1/1,&
+&,{'Sarah '},{'Lisa F'},{'Mitch '},{'Chad L'},{'Chris '},,&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Chad L'},{'Chris '},{'Stanle'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Chad L'},{'Eli Ar'},{'Olivia'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Chad L'},{'John T'},,&,1/1,&
@@ -35196,7 +35196,7 @@ False
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Olivia'},{'Moses '},{'John T'},&,3/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Olivia'},{'Tony M'},,&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Olivia'},,,&,1/1,&
-&,{'Sarah '},{'Lisa F'},{'Mitch '},{'Sarah '},,,&,1/1,&
+&,{'Sarah '},{'Lisa F'},{'Mitch '},,,,&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Stanle'},,,&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Tony M'},{'Chad L'},{'Bob Ca'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Mitch '},{'Tony M'},{'Moses '},{'Chris '},&,1/1,&
@@ -35215,7 +35215,7 @@ False
 &,{'Sarah '},{'Lisa F'},{'Olivia'},{'Andra '},{'Mitch '},{'Chad L'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Olivia'},{'Ben Hu'},{'Chris '},{'Moses '},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Olivia'},{'Bob Ca'},{'John T'},{'Chad L'},&,2/1,&
-&,{'Sarah '},{'Lisa F'},{'Olivia'},{'Bob Ca'},{'Olivia'},,&,1/1,&
+&,{'Sarah '},{'Lisa F'},{'Olivia'},{'Bob Ca'},,,&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Olivia'},{'Bob We'},{'Andra '},{'Ben Hu'},&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Olivia'},{'Bob We'},{'Mitch '},,&,1/1,&
 &,{'Sarah '},{'Lisa F'},{'Olivia'},{'Brando'},,,&,1/1,&
@@ -35472,7 +35472,7 @@ False
 &,{'Sarah '},{'Mitch '},{'Chad L'},{'Lisa F'},{'Eric Z'},{'Olivia'},&,2/1,&
 &,{'Sarah '},{'Mitch '},{'Chad L'},{'Lisa F'},{'Eric Z'},{'Stanle'},&,1/1,&
 &,{'Sarah '},{'Mitch '},{'Chad L'},{'Lisa F'},{'Eric Z'},,&,1/1,&
-&,{'Sarah '},{'Mitch '},{'Chad L'},{'Lisa F'},{'Lisa F'},,&,1/1,&
+&,{'Sarah '},{'Mitch '},{'Chad L'},{'Lisa F'},,,&,1/1,&
 &,{'Sarah '},{'Mitch '},{'Chad L'},{'Lisa F'},{'Mike D'},{'Moses '},&,1/1,&
 &,{'Sarah '},{'Mitch '},{'Chad L'},{'Lisa F'},{'Moses '},{'Andra '},&,1/1,&
 &,{'Sarah '},{'Mitch '},{'Chad L'},{'Lisa F'},{'Moses '},{'Chris '},&,1/1,&
@@ -36153,7 +36153,7 @@ False
 &,{'Sarah '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Chloe '},&,1/1,&
 &,{'Sarah '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Ciatta'},&,1/1,&
 &,{'Sarah '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},,&,4/1,&
-&,{'Sarah '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Olivia'},&,1/1,&
+&,{'Sarah '},{'Olivia'},{'Eric Z'},{'Eli Ar'},,,&,1/1,&
 &,{'Sarah '},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Stanle'},{'Chris '},&,1/1,&
 &,{'Sarah '},{'Olivia'},{'Eric Z'},{'Eli Ar'},,,&,11/1,&
 &,{'Sarah '},{'Olivia'},{'Eric Z'},{'John T'},{'Eli Ar'},{'Bob Ca'},&,1/1,&
@@ -36349,7 +36349,7 @@ False
 &,{'Sarah '},{'Olivia'},{'Mitch '},{'Eli Ar'},{'Eric Z'},{'Mike D'},&,1/1,&
 &,{'Sarah '},{'Olivia'},{'Mitch '},{'Eli Ar'},{'Eric Z'},,&,1/1,&
 &,{'Sarah '},{'Olivia'},{'Mitch '},{'Eli Ar'},{'Lisa F'},{'Ciatta'},&,1/1,&
-&,{'Sarah '},{'Olivia'},{'Mitch '},{'Eli Ar'},{'Olivia'},{'Chad L'},&,1/1,&
+&,{'Sarah '},{'Olivia'},{'Mitch '},{'Eli Ar'},{'Chad L'},,&,1/1,&
 &,{'Sarah '},{'Olivia'},{'Mitch '},{'Eli Ar'},{'Tony M'},{'Chloe '},&,1/1,&
 &,{'Sarah '},{'Olivia'},{'Mitch '},{'Eli Ar'},,,&,3/1,&
 &,{'Sarah '},{'Olivia'},{'Mitch '},{'Eric Z'},{'Bob Ca'},{'Chad L'},&,1/1,&
@@ -36456,7 +36456,7 @@ False
 &,{'Sarah '},{'Raquel'},{'Andra '},{'Mike D'},{'Lisa F'},{'Olivia'},&,1/1,&
 &,{'Sarah '},{'Raquel'},{'Chloe '},{'Andra '},{'Ciatta'},{'Olivia'},&,1/1,&
 &,{'Sarah '},{'Raquel'},{'Chloe '},{'Mitch '},{'Moses '},{'Kelly '},&,1/1,&
-&,{'Sarah '},{'Raquel'},{'Chloe '},{'Stanle'},{'Tony M'},{'Stanle'},&,1/1,&
+&,{'Sarah '},{'Raquel'},{'Chloe '},{'Stanle'},{'Tony M'},,&,1/1,&
 &,{'Sarah '},{'Raquel'},{'Chloe '},,,,&,2/1,&
 &,{'Sarah '},{'Raquel'},{'Lee Od'},,,,&,1/1,&
 &,{'Sarah '},{'Raquel'},{'Lisa F'},{'Kelly '},,,&,1/1,&
@@ -36466,9 +36466,9 @@ False
 &,{'Sarah '},{'Raquel'},{'Olivia'},,,,&,2/1,&
 &,{'Sarah '},{'Raquel'},{'Stanle'},{'John J'},{'Chad L'},{'Moses '},&,1/1,&
 &,{'Sarah '},{'Raquel'},,,,,&,1/1,&
-&,{'Sarah '},{'Sarah '},{'Eric Z'},{'Olivia'},{'Lisa F'},{'Eli Ar'},&,1/1,&
-&,{'Sarah '},{'Sarah '},{'Sarah '},{'Sarah '},{'Sarah '},{'Sarah '},&,2/1,&
-&,{'Sarah '},{'Sarah '},{'Sarah '},{'Sarah '},,,&,1/1,&
+&,{'Sarah '},{'Eric Z'},{'Olivia'},{'Lisa F'},{'Eli Ar'},,&,1/1,&
+&,{'Sarah '},,,,,,&,2/1,&
+&,{'Sarah '},,,,,,&,1/1,&
 &,{'Sarah '},{'Stanle'},{'Andra '},{'Mitch '},,,&,1/1,&
 &,{'Sarah '},{'Stanle'},{'Andra '},{'Tony M'},{'Chad L'},{'Ciatta'},&,1/1,&
 &,{'Sarah '},{'Stanle'},{'Bob Ca'},{'Olivia'},{'Ben Hu'},,&,2/1,&
@@ -36756,7 +36756,7 @@ False
 &,{'Stanle'},{'Chad L'},{'Raquel'},,,,&,1/1,&
 &,{'Stanle'},{'Chad L'},{'Sarah '},{'Ben Hu'},,,&,1/1,&
 &,{'Stanle'},{'Chad L'},{'Sarah '},{'Olivia'},{'Tony M'},{'Moses '},&,1/1,&
-&,{'Stanle'},{'Chad L'},{'Stanle'},,,,&,1/1,&
+&,{'Stanle'},{'Chad L'},,,,,&,1/1,&
 &,{'Stanle'},{'Chad L'},,,,,&,3/1,&
 &,{'Stanle'},{'Chloe '},{'Bob We'},{'Eli Ar'},{'Olivia'},{'Mike D'},&,1/1,&
 &,{'Stanle'},{'Chloe '},{'Bob We'},{'John T'},{'Olivia'},{'Eric Z'},&,1/1,&
@@ -36770,7 +36770,7 @@ False
 &,{'Stanle'},{'Chris '},{'Mitch '},{'Andra '},{'Lisa F'},{'Olivia'},&,1/1,&
 &,{'Stanle'},{'Chris '},{'Sarah '},{'Eric Z'},{'Bob We'},,&,2/1,&
 &,{'Stanle'},{'Ciatta'},{'Ben Hu'},,,,&,1/1,&
-&,{'Stanle'},{'Ciatta'},{'Bob We'},{'Mitch '},{'Stanle'},{'Mike D'},&,1/1,&
+&,{'Stanle'},{'Ciatta'},{'Bob We'},{'Mitch '},{'Mike D'},,&,1/1,&
 &,{'Stanle'},{'Ciatta'},{'Chad L'},{'Eli Ar'},{'Mitch '},{'Tony M'},&,1/1,&
 &,{'Stanle'},{'Ciatta'},{'Eli Ar'},{'Olivia'},{'Mitch '},{'Eric Z'},&,1/1,&
 &,{'Stanle'},{'Ciatta'},{'John J'},{'Olivia'},{'Tony M'},{'Joseph'},&,1/1,&
@@ -36839,7 +36839,7 @@ False
 &,{'Stanle'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'John T'},{'Lisa F'},&,1/1,&
 &,{'Stanle'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Mitch '},{'Ciatta'},&,1/1,&
 &,{'Stanle'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},&,2/1,&
-&,{'Stanle'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Stanle'},{'Bob We'},&,1/1,&
+&,{'Stanle'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Bob We'},,&,1/1,&
 &,{'Stanle'},{'Eli Ar'},{'Olivia'},{'Lisa F'},,,&,2/1,&
 &,{'Stanle'},{'Eli Ar'},{'Olivia'},{'Sarah '},{'Chloe '},{'Andra '},&,1/1,&
 &,{'Stanle'},{'Eli Ar'},{'Olivia'},{'Sarah '},{'Eric Z'},{'Chad L'},&,1/1,&
@@ -36869,7 +36869,7 @@ False
 &,{'Stanle'},{'Eric Z'},{'Ben Hu'},{'Kevin '},{'Eli Ar'},,&,1/1,&
 &,{'Stanle'},{'Eric Z'},{'Bob Ca'},{'Chloe '},{'Sarah '},{'Lee Od'},&,1/1,&
 &,{'Stanle'},{'Eric Z'},{'Bob We'},{'Chad L'},{'Patric'},{'Eli Ar'},&,1/1,&
-&,{'Stanle'},{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Stanle'},{'Olivia'},&,1/1,&
+&,{'Stanle'},{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Olivia'},,&,1/1,&
 &,{'Stanle'},{'Eric Z'},{'Bob We'},{'Eli Ar'},{'Tony M'},{'Ben Hu'},&,2/1,&
 &,{'Stanle'},{'Eric Z'},{'Bob We'},{'Tony M'},,,&,1/1,&
 &,{'Stanle'},{'Eric Z'},{'Bob We'},,,,&,4/1,&
@@ -36989,7 +36989,7 @@ False
 &,{'Stanle'},{'Kevin '},{'Olivia'},{'Sarah '},,,&,1/1,&
 &,{'Stanle'},{'Kevin '},{'Olivia'},,,,&,1/1,&
 &,{'Stanle'},{'Kevin '},{'Raquel'},{'Olivia'},{'Sarah '},{'Lisa F'},&,1/1,&
-&,{'Stanle'},{'Kevin '},{'Stanle'},{'Stanle'},{'Stanle'},{'Stanle'},&,1/1,&
+&,{'Stanle'},{'Kevin '},,,,,&,1/1,&
 &,{'Stanle'},{'Kevin '},{'Tony M'},{'Ben Hu'},{'Eric Z'},{'Bob We'},&,1/1,&
 &,{'Stanle'},{'Kevin '},,,,,&,1/1,&
 &,{'Stanle'},{'Lisa F'},{'Andra '},{'Chloe '},{'Chad L'},,&,1/1,&
@@ -37055,7 +37055,7 @@ False
 &,{'Stanle'},{'Mitch '},{'Sarah '},{'Eli Ar'},{'Olivia'},{'Chad L'},&,1/1,&
 &,{'Stanle'},{'Mitch '},{'Sarah '},{'Raquel'},{'Andra '},{'Chloe '},&,1/1,&
 &,{'Stanle'},{'Mitch '},{'Sarah '},,,,&,1/1,&
-&,{'Stanle'},{'Mitch '},{'Stanle'},{'Chloe '},{'Ciatta'},{'Ciatta'},&,1/1,&
+&,{'Stanle'},{'Mitch '},{'Chloe '},{'Ciatta'},,,&,1/1,&
 &,{'Stanle'},{'Mitch '},{'Tony M'},{'Bob We'},{'Eric Z'},{'Olivia'},&,1/1,&
 &,{'Stanle'},{'Mitch '},{'Tony M'},{'Chad L'},{'Bob Ca'},{'Sarah '},&,1/1,&
 &,{'Stanle'},{'Mitch '},{'Tony M'},{'Chad L'},{'Lisa F'},{'Eli Ar'},&,1/1,&
@@ -37089,7 +37089,7 @@ False
 &,{'Stanle'},{'Olivia'},{'Bob Ca'},{'Lisa F'},{'Eli Ar'},{'Chad L'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Bob Ca'},{'Mitch '},{'Ben Hu'},{'Chad L'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Bob Ca'},,,,&,1/1,&
-&,{'Stanle'},{'Olivia'},{'Bob We'},{'Bob We'},{'Chris '},{'Chad L'},&,1/1,&
+&,{'Stanle'},{'Olivia'},{'Bob We'},{'Chris '},{'Chad L'},,&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Bob We'},{'Chad L'},{'Mitch '},{'Tony M'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Bob We'},{'Eli Ar'},{'Eric Z'},{'John T'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Bob We'},{'Eli Ar'},{'Eric Z'},{'Lisa F'},&,2/1,&
@@ -37116,7 +37116,7 @@ False
 &,{'Stanle'},{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Chad L'},,&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eli Ar'},{'Eric Z'},{'John T'},{'Bob We'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eli Ar'},{'Eric Z'},,,&,4/1,&
-&,{'Stanle'},{'Olivia'},{'Eli Ar'},{'John T'},{'Olivia'},{'Ben Hu'},&,1/1,&
+&,{'Stanle'},{'Olivia'},{'Eli Ar'},{'John T'},{'Ben Hu'},,&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eli Ar'},{'John T'},{'Tony M'},{'Bob We'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eli Ar'},{'John T'},{'Tony M'},{'Mitch '},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eli Ar'},{'John T'},{'Tony M'},,&,2/1,&
@@ -37160,7 +37160,7 @@ False
 &,{'Stanle'},{'Olivia'},{'Eric Z'},{'Sarah '},{'Lisa F'},{'Chad L'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eric Z'},{'Sarah '},{'Lisa F'},{'Mitch '},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eric Z'},{'Sarah '},{'Mitch '},,&,1/1,&
-&,{'Stanle'},{'Olivia'},{'Eric Z'},{'Stanle'},,,&,1/1,&
+&,{'Stanle'},{'Olivia'},{'Eric Z'},,,,&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eric Z'},{'Tony M'},{'Bob We'},{'Eli Ar'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eric Z'},{'Tony M'},{'John T'},{'Bob We'},&,1/1,&
 &,{'Stanle'},{'Olivia'},{'Eric Z'},,,,&,18/1,&
@@ -37251,9 +37251,9 @@ False
 &,{'Stanle'},{'Sarah '},{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Joseph'},&,1/1,&
 &,{'Stanle'},{'Sarah '},{'Tony M'},{'Lisa F'},{'Bob Ca'},{'Ben Hu'},&,1/1,&
 &,{'Stanle'},{'Sarah '},,,,,&,2/1,&
-&,{'Stanle'},{'Stanle'},{'Mitch '},{'Olivia'},{'Tony S'},{'Michae'},&,1/1,&
-&,{'Stanle'},{'Stanle'},{'Stanle'},,,,&,2/1,&
-&,{'Stanle'},{'Stanle'},,,,,&,1/1,&
+&,{'Stanle'},{'Mitch '},{'Olivia'},{'Tony S'},{'Michae'},,&,1/1,&
+&,{'Stanle'},,,,,,&,2/1,&
+&,{'Stanle'},,,,,,&,1/1,&
 &,{'Stanle'},{'Tony M'},{'Andra '},{'Olivia'},{'Lisa F'},,&,1/1,&
 &,{'Stanle'},{'Tony M'},{'Ben Hu'},{'Chloe '},{'Chad L'},{'Eric Z'},&,1/1,&
 &,{'Stanle'},{'Tony M'},{'Bob We'},{'Andra '},{'Mitch '},{'Kevin '},&,1/1,&
@@ -37379,7 +37379,7 @@ False
 &,{'Tony M'},{'Bob We'},{'Eric Z'},,,,&,1/1,&
 &,{'Tony M'},{'Bob We'},{'John T'},{'Olivia'},{'Bob Ca'},,&,1/1,&
 &,{'Tony M'},{'Bob We'},{'Lisa F'},{'Kevin '},{'Ciatta'},{'Ben Hu'},&,1/1,&
-&,{'Tony M'},{'Bob We'},{'Mitch '},{'Eric Z'},{'Tony M'},{'Eli Ar'},&,1/1,&
+&,{'Tony M'},{'Bob We'},{'Mitch '},{'Eric Z'},{'Eli Ar'},,&,1/1,&
 &,{'Tony M'},{'Bob We'},{'Mitch '},{'Stanle'},{'Eric Z'},,&,1/1,&
 &,{'Tony M'},{'Bob We'},{'Mitch '},,,,&,1/1,&
 &,{'Tony M'},{'Bob We'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Joseph'},&,1/1,&
@@ -37464,7 +37464,7 @@ False
 &,{'Tony M'},{'Chad L'},{'Mitch '},{'Ben Hu'},{'Lisa F'},{'Bob We'},&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Mitch '},{'Ben Hu'},{'Moses '},{'Eric Z'},&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Mitch '},{'Bob Ca'},,,&,1/1,&
-&,{'Tony M'},{'Chad L'},{'Mitch '},{'Bob We'},{'Chloe '},{'Chad L'},&,1/1,&
+&,{'Tony M'},{'Chad L'},{'Mitch '},{'Bob We'},{'Chloe '},,&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Mitch '},{'Eli Ar'},{'John T'},{'Stanle'},&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Mitch '},{'Eric Z'},{'John T'},{'Chloe '},&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Mitch '},{'Lisa F'},{'Eric Z'},{'Olivia'},&,1/1,&
@@ -37480,7 +37480,7 @@ False
 &,{'Tony M'},{'Chad L'},{'Moses '},,,,&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Olivia'},{'Ben Hu'},{'Bob We'},{'Ciatta'},&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Olivia'},{'Eli Ar'},{'Eric Z'},{'Chloe '},&,1/1,&
-&,{'Tony M'},{'Chad L'},{'Olivia'},{'Eric Z'},{'Chad L'},{'Eli Ar'},&,1/1,&
+&,{'Tony M'},{'Chad L'},{'Olivia'},{'Eric Z'},{'Eli Ar'},,&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Olivia'},{'Eric Z'},{'Sarah '},{'John T'},&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Olivia'},{'Eric Z'},{'Sarah '},{'Lisa F'},&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Olivia'},{'Eric Z'},,,&,2/1,&
@@ -37517,7 +37517,7 @@ False
 &,{'Tony M'},{'Chad L'},{'Sarah '},,,,&,5/1,&
 &,{'Tony M'},{'Chad L'},{'Stanle'},{'Andra '},,,&,1/1,&
 &,{'Tony M'},{'Chad L'},{'Stanle'},{'Sarah '},{'Chloe '},,&,1/1,&
-&,{'Tony M'},{'Chad L'},{'Tony M'},{'Tony M'},{'Tony M'},{'Tony M'},&,2/1,&
+&,{'Tony M'},{'Chad L'},,,,,&,2/1,&
 &,{'Tony M'},{'Chad L'},,,,,&,5/1,&
 &,{'Tony M'},{'Chloe '},{'Ben Hu'},,,,&,1/1,&
 &,{'Tony M'},{'Chloe '},{'Bob Ca'},{'Michae'},{'Stanle'},{'Lisa F'},&,1/1,&
@@ -37660,7 +37660,7 @@ False
 &,{'Tony M'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Ben Hu'},{'Sarah '},&,1/1,&
 &,{'Tony M'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Bob We'},{'Stanle'},&,1/1,&
 &,{'Tony M'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Chad L'},{'Moses '},&,1/1,&
-&,{'Tony M'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},&,1/1,&
+&,{'Tony M'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Bob We'},,&,1/1,&
 &,{'Tony M'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Sarah '},{'Ben Hu'},&,1/1,&
 &,{'Tony M'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Stanle'},{'Ben Hu'},&,1/1,&
 &,{'Tony M'},{'Eli Ar'},{'Olivia'},{'Eric Z'},{'Stanle'},{'Bob We'},&,2/1,&
@@ -37687,7 +37687,7 @@ False
 &,{'Tony M'},{'Eric Z'},{'Ben Hu'},{'Mike D'},{'Kelly '},{'Mitch '},&,2/1,&
 &,{'Tony M'},{'Eric Z'},{'Ben Hu'},{'Olivia'},{'Lisa F'},{'Raquel'},&,2/1,&
 &,{'Tony M'},{'Eric Z'},{'Ben Hu'},{'Olivia'},{'Stanle'},{'Eli Ar'},&,3/1,&
-&,{'Tony M'},{'Eric Z'},{'Bob Ca'},{'Chloe '},{'Mitch '},{'Bob Ca'},&,1/1,&
+&,{'Tony M'},{'Eric Z'},{'Bob Ca'},{'Chloe '},{'Mitch '},,&,1/1,&
 &,{'Tony M'},{'Eric Z'},{'Bob Ca'},{'Eli Ar'},{'Chad L'},{'Mitch '},&,1/1,&
 &,{'Tony M'},{'Eric Z'},{'Bob Ca'},{'Olivia'},{'Mitch '},{'Moses '},&,2/1,&
 &,{'Tony M'},{'Eric Z'},{'Bob Ca'},{'Olivia'},{'Mitch '},,&,1/1,&
@@ -37813,7 +37813,7 @@ False
 &,{'Tony M'},{'John T'},{'Kevin '},{'Eric Z'},{'Olivia'},{'Ben Hu'},&,1/1,&
 &,{'Tony M'},{'John T'},{'Lisa F'},{'Eric Z'},{'Olivia'},{'Bob Ca'},&,1/1,&
 &,{'Tony M'},{'John T'},{'Moses '},{'Ciatta'},{'Eric Z'},{'Bob Ca'},&,1/1,&
-&,{'Tony M'},{'John T'},{'Moses '},{'Sarah '},{'Mitch '},{'Sarah '},&,1/1,&
+&,{'Tony M'},{'John T'},{'Moses '},{'Sarah '},{'Mitch '},,&,1/1,&
 &,{'Tony M'},{'John T'},{'Moses '},,,,&,1/1,&
 &,{'Tony M'},{'John T'},{'Olivia'},{'Bob Ca'},{'Ben Hu'},{'Chad L'},&,2/1,&
 &,{'Tony M'},{'John T'},{'Olivia'},{'Bob Ca'},{'Ben Hu'},{'Eric Z'},&,1/1,&
@@ -38090,7 +38090,7 @@ False
 &,{'Tony M'},{'Olivia'},{'Eli Ar'},,,,&,9/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Andra '},{'Mitch '},{'Chad L'},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Andra '},{'Mitch '},{'Ciatta'},&,1/1,&
-&,{'Tony M'},{'Olivia'},{'Eric Z'},{'Ben Hu'},{'Bob We'},{'Ben Hu'},&,1/1,&
+&,{'Tony M'},{'Olivia'},{'Eric Z'},{'Ben Hu'},{'Bob We'},,&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Ben Hu'},{'Lisa F'},{'Eli Ar'},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Ben Hu'},{'Lisa F'},{'John T'},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Ben Hu'},,,&,1/1,&
@@ -38110,9 +38110,9 @@ False
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Mitch '},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},{'Stanle'},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Bob We'},,&,3/1,&
-&,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Eli Ar'},{'Eli Ar'},&,1/1,&
+&,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},,,&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Michae'},,&,1/1,&
-&,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Eli Ar'},&,1/1,&
+&,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},,&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},{'Moses '},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Mitch '},,&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Eli Ar'},{'Sarah '},{'Bob We'},&,2/1,&
@@ -38147,7 +38147,7 @@ False
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Mitch '},{'Kevin '},{'Sarah '},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Mitch '},{'Lisa F'},{'Bob We'},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Mitch '},{'Lisa F'},{'Chad L'},&,3/1,&
-&,{'Tony M'},{'Olivia'},{'Eric Z'},{'Mitch '},{'Mitch '},{'Mitch '},&,1/1,&
+&,{'Tony M'},{'Olivia'},{'Eric Z'},{'Mitch '},,,&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Mitch '},{'Patric'},{'Michae'},&,1/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Mitch '},{'Sarah '},{'Chad L'},&,78/1,&
 &,{'Tony M'},{'Olivia'},{'Eric Z'},{'Mitch '},{'Sarah '},{'Chloe '},&,2/1,&
@@ -38361,7 +38361,7 @@ False
 &,{'Tony M'},{'Stanle'},{'John T'},{'Bob Ca'},{'Chad L'},{'Moses '},&,1/1,&
 &,{'Tony M'},{'Stanle'},{'John T'},{'Eli Ar'},{'Chad L'},,&,1/1,&
 &,{'Tony M'},{'Stanle'},{'John T'},{'Sarah '},,,&,1/1,&
-&,{'Tony M'},{'Stanle'},{'John T'},{'Stanle'},{'Andra '},{'Chad L'},&,1/1,&
+&,{'Tony M'},{'Stanle'},{'John T'},{'Andra '},{'Chad L'},,&,1/1,&
 &,{'Tony M'},{'Stanle'},{'Kevin '},{'Bob We'},{'Bob Ca'},{'Eric Z'},&,1/1,&
 &,{'Tony M'},{'Stanle'},{'Lisa F'},{'Mitch '},{'Sarah '},{'Olivia'},&,1/1,&
 &,{'Tony M'},{'Stanle'},{'Lisa F'},{'Olivia'},,,&,2/1,&
@@ -38375,8 +38375,8 @@ False
 &,{'Tony M'},{'Stanle'},{'Sarah '},{'Eric Z'},{'Olivia'},{'Eli Ar'},&,4/1,&
 &,{'Tony M'},{'Stanle'},{'Eli Ar'},{'Mitch '},{'Lee Od'},,&,1/1,&
 &,{'Tony M'},{'Stanle'},,,,,&,3/1,&
-&,{'Tony M'},{'Tony M'},{'Chloe '},{'Ciatta'},{'Sarah '},{'Lisa F'},&,1/1,&
-&,{'Tony M'},{'Tony M'},{'Tony M'},{'Tony M'},{'Tony M'},{'Tony M'},&,3/1,&
+&,{'Tony M'},{'Chloe '},{'Ciatta'},{'Sarah '},{'Lisa F'},,&,1/1,&
+&,{'Tony M'},,,,,,&,3/1,&
 &,{'Tony M'},{'Tony S'},{'Ciatta'},{'Lisa F'},{'Eric Z'},{'Sarah '},&,1/1,&
 &,{'Tony M'},{'Tony S'},{'Eric Z'},{'Olivia'},{'Mitch '},,&,1/1,&
 &,{'Tony M'},{'Tony S'},,,,,&,1/1,&
@@ -38465,7 +38465,7 @@ False
 &,{'Tony S'},{'Tony M'},{'Bob Ca'},{'Chloe '},,,&,1/1,&
 &,{'Tony S'},{'Tony M'},{'Moses '},{'Lisa F'},{'Eli Ar'},{'Mike D'},&,1/1,&
 &,{'Tony S'},{'Tony M'},,,,,&,2/1,&
-&,{'Tony S'},{'Tony S'},{'Tony S'},{'Tony S'},{'Tony S'},{'Tony S'},&,1/1,&
+&,{'Tony S'},,,,,,&,1/1,&
 &,{'Tony S'},,,,,,&,11/1,&
 &,{'Andra '},{'Mike D'},{'Bob Ca'},{'Chloe '},{'Sarah '},,&,1/1,&
 &,{'Andra '},{'Mitch '},{'Sarah '},{'Chad L'},{'Stanle'},,&,1/1,&
@@ -38575,7 +38575,7 @@ False
 &,{'Chad L'},{'Lisa F'},,,,,&,1/1,&
 &,{'Chad L'},{'Mitch '},{'Sarah '},,,,&,1/1,&
 &,{'Chad L'},,,,,,&,3/1,&
-&,{'Chloe '},{'Ciatta'},{'Sarah '},{'Eric Z'},{'Sarah '},,&,1/1,&
+&,{'Chloe '},{'Ciatta'},{'Sarah '},{'Eric Z'},,,&,1/1,&
 &,{'Chloe '},{'Eli Ar'},{'Mitch '},,,,&,1/1,&
 &,{'Chris '},{'Eric Z'},,,,,&,1/1,&
 &,{'Chris '},,,,,,&,1/1,&
