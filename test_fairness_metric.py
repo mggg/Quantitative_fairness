@@ -19,6 +19,16 @@ condorcet_profile = PreferenceProfile(
     )
 )
 
+basic_IIA_profile = PreferenceProfile(
+    ballots=tuple(
+        [
+            Ballot(ranking=tuple(map(frozenset, [{"A"}, {"D"}, {"B"}, {"C"}]))),
+            Ballot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"D"}, {"C"}]))),
+            Ballot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}, {"D"}]))),
+            Ballot(ranking=tuple(map(frozenset, [{"D"}, {"C"}, {"A"}, {"B"}]))),
+        ]
+    )
+)
 
 profile_5_cand_ub = PreferenceProfile(
     ballots=tuple(
@@ -126,6 +136,22 @@ def test_low_UM_plurality():
     )
     voting_rule = build_voting_rule(n_cands, "plurality")
     assert abs(sigma_UM(profile, voting_rule, n_seats) - 0.0903) < 1e-4
+
+
+def test_IIA_Borda_high():
+    voting_rule = build_voting_rule(4, "borda")
+    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 1) - 0.917) < 1e-3
+
+
+def test_IIA_Plurality_high_needs_lex_tiebreak_due_to_tie_in_final_ranking():
+    voting_rule = build_voting_rule(4, "plurality")
+    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 1) - 0.833) < 1e-3
+
+
+def test_IIA_Plurality_high_needs_borda_tiebreak():
+    voting_rule = build_voting_rule(4, "plurality")
+
+    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 2) - 0.917) < 1e-3
 
 
 def test_IIA_winner_set_STV_ub():
