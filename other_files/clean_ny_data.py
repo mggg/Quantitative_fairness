@@ -5,7 +5,12 @@ from joblib_progress import joblib_progress
 import numpy as np
 import warnings
 from votekit.cvr_loaders import load_csv
-from votekit.cleaning import remove_and_condense, remove_repeated_candidates
+from votekit.cleaning import (
+    remove_and_condense,
+    remove_repeated_candidates,
+    clean_profile,
+)
+from votekit.ballot import Ballot
 from pathlib import Path
 
 
@@ -24,6 +29,26 @@ def read_subset(path: str) -> pd.DataFrame:
         engine="openpyxl",
         # dtype="string",  # optional: faster + consistent text
     )
+
+
+def truncate_past_overvote(ballot: Ballot) -> Ballot:
+    """
+    Truncates a ballot past the first appearance of an overvote.
+
+    Args:
+        ballot (Ballot): Ballot
+
+    Returns:
+        Ballot: Ballot truncated.
+    """
+    new_ranking = []
+
+    for c_set in ballot.ranking:
+        if c_set == frozenset({"overvote"}):
+            break
+        new_ranking.append(c_set)
+
+    return Ballot(ranking=new_ranking, weight=ballot.weight)
 
 
 if __name__ == "__main__":
@@ -74,6 +99,8 @@ if __name__ == "__main__":
     df_NY.to_csv(f"{output_folder_base}/NY_mayor_all.csv", index=False)
 
     profile = load_csv(f"{output_folder_base}/NY_mayor_all.csv")
+    profile = clean_profile(profile, truncate_past_overvote)
     profile = remove_repeated_candidates(profile)
-    clean_profile = remove_and_condense(["undervote", "overvote", "Write-in"], profile)
+    clean_profile = remove_and_condense(["undervote"], profile)
+
     clean_profile.to_csv(f"{output_folder_base}/NY_mayor_cleaned_votekit.csv")
