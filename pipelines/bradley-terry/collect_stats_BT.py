@@ -89,7 +89,7 @@ def main(n_seats, n_cands, metric, election_type):
             )
             os.makedirs(output_folder, exist_ok=True)
             with open(
-                f"{output_folder}/METRIC_{metric}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}__SEATS_{n_seats}.json",
+                f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}.json",
                 "w",
             ) as f:
                 json.dump(scores, f)

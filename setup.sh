@@ -40,7 +40,7 @@ wget https://www.vote.nyc/sites/default/files/pdf/election_results/2025/20250624
     && rm 2025_Primary_CVR_2025-07-17.zip
 
 # Unzip previous preference profiles.
-unzip ${SCRIPT_DIR}/data/preference_profiles.zip -d data/preference_profiles
+unzip ${SCRIPT_DIR}/data/preference_profiles.zip -d data/
 
 # Clean the
 echo "Cleaning Portland Data"
