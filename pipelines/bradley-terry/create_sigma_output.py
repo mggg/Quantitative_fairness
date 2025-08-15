@@ -15,14 +15,14 @@ def load_file(file_path):
 
 
 def create_ordered_dict_for_metric_and_alpha(
-    metric, alpha, ordered_rules, ordered_n_cands, stat_file_base_dir
+    metric, alpha, ordered_rules, ordered_n_cands, stat_file_base_dir, n_seats=1
 ):
     return {
         rule: {
             n_cands: load_file(
                 str(
                     Path(
-                        f"{stat_file_base_dir}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/METRIC_{metric}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{rule}.json"
+                        f"{stat_file_base_dir}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{rule}.json"
                     ).resolve()
                 )
             )
@@ -41,9 +41,10 @@ def build_plot_for_metric_and_alpha(
     ax,
     y_label,
     stat_file_base_dir,
+    n_seats=1,
 ):
     ordered_outputs = create_ordered_dict_for_metric_and_alpha(
-        metric, alpha, ordered_rules, ordered_n_cands, stat_file_base_dir
+        metric, alpha, ordered_rules, ordered_n_cands, stat_file_base_dir, n_seats
     )
 
     df_list = []
@@ -71,7 +72,9 @@ def build_plot_for_metric_and_alpha(
 
     ax.set_ylabel(y_label)
     ax.set_ylim(-0.05, 1.05)
-    ax.set_title(f"Metric: {y_label}, $\\alpha$={Fraction(alpha).limit_denominator()}")
+    ax.set_title(
+        f"Metric: {y_label}, $\\alpha$={Fraction(alpha).limit_denominator()} Seats: {n_seats}"
+    )
 
 
 @click.command()
@@ -115,6 +118,7 @@ def main(n_seats):
                 ax[idx][alpha_idx],
                 y_label=y_label,
                 stat_file_base_dir=stat_file_base_dir,
+                n_seats=n_seats,
             )
 
     legend_patches = [Patch(facecolor=rule_color_map[r], label=r) for r in all_rules]
