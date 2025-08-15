@@ -3,6 +3,15 @@
 SCRIPT_DIR=$(dirname $(realpath $0))
 cd ${SCRIPT_DIR}
 
+git lfs install
+if [[ $? -ne 0 ]]; then
+    echo "Failed to install git lfs. Please make sure git-lfs is installed on your system."
+    exit 1
+fi
+
+# Make sure the preference_profiles.zip file gets downloaded
+git lfs pull
+
 uv sync
 if [[ $? -ne 0 ]]; then
     echo "Failed to run 'uv sync'. Please make sure that uv is installed on your system and in your path."
