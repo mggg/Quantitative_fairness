@@ -345,3 +345,105 @@ def test_IIA_winner_set_changes_with_election_type():
 
     voting_rule = build_voting_rule(5, "borda")
     assert abs(sigma_IIA_winner_set(profile, voting_rule, 2) - 1.0) < 1e-3
+
+
+def test_IIA_winner_set_changes_with_seat_number_Plurality():
+
+    profile = PreferenceProfile(
+        ballots=tuple(
+            [
+                Ballot(
+                    ranking=tuple(
+                        map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}])
+                    ),
+                    weight=8,
+                ),
+                Ballot(
+                    ranking=tuple(
+                        map(frozenset, [{"D"}, {"A"}, {"B"}, {"C"}, {"E"}, {"F"}])
+                    ),
+                    weight=7,
+                ),
+                Ballot(
+                    ranking=tuple(
+                        map(frozenset, [{"C"}, {"A"}, {"B"}, {"F"}, {"E"}, {"D"}])
+                    ),
+                    weight=5,
+                ),
+            ]
+        )
+    )
+
+    voting_rule = build_voting_rule(6, "plurality")
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 1) - 1) < 1e-3
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2) - 0.833) < 1e-3
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 3) - 0.917) < 1e-3
+
+
+def test_IIA_Plurality_obtains_zero():
+    profile = PreferenceProfile(
+        ballots=tuple(
+            [
+                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
+                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
+                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
+            ]
+        )
+    )
+
+    voting_rule = build_voting_rule(3, "plurality")
+    assert sigma_IIA(profile, voting_rule, 1) == 0.0
+
+
+def test_IIA_winner_set_Plurality_obtains_lb():
+    profile = PreferenceProfile(
+        ballots=tuple(
+            [
+                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
+                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
+                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
+            ]
+        )
+    )
+
+    voting_rule = build_voting_rule(3, "plurality")
+    assert sigma_IIA_winner_set(profile, voting_rule, 1) == 1 / 3
+
+
+def test_IIA_winner_set_Plurality_low():
+    profile = PreferenceProfile(
+        ballots=tuple(
+            [
+                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
+                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
+                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
+            ]
+        )
+    )
+
+    voting_rule = build_voting_rule(3, "plurality")
+    assert sigma_IIA_winner_set(profile, voting_rule, 2) == 1 / 3.0
+
+
+def test_UM_Plurality_low():
+    profile = PreferenceProfile(
+        ballots=tuple(
+            [
+                Ballot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}])),
+                    weight=10,
+                ),
+                Ballot(
+                    ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}, {"D"}])),
+                    weight=3,
+                ),
+                Ballot(
+                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}, {"D"}])),
+                    weight=2,
+                ),
+            ]
+        )
+    )
+
+    voting_rule = build_voting_rule(4, "plurality")
+    assert abs(sigma_UM(profile, voting_rule, 1) - 0.436) < 1e-3
