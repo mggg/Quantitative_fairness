@@ -1,5 +1,4 @@
 from votekit import PreferenceProfile
-from votekit.elections import Election
 from votekit.cleaning import remove_and_condense_ranked_profile
 from math import comb
 from itertools import combinations, product
@@ -261,75 +260,3 @@ def sigma_IIA_winner_set(
         )
 
     return total_distance / len(profile.candidates)
-
-
-# def sigma_IIA_winner_set(
-#     profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
-# ) -> float:
-#     """
-#     Computes the extended Independence of Irrelevant Alternatives (IIA) score
-#     with respect to the winner set.
-#     See https://arxiv.org/pdf/2506.12961 for details.
-#
-#     Args:
-#         profile (PreferenceProfile): The preference profile to score.
-#         voting_rule (Election): The voting rule to apply to the profile.
-#
-#     Returns:
-#         float: The sigma_IIA score which is a value between 0 and 1.
-#     """
-#     original_ranking = _unpack_ranking(
-#         voting_rule(profile=profile, m=n_seats).get_ranking()
-#     )
-#
-#     original_winners_set = set(original_ranking[:n_seats])
-#     original_losers_set = set(original_ranking[n_seats:])
-#
-#     total_distance = 0
-#     if n_seats == 1:
-#         total_distance += 1
-#
-#         for candidate in original_losers_set:
-#             new_winner_set = set(
-#                 _unpack_ranking(
-#                     voting_rule(
-#                         remove_and_condense_ranked_profile(
-#                             next(iter(candidate)), profile
-#                         ),
-#                         m=n_seats,
-#                     ).get_elected()
-#                 )
-#             )
-#             total_distance += len(original_winners_set.intersection(new_winner_set))
-#
-#     else:
-#         for candidate in original_winners_set:
-#             new_winner_set = set(
-#                 _unpack_ranking(
-#                     voting_rule(
-#                         remove_and_condense_ranked_profile(
-#                             next(iter(candidate)), profile
-#                         ),
-#                         m=n_seats - 1,
-#                     ).get_elected()
-#                 )
-#             )
-#             total_distance += len(original_winners_set.intersection(new_winner_set)) / (
-#                 n_seats - 1
-#             )
-#         for candidate in original_losers_set:
-#             new_winner_set = set(
-#                 _unpack_ranking(
-#                     voting_rule(
-#                         remove_and_condense_ranked_profile(
-#                             next(iter(candidate)), profile
-#                         ),
-#                         m=n_seats,
-#                     ).get_elected()
-#                 )
-#             )
-#             total_distance += (
-#                 len(original_winners_set.intersection(new_winner_set)) / n_seats
-#             )
-#
-#     return total_distance / len(profile.candidates)
