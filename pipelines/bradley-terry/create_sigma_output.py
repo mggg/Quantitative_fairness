@@ -92,14 +92,16 @@ def main(n_seats):
     # alpha_values = [1/3, 1/2]
     metric_label_pairs = [
         ("sigma_IIA", "$\sigma_{IIA}$"),
+        ("sigma_IIA_winner_set", "$\sigma_{UM}^{WS}$"),
         ("sigma_UM", "$\sigma_{UM}$"),
+        ("sigma_UM_winner_set", "$\sigma_{UM}^{WS}$"),
     ]
 
     scale = 1
     fig, ax = plt.subplots(
-        2,
+        len(metric_label_pairs),
         len(alpha_values),
-        figsize=(5 * len(alpha_values) * scale, 10 * scale),
+        figsize=(5 * len(alpha_values) * scale, 5 * scale * len(metric_label_pairs)),
         dpi=300,
         gridspec_kw={"hspace": 0.3},
     )
