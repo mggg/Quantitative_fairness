@@ -67,14 +67,21 @@ if __name__ == "__main__":
     # ==========================
     all_output_files = glob(f"{top_dir}/stats/scottish_stats/*output.json")
 
-    outputs_by_type = {}
+    outputs_by_election_type = {}
     for output_file in all_output_files:
         with open(output_file, "r") as f:
             output = json.load(f)
         election_type = output_file.split("/")[-1].split("_")[0]
-        outputs_by_type[election_type] = output
+        output_dict = {
+            n_cands: {
+                metric: list(file_values_dict.values())
+                for metric, file_values_dict in metric_values_dict.items()
+            }
+            for n_cands, metric_values_dict in output.items()
+        }
+        outputs_by_election_type[election_type] = output_dict
 
-    ordered_outputs = {key: outputs_by_type[key] for key in ordered_rules}
+    ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
 
     fig, ax = plt.subplots(5, 1, figsize=(20, 30))
 
