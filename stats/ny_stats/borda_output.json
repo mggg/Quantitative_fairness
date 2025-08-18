@@ -1,0 +1,17 @@
+{
+    "n_voters": [
+        1071730
+    ],
+    "sigma_UM": [
+        0.953153061095001
+    ],
+    "sigma_IIA": [
+        1.0
+    ],
+    "sigma_UM_winner_set": [
+        1.0
+    ],
+    "sigma_IIA_winner_set": [
+        1.0
+    ]
+}
