@@ -1,0 +1,70 @@
+{
+    "D1": {
+        "n_voters": [
+            42678
+        ],
+        "sigma_UM": [
+            0.866881502236788
+        ],
+        "sigma_IIA": [
+            0.9863095238095239
+        ],
+        "sigma_UM_winner_set": [
+            0.952314842023608
+        ],
+        "sigma_IIA_winner_set": [
+            0.96875
+        ]
+    },
+    "D2": {
+        "n_voters": [
+            77024
+        ],
+        "sigma_UM": [
+            0.829693423345026
+        ],
+        "sigma_IIA": [
+            0.9937229437229437
+        ],
+        "sigma_UM_winner_set": [
+            1.0
+        ],
+        "sigma_IIA_winner_set": [
+            0.9545454545454546
+        ]
+    },
+    "D3": {
+        "n_voters": [
+            84356
+        ],
+        "sigma_UM": [
+            0.7596205688736395
+        ],
+        "sigma_IIA": [
+            0.9953201970443349
+        ],
+        "sigma_UM_winner_set": [
+            1.0
+        ],
+        "sigma_IIA_winner_set": [
+            1.0
+        ]
+    },
+    "D4": {
+        "n_voters": [
+            76566
+        ],
+        "sigma_UM": [
+            0.8348185078972166
+        ],
+        "sigma_IIA": [
+            0.9960591133004926
+        ],
+        "sigma_UM_winner_set": [
+            0.8348185078972166
+        ],
+        "sigma_IIA_winner_set": [
+            0.9666666666666667
+        ]
+    }
+}
