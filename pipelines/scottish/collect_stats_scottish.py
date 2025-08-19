@@ -12,9 +12,11 @@ import sys
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from fairness_metric import (
+    number_of_voters,
     sigma_IIA,
-    sigma_UM,
+    sigma_IIA_all_subset,
     sigma_IIA_winner_set,
+    sigma_UM,
     sigma_UM_winner_set,
 )
 from voting_rules import build_voting_rule
@@ -27,6 +29,27 @@ def run_score(profile_file, metric_function, voting_rule):
     return score
 
 
+def compute_results_single_file(f, election_name, metric_function_dict):
+    file_name = str(Path(f).stem)
+
+    profile, seats, _cand_list, _cand_to_party, _ward = load_scottish(f)
+
+    n_cands = f.split("/")[-2].split("_")[0]
+    voting_rule = build_voting_rule(int(n_cands), election_name)
+
+    output_dict = {metric_name: {} for metric_name in metric_function_dict.keys()}
+
+    output_dict["n_voters"][file_name] = int(profile.df["Weight"].sum())
+    for metric_name, metric_function in metric_function_dict.items():
+        output_dict[metric_name][file_name] = float(
+            metric_function(profile, voting_rule, n_seats=seats)
+        )
+    return {n_cands: output_dict}
+
+
+from joblib import Parallel, delayed
+from joblib_progress import joblib_progress
+
 if __name__ == "__main__":
     # NOTE: Change this to your desired output directory. I changed it
     # already to make sure that the first set of statistics are not overwritten.
@@ -36,48 +59,43 @@ if __name__ == "__main__":
     output_folder_base = str(output_folder)
 
     all_files = glob(f"{top_dir}/data/scot-elex/*/*.csv")
-    # all_files = all_files[:10]
+    # all_files = [f for f in all_files if any([f"/{i}_cands" in f for i in range(3, 9)])]
 
     metric_function_dict = {
+        "n_voters": number_of_voters,
         "sigma_IIA": sigma_IIA,
-        "sigma_UM": sigma_UM,
+        "sigma_IIA_all_subset": sigma_IIA_all_subset,
         "sigma_IIA_winner_set": sigma_IIA_winner_set,
+        "sigma_UM": sigma_UM,
         "sigma_UM_winner_set": sigma_UM_winner_set,
     }
     all_election_types = ["borda", "3-approval", "2-approval", "plurality", "stv"]
-
     file_to_column_data_dict = {}
+
     for f in all_files[:]:
         file_name = str(Path(f).stem)
         file_to_column_data_dict[file_name] = dict()
 
     for election_name in all_election_types:
         scottish_election_stats = {
-            str(cands): {
-                "n_voters": {},
-                "sigma_UM": {},
-                "sigma_IIA": {},
-                "sigma_UM_winner_set": {},
-                "sigma_IIA_winner_set": {},
-            }
+            str(cands): {metric_name: {} for metric_name in metric_function_dict.keys()}
             for cands in range(3, 15)
         }
 
-        for f in tqdm(all_files[:], desc=f"Collecting stats for {election_name}"):
-            file_name = str(Path(f).stem)
-
-            profile, seats, _cand_list, _cand_to_party, _ward = load_scottish(f)
-
-            n_cands = f.split("/")[-2].split("_")[0]
-            voting_rule = build_voting_rule(int(n_cands), election_name)
-
-            scottish_election_stats[n_cands]["n_voters"][file_name] = int(
-                profile.df["Weight"].sum()
-            )
-            for metric_name, metric_function in metric_function_dict.items():
-                scottish_election_stats[n_cands][metric_name][file_name] = float(
-                    metric_function(profile, voting_rule, n_seats=seats)
+        with joblib_progress(
+            total=len(all_files), description=f"Collecting stats for {election_name}"
+        ):
+            results = Parallel(n_jobs=-1)(
+                delayed(compute_results_single_file)(
+                    f, election_name, metric_function_dict
                 )
+                for f in all_files
+            )
+
+        for output_dict in results:
+            for n_cands, data in output_dict.items():
+                for key, value_dict in data.items():
+                    scottish_election_stats[n_cands][key].update(value_dict)
 
         # Save the full output
         output_file = f"{output_folder_base}/{election_name}_output.json"
@@ -90,13 +108,7 @@ if __name__ == "__main__":
         }
 
         for key, data_dict in scottish_election_stats.items():
-            if data_dict == {
-                "n_voters": {},
-                "sigma_UM": {},
-                "sigma_IIA": {},
-                "sigma_UM_winner_set": {},
-                "sigma_IIA_winner_set": {},
-            }:
+            if data_dict == {metric: {} for metric in metric_function_dict.keys()}:
                 print(f"No data for {key}, skipping.")
                 continue
             n_voter_list = list(data_dict["n_voters"].values())
@@ -120,21 +132,15 @@ if __name__ == "__main__":
         with open(stats_file, "w") as f:
             json.dump(scottish_election_interpreted_values, f, indent=4)
 
-        for f in tqdm(all_files[:]):
+        for f in all_files:
             file_name = str(Path(f).stem)
             n_cands = f.split("/")[-2].split("_")[0]
 
             data = {
                 "n_cands": n_cands,
-                "n_voters": scottish_election_stats[n_cands]["n_voters"][file_name],
-                "sigma_UM": scottish_election_stats[n_cands]["sigma_UM"][file_name],
-                "sigma_IIA": scottish_election_stats[n_cands]["sigma_IIA"][file_name],
-                "sigma_UM_winner_set": scottish_election_stats[n_cands][
-                    "sigma_UM_winner_set"
-                ][file_name],
-                "sigma_IIA_winner_set": scottish_election_stats[n_cands][
-                    "sigma_IIA_winner_set"
-                ][file_name],
+            } | {
+                metric: scottish_election_stats[n_cands][metric][file_name]
+                for metric in metric_function_dict.keys()
             }
 
             file_to_column_data_dict[file_name][election_name] = data

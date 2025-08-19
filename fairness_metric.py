@@ -94,6 +94,12 @@ def determine_weighted_ranking_vector_XAB(
     return xab_vector * weight_vector
 
 
+def number_of_voters(
+    profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
+) -> float:
+    return float(profile.df["Weight"].sum())
+
+
 def sigma_UM(
     profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
 ) -> float:
@@ -173,6 +179,132 @@ def sigma_IIA(
         total_kendall_distance += new_dist
 
     return 1 - total_kendall_distance / (n_candidates * comb(n_candidates - 1, 2))
+
+
+def sigma_IIA_all_subset(
+    profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
+) -> float:
+    """
+    Computes the extended Independence of Irrelevant Alternatives (IIA) score,
+    which we call sigma_IIA here.
+    See https://arxiv.org/pdf/2506.12961 for details.
+
+    Args:
+        profile (PreferenceProfile): The preference profile to score.
+        voting_rule (Election): The voting rule to apply to the profile.
+
+    Returns:
+        float: The sigma_IIA score which is a value between 0 and 1.
+    """
+    n_candidates = len(profile.candidates)
+    ranking_before_unpaking = voting_rule(profile=profile, m=n_seats).get_ranking()
+    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(
+        ranking_before_unpaking
+    )
+    total_distance = 0
+
+    # NOTE: The Kendall-Tau distance for a subset where all candidates are removed
+    # or where no candidates are removed is always 0. Also, when there is only one
+    # candidate remaining, the Kendall-Tau distance will always be 0. So we start
+    # with subsets of size 1 and go up to n_candidates - 2.
+    # So, we will take the distance in these cases to be 0.
+    for i in range(1, n_candidates - 1):
+        # NOTE: The maximum Kendall-Tau distance for a subset of size n_candidates - i is
+        # comb(n_candidates - i, 2)
+        subset_divisor = comb(n_candidates - i, 2)
+        for candidate_subset in combinations(profile.candidates, i):
+            original_ranking_without_cand = [
+                c_set
+                for c_set in original_ranking
+                if not any(cand in c_set for cand in candidate_subset)
+            ]
+
+            voting_ranking_without_cand_before_unpacking = voting_rule(
+                remove_and_condense_ranked_profile(list(candidate_subset), profile),
+                m=min(n_seats, n_candidates - i),
+            ).get_ranking()
+            voting_ranking_without_cand = __unpack_ranking_with_lexicographic_tiebreak(
+                voting_ranking_without_cand_before_unpacking
+            )
+
+            new_dist = kendall_tau_distance(
+                original_ranking_without_cand, voting_ranking_without_cand
+            )
+
+            total_distance += new_dist / subset_divisor
+
+    # NOTE: This is also a viable divisor since the other subsets are trivial.
+    # n_subsets = (
+    #     2 ** (n_candidates - 1) - 2
+    # )  # All subsets of len > 1 that are not the full set
+    n_subsets = 2**n_candidates
+    return 1 - total_distance / n_subsets
+
+
+def sigma_IIA_all_subset_v2(
+    profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
+) -> float:
+    """
+    Computes the extended Independence of Irrelevant Alternatives (IIA) score,
+    which we call sigma_IIA here.
+    See https://arxiv.org/pdf/2506.12961 for details.
+
+    Args:
+        profile (PreferenceProfile): The preference profile to score.
+        voting_rule (Election): The voting rule to apply to the profile.
+
+    Returns:
+        float: The sigma_IIA score which is a value between 0 and 1.
+    """
+    n_candidates = len(profile.candidates)
+    ranking_before_unpaking = voting_rule(profile=profile, m=n_seats).get_ranking()
+    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(
+        ranking_before_unpaking
+    )
+    total_distance = 0
+
+    # NOTE: The Kendall-Tau distance for a subset where all candidates are removed
+    # or where no candidates are removed is always 0. Also, when there is only one
+    # candidate remaining, the Kendall-Tau distance will always be 0. So we start
+    # with subsets of size 1 and go up to n_candidates - 2.
+    # So, we will take the distance in these cases to be 0.
+    count = 0
+    for i in range(1, n_candidates - 1):
+        # NOTE: The maximum Kendall-Tau distance for a subset of size i is
+        # comb(n_candidates - i, 2)
+        subset_divisor = comb(n_candidates - i, 2)
+        for candidate_subset in combinations(profile.candidates, i):
+            count += 1
+            original_ranking_without_cand = [
+                c_set
+                for c_set in original_ranking
+                if not any(cand in c_set for cand in candidate_subset)
+            ]
+
+            voting_ranking_without_cand_before_unpacking = voting_rule(
+                remove_and_condense_ranked_profile(list(candidate_subset), profile),
+                m=min(n_seats, n_candidates - i),
+            ).get_ranking()
+            voting_ranking_without_cand = __unpack_ranking_with_lexicographic_tiebreak(
+                voting_ranking_without_cand_before_unpacking
+            )
+
+            new_dist = kendall_tau_distance(
+                original_ranking_without_cand, voting_ranking_without_cand
+            )
+
+            total_distance += new_dist / subset_divisor
+
+    # NOTE: This is also a viable divisor since the other subsets are trivial.
+    # Remove the empty subset, the full set, and the singleton sets.
+    n_subsets = (
+        2 ** (n_candidates) - 2 - n_candidates
+    )  # All subsets of len > 1 that are not the full set
+    print(
+        f"Count of subsets: {count}, n_subsets: {n_subsets}, total_n_subsets: {2**n_candidates}"
+    )
+    # n_subsets = 2**n_candidates
+    return 1 - total_distance / n_subsets
 
 
 def sigma_UM_winner_set(

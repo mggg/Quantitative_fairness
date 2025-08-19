@@ -92,7 +92,7 @@ def main(n_seats):
     # alpha_values = [1/3, 1/2]
     metric_label_pairs = [
         ("sigma_IIA", "$\sigma_{IIA}$"),
-        ("sigma_IIA_winner_set", "$\sigma_{UM}^{WS}$"),
+        ("sigma_IIA_winner_set", "$\sigma_{IIA}^{WS}$"),
         ("sigma_UM", "$\sigma_{UM}$"),
         ("sigma_UM_winner_set", "$\sigma_{UM}^{WS}$"),
     ]
