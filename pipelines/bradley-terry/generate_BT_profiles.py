@@ -9,13 +9,14 @@ from joblib_progress import joblib_progress
 def generate_and_save_profile(n_cands, n_voters, alpha, idx, output_base_dir):
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+    candidates = list(alphabet[:n_cands])
     bg = name_BradleyTerry(
         cohesion_parameters={"bloc_1": {"bloc_1": 1.0}},
-        candidates=list(range(n_cands)),
+        candidates=candidates,
         bloc_voter_prop={"bloc_1": 1.0},
         pref_intervals_by_bloc={
             "bloc_1": PreferenceInterval.from_dirichlet(
-                candidates=list(alphabet[:n_cands]),
+                candidates=candidates,
                 alpha=alpha,
             )
         },
