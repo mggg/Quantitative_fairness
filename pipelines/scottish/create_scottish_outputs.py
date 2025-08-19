@@ -83,20 +83,24 @@ if __name__ == "__main__":
 
     ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
 
-    fig, ax = plt.subplots(5, 1, figsize=(20, 30))
+    metric_label_pairs = [
+        ("n_voters", "Number of voters"),
+        ("sigma_IIA", "$\sigma_{IIA}$"),
+        ("sigma_IIA_all_subset", "$\sigma_{IIA}^{SS}$"),
+        ("sigma_IIA_winner_set", "$\sigma_{IIA}^{WS}$"),
+        ("sigma_UM", "$\sigma_{UM}$"),
+        ("sigma_UM_winner_set", "$\sigma_{UM}^{WS}$"),
+    ]
+    fig, ax = plt.subplots(
+        len(metric_label_pairs), 1, figsize=(20, 6 * len(metric_label_pairs))
+    )
 
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
-    build_plot_for_metric_scottish(
-        "n_voters", ax[0], y_label="Number of voters", use_one=True
-    )
-    build_plot_for_metric_scottish("sigma_IIA", ax[1], y_label="$\sigma_{IIA}$")
-    build_plot_for_metric_scottish("sigma_UM", ax[2], y_label="$\sigma_{UM}$")
-    build_plot_for_metric_scottish(
-        "sigma_IIA_winner_set", ax[3], y_label="$\sigma_{IIA}^{WS}$"
-    )
-    build_plot_for_metric_scottish(
-        "sigma_UM_winner_set", ax[4], y_label="$\sigma_{UM}^{WS}$"
-    )
+    for i, (metric, label) in enumerate(metric_label_pairs):
+        build_plot_for_metric_scottish(
+            metric, ax[i], y_label=label, use_one=(metric == "n_voters")
+        )
+
     plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
 
     # ===========================
