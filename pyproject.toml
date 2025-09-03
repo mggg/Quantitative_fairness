@@ -3,14 +3,14 @@ name = "Quantitative_fairness"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "click>=8.2.1",
     "ipykernel>=6.30.1",
     "ipywidgets>=8.1.7",
     "joblib>=1.5.1",
     "joblib-progress>=1.0.6",
-    "numpy>=2.3.2",
+    "numpy>=2.2.6",
     "openpyxl>=3.1.5",
     "pandas>=2.3.1",
     "pytest>=8.4.1",
@@ -19,4 +19,8 @@ dependencies = [
     "tqdm>=4.67.1",
     "votekit>=3.2.2",
 ]
+
+
+[tool.uv.sources]
+votekit = { git = "https://github.com/mggg/VoteKit", rev = "7cb78fdc06797f5149dce9538dc7b6a3b076e121" }
 

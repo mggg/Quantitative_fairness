@@ -16,10 +16,11 @@ from functools import partial
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from fairness_metric import (
-    sigma_IIA,
     sigma_UM,
-    sigma_IIA_winner_set,
     sigma_UM_winner_set,
+    sigma_IIA,
+    sigma_IIA_all_subset,
+    sigma_IIA_winner_set,
 )
 from voting_rules import build_voting_rule
 
@@ -40,18 +41,47 @@ def run_score(profile_file, metric_function, voting_rule):
 @click.option(
     "--metric",
     type=click.Choice(
-        ["sigma_IIA", "sigma_UM", "sigma_IIA_winner_set", "sigma_UM_winner_set"]
+        [
+            "sigma_UM",
+            "sigma_UM_winner_set",
+            "sigma_IIA",
+            "sigma_IIA_all_subset",
+            "sigma_IIA_winner_set",
+        ]
     ),
     help="Metric to compute",
     required=True,
 )
 @click.option(
+    "--variant",
+    type=click.Choice(["worst_case", "average"]),
+    help="Variant of the metric computation to use",
+    required=True,
+)
+@click.option(
+    "--interpolation-type",
+    type=click.Choice(["asin", "odds"]),
+    help="Type of interpolation for sigma_UM metrics",
+    default="asin",
+    required=False,
+)
+@click.option(
     "--election-type",
-    type=click.Choice(["borda", "3-approval", "2-approval", "plurality", "stv"]),
+    type=click.Choice(
+        ["borda", "3-approval", "2-approval", "plurality", "stv", "ranked-pairs"]
+    ),
     help="Type of election",
     required=True,
 )
-def main(n_seats, n_cands, metric, election_type):
+@click.option(
+    "--tiebreak",
+    type=click.Choice(["lex", "random", "borda"]),
+    help="Tiebreaking method",
+    required=True,
+)
+def main(
+    n_seats, n_cands, metric, variant, interpolation_type, election_type, tiebreak
+):
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
 
@@ -64,17 +94,32 @@ def main(n_seats, n_cands, metric, election_type):
     profile_folder_base = str(Path(f"{top_dir}/data/preference_profiles/").resolve())
 
     metric_function_dict = {
-        "sigma_IIA": partial(sigma_IIA, n_seats=n_seats),
-        "sigma_UM": partial(sigma_UM, n_seats=n_seats),
-        "sigma_IIA_winner_set": partial(sigma_IIA_winner_set, n_seats=n_seats),
-        "sigma_UM_winner_set": partial(sigma_UM_winner_set, n_seats=n_seats),
+        "sigma_UM": partial(
+            sigma_UM,
+            n_seats=n_seats,
+            variant=variant,
+            interpolation_type=interpolation_type,
+        ),
+        "sigma_UM_winner_set": partial(
+            sigma_UM_winner_set,
+            n_seats=n_seats,
+            variant=variant,
+            interpolation_type=interpolation_type,
+        ),
+        "sigma_IIA": partial(sigma_IIA, n_seats=n_seats, variant=variant),
+        "sigma_IIA_all_subset": partial(
+            sigma_IIA_all_subset, n_seats=n_seats, variant=variant
+        ),
+        "sigma_IIA_winner_set": partial(
+            sigma_IIA_winner_set, n_seats=n_seats, variant=variant
+        ),
     }
 
     for alpha in alpha_list:
         all_csv_profiles = sorted(
             glob(f"{profile_folder_base}/{n_cands:02d}/alpha_{alpha:.2f}/*.csv")
         )
-        voting_rule = build_voting_rule(n_cands, election_type)
+        voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
         with joblib_progress(
             f"{election_type}: n_cands = {n_cands:02d}, alpha = {alpha:.2f}, score = {metric}, n_seats = {n_seats}",
             total=len(all_csv_profiles),
@@ -88,8 +133,14 @@ def main(n_seats, n_cands, metric, election_type):
                 f"{output_folder_base}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/"
             )
             os.makedirs(output_folder, exist_ok=True)
+            interp_type = (
+                f"{interpolation_type}"
+                if metric in ["sigma_UM", "sigma_UM_winner_set"]
+                else "None"
+            )
+            output_file = f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}__VARIANT_{variant}__TIEBREAK_{tiebreak}__INTERP_{interp_type}.json"
             with open(
-                f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}.json",
+                output_file,
                 "w",
             ) as f:
                 json.dump(scores, f)

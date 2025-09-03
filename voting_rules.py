@@ -1,17 +1,20 @@
 from typing import Callable, Literal, TypeAlias
-from votekit.elections import Borda, STV, Plurality, Election
+from votekit.elections import Borda, STV, Plurality, RankedPairs
+from votekit.models import Election
 
 ElectionConstructor: TypeAlias = Callable[..., Election]
-AllowedRule = Literal["borda", "3-approval", "2-approval", "plurality", "stv"]
+AllowedRule: TypeAlias = Literal[
+    "borda", "3-approval", "2-approval", "plurality", "stv", "ranked-pairs"
+]
 
 
 def build_voting_rule(
-    n_cands: int, voting_rule_name: AllowedRule
+    n_cands: int, voting_rule_name: AllowedRule, tiebreak: str = "lex"
 ) -> ElectionConstructor:
     if voting_rule_name == "borda":
 
         def factory(*args, **kwargs) -> Election:
-            return Borda(*args, tiebreak="first_place", **kwargs)
+            return Borda(*args, tiebreak=tiebreak, **kwargs)
 
         return factory
 
@@ -21,7 +24,7 @@ def build_voting_rule(
         sv = [1] * 3 + [0] * (n_cands - 3)
 
         def factory(*args, **kwargs) -> Election:
-            return Borda(*args, tiebreak="first_place", score_vector=sv, **kwargs)
+            return Borda(*args, tiebreak=tiebreak, score_vector=sv, **kwargs)
 
         return factory
 
@@ -31,21 +34,28 @@ def build_voting_rule(
         sv = [1] * 2 + [0] * (n_cands - 2)
 
         def factory(*args, **kwargs) -> Election:
-            return Borda(*args, tiebreak="first_place", score_vector=sv, **kwargs)
+            return Borda(*args, tiebreak=tiebreak, score_vector=sv, **kwargs)
 
         return factory
 
     elif voting_rule_name == "plurality":
 
         def factory(*args, **kwargs) -> Election:
-            return Plurality(*args, tiebreak="borda", **kwargs)
+            return Plurality(*args, tiebreak=tiebreak, **kwargs)
 
         return factory
 
     elif voting_rule_name == "stv":
 
         def factory(*args, **kwargs) -> Election:
-            return STV(*args, tiebreak="borda", **kwargs)
+            return STV(*args, tiebreak=tiebreak, **kwargs)
+
+        return factory
+
+    elif voting_rule_name == "ranked-pairs":
+
+        def factory(*args, **kwargs) -> Election:
+            return RankedPairs(*args, tiebreak=tiebreak, **kwargs)
 
         return factory
 

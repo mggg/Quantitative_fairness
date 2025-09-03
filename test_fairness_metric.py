@@ -2,8 +2,9 @@ from votekit import PreferenceProfile, Ballot
 from voting_rules import build_voting_rule
 from fairness_metric import (
     sigma_IIA,
-    sigma_UM,
+    sigma_IIA_all_subset,
     sigma_IIA_winner_set,
+    sigma_UM,
     sigma_UM_winner_set,
 )
 import numpy as np
@@ -95,32 +96,167 @@ def make_random_profile(n_voters: int, cand_list: list[str]) -> PreferenceProfil
     return PreferenceProfile(ballots=tuple(ballot_list), candidates=tuple(cand_list))
 
 
+# def test_random_profiles():
+#     n_tests = 100
+#     n_voters = 100
+#     cand_list = ["A", "B", "C", "D"]
+#     n_cands = len(cand_list)
+#     n_seats = 2
+#
+#     from tqdm import tqdm
+#     from itertools import product
+#
+#     for _, variant in tqdm(
+#         product(list(range(n_tests)), ["worst_case", "average"]), total=n_tests * 2
+#     ):
+#         profile = make_random_profile(n_voters, cand_list)
+#         voting_rule = build_voting_rule(n_cands, "borda")
+#         for interp_type in ["asin", "odds"]:
+#             assert (
+#                 0
+#                 <= sigma_UM(
+#                     profile,
+#                     voting_rule,
+#                     n_seats,
+#                     variant=variant,
+#                     interpolation_type=interp_type,
+#                 )
+#                 <= 1
+#             )
+#             assert (
+#                 0
+#                 <= sigma_UM_winner_set(
+#                     profile,
+#                     voting_rule,
+#                     n_seats,
+#                     variant=variant,
+#                     interpolation_type=interp_type,
+#                 )
+#                 <= 1
+#             )
+#         assert 0 <= sigma_IIA(profile, voting_rule, n_seats, variant=variant) <= 1
+#         assert (
+#             0
+#             <= sigma_IIA_all_subset(profile, voting_rule, n_seats, variant=variant)
+#             <= 1
+#         )
+#         assert (
+#             0
+#             <= sigma_IIA_winner_set(profile, voting_rule, n_seats, variant=variant)
+#             <= 1
+#         )
+#
+#         voting_rule = build_voting_rule(n_cands, "plurality")
+#         for interp_type in ["asin", "odds"]:
+#             assert (
+#                 0
+#                 <= sigma_UM(
+#                     profile,
+#                     voting_rule,
+#                     n_seats,
+#                     variant=variant,
+#                     interpolation_type=interp_type,
+#                 )
+#                 <= 1
+#             )
+#             assert (
+#                 0
+#                 <= sigma_UM_winner_set(
+#                     profile,
+#                     voting_rule,
+#                     n_seats,
+#                     variant=variant,
+#                     interpolation_type=interp_type,
+#                 )
+#                 <= 1
+#             )
+#         assert 0 <= sigma_IIA(profile, voting_rule, n_seats, variant=variant) <= 1
+#         assert (
+#             0
+#             <= sigma_IIA_all_subset(profile, voting_rule, n_seats, variant=variant)
+#             <= 1
+#         )
+#         assert (
+#             0
+#             <= sigma_IIA_winner_set(profile, voting_rule, n_seats, variant=variant)
+#             <= 1
+#         )
+
+
 def test_condorcet_profile_borda():
     n_cands = 3
     n_seats = 1
     voting_rule = build_voting_rule(n_cands, "borda")
-    assert abs(sigma_UM(condorcet_profile, voting_rule, n_seats) - 0.608) < 1e-3
+    assert (
+        abs(
+            sigma_UM(
+                condorcet_profile,
+                voting_rule,
+                n_seats,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 0.608
+        )
+        < 1e-3
+    )
 
 
 def test_condorcet_profile_3_approval():
     n_cands = 3
     n_seats = 1
     voting_rule = build_voting_rule(n_cands, "3-approval")
-    assert abs(sigma_UM(condorcet_profile, voting_rule, n_seats) - 0.608) < 1e-3
+    assert (
+        abs(
+            sigma_UM(
+                condorcet_profile,
+                voting_rule,
+                n_seats,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 0.608
+        )
+        < 1e-3
+    )
 
 
 def test_condorcet_profile_2_approval():
     n_cands = 3
     n_seats = 1
     voting_rule = build_voting_rule(n_cands, "2-approval")
-    assert abs(sigma_UM(condorcet_profile, voting_rule, n_seats) - 0.608) < 1e-3
+    assert (
+        abs(
+            sigma_UM(
+                condorcet_profile,
+                voting_rule,
+                n_seats,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 0.608
+        )
+        < 1e-3
+    )
 
 
 def test_condorcet_profile_plurality():
     n_cands = 3
     n_seats = 1
     voting_rule = build_voting_rule(n_cands, "plurality")
-    assert abs(sigma_UM(condorcet_profile, voting_rule, n_seats) - 0.608) < 1e-3
+    assert (
+        abs(
+            sigma_UM(
+                condorcet_profile,
+                voting_rule,
+                n_seats,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 0.608
+        )
+        < 1e-3
+    )
 
 
 def test_low_UM_plurality():
@@ -135,23 +271,44 @@ def test_low_UM_plurality():
         )
     )
     voting_rule = build_voting_rule(n_cands, "plurality")
-    assert abs(sigma_UM(profile, voting_rule, n_seats) - 0.0903) < 1e-4
+    assert (
+        abs(
+            sigma_UM(
+                profile,
+                voting_rule,
+                n_seats,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 0.0903
+        )
+        < 1e-4
+    )
 
 
 def test_IIA_Borda_high():
     voting_rule = build_voting_rule(4, "borda")
-    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 1) - 0.917) < 1e-3
+    assert (
+        abs(sigma_IIA(basic_IIA_profile, voting_rule, 1, variant="average") - 0.917)
+        < 1e-3
+    )
 
 
 def test_IIA_Plurality_high_needs_lex_tiebreak_due_to_tie_in_final_ranking():
     voting_rule = build_voting_rule(4, "plurality")
-    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 1) - 0.833) < 1e-3
+    assert (
+        abs(sigma_IIA(basic_IIA_profile, voting_rule, 1, variant="average") - 0.833)
+        < 1e-3
+    )
 
 
 def test_IIA_Plurality_high_needs_borda_tiebreak():
-    voting_rule = build_voting_rule(4, "plurality")
+    voting_rule = build_voting_rule(4, "plurality", tiebreak="borda")
 
-    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 2) - 0.917) < 1e-3
+    assert (
+        abs(sigma_IIA(basic_IIA_profile, voting_rule, 2, variant="average") - 0.917)
+        < 1e-3
+    )
 
 
 def test_IIA_winner_set_STV_ub():
@@ -167,7 +324,10 @@ def test_IIA_winner_set_STV_ub():
         )
     )
     voting_rule = build_voting_rule(n_cands, "stv")
-    assert abs(sigma_IIA_winner_set(profile, voting_rule, n_seats) - 1) < 1e-4
+    assert (
+        abs(sigma_IIA_winner_set(profile, voting_rule, n_seats, variant="average") - 1)
+        < 1e-4
+    )
 
 
 def test_IIA_winner_set_STV_mid():
@@ -182,7 +342,13 @@ def test_IIA_winner_set_STV_mid():
         )
     )
     voting_rule = build_voting_rule(n_cands, "stv")
-    assert abs(sigma_IIA_winner_set(profile, voting_rule, n_seats) - 2 / 3.0) < 1e-4
+    assert (
+        abs(
+            sigma_IIA_winner_set(profile, voting_rule, n_seats, variant="average")
+            - 2 / 3.0
+        )
+        < 1e-4
+    )
 
 
 def test_UM_borda_ub():
@@ -200,7 +366,19 @@ def test_UM_borda_ub():
     )
 
     voting_rule = build_voting_rule(n_cands, "borda")
-    assert abs(sigma_UM(profile, voting_rule, n_seats) - 1.0) < 1e-3
+    assert (
+        abs(
+            sigma_UM(
+                profile,
+                voting_rule,
+                n_seats,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 1.0
+        )
+        < 1e-3
+    )
 
 
 def test_UM_plurality_ub():
@@ -218,7 +396,19 @@ def test_UM_plurality_ub():
     )
 
     voting_rule = build_voting_rule(n_cands, "plurality")
-    assert abs(sigma_UM(profile, voting_rule, n_seats) - 1.0) < 1e-3
+    assert (
+        abs(
+            sigma_UM(
+                profile,
+                voting_rule,
+                n_seats,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 1.0
+        )
+        < 1e-3
+    )
 
 
 def test_UM_4_cands_STV():
@@ -242,7 +432,15 @@ def test_UM_4_cands_STV():
     )
 
     voting_rule = build_voting_rule(4, "stv")
-    assert abs(sigma_UM(profile, voting_rule, 1) - 0.436) < 1e-3
+    assert (
+        abs(
+            sigma_UM(
+                profile, voting_rule, 1, variant="worst_case", interpolation_type="asin"
+            )
+            - 0.436
+        )
+        < 1e-3
+    )
 
 
 def test_UM_winner_set_changes_with_seat_number_STV():
@@ -266,59 +464,173 @@ def test_UM_winner_set_changes_with_seat_number_STV():
     )
 
     voting_rule = build_voting_rule(4, "stv")
-    assert abs(sigma_UM_winner_set(profile, voting_rule, 1) - 1) < 1e-3
-    assert abs(sigma_UM_winner_set(profile, voting_rule, 2) - 1) < 1e-3
-    assert abs(sigma_UM_winner_set(profile, voting_rule, 3) - 0.436) < 1e-3
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile, voting_rule, 1, variant="worst_case", interpolation_type="asin"
+            )
+            - 1
+        )
+        < 1e-3
+    )
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile, voting_rule, 2, variant="worst_case", interpolation_type="asin"
+            )
+            - 1
+        )
+        < 1e-3
+    )
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile, voting_rule, 3, variant="worst_case", interpolation_type="asin"
+            )
+            - 0.436
+        )
+        < 1e-3
+    )
 
 
 def test_IIA_winner_set_5_cand_STV_ub():
 
     voting_rule = build_voting_rule(4, "stv")
-    assert abs(sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1) - 1) < 1e-3
+    assert (
+        abs(
+            sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average")
+            - 1
+        )
+        < 1e-3
+    )
 
 
 def test_IIA_winner_set_5_cand_Plurality_ub():
 
     voting_rule = build_voting_rule(4, "plurality")
-    assert abs(sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1) - 1) < 1e-3
+    assert (
+        abs(
+            sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average")
+            - 1
+        )
+        < 1e-3
+    )
 
 
 def test_IIA_winner_set_5_cand_Borda_ub():
 
     voting_rule = build_voting_rule(4, "borda")
-    assert abs(sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1) - 1) < 1e-3
+    assert (
+        abs(
+            sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average")
+            - 1
+        )
+        < 1e-3
+    )
 
 
 def test_UM_winner_set_5_cand_STV_ub():
 
     voting_rule = build_voting_rule(4, "stv")
-    assert abs(sigma_UM_winner_set(profile_5_cand_ub, voting_rule, 1) - 1) < 1e-3
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile_5_cand_ub,
+                voting_rule,
+                1,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 1
+        )
+        < 1e-3
+    )
 
 
 def test_UM_winner_set_5_cand_Plurality_ub():
 
     voting_rule = build_voting_rule(4, "plurality")
-    assert abs(sigma_UM_winner_set(profile_5_cand_ub, voting_rule, 1) - 1) < 1e-3
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile_5_cand_ub,
+                voting_rule,
+                1,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 1
+        )
+        < 1e-3
+    )
 
 
 def test_UM_winner_set_5_cand_Borda_ub():
     voting_rule = build_voting_rule(4, "borda")
-    assert abs(sigma_UM_winner_set(profile_5_cand_ub, voting_rule, 1) - 1) < 1e-3
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile_5_cand_ub,
+                voting_rule,
+                1,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 1
+        )
+        < 1e-3
+    )
 
 
 def test_UM_winner_set_5_cand_STV_mid():
     voting_rule = build_voting_rule(4, "stv")
-    assert abs(sigma_UM_winner_set(profile_5_cand_mid, voting_rule, 2) - 0.705) < 1e-3
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile_5_cand_mid,
+                voting_rule,
+                2,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 0.705
+        )
+        < 1e-3
+    )
 
 
 def test_UM_winner_set_5_cand_Plurality_mid():
     voting_rule = build_voting_rule(4, "plurality")
-    assert abs(sigma_UM_winner_set(profile_5_cand_mid, voting_rule, 2) - 0.705) < 1e-3
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile_5_cand_mid,
+                voting_rule,
+                2,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 0.705
+        )
+        < 1e-3
+    )
 
 
 def test_UM_winner_set_5_cand_Borda_mid():
     voting_rule = build_voting_rule(4, "borda")
-    assert abs(sigma_UM_winner_set(profile_5_cand_mid, voting_rule, 2) - 0.705) < 1e-3
+    assert (
+        abs(
+            sigma_UM_winner_set(
+                profile_5_cand_mid,
+                voting_rule,
+                2,
+                variant="worst_case",
+                interpolation_type="asin",
+            )
+            - 0.705
+        )
+        < 1e-3
+    )
 
 
 def test_IIA_winner_set_changes_with_election_type():
@@ -338,13 +650,22 @@ def test_IIA_winner_set_changes_with_election_type():
     )
 
     voting_rule = build_voting_rule(5, "stv")
-    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2) - 0.8) < 1e-3
+    assert (
+        abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.8)
+        < 1e-3
+    )
 
     voting_rule = build_voting_rule(5, "plurality")
-    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2) - 0.8) < 1e-3
+    assert (
+        abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.8)
+        < 1e-3
+    )
 
     voting_rule = build_voting_rule(5, "borda")
-    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2) - 1.0) < 1e-3
+    assert (
+        abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 1.0)
+        < 1e-3
+    )
 
 
 def test_IIA_winner_set_changes_with_seat_number_Plurality():
@@ -375,9 +696,17 @@ def test_IIA_winner_set_changes_with_seat_number_Plurality():
     )
 
     voting_rule = build_voting_rule(6, "plurality")
-    assert abs(sigma_IIA_winner_set(profile, voting_rule, 1) - 1) < 1e-3
-    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2) - 0.833) < 1e-3
-    assert abs(sigma_IIA_winner_set(profile, voting_rule, 3) - 0.917) < 1e-3
+    assert (
+        abs(sigma_IIA_winner_set(profile, voting_rule, 1, variant="average") - 1) < 1e-3
+    )
+    assert (
+        abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.833)
+        < 1e-3
+    )
+    assert (
+        abs(sigma_IIA_winner_set(profile, voting_rule, 3, variant="average") - 0.917)
+        < 1e-3
+    )
 
 
 def test_IIA_Plurality_obtains_zero():
@@ -392,7 +721,7 @@ def test_IIA_Plurality_obtains_zero():
     )
 
     voting_rule = build_voting_rule(3, "plurality")
-    assert sigma_IIA(profile, voting_rule, 1) == 0.0
+    assert sigma_IIA(profile, voting_rule, 1, variant="average") == 0.0
 
 
 def test_IIA_winner_set_Plurality_obtains_lb():
@@ -407,7 +736,7 @@ def test_IIA_winner_set_Plurality_obtains_lb():
     )
 
     voting_rule = build_voting_rule(3, "plurality")
-    assert sigma_IIA_winner_set(profile, voting_rule, 1) == 1 / 3
+    assert sigma_IIA_winner_set(profile, voting_rule, 1, variant="average") == 1 / 3
 
 
 def test_IIA_winner_set_Plurality_low():
@@ -422,7 +751,7 @@ def test_IIA_winner_set_Plurality_low():
     )
 
     voting_rule = build_voting_rule(3, "plurality")
-    assert sigma_IIA_winner_set(profile, voting_rule, 2) == 1 / 3.0
+    assert sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") == 1 / 3.0
 
 
 def test_UM_Plurality_low():
@@ -446,4 +775,12 @@ def test_UM_Plurality_low():
     )
 
     voting_rule = build_voting_rule(4, "plurality")
-    assert abs(sigma_UM(profile, voting_rule, 1) - 0.436) < 1e-3
+    assert (
+        abs(
+            sigma_UM(
+                profile, voting_rule, 1, variant="worst_case", interpolation_type="asin"
+            )
+            - 0.436
+        )
+        < 1e-3
+    )
