@@ -4,6 +4,7 @@ from glob import glob
 import seaborn as sns
 import pandas as pd
 from pathlib import Path
+import click
 
 
 def construct_df_scottish(data_dictionary, n_cands, metric):
@@ -18,13 +19,15 @@ def construct_df_scottish(data_dictionary, n_cands, metric):
     return pd.DataFrame(df_data, index=data_dictionary.keys()).T
 
 
-def build_plot_for_metric_scottish(metric, ax, y_label="", use_one=False):
+def build_plot_for_metric_scottish(
+    metric, ordered_outputs, ordered_rules, n_cand_list, ax, y_label="", use_one=False
+):
     """
     Helper function to build a boxplot for a given metric.
     Included to improve readability.
     """
     df_list = []
-    for n_cands in range(3, 15):
+    for n_cands in n_cand_list:
         df = construct_df_scottish(ordered_outputs, n_cands, metric)
         df = df.melt(var_name="rule", value_name="value")
         df["n_cands"] = n_cands
@@ -55,12 +58,26 @@ def build_plot_for_metric_scottish(metric, ax, y_label="", use_one=False):
         ax.legend(title="Voting rule", bbox_to_anchor=(1, 0.5), loc="center left")
 
 
-if __name__ == "__main__":
-    ordered_rules = ["borda", "3-approval", "2-approval", "plurality", "stv"]
+@click.command()
+@click.option("--variant", required=True)
+@click.option("--tiebreak", required=True)
+def main(variant, tiebreak, n_cand_list=list(range(6, 10))):
+    ordered_rules = [
+        "borda",
+        "3-approval",
+        "2-approval",
+        "plurality",
+        "stv",
+        "ranked-pairs",
+    ]
 
     top_dir = str(Path(__file__).resolve().parents[2])
     stat_file_base_dir = str(Path(f"{top_dir}/stats/scottish_stats/").resolve())
-    output_plot_name = f"{top_dir}/plots/scottish_sigma_plots.png"
+    output_dir = f"{top_dir}/plots/scottish"
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    output_plot_name = (
+        f"{str(output_dir)}/scottish_sigma_plots_{variant}_{tiebreak}.png"
+    )
 
     # ==========================
     # Make the scottish boxplots
@@ -81,24 +98,36 @@ if __name__ == "__main__":
         }
         outputs_by_election_type[election_type] = output_dict
 
-    ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
-
     metric_label_pairs = [
-        ("n_voters", "Number of voters"),
-        ("sigma_IIA", "$\sigma_{IIA}$"),
-        ("sigma_IIA_all_subset", "$\sigma_{IIA}^{SS}$"),
-        ("sigma_IIA_winner_set", "$\sigma_{IIA}^{WS}$"),
-        ("sigma_UM", "$\sigma_{UM}$"),
-        ("sigma_UM_winner_set", "$\sigma_{UM}^{WS}$"),
+        (f"sigma_UM_{variant}_odds_{tiebreak}", "$\\sigma_{UM}$ ranking ODDS"),
+        (f"sigma_UM_{variant}_asin_{tiebreak}", "$\\sigma_{UM}$ ranking ASIN"),
+        (
+            f"sigma_UM_winner_set_{variant}_odds_{tiebreak}",
+            "$\\sigma_{UM}$ winner-set ranking ODDS",
+        ),
+        (
+            f"sigma_UM_winner_set_{variant}_asin_{tiebreak}",
+            "$\\sigma_{UM}$ winner-set ranking ASIN",
+        ),
+        (f"sigma_IIA_{variant}_{tiebreak}", "$\\sigma_{IIA}$ ranking"),
+        (f"sigma_IIA_all_subset_{variant}_{tiebreak}", "$\\sigma_{IIA}$ subset"),
+        (f"sigma_IIA_winner_set_{variant}_{tiebreak}", "$\\sigma_{IIA}$ winner-set"),
     ]
     fig, ax = plt.subplots(
         len(metric_label_pairs), 1, figsize=(20, 6 * len(metric_label_pairs))
     )
-
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
+
+    ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
     for i, (metric, label) in enumerate(metric_label_pairs):
         build_plot_for_metric_scottish(
-            metric, ax[i], y_label=label, use_one=(metric == "n_voters")
+            metric,
+            ordered_outputs,
+            ordered_rules,
+            n_cand_list,
+            ax[i],
+            y_label=label,
+            use_one=(metric == "n_voters"),
         )
 
     plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
@@ -123,8 +152,13 @@ if __name__ == "__main__":
 
     df = df.reindex(
         pd.MultiIndex.from_product(
-            [ordered_rules, range(3, 15)], names=["rule", "n_cands"]
+            [ordered_rules, n_cand_list],
+            names=["rule", "n_cands"],
         ),
     )
 
-    df.to_csv(f"{stat_file_base_dir}/scottish_stats_all.csv")
+    df.to_csv(f"{stat_file_base_dir}/scottish_stats_{variant}_{tiebreak}.csv")
+
+
+if __name__ == "__main__":
+    main()

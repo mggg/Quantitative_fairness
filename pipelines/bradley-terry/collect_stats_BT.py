@@ -39,6 +39,12 @@ def run_score(profile_file, metric_function, voting_rule):
 @click.option("--n-seats", type=int, default=1, help="Number of seats")
 @click.option("--n-cands", type=int, help="Number of candidates", required=True)
 @click.option(
+    "--alpha-value",
+    type=click.Choice(["0.33", "0.50", "1.00", "2.00", "3.00"]),
+    help="Alpha value",
+    required=True,
+)
+@click.option(
     "--metric",
     type=click.Choice(
         [
@@ -60,7 +66,7 @@ def run_score(profile_file, metric_function, voting_rule):
 )
 @click.option(
     "--interpolation-type",
-    type=click.Choice(["asin", "odds"]),
+    type=click.Choice(["asin", "odds", "None"]),
     help="Type of interpolation for sigma_UM metrics",
     default="asin",
     required=False,
@@ -79,19 +85,45 @@ def run_score(profile_file, metric_function, voting_rule):
     help="Tiebreaking method",
     required=True,
 )
+@click.option(
+    "--show-progress",
+    is_flag=True,
+    help="Show progress bar",
+    default=False,
+)
 def main(
-    n_seats, n_cands, metric, variant, interpolation_type, election_type, tiebreak
+    n_seats,
+    n_cands,
+    alpha_value,
+    metric,
+    variant,
+    interpolation_type,
+    election_type,
+    tiebreak,
+    show_progress,
 ):
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
 
-    alpha_list = [1 / 3, 1 / 2, 1, 2, 3]
+    alpha_dict = {
+        "0.33": 1 / 3,
+        "0.50": 1 / 2,
+        "1.00": 1,
+        "2.00": 2,
+        "3.00": 3,
+    }
 
     top_dir = str(Path(__file__).resolve().parents[2])
     output_folder = Path(f"{top_dir}/stats/bt_profile_stats/{n_seats}_seats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
     profile_folder_base = str(Path(f"{top_dir}/data/preference_profiles/").resolve())
+
+    if "UM" in metric:
+        if interpolation_type not in ["asin", "odds"]:
+            raise ValueError(
+                f"Invalid interpolation type {interpolation_type} for metric {metric}. Must be 'asin' or 'odds'."
+            )
 
     metric_function_dict = {
         "sigma_UM": partial(
@@ -115,13 +147,15 @@ def main(
         ),
     }
 
-    for alpha in alpha_list:
-        all_csv_profiles = sorted(
-            glob(f"{profile_folder_base}/{n_cands:02d}/alpha_{alpha:.2f}/*.csv")
-        )
-        voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
+    alpha = alpha_dict[alpha_value]
+    all_csv_profiles = sorted(
+        glob(f"{profile_folder_base}/{n_cands:02d}/alpha_{alpha:.2f}/*.csv")
+    )
+    voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
+
+    if show_progress:
         with joblib_progress(
-            f"{election_type}: n_cands = {n_cands:02d}, alpha = {alpha:.2f}, score = {metric}, n_seats = {n_seats}",
+            f"{n_seats} {n_cands} {metric} {variant} {interpolation_type} {election_type} {tiebreak} alpha {alpha:.2f}",
             total=len(all_csv_profiles),
         ):
             scores = Parallel(n_jobs=-1)(
@@ -133,17 +167,31 @@ def main(
                 f"{output_folder_base}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/"
             )
             os.makedirs(output_folder, exist_ok=True)
-            interp_type = (
-                f"{interpolation_type}"
-                if metric in ["sigma_UM", "sigma_UM_winner_set"]
-                else "None"
-            )
-            output_file = f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}__VARIANT_{variant}__TIEBREAK_{tiebreak}__INTERP_{interp_type}.json"
+
+            output_file = f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}__VARIANT_{variant}__TIEBREAK_{tiebreak}__INTERP_{interpolation_type}.json"
             with open(
                 output_file,
                 "w",
             ) as f:
                 json.dump(scores, f)
+
+    else:
+        scores = Parallel(n_jobs=-1)(
+            delayed(run_score)(file, metric_function_dict[metric], voting_rule)
+            for file in all_csv_profiles
+        )
+
+        output_folder = (
+            f"{output_folder_base}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/"
+        )
+        os.makedirs(output_folder, exist_ok=True)
+
+        output_file = f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}__VARIANT_{variant}__TIEBREAK_{tiebreak}__INTERP_{interpolation_type}.json"
+        with open(
+            output_file,
+            "w",
+        ) as f:
+            json.dump(scores, f)
 
 
 if __name__ == "__main__":
