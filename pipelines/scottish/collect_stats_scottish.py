@@ -253,8 +253,6 @@ if __name__ == "__main__":
             str(cands): {} for cands in candidate_range
         }
 
-        from pprint import pprint
-
         for key, data_dict in scottish_election_stats.items():
             if data_dict == {
                 f"{metric}_{tiebreak}": {}
@@ -268,7 +266,6 @@ if __name__ == "__main__":
             for metric_name, tiebreak in product(
                 metric_function_dict.keys(), tiebreak_types
             ):
-                pprint(data_dict)
                 metric_data_list = list(data_dict[f"{metric_name}_{tiebreak}"].values())
                 scottish_election_interpreted_values[key][
                     f"mean_{metric_name}_{tiebreak}"

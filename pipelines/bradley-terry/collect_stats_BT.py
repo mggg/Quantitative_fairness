@@ -81,7 +81,7 @@ def run_score(profile_file, metric_function, voting_rule):
 )
 @click.option(
     "--tiebreak",
-    type=click.Choice(["lex", "random", "borda"]),
+    type=click.Choice(["lex", "random"]),
     help="Tiebreaking method",
     required=True,
 )
