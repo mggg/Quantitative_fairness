@@ -12,9 +12,9 @@ fi
 # python ${SCRIPT_DIR}/pipelines/scottish/collect_stats_scottish.py
 
 for variant in "worst_case" "average"
-do 
+do
     for tiebreak in "random" "lex"
     do
         python ${SCRIPT_DIR}/pipelines/scottish/create_scottish_outputs.py --variant ${variant} --tiebreak ${tiebreak}
     done
-done    
+done

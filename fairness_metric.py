@@ -154,23 +154,19 @@ def sigma_UM(
         [f"Ranking_{i}" for i in range(1, profile.max_ranking_length + 1)]
     ].to_numpy()
 
-    worst_misalignment = 1
-    total_misalignment = 0
+    misalignment = 1
+    total_alignment = 0
     for rank1, rank2 in combinations(original_ranking, 2):
         weighted_ranking_vector = determine_weighted_ranking_vector_XAB(
             ranking_array, weight_vector, rank1, rank2
         )
         alignment_IAB = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
-        worst_misalignment = min(worst_misalignment, alignment_IAB)
-        total_misalignment += alignment_IAB
+        misalignment = min(misalignment, alignment_IAB)
+        total_alignment += interpolation_fn(alignment_IAB)
 
-    average_misalignment = total_misalignment / comb(len(original_ranking), 2)
+    average_alignment = total_alignment / comb(len(original_ranking), 2)
 
-    ret_misalignment = (
-        average_misalignment if variant == "average" else worst_misalignment
-    )
-
-    return interpolation_fn(ret_misalignment)
+    return average_alignment if variant == "average" else interpolation_fn(misalignment)
 
 
 def sigma_UM_winner_set(
@@ -216,8 +212,8 @@ def sigma_UM_winner_set(
         [f"Ranking_{i}" for i in range(1, profile.max_ranking_length + 1)]
     ].to_numpy()
 
-    worst_misalignment = 1
-    total_misalignment = 0
+    misalignment = 1
+    total_alignment = 0
     winners = original_ranking[:n_seats]
     losers = original_ranking[n_seats:]
 
@@ -226,17 +222,16 @@ def sigma_UM_winner_set(
             ranking_array, weight_vector, rank1, rank2
         )
         alignment_IAB = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
-        worst_misalignment = min(worst_misalignment, alignment_IAB)
-        total_misalignment += alignment_IAB
+        misalignment = min(misalignment, alignment_IAB)
+        total_alignment += interpolation_fn(alignment_IAB)
 
-    average_misalignment = total_misalignment / (
+    average_misalignment = total_alignment / (
         n_seats * (len(original_ranking) - n_seats)
     )
-    ret_misalignment = (
-        average_misalignment if variant == "average" else worst_misalignment
-    )
 
-    return interpolation_fn(ret_misalignment)
+    return (
+        average_misalignment if variant == "average" else interpolation_fn(misalignment)
+    )
 
 
 # =================================================================================================

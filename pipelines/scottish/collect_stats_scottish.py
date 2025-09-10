@@ -215,38 +215,40 @@ if __name__ == "__main__":
         file_to_column_data_dict[file_name] = dict()
 
     for election_name in all_election_types:
-        scottish_election_stats = {
-            str(cands): {
-                f"{metric_name}_{tiebreak}": {}
-                for metric_name, tiebreak in product(
-                    metric_function_dict.keys(), tiebreak_types
-                )
-            }
-            for cands in candidate_range
-        }
-        for tiebreak in tiebreak_types:
+        # scottish_election_stats = {
+        #     str(cands): {
+        #         f"{metric_name}_{tiebreak}": {}
+        #         for metric_name, tiebreak in product(
+        #             metric_function_dict.keys(), tiebreak_types
+        #         )
+        #     }
+        #     for cands in candidate_range
+        # }
+        # for tiebreak in tiebreak_types:
 
-            with joblib_progress(
-                total=len(all_files),
-                description=f"Collecting stats for {election_name}, tiebreak={tiebreak}",
-            ):
-                results = Parallel(n_jobs=28)(
-                    delayed(compute_results_single_file)(
-                        f, election_name, metric_function_dict, tiebreak
-                    )
-                    for f in all_files
-                )
+        #     with joblib_progress(
+        #         total=len(all_files),
+        #         description=f"Collecting stats for {election_name}, tiebreak={tiebreak}",
+        #     ):
+        #         results = Parallel(n_jobs=28)(
+        #             delayed(compute_results_single_file)(
+        #                 f, election_name, metric_function_dict, tiebreak
+        #             )
+        #             for f in all_files
+        #         )
 
-            for output_dict in results:
-                assert output_dict is not None
-                for n_cands, data in output_dict.items():
-                    for key, value_dict in data.items():
-                        scottish_election_stats[n_cands][key].update(value_dict)
+        #     for output_dict in results:
+        #         assert output_dict is not None
+        #         for n_cands, data in output_dict.items():
+        #             for key, value_dict in data.items():
+        #                 scottish_election_stats[n_cands][key].update(value_dict)
 
         # Save the full output
         output_file = f"{output_folder_base}/{election_name}_output.json"
-        with open(output_file, "w") as f:
-            json.dump(scottish_election_stats, f, indent=4)
+        # with open(output_file, "w") as f:
+        #     json.dump(scottish_election_stats, f, indent=4)
+        with open(output_file, "r") as f:
+            scottish_election_stats = json.load(f)
 
         # Now for the stats we care about
         scottish_election_interpreted_values = {
@@ -271,8 +273,8 @@ if __name__ == "__main__":
                     f"mean_{metric_name}_{tiebreak}"
                 ] = float(np.mean(metric_data_list))
                 scottish_election_interpreted_values[key][
-                    f"variance_{metric_name}_{tiebreak}"
-                ] = float(np.var(metric_data_list))
+                    f"std_dev_{metric_name}_{tiebreak}"
+                ] = float(np.std(metric_data_list))
 
         stats_file = f"{output_folder_base}/{election_name}_stats.json"
         with open(stats_file, "w") as f:
