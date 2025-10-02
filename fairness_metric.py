@@ -1,5 +1,5 @@
-from votekit import PreferenceProfile
-from votekit.cleaning import remove_and_condense_ranked_profile
+from votekit import RankProfile
+from votekit.cleaning import remove_and_condense_rank_profile
 from math import comb
 from itertools import combinations, product
 import numpy as np
@@ -94,13 +94,13 @@ def determine_weighted_ranking_vector_XAB(
     return xab_vector * weight_vector
 
 
-def number_of_voters(profile: PreferenceProfile, *args, **kwargs) -> float:
+def number_of_voters(profile: RankProfile, *args, **kwargs) -> float:
     del args, kwargs  # unused
     return float(profile.df["Weight"].sum())
 
 
 # =================================================================================================
-#                                      SIGMA UM
+#                                            SIGMA UM
 # =================================================================================================
 
 
@@ -112,8 +112,12 @@ def __odds_interpolation(misalignment: float) -> float:
     return float(misalignment / (1 - misalignment) if misalignment < 1 / 2 else 1)
 
 
+def __linear_interpolation(misalignment: float) -> float:
+    return float(2 * misalignment if misalignment < 1 / 2 else 1)
+
+
 def sigma_UM(
-    profile: PreferenceProfile,
+    profile: RankProfile,
     voting_rule: ElectionConstructor,
     n_seats: int,
     *,
@@ -125,7 +129,7 @@ def sigma_UM(
     See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (PreferenceProfile): The preference profile to score.
+        profile (RankProfile): The preference profile to score.
         voting_rule (Election): The voting rule to apply to the profile.
 
     Returns:
@@ -135,14 +139,18 @@ def sigma_UM(
         raise ValueError(
             f"Unknown variant: {variant}. Must be 'average' or 'worst_case'."
         )
-    if interpolation_type not in ("asin", "odds"):
-        raise ValueError(
-            f"Unknown interpolation_type: {interpolation_type}. Must be 'asin' or 'odds'."
-        )
 
-    interpolation_fn = __asin_interpolation
-    if interpolation_type == "odds":
-        interpolation_fn = __odds_interpolation
+    match interpolation_type:
+        case "linear":
+            interpolation_fn = __linear_interpolation
+        case "asin":
+            interpolation_fn = __asin_interpolation
+        case "odds":
+            interpolation_fn = __odds_interpolation
+        case _:
+            raise ValueError(
+                f"Unknown interpolation_type: {interpolation_type}. Must be 'asin', 'odds', or 'linear'."
+            )
 
     raw_ranking = voting_rule(profile=profile, m=n_seats).get_ranking()
     original_ranking = __unpack_ranking_with_lexicographic_tiebreak(raw_ranking)
@@ -170,7 +178,7 @@ def sigma_UM(
 
 
 def sigma_UM_winner_set(
-    profile: PreferenceProfile,
+    profile: RankProfile,
     voting_rule: ElectionConstructor,
     n_seats: int,
     *,
@@ -182,7 +190,7 @@ def sigma_UM_winner_set(
     See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (PreferenceProfile): The preference profile to score.
+        profile (RankProfile): The preference profile to score.
         voting_rule (Election): The voting rule to apply to the profile.
 
     Returns:
@@ -192,14 +200,18 @@ def sigma_UM_winner_set(
         raise ValueError(
             f"Unknown variant: {variant}. Must be 'average' or 'worst_case'."
         )
-    if interpolation_type not in ("asin", "odds"):
-        raise ValueError(
-            f"Unknown interpolation_type: {interpolation_type}. Must be 'asin' or 'odds'."
-        )
 
-    interpolation_fn = __asin_interpolation
-    if interpolation_type == "odds":
-        interpolation_fn = __odds_interpolation
+    match interpolation_type:
+        case "linear":
+            interpolation_fn = __linear_interpolation
+        case "asin":
+            interpolation_fn = __asin_interpolation
+        case "odds":
+            interpolation_fn = __odds_interpolation
+        case _:
+            raise ValueError(
+                f"Unknown interpolation_type: {interpolation_type}. Must be 'asin', 'odds', or 'linear'."
+            )
 
     original_ranking = __unpack_ranking_with_lexicographic_tiebreak(
         voting_rule(profile=profile, m=n_seats).get_ranking()
@@ -235,12 +247,12 @@ def sigma_UM_winner_set(
 
 
 # =================================================================================================
-#                                      SIGMA IIA
+#                                            SIGMA IIA
 # =================================================================================================
 
 
 def sigma_IIA(
-    profile: PreferenceProfile,
+    profile: RankProfile,
     voting_rule: ElectionConstructor,
     n_seats: int,
     *,
@@ -252,7 +264,7 @@ def sigma_IIA(
     See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (PreferenceProfile): The preference profile to score.
+        profile (RankProfile): The preference profile to score.
         voting_rule (Election): The voting rule to apply to the profile.
 
     Returns:
@@ -279,7 +291,7 @@ def sigma_IIA(
         ]
 
         voting_ranking_without_cand_before_unpacking = voting_rule(
-            remove_and_condense_ranked_profile(candidate, profile), m=n_seats
+            remove_and_condense_rank_profile(candidate, profile), m=n_seats
         ).get_ranking()
         voting_ranking_without_cand = __unpack_ranking_with_lexicographic_tiebreak(
             voting_ranking_without_cand_before_unpacking
@@ -301,7 +313,7 @@ def sigma_IIA(
 
 
 def sigma_IIA_all_subset(
-    profile: PreferenceProfile,
+    profile: RankProfile,
     voting_rule: ElectionConstructor,
     n_seats: int,
     *,
@@ -313,7 +325,7 @@ def sigma_IIA_all_subset(
     See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (PreferenceProfile): The preference profile to score.
+        profile (RankProfile): The preference profile to score.
         voting_rule (Election): The voting rule to apply to the profile.
 
     Returns:
@@ -350,7 +362,7 @@ def sigma_IIA_all_subset(
             ]
 
             voting_ranking_without_cand_before_unpacking = voting_rule(
-                remove_and_condense_ranked_profile(list(candidate_subset), profile),
+                remove_and_condense_rank_profile(list(candidate_subset), profile),
                 m=min(n_seats, n_candidates - i),
             ).get_ranking()
             voting_ranking_without_cand = __unpack_ranking_with_lexicographic_tiebreak(
@@ -370,16 +382,14 @@ def sigma_IIA_all_subset(
     if variant == "worst_case":
         return 1 - largest_distance
 
-    # NOTE: This is also a viable divisor since the other subsets are trivial.
-    # n_subsets = (
-    #     2 ** (n_candidates - 1) - 2
-    # )  # All subsets of len > 1 that are not the full set
-    n_subsets = 2**n_candidates
+    n_subsets = (
+        2 ** (n_candidates) - 2 - n_candidates
+    )  # All subsets of len > 1 that are not the full set
     return 1 - total_distance / n_subsets
 
 
 def sigma_IIA_winner_set(
-    profile: PreferenceProfile,
+    profile: RankProfile,
     voting_rule: ElectionConstructor,
     n_seats: int,
     *,
@@ -391,7 +401,89 @@ def sigma_IIA_winner_set(
     See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (PreferenceProfile): The preference profile to score.
+        profile (RankProfile): The preference profile to score.
+        voting_rule (Election): The voting rule to apply to the profile.
+
+    Returns:
+        float: The sigma_IIA score which is a value between 0 and 1.
+    """
+    if variant not in ("average", "worst_case"):
+        raise ValueError(
+            f"Unknown variant: {variant}. Must be 'average' or 'worst_case'."
+        )
+
+    n_candidates = len(profile.candidates)
+    if n_candidates == n_seats:
+        return 1.0
+
+    if n_candidates == 2 and n_seats == 1:
+        return 1.0
+
+    if n_seats < 1:
+        raise ValueError(f"Number of seats must be at least 1, found {n_seats}.")
+    if n_seats > n_candidates:
+        raise ValueError(
+            f"Number of seats must be at most the number of candidates, found {n_seats} seats and {n_candidates} candidates."
+        )
+
+    original_winners_set = set(
+        __unpack_ranking_with_lexicographic_tiebreak(
+            voting_rule(profile=profile, m=n_seats).get_elected()
+        )
+    )
+
+    total_distance = 0
+    smallest_normalized_intersection = 1
+
+    for candidate in profile.candidates:
+        singleton = set({frozenset({candidate})})
+        if singleton == original_winners_set:
+            continue
+
+        # In the n == 1 case, this will always be 1
+        new_available_seats = n_seats - len(
+            singleton.intersection(original_winners_set)
+        )
+
+        new_winner_set = __unpack_ranking_with_lexicographic_tiebreak(
+            voting_rule(
+                remove_and_condense_rank_profile(candidate, profile),
+                m=new_available_seats,
+            ).get_elected()
+        )
+        new_dist = (
+            len(original_winners_set.intersection(new_winner_set)) / new_available_seats
+        )
+
+        total_distance += new_dist
+        smallest_normalized_intersection = min(
+            smallest_normalized_intersection, new_dist
+        )
+
+    if variant == "worst_case":
+        return smallest_normalized_intersection
+
+    n_subsets_considered = len(profile.candidates) - (
+        1 if len(original_winners_set) == 1 else 0
+    )
+
+    return total_distance / n_subsets_considered
+
+
+def sigma_IIA_winner_set_all_subset(
+    profile: RankProfile,
+    voting_rule: ElectionConstructor,
+    n_seats: int,
+    *,
+    variant: str = "average",
+) -> float:
+    """
+    Computes the extended Independence of Irrelevant Alternatives (IIA) score
+    with respect to the winner set.
+    See https://arxiv.org/pdf/2506.12961 for details.
+
+    Args:
+        profile (RankProfile): The preference profile to score.
         voting_rule (Election): The voting rule to apply to the profile.
 
     Returns:
@@ -408,98 +500,59 @@ def sigma_IIA_winner_set(
         )
     )
 
+    full_candidate_set = set(frozenset({cand}) for cand in profile.candidates)
+    n_candidates = len(profile.candidates)
+
+    if n_candidates == n_seats:
+        return 1.0
+    if n_candidates == 2 and n_seats == 1:
+        return 1.0
+
+    if n_seats < 1:
+        raise ValueError(f"Number of seats must be at least 1, found {n_seats}.")
+    if n_seats > n_candidates:
+        raise ValueError(
+            f"Number of seats must be at most the number of candidates, found {n_seats} seats and {n_candidates} candidates."
+        )
+
     total_distance = 0
-    largest_distance = 0
-    for candidate in profile.candidates:
-        if n_seats == 1 and frozenset({candidate}) in original_winners_set:
-            total_distance += 1
-            continue
+    smallest_normalized_intersection = 1
 
-        # In the n == 1 case, this will always be 1
-        new_available_seats = (
-            n_seats - 1 if frozenset({candidate}) in original_winners_set else n_seats
-        )
+    # NOTE: Don't need to consider the whole set because we want for W \nsubseteq S
+    # and the whole set will always contain W.
+    for i in range(1, n_candidates):
+        for candidate_subset in combinations(profile.candidates, i):
+            candidate_subset_set = set(frozenset({cand}) for cand in candidate_subset)
 
-        new_winner_set = __unpack_ranking_with_lexicographic_tiebreak(
-            voting_rule(
-                remove_and_condense_ranked_profile(candidate, profile),
-                m=new_available_seats,
-            ).get_elected()
-        )
-        new_dist = (
-            len(original_winners_set.intersection(new_winner_set)) / new_available_seats
-        )
+            if original_winners_set.issubset(
+                candidate_subset_set
+            ) or candidate_subset_set == (full_candidate_set - original_winners_set):
+                continue
 
-        total_distance += new_dist
-        largest_distance = max(largest_distance, new_dist)
+            new_available_seats = n_seats - len(
+                candidate_subset_set.intersection(original_winners_set)
+            )
+
+            new_winner_set = __unpack_ranking_with_lexicographic_tiebreak(
+                voting_rule(
+                    remove_and_condense_rank_profile(list(candidate_subset), profile),
+                    m=new_available_seats,
+                ).get_elected()
+            )
+
+            new_dist = (
+                len(original_winners_set.intersection(new_winner_set))
+                / new_available_seats
+            )
+
+            total_distance += new_dist
+            smallest_normalized_intersection = min(
+                smallest_normalized_intersection, new_dist
+            )
 
     if variant == "worst_case":
-        return largest_distance
+        return smallest_normalized_intersection
 
-    return total_distance / len(profile.candidates)
+    n_subsets_considered = 2**n_candidates - 2 ** (n_candidates - n_seats) - 2
 
-
-# def sigma_IIA_all_subset_v2(
-#     profile: PreferenceProfile, voting_rule: ElectionConstructor, n_seats: int
-# ) -> float:
-#     """
-#     Computes the extended Independence of Irrelevant Alternatives (IIA) score,
-#     which we call sigma_IIA here.
-#     See https://arxiv.org/pdf/2506.12961 for details.
-#
-#     Args:
-#         profile (PreferenceProfile): The preference profile to score.
-#         voting_rule (Election): The voting rule to apply to the profile.
-#
-#     Returns:
-#         float: The sigma_IIA score which is a value between 0 and 1.
-#     """
-#     n_candidates = len(profile.candidates)
-#     ranking_before_unpaking = voting_rule(profile=profile, m=n_seats).get_ranking()
-#     original_ranking = __unpack_ranking_with_lexicographic_tiebreak(
-#         ranking_before_unpaking
-#     )
-#     total_distance = 0
-#
-#     # NOTE: The Kendall-Tau distance for a subset where all candidates are removed
-#     # or where no candidates are removed is always 0. Also, when there is only one
-#     # candidate remaining, the Kendall-Tau distance will always be 0. So we start
-#     # with subsets of size 1 and go up to n_candidates - 2.
-#     # So, we will take the distance in these cases to be 0.
-#     count = 0
-#     for i in range(1, n_candidates - 1):
-#         # NOTE: The maximum Kendall-Tau distance for a subset of size i is
-#         # comb(n_candidates - i, 2)
-#         subset_divisor = comb(n_candidates - i, 2)
-#         for candidate_subset in combinations(profile.candidates, i):
-#             count += 1
-#             original_ranking_without_cand = [
-#                 c_set
-#                 for c_set in original_ranking
-#                 if not any(cand in c_set for cand in candidate_subset)
-#             ]
-#
-#             voting_ranking_without_cand_before_unpacking = voting_rule(
-#                 remove_and_condense_ranked_profile(list(candidate_subset), profile),
-#                 m=min(n_seats, n_candidates - i),
-#             ).get_ranking()
-#             voting_ranking_without_cand = __unpack_ranking_with_lexicographic_tiebreak(
-#                 voting_ranking_without_cand_before_unpacking
-#             )
-#
-#             new_dist = kendall_tau_distance(
-#                 original_ranking_without_cand, voting_ranking_without_cand
-#             )
-#
-#             total_distance += new_dist / subset_divisor
-#
-#     # NOTE: This is also a viable divisor since the other subsets are trivial.
-#     # Remove the empty subset, the full set, and the singleton sets.
-#     n_subsets = (
-#         2 ** (n_candidates) - 2 - n_candidates
-#     )  # All subsets of len > 1 that are not the full set
-#     print(
-#         f"Count of subsets: {count}, n_subsets: {n_subsets}, total_n_subsets: {2**n_candidates}"
-#     )
-#     # n_subsets = 2**n_candidates
-#     return 1 - total_distance / n_subsets
+    return total_distance / n_subsets_considered

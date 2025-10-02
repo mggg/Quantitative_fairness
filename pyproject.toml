@@ -10,17 +10,17 @@ dependencies = [
     "ipywidgets>=8.1.7",
     "joblib>=1.5.1",
     "joblib-progress>=1.0.6",
+    "matplotlib>=3.10.5",
     "numpy>=2.2.6",
     "openpyxl>=3.1.5",
     "pandas>=2.3.1",
     "pytest>=8.4.1",
     "scipy>=1.16.1",
+    "seaborn>=0.13.2",
     "sortedcontainers>=2.4.0",
     "tqdm>=4.67.1",
-    "votekit>=3.2.2",
+    "votekit>=3.3.0",
 ]
 
 
-[tool.uv.sources]
-votekit = { git = "https://github.com/mggg/VoteKit", rev = "7cb78fdc06797f5149dce9538dc7b6a3b076e121" }
 

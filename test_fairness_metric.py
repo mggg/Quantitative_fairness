@@ -736,7 +736,7 @@ def test_IIA_winner_set_Plurality_obtains_lb():
     )
 
     voting_rule = build_voting_rule(3, "plurality")
-    assert sigma_IIA_winner_set(profile, voting_rule, 1, variant="average") == 1 / 3
+    assert sigma_IIA_winner_set(profile, voting_rule, 1, variant="average") == 0.0
 
 
 def test_IIA_winner_set_Plurality_low():
