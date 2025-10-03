@@ -1,6 +1,4 @@
-from votekit import PreferenceProfile
-from functools import partial
-from votekit.elections import Borda, STV, Plurality
+from votekit import RankProfile
 import json
 
 import sys
@@ -35,7 +33,14 @@ if __name__ == "__main__":
         "sigma_IIA_winner_set": sigma_IIA_winner_set,
         "sigma_UM_winner_set": sigma_UM_winner_set,
     }
-    all_election_types = ["borda", "3-approval", "2-approval", "plurality", "stv"]
+    all_election_types = [
+        "borda",
+        "3-approval",
+        "2-approval",
+        "plurality",
+        "stv",
+        "ranked-pairs",
+    ]
 
     for election_name in all_election_types:
         portland_election_stats = {
@@ -50,7 +55,8 @@ if __name__ == "__main__":
         }
 
         for district in districts:
-            clean_profile = PreferenceProfile.from_csv(
+            print(f"Processing {election_name} for {district}")
+            clean_profile = RankProfile.from_csv(
                 f"{base_data_dir}/Portland_{district}_cleaned_votekit.csv"
             )
             voting_rule = build_voting_rule(
