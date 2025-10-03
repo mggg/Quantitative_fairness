@@ -146,7 +146,7 @@ def main(n_cand_list=list(range(6, 10))):
         (f"sigma_UM_worst_case_asin_{tiebreak}", "$\\sigma_{UM}$ ranking"),
         (
             f"sigma_UM_winner_set_worst_case_asin_{tiebreak}",
-            "$\\sigma_{UM}$ winner-set ranking",
+            "$\\sigma_{UM}$ winner-set",
         ),
         (
             f"sigma_IIA_average_{tiebreak}",
