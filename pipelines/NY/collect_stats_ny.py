@@ -1,4 +1,4 @@
-from votekit import PreferenceProfile
+from votekit import RankProfile
 from functools import partial
 from votekit.elections import Borda, STV, Plurality
 import json
@@ -34,9 +34,17 @@ if __name__ == "__main__":
         "sigma_IIA_winner_set": sigma_IIA_winner_set,
         "sigma_UM_winner_set": sigma_UM_winner_set,
     }
-    all_election_types = ["borda", "3-approval", "2-approval", "plurality", "stv"]
+    all_election_types = [
+        "borda",
+        "3-approval",
+        "2-approval",
+        "plurality",
+        "stv",
+        "ranked-pairs",
+    ]
 
     for election_name in all_election_types:
+        print(f"Processing {election_name} for NY Mayor")
         ny_election_stats = {
             "n_voters": [],
             "sigma_UM": [],
@@ -45,7 +53,7 @@ if __name__ == "__main__":
             "sigma_IIA_winner_set": [],
         }
 
-        clean_profile = PreferenceProfile.from_csv(
+        clean_profile = RankProfile.from_csv(
             f"{base_data_dir}/NY_mayor_cleaned_votekit.csv"
         )
         voting_rule = build_voting_rule(len(clean_profile.candidates), election_name)

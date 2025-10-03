@@ -1,17 +1,17 @@
-from glob import glob
+# %%
 import pandas as pd
-from joblib import Parallel, delayed
-from joblib_progress import joblib_progress
-import numpy as np
 import warnings
 from votekit.cvr_loaders import load_csv
 from votekit.cleaning import (
-    remove_and_condense,
-    remove_repeated_candidates,
-    clean_profile,
+    remove_and_condense_rank_profile,
+    remove_repeat_cands_rank_profile,
+    clean_rank_profile,
 )
-from votekit.ballot import Ballot
 from pathlib import Path
+from votekit.pref_profile import CleanedRankProfile
+from votekit import RankProfile
+
+# %%
 
 
 def read_subset(path: str) -> pd.DataFrame:
@@ -31,24 +31,26 @@ def read_subset(path: str) -> pd.DataFrame:
     )
 
 
-def truncate_past_overvote(ballot: Ballot) -> Ballot:
+def truncate_past_overvote(ballot_tuple: tuple) -> tuple:
     """
     Truncates a ballot past the first appearance of an overvote.
 
     Args:
-        ballot (Ballot): Ballot
+        ballot (Ballot): A tuple representing the ranking of a ballot.
 
     Returns:
-        Ballot: Ballot truncated.
+        tuple: A tuple representing the truncated ranking.
     """
     new_ranking = []
 
-    for c_set in ballot.ranking:
+    for c_set in ballot_tuple:
         if c_set == frozenset({"overvote"}):
             break
         new_ranking.append(c_set)
 
-    return Ballot(ranking=new_ranking, weight=ballot.weight)
+    new_ranking.extend([frozenset({"~"})] * (len(ballot_tuple) - len(new_ranking)))
+
+    return tuple(new_ranking)
 
 
 if __name__ == "__main__":
@@ -57,50 +59,69 @@ if __name__ == "__main__":
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
 
-    all_files = [p for p in glob(f"{top_dir}/data/NY_primary_data/2025*V1*.xlsx")]
-    # Use threads in notebooks; adjust n_jobs as you wish
-    with joblib_progress(total=len(all_files), description="Reading files"):
-        dfs = Parallel(n_jobs=-1)(delayed(read_subset)(p) for p in all_files)
+    # all_files = [p for p in glob(f"{top_dir}/data/NY_primary_data/2025*V1*.xlsx")]
+    # # Use threads in notebooks; adjust n_jobs as you wish
+    # with joblib_progress(total=len(all_files), description="Reading files"):
+    #     dfs = Parallel(n_jobs=-1)(delayed(read_subset)(p) for p in all_files)
 
-    df_NY = pd.concat([d for d in dfs if d is not None], ignore_index=True, copy=False)
+    # df_NY = pd.concat([d for d in dfs if d is not None], ignore_index=True, copy=False)
 
-    df_candidate_ID = pd.read_excel(
-        f"{top_dir}/data/NY_primary_data/Primary Election 2025 - 06-24-2025_CandidacyID_To_Name.xlsx"
+    # df_candidate_ID = pd.read_excel(
+    #     f"{top_dir}/data/NY_primary_data/Primary Election 2025 - 06-24-2025_CandidacyID_To_Name.xlsx"
+    # )
+    # df_candidate_ID["CandidacyID"] = df_candidate_ID["CandidacyID"].astype(str)
+    # df_candidate_ID.set_index("CandidacyID", inplace=True)
+    # candidate_dict = df_candidate_ID["DefaultBallotName"].to_dict()
+
+    # all_cands = list(
+    #     map(
+    #         str,
+    #         np.unique(
+    #             df_NY[
+    #                 [
+    #                     f"DEM Mayor Choice {i} of 5 Citywide ({i-1 if i == 1 else i}26916)"
+    #                     for i in range(1, 5)
+    #                 ]
+    #             ]
+    #             .to_numpy()
+    #             .astype(str)
+    #         ),
+    #     )
+    # )
+    # all_cands
+
+    # filtered_candidate_dict = {
+    #     k: candidate_dict[k] for k in all_cands if k in candidate_dict
+    # }
+
+    # for col in df_NY.columns:
+    #     df_NY[col] = df_NY[col].astype(str).str.strip()
+
+    # df_NY.replace(filtered_candidate_dict, inplace=True)
+    # df_NY.to_csv(f"{output_folder_base}/NY_mayor_all.csv", index=False)
+
+    profile = load_csv(
+        f"{output_folder_base}/NY_mayor_all.csv",
+        rank_cols=[0, 1, 2, 3, 4],
+        header_row=0,
     )
-    df_candidate_ID["CandidacyID"] = df_candidate_ID["CandidacyID"].astype(str)
-    df_candidate_ID.set_index("CandidacyID", inplace=True)
-    candidate_dict = df_candidate_ID["DefaultBallotName"].to_dict()
 
-    all_cands = list(
-        map(
-            str,
-            np.unique(
-                df_NY[
-                    [
-                        f"DEM Mayor Choice {i} of 5 Citywide ({i-1 if i == 1 else i}26916)"
-                        for i in range(1, 5)
-                    ]
-                ]
-                .to_numpy()
-                .astype(str)
-            ),
-        )
+    profile = clean_rank_profile(profile, truncate_past_overvote)
+    profile = remove_repeat_cands_rank_profile(profile)
+
+    clean_profile = remove_and_condense_rank_profile(["undervote"], profile)
+
+    # %%
+    print(len(clean_profile.df), print(len()))
+
+    # Need to remove the overvote candidate for Ranked Pairs to work since it
+    # will never appear on a ballot
+    # %%
+    clean_profile = RankProfile(
+        df=clean_profile.df,
+        max_ranking_length=clean_profile.max_ranking_length,
+        candidates=[c for c in clean_profile.candidates if c != "overvote"],
     )
-    all_cands
 
-    filtered_candidate_dict = {
-        k: candidate_dict[k] for k in all_cands if k in candidate_dict
-    }
-
-    for col in df_NY.columns:
-        df_NY[col] = df_NY[col].astype(str).str.strip()
-
-    df_NY.replace(filtered_candidate_dict, inplace=True)
-    df_NY.to_csv(f"{output_folder_base}/NY_mayor_all.csv", index=False)
-
-    profile = load_csv(f"{output_folder_base}/NY_mayor_all.csv")
-    profile = clean_profile(profile, truncate_past_overvote)
-    profile = remove_repeated_candidates(profile)
-    clean_profile = remove_and_condense(["undervote"], profile)
-
+    # %%
     clean_profile.to_csv(f"{output_folder_base}/NY_mayor_cleaned_votekit.csv")
