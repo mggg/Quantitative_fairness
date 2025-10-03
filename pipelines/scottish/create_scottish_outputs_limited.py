@@ -149,11 +149,11 @@ def main(n_cand_list=list(range(6, 10))):
             "$\\sigma_{UM}$ winner-set ranking",
         ),
         (
-            f"sigma_IIA_all_subset_average_{tiebreak}",
+            f"sigma_IIA_average_{tiebreak}",
             "$\\sigma_{IIA}$ ranking",
         ),
         (
-            f"sigma_IIA_winner_set_all_subset_average_{tiebreak}",
+            f"sigma_IIA_winner_set_average_{tiebreak}",
             "$\\sigma_{IIA}$ winner-set",
         ),
     ]
