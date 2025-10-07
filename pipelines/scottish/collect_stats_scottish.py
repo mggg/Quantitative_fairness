@@ -1,11 +1,9 @@
 import json
-from votekit import PreferenceProfile
+from votekit import RankProfile
 from votekit.cvr_loaders import load_scottish
 from glob import glob
 import contextlib
 from pathlib import Path
-import numpy as np
-import pandas as pd
 import sys
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
@@ -27,7 +25,7 @@ from voting_rules import build_voting_rule
 
 def run_score(profile_file, metric_function, voting_rule):
     with contextlib.redirect_stdout(None):
-        profile = PreferenceProfile.from_csv(profile_file)
+        profile = RankProfile.from_csv(profile_file)
         score = metric_function(profile, voting_rule)
     return score
 
@@ -236,12 +234,13 @@ if __name__ == "__main__":
         "sigma_IIA_winner_set_all_subset_average": sigma_IIA_winner_set_all_subset_average(),
     }
     all_election_types = [
-        "borda",
-        "3-approval",
-        "2-approval",
-        "plurality",
-        "stv",
-        "ranked-pairs",
+        # "borda",
+        # "3-approval",
+        # "2-approval",
+        # "plurality",
+        # "stv",
+        # "ranked-pairs",
+        "random",
     ]
     tiebreak_types = ["lex", "random"]
     file_to_column_data_dict = {}
@@ -253,6 +252,17 @@ if __name__ == "__main__":
     for metric, election_name, tiebreak in product(
         metric_function_dict.keys(), all_election_types, tiebreak_types
     ):
+        output_folder = Path(f"{output_folder_base}/{metric}/{election_name}")
+        output_folder.mkdir(parents=True, exist_ok=True)
+        output_file = (
+            output_folder
+            / f"METRIC_{metric}__ELECTION_TYPE_{election_name}__TIEBREAK_{tiebreak}_output.json"
+        )
+
+        if output_file.exists():
+            print(f"Skipping {output_file}, already exists.")
+            continue
+
         with joblib_progress(
             total=len(all_files),
             description=f"Collecting stats for {metric}, {election_name}, {tiebreak}",
@@ -269,12 +279,6 @@ if __name__ == "__main__":
         for n_cands, file_name, value in results:
             output_dict[n_cands][file_name] = value
 
-        output_folder = Path(f"{output_folder_base}/{metric}/{election_name}")
-        output_folder.mkdir(parents=True, exist_ok=True)
-        output_file = (
-            output_folder
-            / f"METRIC_{metric}__ELECTION_TYPE_{election_name}__TIEBREAK_{tiebreak}_output.json"
-        )
         with open(output_file, "w") as f:
             json.dump(output_dict, f, indent=4)
 

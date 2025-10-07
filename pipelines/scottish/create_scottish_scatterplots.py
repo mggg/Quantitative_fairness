@@ -7,6 +7,16 @@ import pandas as pd
 from pathlib import Path
 import click
 
+rule_color_map = {
+    "borda": "#00B8D4",
+    "3-approval": "#00cd99",
+    "2-approval": "#b3de69",
+    "plurality": "#e31a1c",
+    "stv": "#fdbf6f",
+    "ranked-pairs": "#FF80AB",
+    "random": "#b2bac7",
+}
+
 
 def construct_df_scottish(data_dictionary, n_cands, metric):
     """
@@ -38,9 +48,6 @@ def build_plot_for_metric_scottish(
         df_list = [df[df["rule"] == "borda"] for df in df_list]
 
     long = pd.concat(df_list, ignore_index=True)
-
-    palette = sns.color_palette("colorblind", len(ordered_rules))
-    rule_color_map = dict(zip(ordered_rules, palette))
 
     sns.boxplot(
         data=long,
@@ -149,11 +156,11 @@ def main():
         um_winner_set = [
             (
                 f"sigma_UM_winner_set_{variant1}_odds_{tiebreak}",
-                "$\\sigma_{UM}$ winner-set ranking ODDS",
+                "$\\sigma_{UM}$ winner-set ODDS",
             ),
             (
                 f"sigma_UM_winner_set_{variant1}_asin_{tiebreak}",
-                "$\\sigma_{UM}$ winner-set ranking ASIN",
+                "$\\sigma_{UM}$ winner-set ASIN",
             ),
         ]
 
@@ -175,9 +182,6 @@ def main():
                 "$\\sigma_{IIA}$ winner-set all subset",
             ),
         ]
-
-        palette = sns.color_palette("colorblind", len(ordered_rules))
-        rule_color_map = dict(zip(ordered_rules, palette))
 
         for voting_rule in ordered_rules:
             for (um_key, um_label), (iia_key, iia_label) in product(
@@ -239,6 +243,102 @@ def main():
                 plt.savefig(plot_name, bbox_inches="tight", dpi=300)
 
                 plt.close(fig)
+
+    # =========================
+    #   LIMITED SCATTER PLOTS
+    # =========================
+
+    variant1 = "worst_case"
+    variant2 = "average"
+    tiebreak = "lex"
+    um_ranking = [
+        (f"sigma_UM_{variant1}_asin_{tiebreak}", "$\\sigma_{UM}$ ranking ASIN"),
+    ]
+
+    um_winner_set = [
+        (
+            f"sigma_UM_winner_set_{variant1}_asin_{tiebreak}",
+            "$\\sigma_{UM}$ winner-set ASIN",
+        ),
+    ]
+
+    iia_ranking = [
+        (f"sigma_IIA_{variant2}_{tiebreak}", "$\\sigma_{IIA}$ ranking single"),
+    ]
+
+    iia_winner_set = [
+        (
+            f"sigma_IIA_winner_set_{variant2}_{tiebreak}",
+            "$\\sigma_{IIA}$ winner-set single",
+        ),
+    ]
+
+    for voting_rule in ordered_rules:
+        for (um_key, um_label), (iia_key, iia_label) in product(
+            um_ranking, iia_ranking
+        ):
+            scatter_dir = f"{output_dir}/scatter_by_voting_rule"
+            Path(scatter_dir).mkdir(parents=True, exist_ok=True)
+            plot_name = (
+                f"{scatter_dir}/"
+                f"{voting_rule}_"
+                f"{um_key.removesuffix(f'_{variant1}_{tiebreak}')}_vs_"
+                f"{iia_key.removesuffix(f'_{variant2}_{tiebreak}')}_scatter.png"
+            )
+            fig, ax = plt.subplots(1, 1, figsize=(8, 8))
+            sns.set_theme(
+                style="ticks", context="notebook", font="serif", font_scale=1.2
+            )
+            x_data = []
+            for n_cands, data in outputs_by_election_type[voting_rule].items():
+                x_data.extend(data[um_key])
+
+            y_data = []
+            for n_cands, data in outputs_by_election_type[voting_rule].items():
+                y_data.extend(data[iia_key])
+
+            ax.scatter(x_data, y_data, color=rule_color_map[voting_rule])
+            ax.set_xlim(-0.05, 1.05)
+            ax.set_ylim(-0.05, 1.05)
+            plt.title(f"{voting_rule}", fontsize=20)
+            plt.xlabel(um_label, fontsize=16)
+            plt.ylabel(iia_label, fontsize=16)
+            plt.savefig(plot_name, bbox_inches="tight", dpi=300)
+
+            plt.close(fig)
+
+        for (um_key, um_label), (iia_key, iia_label) in product(
+            um_winner_set, iia_winner_set
+        ):
+            scatter_dir = f"{output_dir}/scatter_by_voting_rule"
+            Path(scatter_dir).mkdir(parents=True, exist_ok=True)
+            plot_name = (
+                f"{scatter_dir}/"
+                f"{voting_rule}_"
+                f"{um_key.removesuffix(f'_{variant1}_asin_{tiebreak}')}_vs_"
+                f"{iia_key.removesuffix(f'_{variant2}_{tiebreak}')}_scatter.png"
+            )
+            fig, ax = plt.subplots(1, 1, figsize=(8, 8))
+            sns.set_theme(
+                style="ticks", context="notebook", font="serif", font_scale=1.2
+            )
+            x_data = []
+            for n_cands, data in outputs_by_election_type[voting_rule].items():
+                x_data.extend(data[um_key])
+
+            y_data = []
+            for n_cands, data in outputs_by_election_type[voting_rule].items():
+                y_data.extend(data[iia_key])
+
+            ax.scatter(x_data, y_data, color=rule_color_map[voting_rule])
+            ax.set_xlim(-0.05, 1.05)
+            ax.set_ylim(-0.05, 1.05)
+            plt.title(f"{voting_rule}", fontsize=20)
+            plt.xlabel(um_label, fontsize=16)
+            plt.ylabel(iia_label, fontsize=16)
+            plt.savefig(plot_name, bbox_inches="tight", dpi=300)
+
+            plt.close(fig)
 
 
 if __name__ == "__main__":
