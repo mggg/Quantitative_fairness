@@ -1,17 +1,17 @@
-from votekit import PreferenceProfile
-from itertools import product
+from votekit import RankProfile
 from glob import glob
-from joblib import Parallel, delayed
-from joblib_progress import joblib_progress
 import json
 import contextlib
 import warnings
 from pathlib import Path
+import ast
 import os
 import sys
 from pathlib import Path
 import click
 from functools import partial
+from joblib import Parallel, delayed
+from joblib_progress import joblib_progress
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
@@ -21,6 +21,7 @@ from fairness_metric import (
     sigma_IIA,
     sigma_IIA_all_subset,
     sigma_IIA_winner_set,
+    sigma_IIA_winner_set_all_subset,
 )
 from voting_rules import build_voting_rule
 
@@ -30,20 +31,18 @@ warnings.filterwarnings("ignore")
 
 def run_score(profile_file, metric_function, voting_rule):
     with contextlib.redirect_stdout(None):
-        profile = PreferenceProfile.from_csv(profile_file)
+        profile = RankProfile.from_csv(profile_file)
         score = metric_function(profile, voting_rule)
     return score
 
 
 @click.command()
-@click.option("--n-seats", type=int, default=1, help="Number of seats")
-@click.option("--n-cands", type=int, help="Number of candidates", required=True)
 @click.option(
-    "--alpha-value",
-    type=click.Choice(["0.33", "0.50", "1.00", "2.00", "3.00"]),
-    help="Alpha value",
+    "--input-folder",
+    type=str,
     required=True,
 )
+@click.option("--n-seats", type=int, default=1, help="Number of seats")
 @click.option(
     "--metric",
     type=click.Choice(
@@ -53,6 +52,7 @@ def run_score(profile_file, metric_function, voting_rule):
             "sigma_IIA",
             "sigma_IIA_all_subset",
             "sigma_IIA_winner_set",
+            "sigma_IIA_winner_set_all_subset",
         ]
     ),
     help="Metric to compute",
@@ -66,61 +66,63 @@ def run_score(profile_file, metric_function, voting_rule):
 )
 @click.option(
     "--interpolation-type",
-    type=click.Choice(["asin", "odds", "None"]),
+    type=click.Choice(["asin", "odds", "linear", "None"]),
     help="Type of interpolation for sigma_UM metrics",
     default="asin",
     required=False,
 )
 @click.option(
     "--election-type",
-    type=click.Choice(
-        ["borda", "3-approval", "2-approval", "plurality", "stv", "ranked-pairs"]
-    ),
+    type=click.Choice(["borda", "plurality", "stv"]),
     help="Type of election",
     required=True,
 )
-@click.option(
-    "--tiebreak",
-    type=click.Choice(["lex", "random"]),
-    help="Tiebreaking method",
-    required=True,
-)
-@click.option(
-    "--show-progress",
-    is_flag=True,
-    help="Show progress bar",
-    default=False,
-)
 def main(
+    input_folder,
     n_seats,
-    n_cands,
-    alpha_value,
     metric,
     variant,
     interpolation_type,
     election_type,
-    tiebreak,
-    show_progress,
 ):
+    input_folder_full_path = Path(input_folder).resolve()
+    base_parent = input_folder_full_path.name
+    cand_folder = input_folder_full_path.parent.stem
+
+    base_parts = base_parent.split("__")
+    cand_parts = cand_folder.split("_")
+
+    b_proportion = float(base_parts[0].split("_")[-1])
+    aa_alpha, ab_alpha, ba_alpha, bb_alpha = ast.literal_eval(
+        base_parts[1].split("_")[-1]
+    )
+    a_cohesion, b_cohesion = ast.literal_eval(base_parts[2].split("_")[-1])
+    n_a_cands = int(cand_parts[0])
+    n_b_cands = int(cand_parts[1])
+
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
 
-    alpha_dict = {
-        "0.33": 1 / 3,
-        "0.50": 1 / 2,
-        "1.00": 1,
-        "2.00": 2,
-        "3.00": 3,
-    }
+    # UPDATE PAST THIS
 
     top_dir = str(Path(__file__).resolve().parents[2])
-    output_folder = Path(f"{top_dir}/stats/bt_profile_stats/{n_seats}_seats").resolve()
+    output_folder = Path(
+        f"{top_dir}/stats/bt_2_bloc_profile_stats/{n_seats}_seats"
+    ).resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
-    profile_folder_base = str(Path(f"{top_dir}/data/preference_profiles/").resolve())
+    profile_folder_base = str(
+        Path(
+            f"{top_dir}/data/preference_profiles_2_bloc_final_experiment/"
+            f"{n_a_cands:02d}_{n_b_cands:02d}/"
+            f"b_proportion_{b_proportion:0.1f}"
+            f"__ALPHA_({aa_alpha:0.2f},{ab_alpha:0.2f},{ba_alpha:0.2f},{bb_alpha:0.2f})"
+            f"__COHESION_({a_cohesion:0.2f},{b_cohesion:0.2f})/"
+        ).resolve()
+    )
 
     if "UM" in metric:
-        if interpolation_type not in ["asin", "odds"]:
+        if interpolation_type not in ["asin", "odds", "linear"]:
             raise ValueError(
                 f"Invalid interpolation type {interpolation_type} for metric {metric}. Must be 'asin' or 'odds'."
             )
@@ -145,53 +147,48 @@ def main(
         "sigma_IIA_winner_set": partial(
             sigma_IIA_winner_set, n_seats=n_seats, variant=variant
         ),
+        "sigma_IIA_winner_set_all_subset": partial(
+            sigma_IIA_winner_set_all_subset, n_seats=n_seats, variant=variant
+        ),
     }
 
-    alpha = alpha_dict[alpha_value]
-    all_csv_profiles = sorted(
-        glob(f"{profile_folder_base}/{n_cands:02d}/alpha_{alpha:.2f}/*.csv")
+    n_cands = n_a_cands + n_b_cands
+    tiebreak = "random"
+
+    output_folder = f"{output_folder_base}/{metric}/{n_cands:02d}/{election_type}/"
+    file_basename = (
+        f"METRIC_{metric}"
+        f"__VARIANT_{variant}"
+        f"__INTERP_{interpolation_type}"
+        f"__NCANDS_({n_a_cands:02d}_{n_b_cands:02d})"
+        f"__SEATS_{n_seats}"
+        f"__BPROP_{b_proportion:0.1f}"
+        f"__ALPHA_({aa_alpha:0.2f},{ab_alpha:0.2f},{ba_alpha:0.2f},{bb_alpha:0.2f})"
+        f"__COHESION_({a_cohesion:0.2f},{b_cohesion:0.2f})"
+        f"__TYPE_{election_type}"
+        f"__TIEBREAK_{tiebreak}"
     )
+    os.makedirs(output_folder, exist_ok=True)
+    output_file = f"{output_folder}/{file_basename}.json"
+
+    if os.path.exists(output_file):
+        print(f"Output file {output_file} already exists. Skipping computation.")
+        return
+
+    all_csv_profiles = sorted(glob(f"{profile_folder_base}/*.csv"))
+
     voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
 
-    if show_progress:
-        with joblib_progress(
-            f"{n_seats} {n_cands} {metric} {variant} {interpolation_type} {election_type} {tiebreak} alpha {alpha:.2f}",
-            total=len(all_csv_profiles),
-        ):
-            scores = Parallel(n_jobs=-1)(
-                delayed(run_score)(file, metric_function_dict[metric], voting_rule)
-                for file in all_csv_profiles
-            )
-
-            output_folder = (
-                f"{output_folder_base}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/"
-            )
-            os.makedirs(output_folder, exist_ok=True)
-
-            output_file = f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}__VARIANT_{variant}__TIEBREAK_{tiebreak}__INTERP_{interpolation_type}.json"
-            with open(
-                output_file,
-                "w",
-            ) as f:
-                json.dump(scores, f)
-
-    else:
+    with joblib_progress(
+        description=f"Computing scores for metric {metric}", total=len(all_csv_profiles)
+    ):
         scores = Parallel(n_jobs=-1)(
             delayed(run_score)(file, metric_function_dict[metric], voting_rule)
             for file in all_csv_profiles
         )
 
-        output_folder = (
-            f"{output_folder_base}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/"
-        )
-        os.makedirs(output_folder, exist_ok=True)
-
-        output_file = f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{election_type}__VARIANT_{variant}__TIEBREAK_{tiebreak}__INTERP_{interpolation_type}.json"
-        with open(
-            output_file,
-            "w",
-        ) as f:
-            json.dump(scores, f)
+    with open(output_file, "w") as f:
+        json.dump(scores, f)
 
 
 if __name__ == "__main__":
