@@ -9,4 +9,4 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
-python ${SCRIPT_DIR}/pipelines/NY/collect_stats_ny.py
+uv run ${SCRIPT_DIR}/pipelines/NY/collect_stats_ny.py
