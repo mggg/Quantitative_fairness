@@ -51,15 +51,55 @@ colors = [
     "#DCE775",
 ]
 
+# rule_color_map = {
+#     "borda": "#00B8D4",
+#     "3-approval": "#00cd99",
+#     "2-approval": "#b3de69",
+#     "plurality": "#e31a1c",
+#     "stv": "#fdbf6f",
+#     "ranked-pairs": "#FF80AB",
+#     "random": "#b2bac7",
+# }
+
 rule_color_map = {
-    "borda": "#00B8D4",
-    "3-approval": "#00cd99",
-    "2-approval": "#b3de69",
-    "plurality": "#e31a1c",
-    "stv": "#fdbf6f",
-    "ranked-pairs": "#FF80AB",
-    "random": "#b2bac7",
+    "borda": "#1460bc",  # lightblue
+    "3-approval": "#8cb500",  # applegreen
+    "2-approval": "#218c21",  # forestgreen
+    "plurality": "#d11942",  # alizarin
+    "stv": "#ffc40c",  # mikadoyellow
+    "ranked-pairs": "#ffb7c4",  # cherryblossompink
+    "random": "#707f8e",  # slategray
 }
+
+# \definecolor{applegreen}{rgb}{0.55, 0.71, 0.0} #"#8cb500"
+# \definecolor{alizarin}{rgb}{0.82, 0.1, 0.26} #"#d11942"
+# \definecolor{slategray}{rgb}{0.44, 0.5, 0.56} #"#707f8e"
+# \definecolor{amber}{rgb}{1.0, 0.75, 0.0} #"#ffbf00"
+# \definecolor{mikadoyellow}{rgb}{1.0, 0.77, 0.05} #"#ffc40c"
+# \definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24} #"#006b3d"
+# \definecolor{forestgreen}{rgb}{0.13, 0.55, 0.13} #"#218c21"
+# \definecolor{lust}{rgb}{0.9, 0.13, 0.13} #"#e52121"
+# \definecolor{denim}{rgb}{0.08, 0.38, 0.74} #"#1460bc"
+# \definecolor{purpleheart}{rgb}{0.41, 0.21, 0.61} #"#68359b"
+# \definecolor{cherryblossompink}{rgb}{1.0, 0.72, 0.77} #"#ffb7c4"
+# \definecolor{darktangerine}{rgb}{1.0, 0.66, 0.07} #"#ffa811"
+# \definecolor{bananayellow}{rgb}{1.0, 0.88, 0.21} #"#ffe035"
+# \definecolor{lightblue}{rgb}{0.55,0.82,0.77} #"#8cd1c4"
+
+# "#8cb500"
+# "#d11942"
+# "#707f8e"
+# "#ffbf00"
+# "#ffc40c"
+# "#006b3d"
+# "#218c21"
+# "#e52121"
+# "#1460bc"
+# "#68359b"
+# "#ffb7c4"
+# "#ffa811"
+# "#ffe035"
+# "#8cd1c4
 
 
 def construct_df_scottish(data_dictionary, n_cands, metric):
@@ -75,7 +115,13 @@ def construct_df_scottish(data_dictionary, n_cands, metric):
 
 
 def build_plot_for_metric_scottish(
-    metric, ordered_outputs, ordered_rules, n_cand_list, ax, y_label="", use_one=False
+    metric,
+    ordered_outputs,
+    n_cand_list,
+    ax,
+    y_label="",
+    use_one=False,
+    legend=True,
 ):
     """
     Helper function to build a boxplot for a given metric.
@@ -101,15 +147,30 @@ def build_plot_for_metric_scottish(
         palette=rule_color_map,
         dodge=True,
         ax=ax,
-        legend=not use_one,  # don't show legend if only one rule
+        legend=legend,
         whis=[1, 99],  # use 1st and 99th percentiles # type: ignore
     )
 
-    ax.set_ylabel(y_label, fontsize=16)
-    ax.set_ylim(-0.1, 1.1)
-    ax.set_xlabel("Number of candidates", fontsize=16)
-    if not use_one:
+    # ax.set_ylabel(y_label, fontsize=16)
+    ax.set_ylim(-0.05, 1.05)
+    # ax.set_xlabel("Number of candidates", fontsize=16)
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+    if not use_one and legend:
         ax.legend(title="Voting rule", bbox_to_anchor=(1, 0.5), loc="center left")
+
+    return ax
+
+
+def save_legend_only(legend, filename, pad=1.1, dpi=300, transparent=False):
+    fig = legend.axes.figure  # the parent figure
+    fig.canvas.draw()  # need a renderer before measuring bbox
+
+    # legend bbox in display coords → inches
+    bbox = legend.get_window_extent().expanded(pad, pad)
+    bbox_inches = bbox.transformed(fig.dpi_scale_trans.inverted())
+
+    fig.savefig(filename, dpi=dpi, bbox_inches=bbox_inches, transparent=transparent)
 
 
 def main(n_cand_list=list(range(6, 10))):
@@ -124,9 +185,8 @@ def main(n_cand_list=list(range(6, 10))):
     ]
 
     top_dir = str(Path(__file__).resolve().parents[2])
-    output_dir = f"{top_dir}/plots/scottish"
+    output_dir = f"{top_dir}/plots/scottish/scottish_sigma_plots_collected"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
-    output_plot_name = f"{str(output_dir)}/scottish_sigma_plots_collected.png"
 
     # ==========================
     # Make the scottish boxplots
@@ -190,24 +250,74 @@ def main(n_cand_list=list(range(6, 10))):
     #         BOX PLOTS
     # ==========================
 
-    _, ax = plt.subplots(
-        len(metric_label_pairs), 1, figsize=(20, 6 * len(metric_label_pairs))
-    )
+    # _, ax = plt.subplots(
+    #     len(metric_label_pairs), 1, figsize=(20, 6 * len(metric_label_pairs))
+    # )
+    # sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
+
+    # ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
+    # for i, (metric, label) in enumerate(metric_label_pairs):
+    #     build_plot_for_metric_scottish(
+    #         metric,
+    #         ordered_outputs,
+    #         n_cand_list,
+    #         ax[i],
+    #         y_label=label,
+    #         use_one=(metric == "n_voters"),
+    #     )
+
+    # plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
+
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
 
-    ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
-    for i, (metric, label) in enumerate(metric_label_pairs):
+    for metric, label in metric_label_pairs:
+        _, ax = plt.subplots(1, 1, figsize=(20, 6))
+        ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
+        print(metric, label)
         build_plot_for_metric_scottish(
             metric,
             ordered_outputs,
-            ordered_rules,
             n_cand_list,
-            ax[i],
+            ax,
             y_label=label,
-            use_one=(metric == "n_voters"),
+            legend=False,
         )
+        output_plot_name = f"{output_dir}/scottish_boxplot_{metric}_collected.png"
+        plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
 
-    plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
+        plt.close()
+
+    # metric, label = metric_label_pairs[0]
+    # _, ax = plt.subplots(1, 1, figsize=(20, 6))
+    # sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
+
+    # ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
+    # ax = build_plot_for_metric_scottish(
+    #     metric,
+    #     ordered_outputs,
+    #     n_cand_list,
+    #     ax,
+    #     y_label=label,
+    #     legend=True,
+    # )
+
+    # legend = ax.get_legend()
+
+    # handles, labels = ax.get_legend_handles_labels()
+    # new_names = {
+    #     "borda": "Borda",
+    #     "3-approval": "3-Approval",
+    #     "2-approval": "2-Approval",
+    #     "plurality": "Plurality",
+    #     "stv": "STV",
+    #     "ranked-pairs": "Ranked Pairs",
+    #     "random": "Random",
+    # }
+    # labels = [new_names[label] for label in labels]
+    # legend = ax.legend(handles, labels, title="Voting rule", loc=(1.02, 0.5))
+
+    # output_plot_name = f"{output_dir}/scottish_boxplot_legend.png"
+    # save_legend_only(legend, output_plot_name, pad=1.1, dpi=300, transparent=False)
 
 
 if __name__ == "__main__":
