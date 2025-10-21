@@ -4,8 +4,6 @@ import json
 from itertools import product
 import numpy as np
 import matplotlib.pyplot as plt
-
-# Imports from this folder
 from colors import colors2 as colors
 from metric_lists import (
     iia_metric_list,
@@ -27,6 +25,7 @@ cohesion_combinations = [
 
 bprop = "*"
 voting_rule = "*"
+tiebreak = "lex"
 for (
     metric,
     variant,
@@ -54,7 +53,7 @@ for (
             f"__ALPHA_(*)"
             f"__COHESION_{cohesion_str}"
             f"__TYPE_*"
-            f"__TIEBREAK_*"
+            f"__TIEBREAK_{tiebreak}"
         )
 
         all_files = glob(
@@ -75,7 +74,6 @@ for (
     for idx, (rule, data_points) in enumerate(cohesion_combo_to_data.items()):
         data_points = np.array(data_points).reshape(-1, 2)
         ax.scatter(
-            # data_points[:, 0] - 0.1 * idx, # used for debugging colors
             data_points[:, 0],
             data_points[:, 1],
             label=rule,
@@ -84,6 +82,7 @@ for (
             alpha=0.7,
         )
 
+    ax.set_xlim(-0.05, 1.05)
     ax.set_xlabel("Mean", fontsize=16)
     ax.set_ylabel("Standard Deviation", fontsize=16)
     ax.set_title(f"{metric} - {variant} with varying bloc cohesion", fontsize=16)
@@ -123,7 +122,7 @@ for (
             f"__ALPHA_(*)"
             f"__COHESION_{cohesion_str}"
             f"__TYPE_*"
-            f"__TIEBREAK_*"
+            f"__TIEBREAK_{tiebreak}"
         )
 
         all_files = glob(
@@ -144,7 +143,6 @@ for (
     for idx, (rule, data_points) in enumerate(cohesion_combo_to_data.items()):
         data_points = np.array(data_points).reshape(-1, 2)
         ax.scatter(
-            # data_points[:, 0] - 0.1 * idx, # used for debugging colors
             data_points[:, 0],
             data_points[:, 1],
             label=rule,
@@ -153,6 +151,7 @@ for (
             alpha=0.7,
         )
 
+    ax.set_xlim(-0.05, 1.05)
     ax.set_xlabel("Mean", fontsize=16)
     ax.set_ylabel("Standard Deviation", fontsize=16)
     ax.set_title(f"{metric} - {variant} with varying bloc cohesion", fontsize=16)
