@@ -69,6 +69,16 @@ def generate_and_save_profile(
     assert isinstance(prof, PreferenceProfile)
     prof.to_csv(f"{output_dir}/profile_{idx}.csv")
 
+    df_dir = (
+        f"{output_base_dir}/../preference_dfs/"
+        f"{n_a_cands:02d}_{n_b_cands:02d}/"
+        f"b_proportion_{b_proportion}"
+        f"__ALPHA_({aa_alpha:.2f},{ab_alpha:.2f},{ba_alpha:.2f},{bb_alpha:.2f})"
+        f"__COHESION_({a_cohesion:.2f},{b_cohesion:.2f})"
+    )
+    Path(df_dir).mkdir(parents=True, exist_ok=True)
+    config.preference_df.to_csv(f"{df_dir}/profile_{idx}_utilities.csv")
+
 
 if __name__ == "__main__":
     n_voters = 15_000
@@ -113,7 +123,7 @@ if __name__ == "__main__":
         * len(cohesion_combinations)
         * len(candidate_count_combinations),
     ):
-        Parallel(n_jobs=20)(
+        Parallel(n_jobs=-1)(
             delayed(generate_and_save_profile)(
                 n_a_cands=n_a_cands,
                 n_b_cands=n_b_cands,

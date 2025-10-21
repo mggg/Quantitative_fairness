@@ -7,7 +7,6 @@ from pathlib import Path
 import ast
 import os
 import sys
-from pathlib import Path
 import click
 from functools import partial
 from joblib import Parallel, delayed
@@ -103,23 +102,12 @@ def main(
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
 
-    # UPDATE PAST THIS
-
     top_dir = str(Path(__file__).resolve().parents[2])
     output_folder = Path(
         f"{top_dir}/stats/bt_2_bloc_profile_stats/{n_seats}_seats"
     ).resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
-    profile_folder_base = str(
-        Path(
-            f"{top_dir}/data/preference_profiles_2_bloc_final_experiment/"
-            f"{n_a_cands:02d}_{n_b_cands:02d}/"
-            f"b_proportion_{b_proportion:0.1f}"
-            f"__ALPHA_({aa_alpha:0.2f},{ab_alpha:0.2f},{ba_alpha:0.2f},{bb_alpha:0.2f})"
-            f"__COHESION_({a_cohesion:0.2f},{b_cohesion:0.2f})/"
-        ).resolve()
-    )
 
     if "UM" in metric:
         if interpolation_type not in ["asin", "odds", "linear"]:
@@ -175,7 +163,7 @@ def main(
         print(f"Output file {output_file} already exists. Skipping computation.")
         return
 
-    all_csv_profiles = sorted(glob(f"{profile_folder_base}/*.csv"))
+    all_csv_profiles = sorted(glob(f"{input_folder_full_path}/*.csv"))
 
     voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
 
