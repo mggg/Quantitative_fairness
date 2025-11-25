@@ -1,7 +1,8 @@
 *.csv
 NY_primary_data
 scot-elex
-preference_dfs
+preference_dfs*
+preference_profiles.zip
 
 
 
