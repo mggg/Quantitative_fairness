@@ -45,7 +45,14 @@ tiebreak = "lex"
 for metric in iia_metric_list:
     plots_dir.mkdir(parents=True, exist_ok=True)
 
-    for voting_rule in ["borda", "stv", "plurality"]:
+    for voting_rule in [
+        "borda",
+        "stv",
+        "plurality",
+        "2-approval",
+        "3-approval",
+        "ranked-pairs",
+    ]:
         iia_file_basename = (
             f"METRIC_{metric}"
             f"__VARIANT_{iia_variant}"
