@@ -149,6 +149,7 @@ def build_plot_for_metric_scottish(
         ax=ax,
         legend=legend,
         whis=[1, 99],  # use 1st and 99th percentiles # type: ignore
+        saturation=1,
     )
 
     # ax.set_ylabel(y_label, fontsize=16)
@@ -287,37 +288,37 @@ def main(n_cand_list=list(range(6, 10))):
 
         plt.close()
 
-    # metric, label = metric_label_pairs[0]
-    # _, ax = plt.subplots(1, 1, figsize=(20, 6))
-    # sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
+    metric, label = metric_label_pairs[0]
+    _, ax = plt.subplots(1, 1, figsize=(20, 6))
+    sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
 
-    # ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
-    # ax = build_plot_for_metric_scottish(
-    #     metric,
-    #     ordered_outputs,
-    #     n_cand_list,
-    #     ax,
-    #     y_label=label,
-    #     legend=True,
-    # )
+    ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
+    ax = build_plot_for_metric_scottish(
+        metric,
+        ordered_outputs,
+        n_cand_list,
+        ax,
+        y_label=label,
+        legend=True,
+    )
 
-    # legend = ax.get_legend()
+    legend = ax.get_legend()
 
-    # handles, labels = ax.get_legend_handles_labels()
-    # new_names = {
-    #     "borda": "Borda",
-    #     "3-approval": "3-Approval",
-    #     "2-approval": "2-Approval",
-    #     "plurality": "Plurality",
-    #     "stv": "STV",
-    #     "ranked-pairs": "Ranked Pairs",
-    #     "random": "Random",
-    # }
-    # labels = [new_names[label] for label in labels]
-    # legend = ax.legend(handles, labels, title="Voting rule", loc=(1.02, 0.5))
+    handles, labels = ax.get_legend_handles_labels()
+    new_names = {
+        "borda": "Borda",
+        "3-approval": "3-Approval",
+        "2-approval": "2-Approval",
+        "plurality": "Plurality",
+        "stv": "STV",
+        "ranked-pairs": "Ranked Pairs",
+        "random": "Random",
+    }
+    labels = [new_names[label] for label in labels]
+    legend = ax.legend(handles, labels, title="Voting rule", loc=(1.02, 0.5))
 
-    # output_plot_name = f"{output_dir}/scottish_boxplot_legend.png"
-    # save_legend_only(legend, output_plot_name, pad=1.1, dpi=300, transparent=False)
+    output_plot_name = f"{output_dir}/scottish_boxplot_legend.png"
+    save_legend_only(legend, output_plot_name, pad=1.1, dpi=300, transparent=False)
 
 
 if __name__ == "__main__":
