@@ -1,13 +1,12 @@
 VoteKit RankProfile
 Candidates
-(Michael Trimble:Michae),(Andra Vltavin:Andra ),(Bob Callahan:Bob Ca),(Eric Zimmerman:Eric Z),(Eli Arnold:Eli Ar),(Rank 6:Rank 6),(Chris Henry:Chris ),(Rank 3:Rank 3),(Patrick Cashman:Patric),(Rank 4:Rank 4),(Rank 2:Rank 2),(Olivia Clark:Olivia),(Brandon Farley:Brando),(Sarah Silkie:Sarah ),(John Toran:John T),(John J Goldsmith:John J),(Bob Weinstein:Bob We),(Lisa Freeman:Lisa F),(Mike DiNapoli:Mike D),(Mitch Green:Mitch ),(Chloe Mason:Chloe ),(Joseph (Joe) Alfone:Joseph),(Rank 1:Rank 1),(Ben Hufford:Ben Hu),(Chad Lykins:Chad L),(Tony Morse:Tony M),(Moses Ross:Moses ),(L Christopher Regis:L Chri),(Kevin Goldsmith:Kevin ),(Kelly Doyle:Kelly ),(Raquel Coyote:Raquel),(Stanley Penkin:Stanle),(Rank 5:Rank 5),(Tony Schwartz:Tony S),(Ciatta R Thompson:Ciatta),(Lee Odell:Lee Od)
+(Michael Trimble:Michae),(Andra Vltavin:Andra ),(Bob Callahan:Bob Ca),(Eric Zimmerman:Eric Z),(Eli Arnold:Eli Ar),(Chris Henry:Chris ),(Patrick Cashman:Patric),(Olivia Clark:Olivia),(Brandon Farley:Brando),(Sarah Silkie:Sarah ),(John Toran:John T),(John J Goldsmith:John J),(Bob Weinstein:Bob We),(Lisa Freeman:Lisa F),(Mike DiNapoli:Mike D),(Mitch Green:Mitch ),(Chloe Mason:Chloe ),(Joseph (Joe) Alfone:Joseph),(Ben Hufford:Ben Hu),(Chad Lykins:Chad L),(Tony Morse:Tony M),(Moses Ross:Moses ),(L Christopher Regis:L Chri),(Kevin Goldsmith:Kevin ),(Kelly Doyle:Kelly ),(Raquel Coyote:Raquel),(Stanley Penkin:Stanle),(Tony Schwartz:Tony S),(Ciatta R Thompson:Ciatta),(Lee Odell:Lee Od)
 Max Ranking Length
 6
 Includes Voter Set
 False
 =,=,=,=,=,=,=,=,=,=
 Ranking_1,Ranking_2,Ranking_3,Ranking_4,Ranking_5,Ranking_6,&,Weight,&
-{'Rank 1'},{'Rank 2'},{'Rank 3'},{'Rank 4'},{'Rank 5'},{'Rank 6'},&,1.0,&
 {'Stanle'},{'Olivia'},,,,,&,1.0,&
 {'Chad L'},{'Sarah '},{'Lisa F'},{'Eric Z'},{'Olivia'},{'Tony M'},&,1.0,&
 {'Olivia'},{'Sarah '},{'John T'},{'Mitch '},{'Lisa F'},{'Bob Ca'},&,1.0,&

@@ -1,13 +1,12 @@
 VoteKit RankProfile
 Candidates
-(Laura Streib:Laura ),(Michelle DePass:Michel),(Nabil Zaghloul:Nabil ),(Rank 6:Rank 6),(Jennifer Park:Jennif),(Will Mespelt:Will M),(Debbie Kitchin:Debbie),(Rank 3:Rank 3),(Chris Olson:Chris ),(Rank 4:Rank 4),(Rank 2:Rank 2),(Jonathan Tasini:Jonath),(Antonio Jamal PettyJohnBlue:Antoni),(Nat West:Nat We),(Reuben Berlin:Reuben),(Marnie Glickman:Marnie),(Sameer Kanal:Sameer),(Tiffani Penson:Tiffan),(Elana Pirtle-Guiney:Elana ),(Rank 1:Rank 1),(Sam Sachs:Sam Sa),(Dan Ryan:Dan Ry),(Bob Simril:Bob Si),(Liz Taylor:Liz Ta),(Rank 5:Rank 5),(Mariah Hudson:Mariah),(Michael (Mike) Marshall:Michae),(James Armstrong:James )
+(Laura Streib:Laura ),(Michelle DePass:Michel),(Nabil Zaghloul:Nabil ),(Jennifer Park:Jennif),(Will Mespelt:Will M),(Debbie Kitchin:Debbie),(Chris Olson:Chris ),(Jonathan Tasini:Jonath),(Antonio Jamal PettyJohnBlue:Antoni),(Nat West:Nat We),(Reuben Berlin:Reuben),(Marnie Glickman:Marnie),(Sameer Kanal:Sameer),(Tiffani Penson:Tiffan),(Elana Pirtle-Guiney:Elana ),(Sam Sachs:Sam Sa),(Dan Ryan:Dan Ry),(Bob Simril:Bob Si),(Liz Taylor:Liz Ta),(Mariah Hudson:Mariah),(Michael (Mike) Marshall:Michae),(James Armstrong:James )
 Max Ranking Length
 6
 Includes Voter Set
 False
 =,=,=,=,=,=,=,=,=,=
 Ranking_1,Ranking_2,Ranking_3,Ranking_4,Ranking_5,Ranking_6,&,Weight,&
-{'Rank 1'},{'Rank 2'},{'Rank 3'},{'Rank 4'},{'Rank 5'},{'Rank 6'},&,1.0,&
 {'Marnie'},{'Elana '},{'Jonath'},{'Dan Ry'},,,&,1.0,&
 {'Marnie'},{'Dan Ry'},{'Nabil '},,,,&,1.0,&
 {'Sameer'},{'Michel'},{'Tiffan'},{'Nat We'},,,&,1.0,&

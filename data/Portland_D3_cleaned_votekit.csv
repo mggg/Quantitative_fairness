@@ -1,13 +1,12 @@
 VoteKit RankProfile
 Candidates
-(Cristal Azul Otero:Crista),(Christopher Brummer:Christ),(Steve Novick:Steve ),(Rank 6:Rank 6),(Clifford Higgins:Cliffo),(Jaclyn Smith-Moore:Jaclyn),(Dan Gilk:Dan Gi),(Rank 3:Rank 3),(Kenneth (Kent) R Landgraver III:Kennet),(Angelita Morillo:Angeli),(Rank 4:Rank 4),(Luke Zak:Luke Z),(David O'Connor:David ),(Rank 2:Rank 2),(Jonathan (Jon) Walker:Jonath),(Matthew (Matt) Anderson:Matthe),(Kezia Wanner:Kezia ),(Rex Burkholder:Rex Bu),(Melodie Beirwagen:Melodi),(Brian Conley:Brian ),(Patrick Hilton:Patric),(Heart Free Pham:Heart ),(Rank 1:Rank 1),(Jesse Cornett:Jesse ),(Harrison Kass:Harris),(Terry Parker:Terry ),(John Sweeney:John S),(Philippe Knab:Philip),(Chris Flanary:Chris ),(Kelly Janes (KJ):Kelly ),(Rank 5:Rank 5),(Tiffany Koyama Lane:Tiffan),(Theo Hathaway Saner:Theo H),(Daniel DeMelo:Daniel),(Sandeep Bali:Sandee),(Ahlam K Osman:Ahlam )
+(Cristal Azul Otero:Crista),(Christopher Brummer:Christ),(Steve Novick:Steve ),(Clifford Higgins:Cliffo),(Jaclyn Smith-Moore:Jaclyn),(Dan Gilk:Dan Gi),(Kenneth (Kent) R Landgraver III:Kennet),(Angelita Morillo:Angeli),(Luke Zak:Luke Z),(David O'Connor:David ),(Jonathan (Jon) Walker:Jonath),(Matthew (Matt) Anderson:Matthe),(Kezia Wanner:Kezia ),(Rex Burkholder:Rex Bu),(Melodie Beirwagen:Melodi),(Brian Conley:Brian ),(Patrick Hilton:Patric),(Heart Free Pham:Heart ),(Jesse Cornett:Jesse ),(Harrison Kass:Harris),(Terry Parker:Terry ),(John Sweeney:John S),(Philippe Knab:Philip),(Chris Flanary:Chris ),(Kelly Janes (KJ):Kelly ),(Tiffany Koyama Lane:Tiffan),(Theo Hathaway Saner:Theo H),(Daniel DeMelo:Daniel),(Sandeep Bali:Sandee),(Ahlam K Osman:Ahlam )
 Max Ranking Length
 6
 Includes Voter Set
 False
 =,=,=,=,=,=,=,=,=,=
 Ranking_1,Ranking_2,Ranking_3,Ranking_4,Ranking_5,Ranking_6,&,Weight,&
-{'Rank 1'},{'Rank 2'},{'Rank 3'},{'Rank 4'},{'Rank 5'},{'Rank 6'},&,1.0,&
 {'Rex Bu'},{'Philip'},,,,,&,1.0,&
 {'Tiffan'},{'Rex Bu'},{'Angeli'},{'Jesse '},{'Theo H'},{'Crista'},&,1.0,&
 {'Angeli'},{'Tiffan'},{'Steve '},{'Rex Bu'},,,&,1.0,&

@@ -1,13 +1,12 @@
 VoteKit RankProfile
 Candidates
-(Rank 6:Rank 6),(Terrence Hayes:Terren),(Rank 3:Rank 3),(Rank 4:Rank 4),(Cayle Tern:Cayle ),(Rank 2:Rank 2),(Michael (Mike) Sands:Michae),(Thomas Shervey:Thomas),(Loretta Smith:Lorett),(Noah Ernst:Noah E),(Deian Salazar:Deian ),(Joe Furi:Joe Fu),(Rank 1:Rank 1),(Peggy Sue Owens:Peggy ),(Jamie Dunphy:Jamie ),(Joe Allen:Joe Al),(Timur Ender:Timur ),(David Linn:David ),(Steph Routh:Steph ),(Doug Clove:Doug C),(Rank 5:Rank 5),(Candace Avalos:Candac)
+(Terrence Hayes:Terren),(Cayle Tern:Cayle ),(Michael (Mike) Sands:Michae),(Thomas Shervey:Thomas),(Loretta Smith:Lorett),(Noah Ernst:Noah E),(Deian Salazar:Deian ),(Joe Furi:Joe Fu),(Peggy Sue Owens:Peggy ),(Jamie Dunphy:Jamie ),(Joe Allen:Joe Al),(Timur Ender:Timur ),(David Linn:David ),(Steph Routh:Steph ),(Doug Clove:Doug C),(Candace Avalos:Candac)
 Max Ranking Length
 6
 Includes Voter Set
 False
 =,=,=,=,=,=,=,=,=,=
 Ranking_1,Ranking_2,Ranking_3,Ranking_4,Ranking_5,Ranking_6,&,Weight,&
-{'Rank 1'},{'Rank 2'},{'Rank 3'},{'Rank 4'},{'Rank 5'},{'Rank 6'},&,1.0,&
 {'Terren'},{'Lorett'},{'Noah E'},,,,&,1.0,&
 {'Lorett'},{'Steph '},{'Timur '},{'David '},{'Candac'},{'Jamie '},&,1.0,&
 {'Lorett'},{'Steph '},{'Timur '},{'David '},{'Candac'},{'Jamie '},&,1.0,&
