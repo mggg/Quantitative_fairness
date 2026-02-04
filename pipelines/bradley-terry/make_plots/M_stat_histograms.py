@@ -37,17 +37,25 @@ def make_scottish_M_histogram(rule):
         data = json.load(f)
 
     m_values = []
+    total_count = 0
     for n_cands, val_dict in data.items():
         for file, rho_um in val_dict.items():
+            total_count += 1
             if rho_um < 1.0:
                 m_values.append(inverse_interp(rho_um))
+
+    print(
+        f"Rule: {rule}, Number of instances of M < 1/2: {len(m_values)} / {total_count}"
+    )
     _, ax = plt.subplots(figsize=(10, 6))
     sns.histplot(
         m_values,
         stat="probability",
         ax=ax,
+        alpha=1,
         color=rule_color_map[rule],
         edgecolor=None,
+        binwidth=0.005,
     )
 
     ax.set_ylabel("")
@@ -62,11 +70,13 @@ def make_scottish_M_histogram(rule):
     plt.close()
 
 
-def make_bt_M_histograms(rule):
+def make_bt_M_histograms(rule, bprop_values=None):
     if rule == "random":
         return
 
-    for bprop in [0.5, 0.6, 0.7, 0.8, 0.9]:
+    if bprop_values is None:
+        bprop_values = [0.5, 0.6, 0.7, 0.8, 0.9]
+    for bprop in bprop_values:
         all_files = glob(
             f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/sigma_UM/**/{rule}/"
             f"METRIC_sigma_UM__VARIANT_worst_case__INTERP_asin__*BPROP_{bprop}*TIEBREAK_lex.json"
@@ -74,15 +84,20 @@ def make_bt_M_histograms(rule):
 
         m_values = []
         asin_data = []
+        total_count = 0
         for file in all_files:
             with open(file, "r") as f:
                 data = json.load(f)
 
             for rho_um in data:
+                total_count += 1
                 if rho_um < 1.0:
                     asin_data.append(rho_um)
                     m_values.append(inverse_interp(rho_um))
 
+        print(
+            f"BPROP: {bprop}, Rule: {rule}, Number of instances of M < 1/2: {len(m_values)} / {total_count}"
+        )
         output_file = bt_plots_dir / f"M_{rule}__BPROP_{bprop}_bt_histogram.png"
         _, ax = plt.subplots(figsize=(10, 6))
         sns.histplot(
@@ -91,6 +106,8 @@ def make_bt_M_histograms(rule):
             ax=ax,
             color=rule_color_map[rule],
             edgecolor=None,
+            binwidth=0.005,
+            alpha=1,
         )
 
         ax.set_ylabel("")
@@ -112,6 +129,8 @@ def make_bt_M_histograms(rule):
             ax=ax,
             color=rule_color_map[rule],
             edgecolor=None,
+            binwidth=0.01,
+            alpha=1,
         )
 
         ax.set_ylabel("")
@@ -133,6 +152,8 @@ def make_bt_M_histograms(rule):
             ax=ax,
             color=rule_color_map[rule],
             edgecolor=None,
+            binwidth=0.01,
+            alpha=1,
         )
 
         ax.set_ylabel("")
@@ -147,7 +168,22 @@ def make_bt_M_histograms(rule):
         plt.close()
 
 
+def make_legend():
+    _, ax = plt.subplots(figsize=(6, 4))
+    for rule, color in rule_color_map.items():
+        ax.plot([], [], color=color, label=rule, linewidth=10)
+    ax.legend()
+    # plt.savefig(
+    #     bt_plots_dir / "legend.png",
+    #     bbox_inches="tight",
+    #     dpi=300,
+    # )
+    plt.show()
+    plt.close()
+
+
 if __name__ == "__main__":
     for rule in rule_color_map:
-        make_scottish_M_histogram(rule)
-        make_bt_M_histograms(rule)
+        # make_scottish_M_histogram(rule)
+        make_bt_M_histograms(rule, [0.7])
+        # make_legend()
