@@ -1,26 +1,45 @@
-from votekit.ballot_generator import BlocSlateConfig
-import votekit.ballot_generator as bg
-from votekit import PreferenceInterval, PreferenceProfile
-from pathlib import Path
+"""Generate and save BT preference profiles and utilities."""
+
 from itertools import product
+from pathlib import Path
+
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
+import votekit.ballot_generator as bg
+from votekit import PreferenceInterval, PreferenceProfile
+from votekit.ballot_generator import BlocSlateConfig
 
 
 def generate_and_save_profile(
-    n_a_cands,
-    n_b_cands,
-    n_voters,
-    b_proportion,
-    a_cohesion,
-    b_cohesion,
-    aa_alpha,
-    ab_alpha,
-    ba_alpha,
-    bb_alpha,
-    idx,
-    output_base_dir,
-):
+    n_a_cands: int,
+    n_b_cands: int,
+    n_voters: int,
+    b_proportion: float,
+    a_cohesion: float,
+    b_cohesion: float,
+    aa_alpha: float,
+    ab_alpha: float,
+    ba_alpha: float,
+    bb_alpha: float,
+    idx: int,
+    output_base_dir: str,
+) -> None:
+    """Generate a single BT profile and save to disk.
+
+    Args:
+        n_a_cands (int): Number of A candidates.
+        n_b_cands (int): Number of B candidates.
+        n_voters (int): Total number of voters to simulate.
+        b_proportion (float): Proportion of B-bloc voters.
+        a_cohesion (float): Cohesion of A-bloc voters.
+        b_cohesion (float): Cohesion of B-bloc voters.
+        aa_alpha (float): Dirichlet alpha for A-on-A preferences.
+        ab_alpha (float): Dirichlet alpha for A-on-B preferences.
+        ba_alpha (float): Dirichlet alpha for B-on-A preferences.
+        bb_alpha (float): Dirichlet alpha for B-on-B preferences.
+        idx (int): Sample index for file naming.
+        output_base_dir (str): Base directory for profile outputs.
+    """
     slate_to_candidates = {
         "bloc_1": [f"A{i + 1}" for i in range(n_a_cands)],
         "bloc_2": [f"B{i + 1}" for i in range(n_b_cands)],

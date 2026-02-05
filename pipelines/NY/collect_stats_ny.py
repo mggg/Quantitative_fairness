@@ -1,6 +1,8 @@
+"""Collect New York mayoral election statistics across rules and metrics."""
+
+from typing import Callable, cast
+
 from votekit import RankProfile
-from functools import partial
-from votekit.elections import Borda, STV, Plurality
 import json
 
 import sys
@@ -14,7 +16,7 @@ from fairness_metric import (
     sigma_IIA_winner_set,
     sigma_UM_winner_set,
 )
-from voting_rules import build_voting_rule
+from voting_rules import AllowedRule, ElectionConstructor, build_voting_rule
 
 
 if __name__ == "__main__":
@@ -28,13 +30,13 @@ if __name__ == "__main__":
 
     n_seats = 1
 
-    metric_function_dict = {
+    metric_function_dict: dict[str, Callable[..., float]] = {
         "sigma_IIA": sigma_IIA,
         "sigma_UM": sigma_UM,
         "sigma_IIA_winner_set": sigma_IIA_winner_set,
         "sigma_UM_winner_set": sigma_UM_winner_set,
     }
-    all_election_types = [
+    all_election_types: list[AllowedRule] = [
         "borda",
         "3-approval",
         "2-approval",
@@ -56,12 +58,20 @@ if __name__ == "__main__":
         clean_profile = RankProfile.from_csv(
             f"{base_data_dir}/NY_mayor_cleaned_votekit.csv"
         )
-        voting_rule = build_voting_rule(len(clean_profile.candidates), election_name)
+        voting_rule: ElectionConstructor = build_voting_rule(
+            len(clean_profile.candidates), election_name
+        )
         ny_election_stats["n_voters"].append(int(clean_profile.df["Weight"].sum()))
 
         for metric_name, metric_function in metric_function_dict.items():
             ny_election_stats[metric_name].append(
-                float(metric_function(clean_profile, voting_rule, n_seats=n_seats))
+                float(
+                    metric_function(
+                        cast(RankProfile, clean_profile),
+                        voting_rule,
+                        n_seats=n_seats,
+                    )
+                )
             )
 
         output_file = f"{output_folder_base}/{election_name}_output.json"

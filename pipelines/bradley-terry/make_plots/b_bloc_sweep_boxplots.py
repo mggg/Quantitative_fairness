@@ -1,10 +1,17 @@
-from pathlib import Path
+"""Build boxplots across B-bloc proportions for BT metrics."""
+
 from glob import glob
 from itertools import product
 import json
+from pathlib import Path
+from typing import Mapping, Sequence, cast
+
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.legend import Legend
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 from metric_lists import (
     iia_metric_list,
@@ -27,8 +34,23 @@ top_dir = script_dir.parents[2].resolve()
 plots_dir = top_dir / "plots" / "bt_plots" / "b_bloc_sweep_boxplots"
 
 
-def save_legend_only(legend, filename, pad=1.1, dpi=300, transparent=False):
-    fig = legend.axes.figure  # the parent figure
+def save_legend_only(
+    legend: Legend,
+    filename: str | Path,
+    pad: float = 1.1,
+    dpi: int = 300,
+    transparent: bool = False,
+) -> None:
+    """Save a legend as a standalone image.
+
+    Args:
+        legend (Legend): Matplotlib legend to export.
+        filename (str | Path): Path to write the legend image.
+        pad (float): Padding factor for legend bounds.
+        dpi (int): Output DPI.
+        transparent (bool): Whether to use a transparent background.
+    """
+    fig = cast(Figure, legend.axes.figure)  # the parent figure
     fig.canvas.draw()  # need a renderer before measuring bbox
 
     # legend bbox in display coords → inches
@@ -38,7 +60,24 @@ def save_legend_only(legend, filename, pad=1.1, dpi=300, transparent=False):
     fig.savefig(filename, dpi=dpi, bbox_inches=bbox_inches, transparent=transparent)
 
 
-def build_plot_for_metric(rule_to_data_dict, ax, rule_color_map=None, legend=False):
+def build_plot_for_metric(
+    rule_to_data_dict: dict[str, Sequence[float] | np.ndarray],
+    ax: Axes,
+    rule_color_map: Mapping[str, str] | None = None,
+    legend: bool = False,
+) -> Axes:
+    """Create a single boxplot panel for a metric.
+
+    Args:
+        rule_to_data_dict (Mapping[str, Sequence[float] | np.ndarray]): Mapping of
+            rule name to score arrays.
+        ax (Axes): Matplotlib axes to draw into.
+        rule_color_map (Mapping[str, str] | None): Optional mapping of rule to color.
+        legend (bool): Whether to render the legend on the axes.
+
+    Returns:
+        Axes: The axes with the plot.
+    """
     df = pd.DataFrame.from_dict(rule_to_data_dict)
     long = df.melt(var_name="rule", value_name="score")
     long["group"] = ""  # single x category
@@ -50,7 +89,7 @@ def build_plot_for_metric(rule_to_data_dict, ax, rule_color_map=None, legend=Fal
         hue="rule",
         ax=ax,
         palette=rule_color_map,
-        whis=[1, 99],
+        whis=[1, 99],  # type: ignore[arg-type]
         dodge=True,
         legend=legend,
     )

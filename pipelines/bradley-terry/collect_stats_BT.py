@@ -1,16 +1,21 @@
-from votekit import RankProfile
+"""Collect BT profile statistics across metrics and voting rules."""
+
+import ast
+import contextlib
+from functools import partial
 from glob import glob
 import json
-import contextlib
-import warnings
-from pathlib import Path
-import ast
 import os
+from pathlib import Path
 import sys
+from typing import Callable
+import warnings
+from typing import cast
+
 import click
-from functools import partial
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
+from votekit import RankProfile
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
@@ -22,13 +27,30 @@ from fairness_metric import (
     sigma_IIA_winner_set,
     sigma_IIA_winner_set_all_subset,
 )
-from voting_rules import build_voting_rule
+from voting_rules import AllowedRule, build_voting_rule
 
 
 warnings.filterwarnings("ignore")
 
 
-def run_score(profile_file, metric_function, voting_rule):
+MetricFn = Callable[..., float]
+
+
+def run_score(
+    profile_file: str | Path,
+    metric_function: MetricFn,
+    voting_rule: object,
+) -> float:
+    """Compute a metric score for a single profile file.
+
+    Args:
+        profile_file (str | Path): Path to the profile CSV.
+        metric_function (MetricFn): Metric function to evaluate.
+        voting_rule (object): Voting rule callable.
+
+    Returns:
+        float: The computed metric score.
+    """
     with contextlib.redirect_stdout(None):
         profile = RankProfile.from_csv(profile_file)
         score = metric_function(profile, voting_rule)
@@ -77,13 +99,23 @@ def run_score(profile_file, metric_function, voting_rule):
     required=True,
 )
 def main(
-    input_folder,
-    n_seats,
-    metric,
-    variant,
-    interpolation_type,
-    election_type,
-):
+    input_folder: str,
+    n_seats: int,
+    metric: str,
+    variant: str,
+    interpolation_type: str,
+    election_type: str,
+) -> None:
+    """Run the BT metrics pipeline for a single input folder.
+
+    Args:
+        input_folder (str): Folder containing profile CSVs.
+        n_seats (int): Number of seats to elect.
+        metric (str): Metric name to compute.
+        variant (str): Variant of the metric computation.
+        interpolation_type (str): Interpolation type for UM metrics.
+        election_type (str): Voting rule name.
+    """
     input_folder_full_path = Path(input_folder).resolve()
     base_parent = input_folder_full_path.name
     cand_folder = input_folder_full_path.parent.stem
@@ -165,7 +197,9 @@ def main(
 
     all_csv_profiles = sorted(glob(f"{input_folder_full_path}/*.csv"))
 
-    voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
+    voting_rule = build_voting_rule(
+        n_cands, cast(AllowedRule, election_type), tiebreak=tiebreak
+    )
 
     with joblib_progress(
         description=f"Computing scores for metric {metric}", total=len(all_csv_profiles)

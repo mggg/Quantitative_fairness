@@ -1,3 +1,5 @@
+"""Plot mean vs std colored by cohesion parameters for BT metrics."""
+
 from pathlib import Path
 from glob import glob
 import json

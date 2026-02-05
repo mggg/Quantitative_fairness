@@ -1,9 +1,15 @@
-import matplotlib.pyplot as plt
-import json
+"""Create consolidated Scottish boxplots across metrics and rules."""
+
 from glob import glob
-import seaborn as sns
-import pandas as pd
+import json
 from pathlib import Path
+from typing import Mapping, Sequence
+
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.legend import Legend
+import pandas as pd
+import seaborn as sns
 
 colors = [
     "#00B8D4",  # Borda
@@ -102,30 +108,52 @@ rule_color_map = {
 # "#8cd1c4
 
 
-def construct_df_scottish(data_dictionary, n_cands, metric):
-    """
-    Helper function to construct a DataFrame from the data dictionary.
-    Included to improve readability.
+def construct_df_scottish(
+    data_dictionary: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    n_cands: int,
+    metric: str,
+) -> pd.DataFrame:
+    """Construct a DataFrame for a metric at a fixed candidate count.
+
+    Args:
+        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
+            Nested mapping of rule to candidate count to metric values.
+        n_cands (int): Number of candidates to extract.
+        metric (str): Metric key to select.
+
+    Returns:
+        pd.DataFrame: A transposed DataFrame with rules as columns.
     """
     df_data = []
     for _, data in data_dictionary.items():
         df_data.append(data[str(n_cands)][metric])
 
-    return pd.DataFrame(df_data, index=data_dictionary.keys()).T
+    return pd.DataFrame(df_data, index=data_dictionary.keys()).T  # ty: ignore
 
 
 def build_plot_for_metric_scottish(
-    metric,
-    ordered_outputs,
-    n_cand_list,
-    ax,
-    y_label="",
-    use_one=False,
-    legend=True,
-):
-    """
-    Helper function to build a boxplot for a given metric.
-    Included to improve readability.
+    metric: str,
+    ordered_outputs: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    n_cand_list: Sequence[int],
+    ax: Axes,
+    y_label: str = "",
+    use_one: bool = False,
+    legend: bool = True,
+) -> Axes:
+    """Build a boxplot for a single metric across candidate counts.
+
+    Args:
+        metric (str): Metric key to plot.
+        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
+            Nested mapping of rule to candidate count to metric values.
+        n_cand_list (Sequence[int]): Candidate counts to include.
+        ax (Axes): Matplotlib axes to draw into.
+        y_label (str): Label for the y-axis.
+        use_one (bool): Whether to plot only the Borda rule.
+        legend (bool): Whether to render a legend.
+
+    Returns:
+        Axes: The axes with the plot.
     """
     df_list = []
     for n_cands in n_cand_list:
@@ -163,7 +191,22 @@ def build_plot_for_metric_scottish(
     return ax
 
 
-def save_legend_only(legend, filename, pad=1.1, dpi=300, transparent=False):
+def save_legend_only(
+    legend: Legend,
+    filename: str | Path,
+    pad: float = 1.1,
+    dpi: int = 300,
+    transparent: bool = False,
+) -> None:
+    """Save a legend as a standalone image.
+
+    Args:
+        legend (Legend): Matplotlib legend to export.
+        filename (str | Path): Path to write the legend image.
+        pad (float): Padding factor for legend bounds.
+        dpi (int): Output DPI.
+        transparent (bool): Whether to use a transparent background.
+    """
     fig = legend.axes.figure  # the parent figure
     fig.canvas.draw()  # need a renderer before measuring bbox
 
@@ -171,10 +214,15 @@ def save_legend_only(legend, filename, pad=1.1, dpi=300, transparent=False):
     bbox = legend.get_window_extent().expanded(pad, pad)
     bbox_inches = bbox.transformed(fig.dpi_scale_trans.inverted())
 
-    fig.savefig(filename, dpi=dpi, bbox_inches=bbox_inches, transparent=transparent)
+    fig.savefig(filename, dpi=dpi, bbox_inches=bbox_inches, transparent=transparent)  # ty: ignore
 
 
-def main(n_cand_list=list(range(6, 10))):
+def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
+    """Run the Scottish boxplot pipeline and export plots.
+
+    Args:
+        n_cand_list (Sequence[int]): Candidate counts to include.
+    """
     ordered_rules = [
         "borda",
         "3-approval",

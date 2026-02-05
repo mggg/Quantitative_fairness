@@ -1,3 +1,5 @@
+"""Metric lists and variants used across BT plotting scripts."""
+
 um_metric_list = [
     "sigma_UM",
     "sigma_UM_winner_set",

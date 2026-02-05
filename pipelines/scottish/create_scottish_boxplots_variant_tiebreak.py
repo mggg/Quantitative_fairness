@@ -1,11 +1,15 @@
-import matplotlib.pyplot as plt
-from itertools import product
-import json
+"""Create Scottish boxplots split by variant and tiebreak."""
+
 from glob import glob
-import seaborn as sns
-import pandas as pd
+import json
 from pathlib import Path
+from typing import Mapping, Sequence
+
 import click
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+import pandas as pd
+import seaborn as sns
 
 rule_color_map = {
     "borda": "#00B8D4",
@@ -18,24 +22,49 @@ rule_color_map = {
 }
 
 
-def construct_df_scottish(data_dictionary, n_cands, metric):
-    """
-    Helper function to construct a DataFrame from the data dictionary.
-    Included to improve readability.
+def construct_df_scottish(
+    data_dictionary: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    n_cands: int,
+    metric: str,
+) -> pd.DataFrame:
+    """Construct a DataFrame for a metric at a fixed candidate count.
+
+    Args:
+        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
+            Nested mapping of rule to candidate count to metric values.
+        n_cands (int): Number of candidates to extract.
+        metric (str): Metric key to select.
+
+    Returns:
+        pd.DataFrame: A transposed DataFrame with rules as columns.
     """
     df_data = []
     for _, data in data_dictionary.items():
         df_data.append(data[str(n_cands)][metric])
 
-    return pd.DataFrame(df_data, index=data_dictionary.keys()).T
+    return pd.DataFrame(df_data, index=data_dictionary.keys()).T  # ty: ignore
 
 
 def build_plot_for_metric_scottish(
-    metric, ordered_outputs, ordered_rules, n_cand_list, ax, y_label="", use_one=False
-):
-    """
-    Helper function to build a boxplot for a given metric.
-    Included to improve readability.
+    metric: str,
+    ordered_outputs: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    ordered_rules: Sequence[str],
+    n_cand_list: Sequence[int],
+    ax: Axes,
+    y_label: str = "",
+    use_one: bool = False,
+) -> None:
+    """Build a boxplot for a single metric across candidate counts.
+
+    Args:
+        metric (str): Metric key to plot.
+        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
+            Nested mapping of rule to candidate count to metric values.
+        ordered_rules (Sequence[str]): Ordered list of rules (for stable plotting).
+        n_cand_list (Sequence[int]): Candidate counts to include.
+        ax (Axes): Matplotlib axes to draw into.
+        y_label (str): Label for the y-axis.
+        use_one (bool): Whether to plot only the Borda rule.
     """
     df_list = []
     for n_cands in n_cand_list:
@@ -58,7 +87,7 @@ def build_plot_for_metric_scottish(
         dodge=True,
         ax=ax,
         legend=not use_one,  # don't show legend if only one rule
-        whis=[1, 99],  # use 1st and 99th percentiles
+        whis=[1, 99],  # use 1st and 99th percentiles # ty: ignore
     )
 
     ax.set_ylabel(y_label, fontsize=16)
@@ -70,7 +99,18 @@ def build_plot_for_metric_scottish(
 @click.command()
 @click.option("--variant", required=True)
 @click.option("--tiebreak", required=True)
-def main(variant, tiebreak, n_cand_list=list(range(6, 10))):
+def main(
+    variant: str,
+    tiebreak: str,
+    n_cand_list: Sequence[int] = list(range(6, 10)),
+) -> None:
+    """Run the Scottish boxplot pipeline for a variant/tiebreak.
+
+    Args:
+        variant (str): Metric variant to plot (e.g., average or worst_case).
+        tiebreak (str): Tiebreak rule to plot (e.g., lex or random).
+        n_cand_list (Sequence[int]): Candidate counts to include.
+    """
     ordered_rules = [
         "borda",
         "3-approval",
@@ -197,33 +237,33 @@ def main(variant, tiebreak, n_cand_list=list(range(6, 10))):
 
     plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
 
-    # # ===========================
-    # # Make the scottish stats csv
-    # # ===========================
-    # all_stats_files = glob(f"{stat_file_base_dir}/*stats.json")
-    #
-    # stats_by_type = {}
-    # for stats_file in all_stats_files:
-    #     with open(stats_file, "r") as f:
-    #         stats = json.load(f)
-    #     election_type = stats_file.split("/")[-1].split("_")[0]
-    #     stats_by_type[election_type] = stats
-    # pprint(stats_by_type)
-    # df = pd.concat(
-    #     {rule: pd.DataFrame(sub).T for rule, sub in stats_by_type.items()},
-    #     names=["rule", "n_cands"],  # names for the new index levels
-    # )
-    #
-    # df.index = df.index.set_levels(df.index.levels[1].astype(int), level="n_cands")
-    #
-    # df = df.reindex(
-    #     pd.MultiIndex.from_product(
-    #         [ordered_rules, n_cand_list],
-    #         names=["rule", "n_cands"],
-    #     ),
-    # )
-    #
-    # df.to_csv(f"{stat_file_base_dir}/scottish_stats_{variant}_{tiebreak}.csv")
+    # ===========================
+    # Make the scottish stats csv
+    # ===========================
+    all_stats_files = glob(f"{stat_file_base_dir}/*stats.json")
+
+    stats_by_type = {}
+    for stats_file in all_stats_files:
+        with open(stats_file, "r") as f:
+            stats = json.load(f)
+        election_type = stats_file.split("/")[-1].split("_")[0]
+        stats_by_type[election_type] = stats
+
+    df = pd.concat(
+        {rule: pd.DataFrame(sub).T for rule, sub in stats_by_type.items()},
+        names=["rule", "n_cands"],  # names for the new index levels
+    )
+
+    df.index = df.index.set_levels(df.index.levels[1].astype(int), level="n_cands")
+
+    df = df.reindex(
+        pd.MultiIndex.from_product(
+            [ordered_rules, n_cand_list],  # ty: ignore
+            names=["rule", "n_cands"],
+        ),
+    )
+
+    df.to_csv(f"{stat_file_base_dir}/scottish_stats_{variant}_{tiebreak}.csv")
 
 
 if __name__ == "__main__":

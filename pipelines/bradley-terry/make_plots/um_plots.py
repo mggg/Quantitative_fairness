@@ -1,3 +1,5 @@
+"""Plot UM metric summaries colored by election type."""
+
 from pathlib import Path
 from glob import glob
 from itertools import product

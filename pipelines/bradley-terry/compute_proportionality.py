@@ -1,14 +1,17 @@
-from votekit import RankProfile, PreferenceProfile
-from votekit.ballot_generator import BlocSlateConfig
+"""Compute proportionality diagnostics for BT preference profiles."""
+
 from glob import glob
-from joblib import Parallel, delayed
-from joblib_progress import joblib_progress
 import json
 from pathlib import Path
 import sys
-import click
-import pandas as pd
 from typing import get_args
+
+import click
+from joblib import Parallel, delayed
+from joblib_progress import joblib_progress
+import pandas as pd
+from votekit import RankProfile, PreferenceProfile
+from votekit.ballot_generator import BlocSlateConfig
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
@@ -17,18 +20,43 @@ from voting_rules import build_voting_rule, AllowedRule
 TOP_DIR = Path(__file__).resolve().parents[2]
 
 
-def load_one(path) -> tuple[str, PreferenceProfile]:
+def load_one(path: str) -> tuple[str, PreferenceProfile]:
+    """Load a preference profile from a CSV file.
+
+    Args:
+        path (str): The path to the CSV file.
+
+    Returns:
+        tuple[str, PreferenceProfile]: A tuple containing the file path and the loaded PreferenceProfile.
+    """
     return path, RankProfile.from_csv(path)
 
 
-def get_all_profiles(n_a_cand, n_b_cand, b_prop, a_coh, b_coh):
+def get_all_profiles(
+    n_a_cand: int,
+    n_b_cand: int,
+    b_prop: float,
+    a_coh: float,
+    b_coh: float,
+) -> dict[str, PreferenceProfile]:
+    """Get all preference profiles based on given parameters.
+
+    Args:
+        n_a_cand (int): Number of A candidates.
+        n_b_cand (int): Number of B candidates.
+        b_prop (float): Proportion of B voters.
+        a_coh (float): Cohesion of A voters.
+        b_coh (float): Cohesion of B voters.
+
+    Returns:
+        dict[str, PreferenceProfile]: A dictionary mapping file paths to PreferenceProfiles.
+    """
     search_string = (
         f"{TOP_DIR}/data/preference_profiles/{n_a_cand:02d}_{n_b_cand:02d}/"
         f"b_proportion_{b_prop:0.1f}__ALPHA_(*)__COHESION_({a_coh:0.2f},{b_coh:0.2f})/*.csv"
     )
     profile_files = sorted(glob(search_string))
 
-    # profile_files = profile_files[:10]
     with joblib_progress(total=len(profile_files)):
         pairs = Parallel(n_jobs=-1, prefer="processes", batch_size="auto")(
             delayed(load_one)(p) for p in profile_files
@@ -38,11 +66,32 @@ def get_all_profiles(n_a_cand, n_b_cand, b_prop, a_coh, b_coh):
     return all_profiles
 
 
-def frsp(r, s, rho):
+def frsp(r: int, s: int, rho: float) -> float:
+    """Calculate the probability of one slate putting another slate first.
+
+    Args:
+        r (int): Number of candidates in the first slate.
+        s (int): Number of candidates in the second slate.
+        rho (float): Cohesion parameter.
+
+    Returns:
+        float: The calculated probability.
+    """
     return 1 - (1 - rho**s) / (1 - rho ** (r + s))
 
 
-def process_profile(file, profile) -> dict[str, dict[str, dict[str, float]]]:
+def process_profile(
+    file: str, profile: PreferenceProfile
+) -> dict[str, dict[str, dict[str, float]]]:
+    """Process a preference profile and calculate various metrics.
+
+    Args:
+        file (str): The path to the preference profile file.
+        profile (PreferenceProfile): The loaded PreferenceProfile.
+
+    Returns:
+        dict[str, dict[str, dict[str, float]]]: A dictionary containing processed data for the given file.
+    """
     utility_file = file.replace("preference_profiles", "preference_dfs").replace(
         ".csv", "_utilities.csv"
     )
@@ -55,15 +104,15 @@ def process_profile(file, profile) -> dict[str, dict[str, dict[str, float]]]:
     b_proportion = float(file.split("b_proportion_")[1].split("__")[0])
 
     counts = {"A": 0, "B": 0}
-    slate_to_candidates = {"bloc_1": set(), "bloc_2": set()}
+    slate_to_candidates: dict[str, list[str]] = {"bloc_1": [], "bloc_2": []}
 
     n_a_candidates, n_b_candidates = list(
         map(int, file.split("preference_profiles/")[1].split("/")[0].split("_"))
     )
     n_cands = n_a_candidates + n_b_candidates
     slate_to_candidates = {
-        "bloc_1": {f"A{i}" for i in range(1, n_a_candidates + 1)},
-        "bloc_2": {f"B{j}" for j in range(1, n_b_candidates + 1)},
+        "bloc_1": [f"A{i}" for i in range(1, n_a_candidates + 1)],
+        "bloc_2": [f"B{j}" for j in range(1, n_b_candidates + 1)],
     }
 
     for _, fpv, weight in ranking_df[["Ranking_1", "Weight"]].itertuples():
@@ -129,7 +178,18 @@ def process_profile(file, profile) -> dict[str, dict[str, dict[str, float]]]:
 @click.option(
     "--b-coh", type=float, required=True, help="Cohesion of B voters (between 0 and 1)"
 )
-def main(n_a_cand, n_b_cand, b_prop, a_coh, b_coh):
+def main(
+    n_a_cand: int, n_b_cand: int, b_prop: float, a_coh: float, b_coh: float
+) -> None:
+    """Main function to execute the script.
+
+    Args:
+        n_a_cand (int): Number of A candidates.
+        n_b_cand (int): Number of B candidates.
+        b_prop (float): Proportion of B voters.
+        a_coh (float): Cohesion of A voters.
+        b_coh (float): Cohesion of B voters.
+    """
     all_profiles = get_all_profiles(n_a_cand, n_b_cand, b_prop, a_coh, b_coh)
 
     with joblib_progress(total=len(all_profiles)):

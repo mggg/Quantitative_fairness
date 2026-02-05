@@ -1,3 +1,5 @@
+"""Color palettes used by BT plotting scripts."""
+
 import matplotlib.pyplot as plt
 
 tab10 = plt.get_cmap("tab10")

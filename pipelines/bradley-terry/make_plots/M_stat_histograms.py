@@ -1,10 +1,14 @@
+"""Create M-statistic histograms for Scottish and Bradley-Terry outputs."""
+
 import json
 from glob import glob
 import math
-import seaborn as sns
+from pathlib import Path
+from typing import Sequence
+
 import matplotlib.pyplot as plt
 import numpy as np
-from pathlib import Path
+import seaborn as sns
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
@@ -22,11 +26,24 @@ rule_color_map = {
 }
 
 
-def inverse_interp(x):
+def inverse_interp(x: float) -> float:
+    """Invert the ASIN interpolation back to M-space.
+
+    Args:
+        x (float): Interpolated value in [0, 1].
+
+    Returns:
+        The corresponding M value.
+    """
     return math.sin((math.pi / 2) * x) ** 2 / 2
 
 
-def make_scottish_M_histogram(rule):
+def make_scottish_M_histogram(rule: str) -> None:
+    """Generate and save an M histogram for the Scottish datasets.
+
+    Args:
+        rule (str): Voting rule name used to locate the stats file.
+    """
     file = glob(
         f"{top_dir}/stats/scottish_stats/sigma_UM_worst_case_asin/**/*{rule}*lex_output.json",
         recursive=True,
@@ -70,7 +87,14 @@ def make_scottish_M_histogram(rule):
     plt.close()
 
 
-def make_bt_M_histograms(rule, bprop_values=None):
+def make_bt_M_histograms(rule: str, bprop_values: Sequence[float] | None = None) -> None:
+    """Generate M, ASIN, and odds histograms for BT simulations.
+
+    Args:
+        rule (str): Voting rule name used to locate the stats files.
+        bprop_values (Sequence[float] | None): Optional list of B-bloc proportions
+            to plot.
+    """
     if rule == "random":
         return
 
@@ -168,7 +192,8 @@ def make_bt_M_histograms(rule, bprop_values=None):
         plt.close()
 
 
-def make_legend():
+def make_legend() -> None:
+    """Render a legend for the rule color map."""
     _, ax = plt.subplots(figsize=(6, 4))
     for rule, color in rule_color_map.items():
         ax.plot([], [], color=color, label=rule, linewidth=10)

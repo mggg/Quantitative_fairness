@@ -1,14 +1,12 @@
+"""Plot mean vs std colored by B-bloc proportion for BT metrics."""
+
 from pathlib import Path
 from glob import glob
 from itertools import product
 import json
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
 
-sys.path.append(
-    "/mnt/efs/h/Dropbox/MADLAB/Git_Repos/replication/Quantitative_fairness/"
-)
 
 # Imports from this folder
 from colors import colors3 as colors

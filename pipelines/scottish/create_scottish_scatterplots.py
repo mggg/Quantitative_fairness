@@ -1,10 +1,15 @@
-import matplotlib.pyplot as plt
+"""Create scatter plots comparing UM and IIA metrics in Scottish data."""
+
+from glob import glob
 from itertools import product
 import json
-from glob import glob
-import seaborn as sns
-import pandas as pd
 from pathlib import Path
+from typing import Mapping, Sequence
+
+import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
+import pandas as pd
+import seaborn as sns
 
 rule_color_map = {
     "borda": "#00B8D4",  # bright cerulean
@@ -55,24 +60,49 @@ titles = {
 }
 
 
-def construct_df_scottish(data_dictionary, n_cands, metric):
-    """
-    Helper function to construct a DataFrame from the data dictionary.
-    Included to improve readability.
+def construct_df_scottish(
+    data_dictionary: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    n_cands: int,
+    metric: str,
+) -> pd.DataFrame:
+    """Construct a DataFrame for a metric at a fixed candidate count.
+
+    Args:
+        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
+            Nested mapping of rule to candidate count to metric values.
+        n_cands (int): Number of candidates to extract.
+        metric (str): Metric key to select.
+
+    Returns:
+        pd.DataFrame: A transposed DataFrame with rules as columns.
     """
     df_data = []
     for _, data in data_dictionary.items():
         df_data.append(data[str(n_cands)][metric])
 
-    return pd.DataFrame(df_data, index=data_dictionary.keys()).T
+    return pd.DataFrame(df_data, index=data_dictionary.keys()).T  # ty: ignore
 
 
 def build_plot_for_metric_scottish(
-    metric, ordered_outputs, ordered_rules, n_cand_list, ax, y_label="", use_one=False
-):
-    """
-    Helper function to build a boxplot for a given metric.
-    Included to improve readability.
+    metric: str,
+    ordered_outputs: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    ordered_rules: Sequence[str],
+    n_cand_list: Sequence[int],
+    ax: Axes,
+    y_label: str = "",
+    use_one: bool = False,
+) -> None:
+    """Build a boxplot for a single metric across candidate counts.
+
+    Args:
+        metric (str): Metric key to plot.
+        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
+            Nested mapping of rule to candidate count to metric values.
+        ordered_rules (Sequence[str]): Ordered list of rules (for stable plotting).
+        n_cand_list (Sequence[int]): Candidate counts to include.
+        ax (Axes): Matplotlib axes to draw into.
+        y_label (str): Label for the y-axis.
+        use_one (bool): Whether to plot only the Borda rule.
     """
     df_list = []
     for n_cands in n_cand_list:
@@ -95,7 +125,7 @@ def build_plot_for_metric_scottish(
         dodge=True,
         ax=ax,
         legend=not use_one,  # don't show legend if only one rule
-        whis=[1, 99],  # use 1st and 99th percentiles
+        whis=[1, 99],  # use 1st and 99th percentiles # ty: ignore
     )
 
     ax.set_ylabel(y_label, fontsize=16)
@@ -103,7 +133,8 @@ def build_plot_for_metric_scottish(
         ax.legend(title="Voting rule", bbox_to_anchor=(1, 0.5), loc="center left")
 
 
-def main():
+def main() -> None:
+    """Run the Scottish scatterplot pipeline."""
     ordered_rules = [
         "borda",
         "3-approval",

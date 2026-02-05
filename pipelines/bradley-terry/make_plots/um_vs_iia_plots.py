@@ -1,3 +1,5 @@
+"""Plot UM vs IIA scatter comparisons for BT metrics."""
+
 from pathlib import Path
 from glob import glob
 import json
@@ -31,13 +33,6 @@ titles = {
 
 tiebreak = "lex"
 
-# bprop = "*"
-# voting_rule = "*"
-# for (
-#     metric,
-#     iia_variant,
-#     um_variant,
-# ) in product(iia_metric_list, variant_list, variant_list):
 
 iia_variant = "average"
 um_variant = "worst_case"

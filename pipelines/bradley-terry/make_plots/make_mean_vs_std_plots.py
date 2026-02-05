@@ -1,3 +1,5 @@
+"""Generate mean vs std plots for BT metrics and interpolation types."""
+
 from pathlib import Path
 from glob import glob
 from pprint import pprint as print

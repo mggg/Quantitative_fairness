@@ -1,3 +1,5 @@
+"""Create limited Scottish CSV exports for selected metrics."""
+
 from glob import glob
 from pathlib import Path
 import pandas as pd

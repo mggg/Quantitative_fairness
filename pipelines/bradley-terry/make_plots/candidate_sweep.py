@@ -1,3 +1,5 @@
+"""Plot mean vs std colored by candidate combinations for BT metrics."""
+
 from pathlib import Path
 from glob import glob
 from itertools import product
