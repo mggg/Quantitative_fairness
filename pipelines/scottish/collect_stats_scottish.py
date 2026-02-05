@@ -16,7 +16,7 @@ from votekit.cvr_loaders import load_scottish
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from fairness_metric import (
+from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
     sigma_IIA_all_subset,
     sigma_IIA_winner_set,
@@ -24,7 +24,7 @@ from fairness_metric import (
     sigma_UM,
     sigma_UM_winner_set,
 )
-from voting_rules import ElectionConstructor, build_voting_rule
+from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 
 class MetricFn(Protocol):

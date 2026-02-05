@@ -1,24 +1,25 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR=$(dirname $(realpath $0))
-cd ${SCRIPT_DIR}
-source ${SCRIPT_DIR}/.venv/bin/activate
+REPO_ROOT=$(realpath "${SCRIPT_DIR}/..")
+cd "${REPO_ROOT}"
+source "${REPO_ROOT}/.venv/bin/activate"
 
 if [[ $? -ne 0 ]]; then
     echo "Failed to activate virtual environment. Please check to make sure you have run 'uv sync'"
     exit 1
 fi
 
-PROFILE_ROOT="${SCRIPT_DIR}/data/preference_profiles"
+PROFILE_ROOT="${REPO_ROOT}/data/preference_profiles"
 
 if [[ ! -d "${PROFILE_ROOT}" ]] || ! find "${PROFILE_ROOT}" -type f -name "*.csv" -print -quit | grep -q .; then
     echo "No BT preference profiles found. Generating profiles first."
-    uv run pipelines/bradley-terry/generate_BT_profiles.py
+    uv run "${REPO_ROOT}/pipelines/bradley-terry/generate_BT_profiles.py"
 else
     echo "BT preference profiles already present. Skipping generation."
 fi
 
-for input_folder in $(find ${SCRIPT_DIR}/data/preference_profiles/ -type d -name "*b_proportion*"); do
+for input_folder in $(find "${REPO_ROOT}/data/preference_profiles/" -type d -name "*b_proportion*"); do
     echo "Processing input folder: $input_folder"
 
     n_seats=3
@@ -26,7 +27,7 @@ for input_folder in $(find ${SCRIPT_DIR}/data/preference_profiles/ -type d -name
         for variant in "worst_case" "average"; do
             for interpolation_type in "asin" "odds" "linear"; do
                 for election_type in "borda" "plurality" "stv"; do
-                    uv run pipelines/bradley-terry/collect_stats_BT.py \
+                    uv run "${REPO_ROOT}/pipelines/bradley-terry/collect_stats_BT.py" \
                         --input-folder $input_folder \
                         --n-seats $n_seats \
                         --metric $metric \
@@ -42,7 +43,7 @@ for input_folder in $(find ${SCRIPT_DIR}/data/preference_profiles/ -type d -name
         for variant in "worst_case" "average"; do
             for interpolation_type in "None"; do
                 for election_type in "borda" "plurality" "stv"; do
-                    uv run pipelines/bradley-terry/collect_stats_BT.py \
+                    uv run "${REPO_ROOT}/pipelines/bradley-terry/collect_stats_BT.py" \
                         --input-folder $input_folder \
                         --n-seats $n_seats \
                         --metric $metric \
@@ -101,7 +102,7 @@ for cand_pair in "${candidate_count_combinations[@]}"; do
     for b_prop in "${b_bloc_proportions[@]}"; do
         for cohesion_pair in "${cohesion_combinations[@]}"; do
             read -r a_coh b_coh <<< "${cohesion_pair}"
-            uv run pipelines/bradley-terry/compute_proportionality.py \
+            uv run "${REPO_ROOT}/pipelines/bradley-terry/compute_proportionality.py" \
                 --n-a-cand ${n_a_cands} \
                 --n-b-cand ${n_b_cands} \
                 --b-prop ${b_prop} \
@@ -111,6 +112,6 @@ for cand_pair in "${candidate_count_combinations[@]}"; do
     done
 done
 
-for f in $(find ${SCRIPT_DIR}/pipelines/bradley-terry/make_plots -name "*.py"); do
-    uv run $f
+for f in $(find "${REPO_ROOT}/pipelines/bradley-terry/make_plots" -name "*.py"); do
+    uv run "$f"
 done

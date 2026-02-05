@@ -5,7 +5,7 @@ from itertools import combinations, product
 import numpy as np
 from typing import Any, Sequence
 from math import pi, sqrt, asin
-from voting_rules import ElectionConstructor
+from voting_metrics_main_code.voting_rules import ElectionConstructor
 
 
 def kendall_tau_distance(list1: Sequence[Any], list2: Sequence[Any]) -> int:

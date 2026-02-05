@@ -1,8 +1,13 @@
 from votekit import PreferenceProfile, Ballot
-from voting_rules import build_voting_rule
-from fairness_metric import (
+import sys
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).parents[1].resolve()
+sys.path.append(str(ROOT_DIR))
+
+from voting_metrics_main_code.voting_rules import build_voting_rule
+from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
-    sigma_IIA_all_subset,
     sigma_IIA_winner_set,
     sigma_UM,
     sigma_UM_winner_set,

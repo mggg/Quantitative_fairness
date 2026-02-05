@@ -15,7 +15,7 @@ from votekit.ballot_generator import BlocSlateConfig
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from voting_rules import build_voting_rule, AllowedRule
+from voting_metrics_main_code.voting_rules import build_voting_rule, AllowedRule
 
 TOP_DIR = Path(__file__).resolve().parents[2]
 

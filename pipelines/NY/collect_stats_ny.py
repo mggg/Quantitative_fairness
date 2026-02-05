@@ -10,13 +10,13 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from fairness_metric import (
+from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
     sigma_UM,
     sigma_IIA_winner_set,
     sigma_UM_winner_set,
 )
-from voting_rules import AllowedRule, ElectionConstructor, build_voting_rule
+from voting_metrics_main_code.voting_rules import AllowedRule, ElectionConstructor, build_voting_rule
 
 
 if __name__ == "__main__":

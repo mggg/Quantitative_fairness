@@ -6,7 +6,7 @@ The repository contains the following core files:
 
 **`setup.sh`** Sets up the environment for the project, including installing necessary dependencies.
 
-**`fairness_metric.py`**
+**`voting_metrics_main_code/fairness_metric.py`**
 
 Implements:
 
@@ -17,17 +17,17 @@ Implements:
   - **$\\sigma\_{IIA}^{WS}$** (The "Winner Set" version of IIA)
   - **$\\sigma\_{UM}^{WS}$** (The "Winner Set" version of Unanimity)
 
-**`voting_rules.py`** A factory file that generates the appropriate voting rule using VoteKit
+**`voting_metrics_main_code/voting_rules.py`** A factory file that generates the appropriate voting rule using VoteKit
 according to a string input.
 
-**`run_2_bloc_BT_pipeline.sh`** Runs the full 2-bloc Bradley-Terry pipeline (profile generation
+**`scripts/run_2_bloc_BT_pipeline.sh`** Runs the full 2-bloc Bradley-Terry pipeline (profile generation
 if needed, metric collection, proportionality analysis, and plots).
 
-**`run_ny_pipeline.sh`** Runs the pipeline for the New York dataset.
+**`scripts/run_ny_pipeline.sh`** Runs the pipeline for the New York dataset.
 
-**`run_portland_pipeline.sh`** Runs the pipeline for the Portland dataset.
+**`scripts/run_portland_pipeline.sh`** Runs the pipeline for the Portland dataset.
 
-**`run_scottish_pipeline.sh`** Runs the pipeline for the Scottish dataset.
+**`scripts/run_scottish_pipeline.sh`** Runs the pipeline for the Scottish dataset.
 
 **`data/`** Contains the raw and cleaned data files for the experiments, including the
 pre-generated BT preference profiles (via git-lfs). Populated by `setup.sh`.
@@ -67,7 +67,7 @@ from your terminal to set up the environment and extract all the necessary data 
 
 To repeat the experiments in the paper, you just need to run the pipeline files:
 
-> NOTE: The file titled `run_2_bloc_BT_pipeline.sh` will take a while to run on a computer without a
+> NOTE: The file titled `scripts/run_2_bloc_BT_pipeline.sh` will take a while to run on a computer without a
 > significant number of CPUs. The commands below are ordered by the time they take to run.
 > If BT preference profiles are already present (pulled via git-lfs in `setup.sh`), the runner
 > skips regeneration.
@@ -80,10 +80,10 @@ To repeat the experiments in the paper, you just need to run the pipeline files:
 > many cores.
 
 ```console
-./run_ny_pipeline.sh
-./run_portland_pipeline.sh
-./run_scottish_pipeline.sh
-./run_2_bloc_BT_pipeline.sh
+./scripts/run_ny_pipeline.sh
+./scripts/run_portland_pipeline.sh
+./scripts/run_scottish_pipeline.sh
+./scripts/run_2_bloc_BT_pipeline.sh
 ```
 
 ## Data Sources
