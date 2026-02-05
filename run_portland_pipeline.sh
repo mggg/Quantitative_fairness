@@ -10,3 +10,7 @@ if [[ $? -ne 0 ]]; then
 fi
 
 uv run ${SCRIPT_DIR}/pipelines/portland/collect_stats_portland.py
+
+echo "Running Portland clustering diagnostics"
+uv run ${SCRIPT_DIR}/pipelines/portland/short_burst_clustering.py
+uv run ${SCRIPT_DIR}/pipelines/portland/brute_force_clustering.py

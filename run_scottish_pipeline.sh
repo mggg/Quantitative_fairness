@@ -9,7 +9,7 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
-# python ${SCRIPT_DIR}/pipelines/scottish/collect_stats_scottish.py
+uv run ${SCRIPT_DIR}/pipelines/scottish/collect_stats_scottish.py
 
 for variant in "worst_case" "average"; do
     for tiebreak in "random" "lex"; do
