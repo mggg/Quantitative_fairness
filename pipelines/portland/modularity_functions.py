@@ -12,7 +12,7 @@ adjustments have been made to ensure compatibility with the current codebase. Th
 structure of the functions (including most parameter names) remains unchanged.
 """
 
-from typing import Sequence, Callable
+from typing import Sequence, Callable, TypeGuard
 from tqdm.auto import tqdm
 from numpy.typing import NDArray
 import numpy as np
@@ -370,8 +370,14 @@ def backward_convert(
     return partition
 
 
+def _is_partition_blocks(partition: Sequence[object]) -> TypeGuard[Sequence[Sequence[str]]]:
+    if len(partition) == 0:
+        return False
+    return isinstance(partition[0], (list, tuple, set, frozenset))
+
+
 def viz_partition(
-    partition: list[list[str]] | NDArray[np.integer],
+    partition: list[list[str]] | NDArray[np.integer] | Sequence[int],
     boost: NDArray,
     candidates: list[str],
     cmap: str = "PRGn",
@@ -381,8 +387,11 @@ def viz_partition(
 
 
     Args:
-        partition (list[list[str]]): A partition of candidates into blocks, where each block is a
-            list of candidate names.
+        partition (list[list[str]] | NDArray[np.integer] | Sequence[int]): A partition of
+            candidates into blocks. Can be provided as:
+            - A list of lists of candidate names (explicit blocks).
+            - A 1D integer array of community labels (one per candidate).
+            - A sequence of integer labels (one per candidate).
         boost (NDArray): The boost matrix to visualize.
         candidates (list[str]): The list of candidate names corresponding to the order of the boost
             matrix.
@@ -391,8 +400,10 @@ def viz_partition(
     """
     if isinstance(partition, np.ndarray):
         partish = backward_convert(partition, candidates)
+    elif _is_partition_blocks(partition):
+        partish = [list(bloc) for bloc in partition]
     else:
-        partish = partition.copy()
+        partish = backward_convert(np.asarray(partition), candidates)
     ordering = [c for bloc in partish for c in bloc]
     permutation_list = []
     for candidate in candidates:

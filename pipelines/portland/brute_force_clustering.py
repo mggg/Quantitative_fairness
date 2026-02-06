@@ -14,7 +14,7 @@ import sys
 from math import comb
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
-TOP_DIR = SCRIPT_DIR.parents[2]
+TOP_DIR = SCRIPT_DIR.parents[1]
 sys.path.append(str(SCRIPT_DIR))
 
 from modularity_functions import hybrid_modularity  # noqa: E402

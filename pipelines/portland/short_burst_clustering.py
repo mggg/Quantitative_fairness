@@ -5,13 +5,14 @@ from votekit.elections import FastSTV
 from votekit.cleaning import remove_and_condense_rank_profile
 from votekit.matrices import boost_matrix
 from votekit.utils import mentions
+import argparse
 import numpy as np
 from pathlib import Path
 import sys
 
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
-TOP_DIR = SCRIPT_DIR.parents[2]
+TOP_DIR = SCRIPT_DIR.parents[1]
 sys.path.append(str(SCRIPT_DIR))
 
 from modularity_functions import (  # noqa: E402
@@ -73,6 +74,14 @@ def run_short_burst_for_portland_profile_i(profile_number: int, show_viz=False):
 
 
 if __name__ == "__main__":
+    arger = argparse.ArgumentParser(description="Run short burst on Portland profiles.")
+    arger.add_argument(
+        "--show-viz",
+        action="store_true",
+        help="Whether to show the visualization of the partition.",
+    )
+    args = arger.parse_args()
+
     for profile_number in range(1, 5):
         print(f"Loading profile {profile_number}...", end="\r")
-        run_short_burst_for_portland_profile_i(profile_number)
+        run_short_burst_for_portland_profile_i(profile_number, show_viz=args.show_viz)
