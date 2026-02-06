@@ -1,11 +1,12 @@
-from votekit import PreferenceProfile, Ballot
+# ruff: noqa: E402
+from votekit import RankProfile, RankBallot
 import sys
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).parents[1].resolve()
 sys.path.append(str(ROOT_DIR))
 
-from voting_metrics_main_code.voting_rules import build_voting_rule
+from voting_metrics_main_code.voting_rules import build_voting_rule  # noqa: E402
 from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
     sigma_IIA_winner_set,
@@ -15,39 +16,37 @@ from voting_metrics_main_code.fairness_metric import (
 import numpy as np
 
 
-condorcet_profile = PreferenceProfile(
+condorcet_profile = RankProfile(
+    ballots=[
+        RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}]))),
+        RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}]))),
+        RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}]))),
+    ]
+)
+
+basic_IIA_profile = RankProfile(
     ballots=tuple(
         [
-            Ballot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}]))),
-            Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}]))),
-            Ballot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}]))),
+            RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"D"}, {"B"}, {"C"}]))),
+            RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"D"}, {"C"}]))),
+            RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}, {"D"}]))),
+            RankBallot(ranking=tuple(map(frozenset, [{"D"}, {"C"}, {"A"}, {"B"}]))),
         ]
     )
 )
 
-basic_IIA_profile = PreferenceProfile(
+profile_5_cand_ub = RankProfile(
     ballots=tuple(
         [
-            Ballot(ranking=tuple(map(frozenset, [{"A"}, {"D"}, {"B"}, {"C"}]))),
-            Ballot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"D"}, {"C"}]))),
-            Ballot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}, {"D"}]))),
-            Ballot(ranking=tuple(map(frozenset, [{"D"}, {"C"}, {"A"}, {"B"}]))),
-        ]
-    )
-)
-
-profile_5_cand_ub = PreferenceProfile(
-    ballots=tuple(
-        [
-            Ballot(
+            RankBallot(
                 ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}, {"E"}])),
                 weight=51,
             ),
-            Ballot(
+            RankBallot(
                 ranking=tuple(map(frozenset, [{"E"}, {"B"}, {"A"}, {"C"}, {"D"}])),
                 weight=34,
             ),
-            Ballot(
+            RankBallot(
                 ranking=tuple(map(frozenset, [{"D"}, {"C"}, {"E"}, {"A"}, {"B"}])),
                 weight=15,
             ),
@@ -55,14 +54,14 @@ profile_5_cand_ub = PreferenceProfile(
     )
 )
 
-profile_5_cand_mid = PreferenceProfile(
+profile_5_cand_mid = RankProfile(
     ballots=tuple(
         [
-            Ballot(
+            RankBallot(
                 ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}, {"E"}])),
                 weight=6,
             ),
-            Ballot(
+            RankBallot(
                 ranking=tuple(map(frozenset, [{"C"}, {"D"}, {"E"}, {"A"}, {"B"}])),
                 weight=4,
             ),
@@ -71,7 +70,7 @@ profile_5_cand_mid = PreferenceProfile(
 )
 
 
-def make_random_profile(n_voters: int, cand_list: list[str]) -> PreferenceProfile:
+def make_random_profile(n_voters: int, cand_list: list[str]) -> RankProfile:
     weights = np.unique_counts(list(map(int, np.random.gamma(5, 1, n_voters))))[1]
 
     n_cands = len(cand_list)
@@ -92,13 +91,13 @@ def make_random_profile(n_voters: int, cand_list: list[str]) -> PreferenceProfil
             ranking.append(*(all_cand_set - set(ranking)))
 
         ballot_list.append(
-            Ballot(
+            RankBallot(
                 ranking=tuple(ranking),
                 weight=wt,
             )
         )
 
-    return PreferenceProfile(ballots=tuple(ballot_list), candidates=tuple(cand_list))
+    return RankProfile(ballots=tuple(ballot_list), candidates=tuple(cand_list))
 
 
 # def test_random_profiles():
@@ -267,11 +266,13 @@ def test_condorcet_profile_plurality():
 def test_low_UM_plurality():
     n_cands = 3
     n_seats = 1
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=99),
-                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}]))),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=99
+                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}]))),
             ]
         )
     )
@@ -319,12 +320,16 @@ def test_IIA_Plurality_high_needs_borda_tiebreak():
 def test_IIA_winner_set_STV_ub():
     n_cands = 3
     n_seats = 1
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=7),
-                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=2),
-                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}]))),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=7
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=2
+                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}]))),
             ]
         )
     )
@@ -338,11 +343,15 @@ def test_IIA_winner_set_STV_ub():
 def test_IIA_winner_set_STV_mid():
     n_cands = 3
     n_seats = 2
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=6),
-                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=4),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=6
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=4
+                ),
             ]
         )
     )
@@ -360,12 +369,18 @@ def test_UM_borda_ub():
     n_cands = 3
     n_seats = 1
 
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=5),
-                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}])), weight=3),
-                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=2),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=5
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}])), weight=3
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=2
+                ),
             ]
         )
     )
@@ -390,12 +405,18 @@ def test_UM_plurality_ub():
     n_cands = 3
     n_seats = 1
 
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=5),
-                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}])), weight=3),
-                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=2),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=5
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}])), weight=3
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=2
+                ),
             ]
         )
     )
@@ -417,18 +438,18 @@ def test_UM_plurality_ub():
 
 
 def test_UM_4_cands_STV():
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}])),
                     weight=5,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}, {"D"}])),
                     weight=3,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"D"}, {"C"}, {"A"}, {"B"}])),
                     weight=2,
                 ),
@@ -449,18 +470,18 @@ def test_UM_4_cands_STV():
 
 
 def test_UM_winner_set_changes_with_seat_number_STV():
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}])),
                     weight=5,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}, {"D"}])),
                     weight=3,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"D"}, {"C"}, {"A"}, {"B"}])),
                     weight=2,
                 ),
@@ -639,14 +660,14 @@ def test_UM_winner_set_5_cand_Borda_mid():
 
 
 def test_IIA_winner_set_changes_with_election_type():
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}, {"E"}])),
                     weight=6,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"C"}, {"D"}, {"E"}, {"A"}, {"B"}])),
                     weight=4,
                 ),
@@ -675,22 +696,22 @@ def test_IIA_winner_set_changes_with_election_type():
 
 def test_IIA_winner_set_changes_with_seat_number_Plurality():
 
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(
+                RankBallot(
                     ranking=tuple(
                         map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}])
                     ),
                     weight=8,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(
                         map(frozenset, [{"D"}, {"A"}, {"B"}, {"C"}, {"E"}, {"F"}])
                     ),
                     weight=7,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(
                         map(frozenset, [{"C"}, {"A"}, {"B"}, {"F"}, {"E"}, {"D"}])
                     ),
@@ -715,12 +736,18 @@ def test_IIA_winner_set_changes_with_seat_number_Plurality():
 
 
 def test_IIA_Plurality_obtains_zero():
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
-                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
-                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2
+                ),
             ]
         )
     )
@@ -730,12 +757,18 @@ def test_IIA_Plurality_obtains_zero():
 
 
 def test_IIA_winner_set_Plurality_obtains_lb():
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
-                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
-                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2
+                ),
             ]
         )
     )
@@ -745,12 +778,18 @@ def test_IIA_winner_set_Plurality_obtains_lb():
 
 
 def test_IIA_winner_set_Plurality_low():
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
-                Ballot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
-                Ballot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3
+                ),
+                RankBallot(
+                    ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2
+                ),
             ]
         )
     )
@@ -760,18 +799,18 @@ def test_IIA_winner_set_Plurality_low():
 
 
 def test_UM_Plurality_low():
-    profile = PreferenceProfile(
+    profile = RankProfile(
         ballots=tuple(
             [
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}])),
                     weight=10,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}, {"D"}])),
                     weight=3,
                 ),
-                Ballot(
+                RankBallot(
                     ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}, {"D"}])),
                     weight=2,
                 ),

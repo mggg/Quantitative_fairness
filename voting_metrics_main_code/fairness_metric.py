@@ -13,17 +13,17 @@ def kendall_tau_distance(list1: Sequence[Any], list2: Sequence[Any]) -> int:
     Compute Kendall Tau distance between two rankings (lists).
 
     Args:
-        list1 (list): First ranking (ordered list of candidates).
-        list2 (list): Second ranking (ordered list of candidates).
+        list1 (Sequence[Any]): First ranking (ordered list of candidates).
+        list2 (Sequence[Any]): Second ranking (ordered list of candidates).
 
     Returns:
         int: Kendall Tau distance (number of pairwise disagreements).
     """
     list1 = list(list1)
     list2 = list(list2)
-    assert len(list1) == len(
-        list2
-    ), f"Lists must have the same size, found {len(list1)} and {len(list2)} for {list1} and {list2}"
+    assert len(list1) == len(list2), (
+        f"Lists must have the same size, found {len(list1)} and {len(list2)} for {list1} and {list2}"
+    )
 
     distance = 0
     n = len(list1)
@@ -51,6 +51,12 @@ def __unpack_ranking_with_lexicographic_tiebreak(
     """
     A utility function that unpacks a ranking returned by votekit (which may contain ties) into a
     list of individual candidates.  Any ties are resolved in lexicographic order.
+
+    Args:
+        ranking (Sequence[frozenset]): Ranking possibly containing tied candidate sets.
+
+    Returns:
+        tuple[frozenset, ...]: Ranking with ties broken into singleton sets.
     """
     return tuple([frozenset({cand}) for c_set in ranking for cand in sorted(c_set)])
 
@@ -95,6 +101,17 @@ def determine_weighted_ranking_vector_XAB(
 
 
 def number_of_voters(profile: RankProfile, *args, **kwargs) -> float:
+    """
+    Compute the total number of voters as the sum of ballot weights.
+
+    Args:
+        profile (RankProfile): Preference profile containing a "Weight" column.
+        *args: Unused.
+        **kwargs: Unused.
+
+    Returns:
+        float: Total number of voters (sum of weights).
+    """
     del args, kwargs  # unused
     return float(profile.df["Weight"].sum())
 
@@ -130,7 +147,10 @@ def sigma_UM(
 
     Args:
         profile (RankProfile): The preference profile to score.
-        voting_rule (Election): The voting rule to apply to the profile.
+        voting_rule (ElectionConstructor): The voting rule constructor to apply.
+        n_seats (int): Number of seats to elect.
+        variant (str, optional): "average" or "worst_case". Defaults to "worst_case".
+        interpolation_type (str, optional): "asin", "odds", or "linear". Defaults to "asin".
 
     Returns:
         float: The sigma_UM score which is a value between 0 and 1.
@@ -158,8 +178,13 @@ def sigma_UM(
     weight_vector = profile.df["Weight"].to_numpy()
     n_voters = weight_vector.sum()
 
+    max_ballot_len = profile.max_ranking_length
+    if not isinstance(max_ballot_len, int) or max_ballot_len < 1:
+        raise ValueError(
+            f"Invalid max_ranking_length: {max_ballot_len}. Must be a positive integer."
+        )
     ranking_array = profile.df[
-        [f"Ranking_{i}" for i in range(1, profile.max_ranking_length + 1)]
+        [f"Ranking_{i}" for i in range(1, max_ballot_len + 1)]
     ].to_numpy()
 
     misalignment = 1
@@ -191,7 +216,10 @@ def sigma_UM_winner_set(
 
     Args:
         profile (RankProfile): The preference profile to score.
-        voting_rule (Election): The voting rule to apply to the profile.
+        voting_rule (ElectionConstructor): The voting rule constructor to apply.
+        n_seats (int): Number of seats to elect.
+        variant (str, optional): "average" or "worst_case". Defaults to "worst_case".
+        interpolation_type (str, optional): "asin", "odds", or "linear". Defaults to "asin".
 
     Returns:
         float: The sigma_UM score which is a value between 0 and 1.
@@ -220,8 +248,13 @@ def sigma_UM_winner_set(
     weight_vector = profile.df["Weight"].to_numpy()
     n_voters = weight_vector.sum()
 
+    max_ballot_len = profile.max_ranking_length
+    if not isinstance(max_ballot_len, int) or max_ballot_len < 1:
+        raise ValueError(
+            f"Invalid max_ranking_length: {max_ballot_len}. Must be a positive integer."
+        )
     ranking_array = profile.df[
-        [f"Ranking_{i}" for i in range(1, profile.max_ranking_length + 1)]
+        [f"Ranking_{i}" for i in range(1, max_ballot_len + 1)]
     ].to_numpy()
 
     misalignment = 1
@@ -265,7 +298,9 @@ def sigma_IIA(
 
     Args:
         profile (RankProfile): The preference profile to score.
-        voting_rule (Election): The voting rule to apply to the profile.
+        voting_rule (ElectionConstructor): The voting rule constructor to apply.
+        n_seats (int): Number of seats to elect.
+        variant (str, optional): "average" or "worst_case". Defaults to "average".
 
     Returns:
         float: The sigma_IIA score which is a value between 0 and 1.
@@ -326,7 +361,9 @@ def sigma_IIA_all_subset(
 
     Args:
         profile (RankProfile): The preference profile to score.
-        voting_rule (Election): The voting rule to apply to the profile.
+        voting_rule (ElectionConstructor): The voting rule constructor to apply.
+        n_seats (int): Number of seats to elect.
+        variant (str, optional): "average" or "worst_case". Defaults to "average".
 
     Returns:
         float: The sigma_IIA score which is a value between 0 and 1.
@@ -402,7 +439,9 @@ def sigma_IIA_winner_set(
 
     Args:
         profile (RankProfile): The preference profile to score.
-        voting_rule (Election): The voting rule to apply to the profile.
+        voting_rule (ElectionConstructor): The voting rule constructor to apply.
+        n_seats (int): Number of seats to elect.
+        variant (str, optional): "average" or "worst_case". Defaults to "average".
 
     Returns:
         float: The sigma_IIA score which is a value between 0 and 1.
@@ -484,7 +523,9 @@ def sigma_IIA_winner_set_all_subset(
 
     Args:
         profile (RankProfile): The preference profile to score.
-        voting_rule (Election): The voting rule to apply to the profile.
+        voting_rule (ElectionConstructor): The voting rule constructor to apply.
+        n_seats (int): Number of seats to elect.
+        variant (str, optional): "average" or "worst_case". Defaults to "average".
 
     Returns:
         float: The sigma_IIA score which is a value between 0 and 1.

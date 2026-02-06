@@ -19,6 +19,7 @@ class ElectRandom(RankingElection):
 
     Args:
         profile (RankProfile): Profile to conduct election on.
+        tiebreak (str, optional): Included for API compatibility; not used. Defaults to "random".
         m (int, optional): Number of seats to elect. Defaults to 1.
     """
 
@@ -43,9 +44,12 @@ class ElectRandom(RankingElection):
             sort_high_low=True,
         )
 
-    def _is_finished(self):
+    def _is_finished(self) -> bool:
         """
         Check if the election is finished.
+
+        Returns:
+            bool: True if the required number of candidates have been elected.
         """
         # single round election
         elected_cands = [c for s in self.get_elected() for c in s]
@@ -55,7 +59,10 @@ class ElectRandom(RankingElection):
         return False
 
     def _run_step(
-        self, profile: RankProfile, prev_state: ElectionState, store_states=False
+        self,
+        profile: RankProfile,
+        prev_state: ElectionState,
+        store_states: bool = False,
     ) -> RankProfile:
         """
         Run one step of an election from the given profile and previous state. Since this is
@@ -65,7 +72,7 @@ class ElectRandom(RankingElection):
             profile (RankProfile): Profile of ballots.
             prev_state (ElectionState): The previous ElectionState.
             store_states (bool, optional): Included for compatibility with the base class but not
-                 used in this election type.
+                used in this election type.
 
         Returns:
             RankProfile: The profile of ballots after the round is completed.
@@ -96,6 +103,17 @@ class ElectRandom(RankingElection):
 def build_voting_rule(
     n_cands: int, voting_rule_name: AllowedRule, tiebreak: str = "lex"
 ) -> ElectionConstructor:
+    """
+    Build a voting rule constructor based on a name and candidate count.
+
+    Args:
+        n_cands (int): Number of candidates.
+        voting_rule_name (AllowedRule): Name of the voting rule to build.
+        tiebreak (str, optional): Tiebreak strategy passed to the rule. Defaults to "lex".
+
+    Returns:
+        ElectionConstructor: A callable that constructs the requested election rule.
+    """
 
     match voting_rule_name:
         case "borda":
