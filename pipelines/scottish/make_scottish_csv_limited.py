@@ -15,6 +15,7 @@ for voting_rule in [
     "plurality",
     "stv",
     "ranked-pairs",
+    "random",
 ]:
     all_files = glob(
         str(top_dir / "stats" / "scottish_stats" / "**" / f"{voting_rule}" / "*.json")
