@@ -12,17 +12,18 @@ from metric_lists import (
     um_metric_list,
     interpolation_type_list,
 )
-colors = [
-    "#FB607F",
-    "#A76BCF",
-    "#FB8B24"
-]
+
+colors = ["#FB607F", "#A76BCF", "#FB8B24"]
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
 
 plots_dir = top_dir / "plots" / "bt_plots" / "mean_vs_var"
 
+metric_to_plot_name = {
+    "sigma_UM": "rho_UM",
+    "sigma_UM_winner_set": "sigma_UM",
+}
 
 # ============================
 #   UM PLOTS BY OVERALL TYPE
@@ -37,8 +38,10 @@ for metric in um_metric_list:
     }
 
     for idx, interpolation_type in enumerate(interpolation_type_list):
-        output_file = plots_dir / f"{interpolation_type}__{metric}__worst_case__mean_vs_var.png"
-        print(interpolation_type)
+        output_file = (
+            plots_dir
+            / f"{interpolation_type}__{metric_to_plot_name[metric]}__worst_case__mean_vs_var.png"
+        )
         file_basename = (
             f"METRIC_{metric}"
             f"__VARIANT_worst_case"
@@ -65,12 +68,11 @@ for metric in um_metric_list:
                 data = json.load(f)
 
             data_points[i] = [float(np.mean(data)), float(np.var(data))]
-        
 
         inerpolation_type_to_data[interpolation_type] = np.array(data_points)
 
         fig, ax = plt.subplots(figsize=(20, 20), dpi=300)
-
+        print(f"NUMBER OF POINTS {len(data_points)}")
         data_points = np.array(data_points)
         ax.scatter(
             data_points[:, 0],
@@ -79,7 +81,7 @@ for metric in um_metric_list:
             edgecolors="none",
             alpha=1.0,
         )
-        
+
         # Add line of best fit
         if len(data_points) > 1:
             z = np.polyfit(data_points[:, 0], data_points[:, 1], 1)
@@ -90,9 +92,10 @@ for metric in um_metric_list:
             ax.plot(x_line, p(x_line), color="black", linewidth=3, alpha=1.0)
 
         ax.set_xlim(-0.05, 1.05)
-        ax.set_ylim(-0.005, 0.2)
-        ax.set_xlabel("Mean")
-        ax.set_ylabel("Variance")
+        ax.set_ylim(-0.005, 0.205)
+
+        ax.set_yticks([0, 0.05, 0.1, 0.15, 0.2])
+        ax.tick_params(axis="both", which="major", labelsize=24)
         plt.savefig(
             output_file,
             bbox_inches="tight",

@@ -13,15 +13,26 @@ import pandas as pd
 import seaborn as sns
 
 import sys
+
 sys.path.append(str(Path(__file__).resolve().parent))
 
 from create_scottish_scatterplots import (
-    load_outputs_by_election_type, 
-    get_limited_metric_key_pairs, 
-    rule_color_map, 
+    load_outputs_by_election_type,
+    get_limited_metric_key_pairs,
+    rule_color_map,
     collect_scatter_points,
-    draw_limited_scatter_base,
 )
+
+rule_to_dot_size = {
+    "borda": 9,
+    "3-approval": 9.1,
+    "2-approval": 9.2,
+    "plurality": 9.3,
+    "stv": 9.4,
+    "ranked-pairs": 9.5,
+    "random": 9.6,
+}
+
 
 def build_limited_line_plot_name(
     line_dir: Path,
@@ -45,13 +56,22 @@ def build_limited_line_plot_name(
     Returns:
         Path: Full output file path.
     """
-    percentile_suffix = f"{int(percentile*100)}th_percentile" if percentile is not None else "mean"
+    percentile_suffix = (
+        f"{int(percentile*100)}th_percentile" if percentile is not None else "mean"
+    )
+    key_to_title = {
+        "sigma_UM": "rho_UM",
+        "sigma_IIA": "rho_IIA",
+        "sigma_UM_winner_set": "sigma_UM",
+        "sigma_IIA_winner_set": "sigma_IIA",
+    }
     return line_dir / (
         f"{percentile_suffix}_line_"
-        f"{um_key.removesuffix(f'_{variant_um}_asin_{tiebreak}')}_vs_"
-        f"{iia_key.removesuffix(f'_{variant_iia}_{tiebreak}')}_"
+        f"{key_to_title[um_key.removesuffix(f'_{variant_um}_asin_{tiebreak}')]}_vs_"
+        f"{key_to_title[iia_key.removesuffix(f'_{variant_iia}_{tiebreak}')]}_"
         "all_voting_rules.png"
     )
+
 
 def add_percentile_lines(
     ax: Axes,
@@ -69,7 +89,7 @@ def add_percentile_lines(
     )
     if percentile is not None:
         threshold_x = pd.Series(x_data).quantile(1 - percentile)
-        threshold_y = pd.Series(y_data).quantile(percentile)
+        threshold_y = pd.Series(y_data).quantile(1 - percentile)
     else:
         threshold_x = pd.Series(x_data).mean()
         threshold_y = pd.Series(y_data).mean()
@@ -89,8 +109,15 @@ def add_percentile_lines(
         zorder=-1,
         alpha=1.0,
     )
+    ax.plot(
+        threshold_x,
+        threshold_y,
+        marker="o",
+        color=rule_color_map[voting_rule],
+        markersize=rule_to_dot_size[voting_rule],
+        zorder=3,
+    )
     return ax
-
 
 
 def run_limited_line_plots(
@@ -100,7 +127,7 @@ def run_limited_line_plots(
     variant_um: str = "worst_case",
     variant_iia: str = "average",
     tiebreak: str = "lex",
-    lineplot_subdir:str = "lineplot_by_voting_rule",
+    lineplot_subdir: str = "lineplot_by_voting_rule",
     overlay_fn: (
         Callable[[Axes, str, str, str, list[float], list[float]], None] | None
     ) = None,
@@ -154,25 +181,54 @@ def run_limited_line_plots(
         ax.set_xlim(-0.05, 1.05)
         ax.set_ylim(-0.05, 1.05)
         ax.vlines(
-            0.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
+            0.0,
+            -0.05,
+            1.05,
+            color="grey",
+            linestyle="-",
+            linewidth=1,
+            zorder=-1,
+            alpha=0.5,
         )
         ax.vlines(
-            1.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
+            1.0,
+            -0.05,
+            1.05,
+            color="grey",
+            linestyle="-",
+            linewidth=1,
+            zorder=-1,
+            alpha=0.5,
         )
         ax.hlines(
-            0.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
+            0.0,
+            -0.05,
+            1.05,
+            color="grey",
+            linestyle="-",
+            linewidth=1,
+            zorder=-1,
+            alpha=0.5,
         )
         ax.hlines(
-            1.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
+            1.0,
+            -0.05,
+            1.05,
+            color="grey",
+            linestyle="-",
+            linewidth=1,
+            zorder=-1,
+            alpha=0.5,
         )
         plt.savefig(plot_name, bbox_inches="tight", dpi=300)
         plt.close(fig)
 
+
 def main() -> None:
     """Run the Scottish limited scatterplot pipeline."""
     ordered_rules = [
-        "borda",
         "3-approval",
+        "borda",
         "2-approval",
         "plurality",
         "stv",
@@ -193,7 +249,6 @@ def main() -> None:
         ordered_rules=ordered_rules,
         output_dir=output_dir,
     )
-
 
 
 if __name__ == "__main__":
