@@ -37,7 +37,7 @@ for metric in um_metric_list:
     }
 
     for idx, interpolation_type in enumerate(interpolation_type_list):
-        output_file = plots_dir / f"{interpolation_type}__{metric}__worst_case__mean_vs_std.png"
+        output_file = plots_dir / f"{interpolation_type}__{metric}__worst_case__mean_vs_var.png"
         print(interpolation_type)
         file_basename = (
             f"METRIC_{metric}"
