@@ -12,15 +12,12 @@ adjustments have been made to ensure compatibility with the current codebase. Th
 structure of the functions (including most parameter names) remains unchanged.
 """
 
-from typing import Sequence, Callable, TypeGuard
-from tqdm.auto import tqdm
-from numpy.typing import NDArray
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
+from numpy.typing import NDArray
+import random
 
 
-def make_modularity_matrix(A: NDArray[np.floating]) -> NDArray[np.floating]:
+def boost_modularity_matrix(A: NDArray, assignment_vec: NDArray):
     """Construct the (directed, weighted) modularity matrix for an adjacency matrix.
 
     See Newman (2006) "Modularity and community structure in networks" for the original
@@ -30,396 +27,153 @@ def make_modularity_matrix(A: NDArray[np.floating]) -> NDArray[np.floating]:
 
     https://people.eecs.berkeley.edu/~jordan/sail/readings/newman.pdf
 
-    This computes the modularity matrix B defined by:
+    Let A = P - N, where P is the positive part of A and N is the negative part of A. Then the
+    modularity matrix B is defined as:
 
-        B = A - (k_out ⊗ k_in) / m
+        B = A - (p_out ⊗ p_in) / p + (n_out ⊗ n_in) / n
 
     where:
-        k_out[i] = sum_j A[i, j]
-        k_in[j]  = sum_i A[i, j]
-        m        = sum_{i,j} A[i, j]
+        p_out[i] = sum_j P[i, j]
+        p_in[j]  = sum_i P[i, j]
+        p        = sum_{i,j} P[i, j]
+
+        n_out[i] = sum_j N[i, j]
+        n_in[j]  = sum_i N[i, j]
+        n        = sum_{i,j} N[i, j]
 
     The diagonal of B is then set to 0, effectively ignoring self-loops in the
     modularity objective.
 
     Args:
-        A: Square adjacency/weight matrix of shape (n, n). Can be weighted and/or
+        A (NDArray): Square adjacency/weight matrix of shape (n, n). Can be weighted and/or
             directed. Values are typically nonnegative for standard modularity.
+        assignment_vec (NDArray): Vector of shape (n,) containing cluster assignments for
+            each node. Nodes in the same cluster are considered together in the modularity
+            calculation. Values should be non-negative integers representing cluster IDs.
 
     Returns:
-        The modularity matrix B of shape (n, n), same dtype/shape as A. If the
-        total weight m is 0, returns an all-zeros matrix.
-
-    Raises:
-        ValueError: If A is not 2D square (optional; not enforced here).
-    """
-    kout = A.sum(axis=1)
-    kin = A.sum(axis=0)
-    m = A.sum()
-
-    if m == 0:
-        return np.zeros_like(A)
-
-    expected = np.outer(kout, kin) / m
-    B = A - expected
-    # set all diagonal entries to 0
-    np.fill_diagonal(B, 0)
-    return B
-
-
-def split_matrix(
-    A: NDArray[np.floating],
-) -> tuple[NDArray[np.floating], NDArray[np.floating]]:
-    """Split a matrix into its positive and negative parts.
-
-    Produces A_pos containing only positive entries (others set to 0) and A_neg
-    containing only negative entries (others set to 0).
-
-    Args:
-        A: Input matrix of any shape.
-
-    Returns:
-        A tuple (A_pos, A_neg) with the same shape as A:
-            - A_pos[i, j] = A[i, j] if A[i, j] > 0 else 0
-            - A_neg[i, j] = A[i, j] if A[i, j] < 0 else 0
+        The modularity matrix B of shape (n, n), same dtype/shape as A.
     """
     A_pos = np.where(A > 0, A, 0)
-    A_neg = np.where(A < 0, A, 0)
-    return A_pos, A_neg
+    A_neg = np.where(A < 0, -A, 0)
+
+    A_pos_sum = np.sum(A_pos)
+    A_neg_sum = np.sum(A_neg)
+
+    pos_out_vec = np.sum(A_pos, axis=1)
+    pos_in_vec = np.sum(A_pos, axis=0)
+
+    neg_out_vec = np.sum(A_neg, axis=1)
+    neg_in_vec = np.sum(A_neg, axis=0)
+
+    # Apply the delta_ij mask so we only look for things that
+    # are in the same cluster
+    assigment_matrix_mask = np.equal.outer(assignment_vec, assignment_vec)
+    assigment_matrix_mask &= ~np.eye(
+        len(assignment_vec), dtype=bool
+    )  # Remove diagonal elements since we don't allow self loops
+    delta_ij_positions = np.argwhere(assigment_matrix_mask)
+    modularity_matrix = np.zeros_like(A, dtype=float)
+
+    for i, j in delta_ij_positions:
+        pos_wiring = pos_out_vec[i] * pos_in_vec[j] / A_pos_sum
+        neg_wiring = neg_out_vec[i] * neg_in_vec[j] / A_neg_sum
+        modularity_matrix[i, j] = A[i, j] - pos_wiring + neg_wiring
+
+    return modularity_matrix
 
 
-def modularity_from_B(
-    B: NDArray[np.floating],
-    m: float,
-    assignment: Sequence[int],
-    mod_type: str = "standard",
-    pm: str = "pos",
-) -> float:
-    """Compute a modularity-like score from a precomputed modularity matrix.
+def compute_modularity(A: NDArray, assignment_vec: NDArray):
+    """Compute the modularity score for a given adjacency matrix and cluster assignment.
 
-    This function sums entries of B over all ordered pairs (i, j), applying a rule
-    that depends on `mod_type` and `pm`, and then normalizes by `m`.
-
-    Interpretation (high-level):
-        - `pm="pos"` treats within-group pairs as "aligned" (reward/punish depending
-          on mod_type).
-        - `pm="neg"` treats between-group pairs as "aligned" (reward/punish depending
-          on mod_type).
-
-    The behaviors:
-        - mod_type="standard":
-            Add B[i, j] only for "aligned" pairs.
-        - mod_type="hybrid":
-            Add B[i, j] for aligned pairs, subtract B[i, j] for non-aligned pairs.
-        - mod_type="reverse":
-            Subtract B[i, j] only for aligned pairs (with reversed alignment rule).
+    Note:
+        Assumes that we are not allowing self-loops, so the diagonal of the modularity matrix is
+        set to 0 in the boost_modularity_matrix function.
 
     Args:
-        B: Modularity matrix of shape (n, n).
-        m: Normalization constant. Typically the total weight used to build B.
-            If m == 0, the function returns 0.0.
-        assignment: Community labels of length n. Nodes i and j are in the same
-            group if assignment[i] == assignment[j].
-        mod_type: Scoring variant. One of {"standard", "hybrid", "reverse"}.
-        pm: Pairing mode. One of {"pos", "neg"}.
+        A (NDArray): Square adjacency/weight matrix of shape (n, n). Can be weighted and/or
+            directed. Values are typically nonnegative for standard modularity.
+        assignment_vec (NDArray): Vector of shape (n,) containing cluster assignments for
+            each node. Nodes in the same cluster are considered together in the modularity
+            calculation. Values should be non-negative integers representing cluster IDs.
+
+    """
+    modularity_matrix = boost_modularity_matrix(A, assignment_vec)
+    return np.sum(modularity_matrix) / np.sum(np.abs(A))
+
+
+def generate_flip_proposal(
+    mutated_assignment_vec: NDArray, n_clusters: int, rng: random.Random
+):
+    """Generate a new cluster assignment proposal by flipping the cluster assignment of one node.
+
+    Args:
+        mutated_assignment_vec (NDArray): Current cluster assignment vector of shape (n,). This
+            vector will be modified in-place to produce the new proposal.
+        n_clusters (int): The total number of clusters. New cluster assignments will be in the
+            range [0, n_clusters - 1].
+        rng (random.Random): A random number generator instance for reproducibility.
 
     Returns:
-        The computed modularity-like score (float), normalized by m.
-
-    Raises:
-        AssertionError: If pm is not in {"pos", "neg"}.
-        ValueError: If mod_type is unrecognized.
+        The modified cluster assignment vector with one node's cluster assignment flipped to a
+        different cluster. The function ensures that flipping does not reduce the number of
+        clusters by checking that the node being flipped is not the last member of its current
+        cluster.
     """
-    assert pm in {"pos", "neg"}
-    n = len(assignment)
-    Q = 0.0
-    if m == 0:
-        return 0.0
+    assignment_counts = np.bincount(mutated_assignment_vec, minlength=n_clusters + 1)
+    found_flip = False
+    to_flip = None
+    while not found_flip:
+        to_flip = np.random.choice(len(mutated_assignment_vec))
+        # Make sure we don't reduce the number of clusters by flipping the last member of a
+        # cluster to a different cluster
+        if assignment_counts[mutated_assignment_vec[to_flip]] > 1:
+            found_flip = True
 
-    for i in range(n):
-        for j in range(n):
-            same_group = assignment[i] == assignment[j]
-            if mod_type == "standard":
-                if (pm == "pos" and same_group) or (pm == "neg" and not same_group):
-                    Q += B[i, j]
-            elif mod_type == "hybrid":
-                if (pm == "pos" and same_group) or (pm == "neg" and not same_group):
-                    Q += B[i, j]
-                else:
-                    Q -= B[i, j]
-            elif mod_type == "reverse":
-                if (pm == "pos" and not same_group) or (pm == "neg" and same_group):
-                    Q -= B[i, j]
-            else:
-                raise ValueError(f"Unknown mod_type: {mod_type}")
+    mutated_assignment_vec[to_flip] = rng.randint(0, n_clusters - 1)
 
-    return Q / m
+    return mutated_assignment_vec
 
 
-def hybrid_modularity(
-    M: NDArray[np.floating],
-    matrix_name: str,
-) -> Callable[[Sequence[int]], float]:
-    """Build a signed 'hybrid' modularity scoring function for a matrix.
-
-    This constructs separate modularity matrices for positive and negative parts
-    of `M`:
-
-        - For positive entries: use A = max(M, 0) and compute A_mod = modularity(A).
-        - For negative entries: use B = min(M, 0), take magnitudes -B, and compute
-          B_mod = modularity(-B).
-
-    The returned scoring function combines:
-        Q_A: standard modularity reward for keeping positive structure within groups.
-        Q_B: "negative" modularity term rewarding negative structure across groups.
-
-    The final score is returned as:
-        score = -Q_A - Q_B
-
-    Args:
-        M: Square matrix of shape (n, n) that may contain positive and negative
-            entries (e.g., signed weights).
-        matrix_name: Name used to label the returned scoring function.
-
-    Returns:
-        A function `score(partition)` that maps an assignment (sequence of length n)
-        to a float score. The function has an attribute `score_name` set to
-        f"{matrix_name}_hybrid".
-    """
-    A, B = split_matrix(M)
-    A_mod = make_modularity_matrix(A)
-    m_A = A.sum()
-    B_mod = make_modularity_matrix(-B)
-    m_B = -B.sum()
-
-    def score(partition8: Sequence[int]) -> float:
-        """Score a partition using the precomputed signed modularity matrices.
-
-        Args:
-            partition8: Community labels of length n.
-
-        Returns:
-            Signed hybrid modularity score (negative of the combined modularities).
-        """
-        Q_A = modularity_from_B(A_mod, m_A, partition8, mod_type="standard", pm="pos")
-        Q_B = modularity_from_B(B_mod, m_B, partition8, mod_type="standard", pm="neg")
-        return -Q_A - Q_B
-
-    score.__setattr__("score_name", f"{matrix_name}_hybrid")
-    return score
-
-
-def random_partition(n_cands: int, n_parts: int):
-    """Generate a random partition of n_cands candidates into n_parts parts.
-
-    Args:
-        n_cands (int): Total number of candidates (length of the partition).
-        n_parts (int): Number of parts/groups to partition into.
-    """
-    accept = False
-    while not accept:
-        cand = np.random.randint(0, n_parts, size=n_cands)
-        if len(set(cand)) == n_parts:
-            accept = True
-    return cand
-
-
-def fast_proposal_generator(
-    partition8: Sequence[int],
-) -> Callable[[Sequence[int]], Sequence[int]]:
-    """Generate a proposal function that makes a small random change to a partition.
-
-    Args:
-        partition8: A sequence of community labels (length n) representing a partition.
-    """
-    k = max(partition8)
-    ncand = len(partition8)
-
-    def fast_proposal(partition):
-        new_partition = partition.copy()
-        new_partition[np.random.randint(0, ncand)] = np.random.randint(0, k + 1)
-        return new_partition
-
-    return fast_proposal
-
-
-def fast_short_burst(
-    starting_partition: Sequence[int],
-    score_fn: Callable[[Sequence[int]], float],
-    proposal_gen: Callable[
-        [Sequence[int]], Callable[[Sequence[int]], Sequence[int]]
-    ] = fast_proposal_generator,
-    burst_size=40,
-    num_bursts=50,
-) -> Sequence[int]:
-    """Perform a short burst of local search to improve a partition.
-
-
-    Args:
-        starting_partition (Sequence[int]): Initial partition to start from (sequence of ints
-            representing candidate clustering).
-        score_fn (Callable[[Sequence[int]], float]): A function that takes a partition and returns
-            a score.
-        proposal_gen (Callable[[Sequence[int]], Callable[[Sequence[int]], Sequence[int]]], optional):
-            A function that generates a proposal function for making local changes to the partition.
-            Defaults to `fast_proposal_generator`.
-        burst_size (int, optional): Number of local steps to take in each burst. Defaults to 40.
-        num_bursts (int, optional): Number of bursts to perform. Defaults to 50.
-    Returns:
-        The best partition found after performing the bursts.
-    """
-    status_quo = score_fn(starting_partition)
-    if not hasattr(score_fn, "score_name"):
-        score_fn.__setattr__("score_name", "unnamed_score_fn")
-
-    burst_best = starting_partition.copy()  # ty: ignore
-    proposal = proposal_gen(burst_best)
-    for _ in tqdm(range(num_bursts)):
-        trial_step = burst_best
-        for _ in range(burst_size):
-            trial_step = proposal(trial_step)
-            quo = score_fn(trial_step)
-            if quo <= status_quo:
-                burst_best = trial_step.copy()  # ty: ignore
-                status_quo = float(quo)
-    return burst_best
-
-
-def show_matrix(
+def run_modularity_maximization_short_bursts(
     M: NDArray,
-    title: str | None = None,
-    labels: list[str] | None = None,
-    cmap: str = "viridis",
-    boundaries: Sequence[int] | None = None,
-    centered: bool = False,
-    log_scale: bool = False,
+    initial_assignment_vec: NDArray,
+    n_clusters: int,
+    burst_length: int,
+    n_bursts: int,
+    rng: random.Random,
 ):
-    """A simple function to display the boost matrix
+    """Run modularity maximization using short bursts of local search.
+
+    This function performs a local search to maximize the modularity score by iteratively. In
+    each burst, it generates a sequence of cluster assignment proposals by flipping the cluster
+    assignment of one node at a time. If a proposal has a modularity score that is greater than
+    or equal to the best score found so far, it updates the best assignment and modularity score.
 
     Args:
-        M (NDArray): The matrix to display.
-        title (str, optional): The title of the plot. Defaults to None.
-        labels (list[str], optional): Labels for the axes. Defaults to None.
-        cmap (str, optional): Colormap to use. Defaults to 'viridis'.
-        boundaries (list[int], optional): Boundaries to draw on the matrix. Defaults to None.
-        centered (bool, optional): Whether to center the colormap around zero. Defaults to False.
-        log_scale (bool, optional): Whether to use a symmetric log scale for the colormap.
-            Defaults to False.
+        M (NDArray): Square adjacency/weight matrix of shape (n, n). Can be weighted and/or
+            directed. Values are typically nonnegative for standard modularity.
+        initial_assignment_vec (Sequence[int | float]): Initial cluster assignment vector of shape
+            (n,). Values should be non-negative integers representing cluster IDs.
+        n_clusters (int): The total number of clusters. Cluster assignments should be in the
+            range [0, n_clusters - 1].
+        burst_length (int): The number of local search steps to perform in each burst.
+        n_bursts (int): The total number of bursts to perform.
+        rng (random.Random): A random number generator instance for reproducibility.
     """
-    fig, ax = plt.subplots()
+    assignment_vec = initial_assignment_vec.copy()
 
-    if centered:
-        data = np.asarray(M)
-        max_abs = np.max(np.abs(data))
-        if max_abs == 0:
-            norm = None
-        elif log_scale:
-            # Symmetric log scaling around zero to make tiny deviations visible
-            linthresh = max(max_abs * 0.01, 1e-12)
-            norm = mcolors.SymLogNorm(
-                linthresh=linthresh, linscale=1.0, vmin=-max_abs, vmax=max_abs, base=10
+    best_modularity = compute_modularity(M, assignment_vec)
+    best_assignment_vec = assignment_vec.copy()
+    for _ in range(n_bursts):
+        current_burst_assignment = best_assignment_vec.copy()
+        for _ in range(burst_length):
+            current_burst_assignment = generate_flip_proposal(
+                current_burst_assignment, n_clusters, rng
             )
-        else:
-            norm = mcolors.Normalize(vmin=-max_abs, vmax=max_abs)
-    else:
-        vmin = np.min(M)
-        vmax = np.max(M)
-        norm = None if vmin == vmax else mcolors.Normalize(vmin=vmin, vmax=vmax)
+            new_modularity = compute_modularity(M, current_burst_assignment)
+            if new_modularity >= best_modularity:
+                best_assignment_vec = current_burst_assignment.copy()
+                best_modularity = compute_modularity(M, best_assignment_vec)
 
-    if title:
-        plt.title(title)
-
-    img = ax.imshow(M, cmap=cmap, norm=norm)
-    fig.colorbar(img)
-
-    if labels:
-        ax.set_xticks(range(M.shape[1]), minor=False)
-        ax.set_yticks(range(M.shape[0]), minor=False)
-        ax.grid(False)
-        ax.set_xticklabels(labels)
-        ax.set_yticklabels(labels)
-        ax.tick_params(axis="x", labelrotation=90)
-        ax.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
-
-    ax.set_aspect("auto")
-
-    if boundaries is not None and len(boundaries) > 0:
-        for b in boundaries:
-            ax.axhline(b - 0.5, color="black", linewidth=1)
-            ax.axvline(b - 0.5, color="black", linewidth=1)
-
-    plt.show()
-
-
-def backward_convert(
-    array: NDArray, canonical_candidates: list[str]
-) -> list[list[str]]:
-    """Convert a numpy array back into a partition (list of lists).
-
-    Args:
-        array (NDArray): A 1D array of community labels for each candidate, where the value at
-            index j indicates the community assignment of candidate j.)
-        canonical_candidates (list[str]): A list of candidate names corresponding to the indices
-            in `array`.
-    """
-    cand_dict = {i: candidate for i, candidate in enumerate(canonical_candidates)}
-    partition = []
-    for i in range(max(array) + 1):
-        bloc = [cand_dict[j] for j in range(len(array)) if array[j] == i]
-        partition.append(bloc)
-    return partition
-
-
-def _is_partition_blocks(partition: Sequence[object]) -> TypeGuard[Sequence[Sequence[str]]]:
-    if len(partition) == 0:
-        return False
-    return isinstance(partition[0], (list, tuple, set, frozenset))
-
-
-def viz_partition(
-    partition: list[list[str]] | NDArray[np.integer] | Sequence[int],
-    boost: NDArray,
-    candidates: list[str],
-    cmap: str = "PRGn",
-    centered: bool = False,
-):
-    """Visualize the boost matrix reordered according to a given partition.
-
-
-    Args:
-        partition (list[list[str]] | NDArray[np.integer] | Sequence[int]): A partition of
-            candidates into blocks. Can be provided as:
-            - A list of lists of candidate names (explicit blocks).
-            - A 1D integer array of community labels (one per candidate).
-            - A sequence of integer labels (one per candidate).
-        boost (NDArray): The boost matrix to visualize.
-        candidates (list[str]): The list of candidate names corresponding to the order of the boost
-            matrix.
-        cmap (str, optional): Colormap to use for visualization. Defaults to 'PRGn'.
-        centered (bool, optional): Whether to center the colormap around zero. Defaults to False.
-    """
-    if isinstance(partition, np.ndarray):
-        partish = backward_convert(partition, candidates)
-    elif _is_partition_blocks(partition):
-        partish = [list(bloc) for bloc in partition]
-    else:
-        partish = backward_convert(np.asarray(partition), candidates)
-    ordering = [c for bloc in partish for c in bloc]
-    permutation_list = []
-    for candidate in candidates:
-        permutation_list.append(ordering.index(candidate))
-    permutation_matrix = np.zeros((len(candidates), len(candidates)))
-    for i, p in enumerate(permutation_list):
-        permutation_matrix[i, p] = 1
-
-    # determine boundaries between blocks
-    block_sizes = [len(b) for b in partish]
-    boundaries = np.cumsum(block_sizes)[:-1]  # omit final edge
-
-    show_matrix(
-        permutation_matrix.T @ boost @ permutation_matrix,
-        labels=ordering,
-        cmap=cmap,
-        boundaries=list(boundaries),
-        centered=centered,
-    )
+    return best_assignment_vec, best_modularity

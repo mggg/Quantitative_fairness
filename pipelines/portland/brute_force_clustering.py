@@ -17,7 +17,7 @@ SCRIPT_DIR = Path(__file__).parent.resolve()
 TOP_DIR = SCRIPT_DIR.parents[1]
 sys.path.append(str(SCRIPT_DIR))
 
-from modularity_functions import hybrid_modularity  # noqa: E402
+from modularity_functions import compute_modularity  # noqa: E402
 
 
 def load_and_project(profile_number: int):
@@ -155,12 +155,12 @@ if __name__ == "__main__":
             profile, boost = load_and_project(i)
             cands = list(profile.candidates)
 
-            mod_score_function = hybrid_modularity(boost, "Boost")
             max_score = float("-inf")
             best_vec = None
             for vec in YieldAllKPartitionVecs(len(cands), n_parts):
-                if abs(mod_score_function(vec)) > max_score:
-                    max_score = abs(mod_score_function(vec))
+                modularity = compute_modularity(boost, vec)
+                if modularity > max_score:
+                    max_score = modularity
                     best_vec = vec
             print("Best vec:", best_vec)
             print("Max score:", max_score)
