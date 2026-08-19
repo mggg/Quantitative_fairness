@@ -1,0 +1,227 @@
+import ast
+import contextlib
+import json
+import os
+import sys
+import warnings
+from functools import partial
+from itertools import batched
+from pathlib import Path
+
+import click
+from joblib import Parallel, delayed
+from tqdm.auto import tqdm
+from votekit import RankProfile
+
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+
+from fairness_metric import (  # noqa: E402
+    sigma_IIA,
+    sigma_IIA_winner_set,
+    sigma_UM,
+    sigma_UM_winner_set,
+)
+from voting_rules import build_voting_rule  # noqa: E402
+
+warnings.filterwarnings("ignore")
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+RUNS = (
+    ("sigma_UM", sigma_UM, "worst_case", "asin"),
+    ("sigma_UM_winner_set", sigma_UM_winner_set, "worst_case", "asin"),
+    ("sigma_IIA", sigma_IIA, "average", "None"),
+    ("sigma_IIA_winner_set", sigma_IIA_winner_set, "average", "None"),
+)
+
+
+def output_jobs(input_folder, n_seats, election_type, tiebreak):
+    input_folder = Path(input_folder).resolve()
+    base_parts = input_folder.name.split("__")
+    cand_parts = input_folder.parent.stem.split("_")
+
+    b_proportion = float(base_parts[0].split("_")[-1])
+    aa_alpha, ab_alpha, ba_alpha, bb_alpha = ast.literal_eval(
+        base_parts[1].split("_")[-1]
+    )
+    a_cohesion, b_cohesion = ast.literal_eval(base_parts[2].split("_")[-1])
+    n_a_cands, n_b_cands = map(int, cand_parts)
+    n_cands = n_a_cands + n_b_cands
+    output_root = (
+        PROJECT_ROOT / "stats" / "bt_2_bloc_profile_stats" / f"{n_seats}_seats"
+    )
+
+    jobs = []
+    for metric, metric_function, variant, interpolation_type in RUNS:
+        basename = (
+            f"METRIC_{metric}"
+            f"__VARIANT_{variant}"
+            f"__INTERP_{interpolation_type}"
+            f"__NCANDS_({n_a_cands:02d}_{n_b_cands:02d})"
+            f"__SEATS_{n_seats}"
+            f"__BPROP_{b_proportion:0.1f}"
+            f"__ALPHA_({aa_alpha:0.2f},{ab_alpha:0.2f},{ba_alpha:0.2f},{bb_alpha:0.2f})"
+            f"__COHESION_({a_cohesion:0.2f},{b_cohesion:0.2f})"
+            f"__TYPE_{election_type}"
+            f"__TIEBREAK_{tiebreak}.json"
+        )
+        output_file = output_root / metric / f"{n_cands:02d}" / election_type / basename
+        jobs.append((metric_function, variant, interpolation_type, output_file))
+
+    return n_cands, jobs
+
+
+def run_profile_batch(
+    output_id,
+    profile_batch,
+    n_cands,
+    n_seats,
+    election_type,
+    tiebreak,
+    metric_function,
+    variant,
+    interpolation_type,
+):
+    with contextlib.redirect_stdout(None):
+        voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
+        metric = partial(metric_function, n_seats=n_seats, variant=variant)
+        if interpolation_type != "None":
+            metric = partial(metric, interpolation_type=interpolation_type)
+        scores = tuple(
+            (index, metric(RankProfile.from_csv(path), voting_rule))
+            for index, path in profile_batch
+        )
+
+    return output_id, scores
+
+
+def write_scores(output_file, scores):
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    temporary_file = output_file.with_suffix(".json.tmp")
+    with temporary_file.open("w") as file:
+        json.dump(scores, file)
+    os.replace(temporary_file, output_file)
+
+
+@click.command()
+@click.option(
+    "--settings-file",
+    type=click.Path(path_type=Path, exists=True, dir_okay=False),
+    default=PROJECT_ROOT / "settings.txt",
+    show_default=True,
+)
+@click.option("--n-seats", type=click.IntRange(min=1), default=3, show_default=True)
+@click.option(
+    "--election-type",
+    type=click.Choice(
+        [
+            "borda",
+            "plurality",
+            "stv",
+            "2-approval",
+            "3-approval",
+            "ranked-pairs",
+            "random",
+        ]
+    ),
+    default="random",
+    show_default=True,
+)
+@click.option(
+    "--tiebreak",
+    type=click.Choice(["random", "lex"]),
+    default="lex",
+    show_default=True,
+)
+@click.option("--n-jobs", type=int, default=-1, show_default=True)
+@click.option(
+    "--profile-batch-size",
+    type=click.IntRange(min=1),
+    default=5,
+    show_default=True,
+)
+def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_size):
+    """Compute every metric from run.sh across the folders in SETTINGS_FILE."""
+    input_folders = list(
+        dict.fromkeys(line.strip() for line in settings_file.read_text().splitlines())
+    )
+    input_folders = [folder for folder in input_folders if folder]
+    tasks = []
+    outputs = {}
+    skipped = 0
+    written = 0
+    for folder in tqdm(input_folders, desc="Preparing folders", unit="folder"):
+        n_cands, folder_jobs = output_jobs(folder, n_seats, election_type, tiebreak)
+        profile_files = sorted(Path(folder).resolve().glob("*.csv"))
+        profile_batches = list(batched(enumerate(profile_files), profile_batch_size))
+
+        for metric_function, variant, interpolation_type, output_file in folder_jobs:
+            if output_file.exists():
+                skipped += 1
+                continue
+
+            output_id = len(outputs)
+            outputs[output_id] = {
+                "output_file": output_file,
+                "scores": [None] * len(profile_files),
+                "remaining_batches": len(profile_batches),
+                "label": f"{output_file.parents[2].name}: {Path(folder).name}",
+            }
+            if not profile_batches:
+                write_scores(output_file, [])
+                written += 1
+                continue
+
+            tasks.extend(
+                (
+                    output_id,
+                    profile_batch,
+                    n_cands,
+                    n_seats,
+                    election_type,
+                    tiebreak,
+                    metric_function,
+                    variant,
+                    interpolation_type,
+                )
+                for profile_batch in profile_batches
+            )
+
+    if skipped:
+        click.echo(f"Skipping {skipped} completed folder/metric outputs.")
+    if not outputs:
+        click.echo("All outputs already exist.")
+        return
+
+    results = Parallel(
+        n_jobs=n_jobs,
+        batch_size=1,
+        return_as="generator_unordered",
+    )(delayed(run_profile_batch)(*task) for task in tasks)
+    with (
+        tqdm(total=len(tasks), desc="Profile batches", unit="batch") as batch_progress,
+        tqdm(
+            total=len(outputs),
+            initial=written,
+            desc="Folder/metric outputs",
+            unit="output",
+        ) as output_progress,
+    ):
+        for output_id, batch_scores in results:
+            batch_progress.update()
+            output = outputs[output_id]
+            for index, score in batch_scores:
+                output["scores"][index] = score
+            output["remaining_batches"] -= 1
+            if output["remaining_batches"]:
+                continue
+
+            write_scores(output["output_file"], output["scores"])
+            written += 1
+            output_progress.set_postfix_str(output["label"], refresh=False)
+            output_progress.update()
+
+    click.echo(f"Wrote {written} output files.")
+
+
+if __name__ == "__main__":
+    main()

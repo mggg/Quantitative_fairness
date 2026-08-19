@@ -229,8 +229,9 @@ def draw_limited_scatter_base(
         color (str): Point color.
     """
     ax.scatter(x_data, y_data, color=color)
-    ax.set_xlim(-0.05, 1.05)
-    ax.set_ylim(-0.05, 1.05)
+    ax.set_xlim(0.5, 1.05)
+    ax.set_ylim(0.5, 1.05)
+    ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
     ax.vlines(
         0.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
     )
@@ -243,6 +244,7 @@ def draw_limited_scatter_base(
     ax.hlines(
         1.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
     )
+
 
 
 def build_limited_scatter_plot_name(

@@ -106,19 +106,33 @@ def main():
     df = pd.concat(df_list, ignore_index=True)
     df["file"] = df["file"].str.split("/data/").str[1]
 
+    cache_dir = TOP_DIR / ".waterfall_cache" / "bt_proportionality"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
     N_SEATS = 3
     for election_type in AllowedRule:
         rule_df = df.query("method == @election_type")
         _, ax = plt.subplots()
+        
+        cache_file = cache_dir / f"{election_type}_waterfall_cache.json"
+        if cache_file.exists():
+            with open(cache_file, "r") as f:
+                cached_data = json.load(f)
+            all_x_values = cached_data["all_x_values"]
+            all_y_values = cached_data["all_y_values"]
+        else:
+            all_x_values = []
+            all_y_values = []
+            for pat in tqdm(all_settings_strings):
+                filtered = rule_df[rule_df["file"].str.contains(pat, regex=False, na=False)]
+                all_x_values.append(
+                    float(filtered["expected_proportion"].iloc[0])
+                )  # They are all the same for a given setting
+                all_y_values.append(float(filtered["observed_proportion"].values.mean()))
+            with open(cache_file, "w") as f:
+                json.dump({"all_x_values": all_x_values, "all_y_values": all_y_values}, f)
 
-        all_x_values = []
-        all_y_values = []
-        for pat in tqdm(all_settings_strings):
-            filtered = rule_df[rule_df["file"].str.contains(pat, regex=False, na=False)]
-            all_x_values.append(
-                float(filtered["expected_proportion"].iloc[0])
-            )  # They are all the same for a given setting
-            all_y_values.append(float(filtered["observed_proportion"].values.mean()))
+        points = list(zip(all_x_values, all_y_values)) 
 
         ax.plot(
             all_x_values,
@@ -127,6 +141,22 @@ def main():
             marker="o",
             linestyle="None",
         )
+
+
+        boxes = [ (i/N_SEATS, (i+1)/N_SEATS) for i in range(N_SEATS + 1) ]
+
+
+        def is_point_in_box(point, box):
+            # Needed to deal with floating point precision issues when checking if a point is in a box
+            eps = 1e-12
+            return box[0] - eps <= point[0] <= box[1] + eps and box[0] - eps <= point[1] <= box[1] + eps
+
+        points_in_boxes = sum(1 for point in points if any(is_point_in_box(point, box) for box in boxes))
+
+        election_type_str = f"Election type: {election_type:>12}"
+        points_in_boxes_str = f"Points in boxes: {points_in_boxes} / {len(points)}"
+        print(f"{election_type_str:<20}, {points_in_boxes_str:<50}")      
+
         ax.step(
             np.linspace(0, 1, N_SEATS + 1),
             np.arange(0, 1.1, 1 / N_SEATS),
@@ -144,7 +174,7 @@ def main():
         ax.set_xlim(-0.01, 1.01)
         ax.set_ylim(-0.01, 1.01)
         ax.set_aspect("equal", adjustable="box")
-        print(f"Saving {election_type} waterfall plot...")
+        # print(f"Saving {election_type} waterfall plot...")
         plt.savefig(
             f"{TOP_DIR}/plots/bt_plots/waterfall/{election_type}_waterfall.png",
             dpi=300,

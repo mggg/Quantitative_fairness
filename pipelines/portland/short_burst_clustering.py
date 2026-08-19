@@ -105,6 +105,37 @@ def run_short_burst_for_portland_profile_i(
         rng=rng,
     )
 
+    from tqdm.auto import tqdm
+
+    for trial in tqdm(range(1000)):
+        fresh_rng = random.Random(trial)
+        new_assignment_vec, new_modularity = run_modularity_maximization_short_bursts(
+            boost_matrix,
+            best_assignment_vec,
+            n_clusters=n_clusters,
+            burst_length=burst_length,
+            n_bursts=n_bursts,
+            rng=fresh_rng,
+        )
+        if new_modularity != best_modularity:
+            print(f"SEED {trial}:")
+            print(f"Improved modularity from {best_modularity} to {new_modularity}")
+            raise Exception(
+                "Modularity improved after 1000 bursts, which shouldn't happen."
+            )
+        if np.any(new_assignment_vec != best_assignment_vec) and np.any(
+            new_assignment_vec != 1 - best_assignment_vec
+        ):
+            print(f"SEED {trial}:")
+            print(
+                "Found a different assignment with the same modularity, which shouldn't happen."
+            )
+            print(f"new {new_assignment_vec}")
+            print(f"old {best_assignment_vec}")
+            raise Exception(
+                "Found a different assignment with the same modularity, which shouldn't happen."
+            )
+
     candidates = list(profile.candidates)
     for i in range(n_clusters):
         cluster_cands = [
@@ -134,6 +165,7 @@ if __name__ == "__main__":
         best_vec, _, boost_mat, cand_list = run_short_burst_for_portland_profile_i(
             profile_number
         )
+
         print()
         if args.show_viz:
             viz_partition(best_vec, boost_mat, cand_list, centered=True)
