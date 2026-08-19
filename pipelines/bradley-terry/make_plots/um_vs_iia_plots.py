@@ -25,6 +25,14 @@ rule_color_map = {
     "ranked-pairs": "#ffb7c4",  # cherryblossompink
     "random": "#707f8e",  # slategray
 }
+
+
+DEFAULT_FONT_SIZE = 24
+ALT_FONT_SIZES = {
+    "random": 12,
+    "ranked-pairs": 12,
+}
+
 titles = {
     "borda": "Borda",
     "plurality": "Plurality",
@@ -47,6 +55,7 @@ for metric in iia_metric_list:
         "2-approval",
         "3-approval",
         "ranked-pairs",
+        "random",
     ]:
         iia_file_basename = (
             f"METRIC_{metric}"
@@ -92,8 +101,23 @@ for metric in iia_metric_list:
         print(f"Creating plot: {plot_name} with {len(um_data)} points.")
 
         ax.scatter(um_data, iia_data, color=rule_color_map[voting_rule])
-        ax.set_xlim(-0.05, 1.05)
-        ax.set_ylim(-0.05, 1.05)
+
+        ticks = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+
+        ax.set_xlim(min(ticks) - 0.05, max(ticks) + 0.05)
+        ax.set_ylim(min(ticks) - 0.05, max(ticks) + 0.05)
+
+        ax.set_xticks(
+            ticks,
+            labels=[f"{tick:.1f}" for tick in ticks],
+            fontsize=ALT_FONT_SIZES.get(voting_rule, DEFAULT_FONT_SIZE),
+        )
+        ax.set_yticks(
+            ticks,
+            labels=[f"{tick:.1f}" for tick in ticks],
+            fontsize=ALT_FONT_SIZES.get(voting_rule, DEFAULT_FONT_SIZE),
+        )
+
         ax.vlines(
             0.0,
             -0.05,

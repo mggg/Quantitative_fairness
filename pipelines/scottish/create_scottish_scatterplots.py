@@ -21,6 +21,14 @@ rule_color_map = {
     "ranked-pairs": "#ffb7c4",  # cherryblossompink
     "random": "#707f8e",  # slategray
 }
+
+
+DEFAULT_FONT_SIZE = 24
+ALT_FONT_SIZES = {
+    "random": 12,
+    "ranked-pairs": 12,
+}
+
 titles = {
     "borda": "Borda",
     "3-approval": "3-Approval",
@@ -119,9 +127,7 @@ def load_outputs_by_election_type(
         dict[str, dict[str, dict[str, list[float]]]]: Nested mapping:
             ``rule -> candidate_count -> metric_key -> metric_values``.
     """
-    election_type_to_metric_to_cand_count: dict[
-        str, dict[str, dict[str, list[float]]]
-    ] = {}
+    election_type_to_metric_to_cand_count: dict[str, dict[str, dict[str, list[float]]]] = {}
 
     for variant, tiebreak, voting_rule in product(
         ["average", "worst_case"], ["lex", "random"], ordered_rules
@@ -218,7 +224,7 @@ def collect_scatter_points(
 
 
 def draw_limited_scatter_base(
-    ax: Axes, x_data: list[float], y_data: list[float], color: str
+    ax: Axes, x_data: list[float], y_data: list[float], color: str, voting_rule: str
 ) -> None:
     """Draw the baseline limited scatter styling.
 
@@ -229,22 +235,31 @@ def draw_limited_scatter_base(
         color (str): Point color.
     """
     ax.scatter(x_data, y_data, color=color)
-    ax.set_xlim(0.5, 1.05)
-    ax.set_ylim(0.5, 1.05)
-    ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
-    ax.vlines(
-        0.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
+    # ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
+
+    # ax.set_xlim(-0.05, 1.05)
+    # ax.set_ylim(-0.05, 1.05)
+
+    ticks = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+
+    ax.set_xlim(min(ticks) - 0.05, max(ticks) + 0.05)
+    ax.set_ylim(min(ticks) - 0.05, max(ticks) + 0.05)
+
+    ax.set_xticks(
+        ticks,
+        labels=[f"{tick:.1f}" for tick in ticks],
+        fontsize=ALT_FONT_SIZES.get(voting_rule, DEFAULT_FONT_SIZE),
     )
-    ax.vlines(
-        1.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
-    )
-    ax.hlines(
-        0.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
-    )
-    ax.hlines(
-        1.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5
+    ax.set_yticks(
+        ticks,
+        labels=[f"{tick:.1f}" for tick in ticks],
+        fontsize=ALT_FONT_SIZES.get(voting_rule, DEFAULT_FONT_SIZE),
     )
 
+    ax.vlines(0.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5)
+    ax.vlines(1.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5)
+    ax.hlines(0.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5)
+    ax.hlines(1.0, -0.05, 1.05, color="grey", linestyle="-", linewidth=1, zorder=-1, alpha=0.5)
 
 
 def build_limited_scatter_plot_name(
@@ -283,9 +298,7 @@ def create_limited_scatter_plot(
     um_key: str,
     iia_key: str,
     output_path: Path,
-    overlay_fn: (
-        Callable[[Axes, str, str, str, list[float], list[float]], None] | None
-    ) = None,
+    overlay_fn: (Callable[[Axes, str, str, str, list[float], list[float]], None] | None) = None,
 ) -> None:
     """Create and save one limited scatter plot.
 
@@ -309,7 +322,11 @@ def create_limited_scatter_plot(
         iia_key=iia_key,
     )
     draw_limited_scatter_base(
-        ax=ax, x_data=x_data, y_data=y_data, color=rule_color_map[voting_rule]
+        ax=ax,
+        x_data=x_data,
+        y_data=y_data,
+        color=rule_color_map[voting_rule],
+        voting_rule=voting_rule,
     )
     if overlay_fn is not None:
         overlay_fn(ax, voting_rule, um_key, iia_key, x_data, y_data)
@@ -413,14 +430,10 @@ def run_full_scatter_plots(
         ]
 
         for voting_rule in ordered_rules:
-            for (um_key, um_label), (iia_key, iia_label) in product(
-                um_ranking, iia_ranking
-            ):
+            for (um_key, um_label), (iia_key, iia_label) in product(um_ranking, iia_ranking):
                 scatter_dir = output_dir / "scatter" / f"um-{variant1}_iia-{variant2}"
                 scatter_dir.mkdir(parents=True, exist_ok=True)
-                plot_name = (
-                    scatter_dir / f"{voting_rule}_{um_key}_vs_{iia_key}_scatter.png"
-                )
+                plot_name = scatter_dir / f"{voting_rule}_{um_key}_vs_{iia_key}_scatter.png"
                 create_full_scatter_plot(
                     outputs_by_election_type=outputs_by_election_type,
                     voting_rule=voting_rule,
@@ -432,16 +445,10 @@ def run_full_scatter_plots(
                     plot_title=voting_rule,
                 )
 
-            for (um_key, um_label), (iia_key, iia_label) in product(
-                um_winner_set, iia_winner_set
-            ):
-                scatter_dir = (
-                    output_dir / "scatter" / f"umws-{variant1}_iiaws-{variant2}"
-                )
+            for (um_key, um_label), (iia_key, iia_label) in product(um_winner_set, iia_winner_set):
+                scatter_dir = output_dir / "scatter" / f"umws-{variant1}_iiaws-{variant2}"
                 scatter_dir.mkdir(parents=True, exist_ok=True)
-                plot_name = (
-                    scatter_dir / f"{voting_rule}_{um_key}_vs_{iia_key}_scatter.png"
-                )
+                plot_name = scatter_dir / f"{voting_rule}_{um_key}_vs_{iia_key}_scatter.png"
                 create_full_scatter_plot(
                     outputs_by_election_type=outputs_by_election_type,
                     voting_rule=voting_rule,
@@ -462,9 +469,7 @@ def run_limited_scatter_plots(
     variant_iia: str = "average",
     tiebreak: str = "lex",
     scatter_subdir: str = "scatter_by_voting_rule",
-    overlay_fn: (
-        Callable[[Axes, str, str, str, list[float], list[float]], None] | None
-    ) = None,
+    overlay_fn: (Callable[[Axes, str, str, str, list[float], list[float]], None] | None) = None,
 ) -> None:
     """Generate the limited Scottish scatter plots for all rules.
 
