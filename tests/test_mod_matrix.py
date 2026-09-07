@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+
 import numpy as np
 
 ROOT_DIR = Path(__file__).parents[1].resolve()

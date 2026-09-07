@@ -1,24 +1,28 @@
 """Generate mean vs std plots for BT metrics and interpolation types."""
 
-from pathlib import Path
-from glob import glob
-from pprint import pprint as print
-from itertools import product
 import json
-import numpy as np
+import sys
+from glob import glob
+from pathlib import Path
+from pprint import pprint as print
 
 import matplotlib.pyplot as plt
+import numpy as np
 from metric_lists import (
-    um_metric_list,
     interpolation_type_list,
+    um_metric_list,
 )
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
 
 colors = ["#FB607F", "#A76BCF", "#FB8B24"]
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
 
-plots_dir = top_dir / "plots" / "bt_plots" / "mean_vs_var"
+plots_dir = PLOTS_DIR / "bt_plots" / "mean_vs_var"
 
 metric_to_plot_name = {
     "sigma_UM": "rho_UM",
@@ -56,7 +60,7 @@ for metric in um_metric_list:
         )
 
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+            f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
         )
 
         if len(all_files) == 0:

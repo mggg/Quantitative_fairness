@@ -1,9 +1,9 @@
-from typing import Callable, Literal, TypeAlias
 import random
+from typing import Callable, Literal, TypeAlias
 
-from votekit.elections import Borda, STV, Plurality, RankedPairs
-from votekit.elections.election_types.ranking.abstract_ranking import RankingElection
+from votekit.elections import STV, Borda, Plurality, RankedPairs
 from votekit.elections.election_state import ElectionState
+from votekit.elections.election_types.ranking.abstract_ranking import RankingElection
 from votekit.models import Election
 from votekit.pref_profile import RankProfile
 
@@ -11,6 +11,20 @@ ElectionConstructor: TypeAlias = Callable[..., Election]
 AllowedRule: TypeAlias = Literal[
     "borda", "3-approval", "2-approval", "plurality", "stv", "ranked-pairs", "random"
 ]
+
+
+def random_candidate_order(profile: RankProfile, excluded=()) -> list:
+    """Randomly order the profile's cast candidates, followed by its uncast candidates."""
+    excluded = set(excluded)
+    cast_cands = sorted(
+        cand for cand in profile.candidates_cast if cand not in excluded
+    )
+    uncast_cands = sorted(
+        set(profile.candidates) - set(profile.candidates_cast) - excluded
+    )
+    random.shuffle(cast_cands)
+    random.shuffle(uncast_cands)
+    return cast_cands + uncast_cands
 
 
 class ElectRandom(RankingElection):
@@ -77,13 +91,7 @@ class ElectRandom(RankingElection):
         Returns:
             RankProfile: The profile of ballots after the round is completed.
         """
-        cast_cands = list(profile.candidates_cast)
-        uncast_cands = list(set(profile.candidates) - set(cast_cands))
-
-        random.shuffle(cast_cands)
-        random.shuffle(uncast_cands)
-
-        ordered_candidates = cast_cands + uncast_cands
+        ordered_candidates = random_candidate_order(profile)
 
         elected = tuple(frozenset({c}) for c in ordered_candidates[: self.m])
         remaining = tuple(frozenset({c}) for c in ordered_candidates[self.m :])

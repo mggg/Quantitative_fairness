@@ -1,29 +1,28 @@
-from votekit import PreferenceProfile
-from itertools import product
-from glob import glob
-from joblib import Parallel, delayed
-from joblib_progress import joblib_progress
-import json
 import contextlib
-import warnings
-from pathlib import Path
+import json
 import os
 import sys
-from pathlib import Path
-import click
+import warnings
 from functools import partial
+from glob import glob
+from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+import click
+from joblib import Parallel, delayed
+from joblib_progress import joblib_progress
+from votekit import PreferenceProfile
 
-from fairness_metric import (
-    sigma_UM,
-    sigma_UM_winner_set,
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
     sigma_IIA_all_subset,
     sigma_IIA_winner_set,
+    sigma_UM,
+    sigma_UM_winner_set,
 )
-from voting_rules import build_voting_rule
-
+from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT
+from voting_metrics_main_code.voting_rules import build_voting_rule
 
 warnings.filterwarnings("ignore")
 
@@ -113,11 +112,10 @@ def main(
         "3.00": 3,
     }
 
-    top_dir = str(Path(__file__).resolve().parents[2])
-    output_folder = Path(f"{top_dir}/stats/bt_profile_stats/{n_seats}_seats").resolve()
+    output_folder = Path(f"{STATS_OUTPUT}/bt_profile_stats/{n_seats}_seats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
-    profile_folder_base = str(Path(f"{top_dir}/data/preference_profiles/").resolve())
+    profile_folder_base = str(Path(f"{DATA_DIR}/preference_profiles/").resolve())
 
     if "UM" in metric:
         if interpolation_type not in ["asin", "odds"]:

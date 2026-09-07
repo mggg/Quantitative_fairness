@@ -23,3 +23,8 @@ dev_files
 
 # maybe add back later
 paper
+
+# New replication outputs; existing data and results remain tracked.
+/results/generated/
+.ruff_cache/
+.waterfall_cache/

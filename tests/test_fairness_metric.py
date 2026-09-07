@@ -1,20 +1,21 @@
 # ruff: noqa: E402
-from votekit import RankProfile, RankBallot
 import sys
 from pathlib import Path
+
+from votekit import RankBallot, RankProfile
 
 ROOT_DIR = Path(__file__).parents[1].resolve()
 sys.path.append(str(ROOT_DIR))
 
-from voting_metrics_main_code.voting_rules import build_voting_rule  # noqa: E402
+import numpy as np
+
 from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
     sigma_IIA_winner_set,
     sigma_UM,
     sigma_UM_winner_set,
 )
-import numpy as np
-
+from voting_metrics_main_code.voting_rules import build_voting_rule  # noqa: E402
 
 condorcet_profile = RankProfile(
     ballots=[

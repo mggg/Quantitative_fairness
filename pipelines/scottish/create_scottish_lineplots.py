@@ -1,27 +1,24 @@
 """Create scatter plots comparing UM and IIA metrics in Scottish data."""
 
-from glob import glob
+import sys
 from itertools import product
-import json
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
-from itertools import product
 
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
 import pandas as pd
 import seaborn as sns
-
-import sys
-
-sys.path.append(str(Path(__file__).resolve().parent))
-
 from create_scottish_scatterplots import (
-    load_outputs_by_election_type,
-    get_limited_metric_key_pairs,
-    rule_color_map,
     collect_scatter_points,
+    get_limited_metric_key_pairs,
+    load_outputs_by_election_type,
+    rule_color_map,
 )
+from matplotlib.axes import Axes
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 rule_to_dot_size = {
     "borda": 9,
@@ -235,9 +232,8 @@ def main() -> None:
         "ranked-pairs",
         "random",
     ]
-    top_dir = Path(__file__).resolve().parents[2]
-    stats_dir = top_dir / "stats" / "scottish_stats"
-    output_dir = top_dir / "plots" / "scottish"
+    stats_dir = STATS_INPUT / "scottish_stats"
+    output_dir = PLOTS_DIR / "scottish"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     outputs_by_election_type = load_outputs_by_election_type(

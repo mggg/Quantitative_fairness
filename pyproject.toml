@@ -1,7 +1,7 @@
 [project]
 name = "Quantitative_fairness"
 version = "0.1.0"
-description = "Add your description here"
+description = "Replication analyses for Quantitative Relaxations for Arrow's Axioms"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -33,3 +33,11 @@ dev = [
 
 
 
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["archive", "notebooks", "other_files"]
