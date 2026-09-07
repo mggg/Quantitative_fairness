@@ -15,10 +15,11 @@ from typing import Sequence, TypeGuard
 import numpy as np
 from numpy.typing import NDArray
 import matplotlib.pyplot as plt
+from matplotlib.axes import Axes
 import matplotlib.colors as mcolors
 
 
-def show_matrix(
+def create_modularity_matrix_plot(
     M: NDArray,
     title: str | None = None,
     labels: list[str] | None = None,
@@ -26,7 +27,9 @@ def show_matrix(
     boundaries: Sequence[int] | None = None,
     centered: bool = False,
     log_scale: bool = False,
-):
+    *,
+    ax: Axes | None = None,
+) -> Axes:
     """A simple function to display the boost matrix
 
     Args:
@@ -39,7 +42,9 @@ def show_matrix(
         log_scale (bool, optional): Whether to use a symmetric log scale for the colormap.
             Defaults to False.
     """
-    fig, ax = plt.subplots()
+
+    if ax is None:
+        _, ax = plt.subplots()
 
     if centered:
         data = np.asarray(M)
@@ -63,7 +68,7 @@ def show_matrix(
         plt.title(title)
 
     img = ax.imshow(M, cmap=cmap, norm=norm)
-    fig.colorbar(img)
+    ax.figure.colorbar(img)
 
     if labels:
         ax.set_xticks(range(M.shape[1]), minor=False)
@@ -81,12 +86,47 @@ def show_matrix(
             ax.axhline(b - 0.5, color="black", linewidth=1)
             ax.axvline(b - 0.5, color="black", linewidth=1)
 
+    return ax
+
+
+def show_matrix(
+    M: NDArray,
+    title: str | None = None,
+    labels: list[str] | None = None,
+    cmap: str = "viridis",
+    boundaries: Sequence[int] | None = None,
+    centered: bool = False,
+    log_scale: bool = False,
+):
+    """A simple function to display the boost matrix
+
+    Args:
+        M (NDArray): The matrix to display.
+        title (str, optional): The title of the plot. Defaults to None.
+        labels (list[str], optional): Labels for the axes. Defaults to None.
+        cmap (str, optional): Colormap to use. Defaults to 'viridis'.
+        boundaries (list[int], optional): Boundaries to draw on the matrix. Defaults to None.
+        centered (bool, optional): Whether to center the colormap around zero. Defaults to False.
+        log_scale (bool, optional): Whether to use a symmetric log scale for the colormap.
+            Defaults to False.
+    """
+    _, ax = plt.subplots()
+
+    ax = create_modularity_matrix_plot(
+        M,
+        title=title,
+        labels=labels,
+        cmap=cmap,
+        boundaries=boundaries,
+        centered=centered,
+        log_scale=log_scale,
+        ax=ax,
+    )
+
     plt.show()
 
 
-def backward_convert(
-    array: NDArray, canonical_candidates: list[str]
-) -> list[list[str]]:
+def backward_convert(array: NDArray, canonical_candidates: list[str]) -> list[list[str]]:
     """Convert a numpy array back into a partition (list of lists).
 
     Args:

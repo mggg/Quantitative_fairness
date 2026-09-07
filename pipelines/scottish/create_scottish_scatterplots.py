@@ -25,8 +25,8 @@ rule_color_map = {
 
 DEFAULT_FONT_SIZE = 24
 ALT_FONT_SIZES = {
-    "random": 12,
-    "ranked-pairs": 12,
+    "random": 16,
+    "ranked-pairs": 16,
 }
 
 titles = {
@@ -234,7 +234,7 @@ def draw_limited_scatter_base(
         y_data (list[float]): Y values.
         color (str): Point color.
     """
-    ax.scatter(x_data, y_data, color=color)
+    ax.scatter(x_data, y_data, color=color, s=100, alpha=0.4, edgecolor="none")
     # ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
 
     # ax.set_xlim(-0.05, 1.05)

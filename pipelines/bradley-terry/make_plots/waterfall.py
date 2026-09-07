@@ -21,6 +21,13 @@ rule_color_map = {
     "random": "#707f8e",  # slategray
 }
 
+
+DEFAULT_FONT_SIZE = 24
+ALT_FONT_SIZES = {
+    "random": 16,
+    "ranked-pairs": 16,
+}
+
 AllowedRule = (
     "borda",
     "3-approval",
@@ -112,8 +119,8 @@ def main():
     N_SEATS = 3
     for election_type in AllowedRule:
         rule_df = df.query("method == @election_type")
-        _, ax = plt.subplots()
-        
+        _, ax = plt.subplots(1, 1, figsize=(8, 8))
+
         cache_file = cache_dir / f"{election_type}_waterfall_cache.json"
         if cache_file.exists():
             with open(cache_file, "r") as f:
@@ -132,7 +139,7 @@ def main():
             with open(cache_file, "w") as f:
                 json.dump({"all_x_values": all_x_values, "all_y_values": all_y_values}, f)
 
-        points = list(zip(all_x_values, all_y_values)) 
+        points = list(zip(all_x_values, all_y_values))
 
         ax.plot(
             all_x_values,
@@ -142,20 +149,23 @@ def main():
             linestyle="None",
         )
 
-
-        boxes = [ (i/N_SEATS, (i+1)/N_SEATS) for i in range(N_SEATS + 1) ]
-
+        boxes = [(i / N_SEATS, (i + 1) / N_SEATS) for i in range(N_SEATS + 1)]
 
         def is_point_in_box(point, box):
             # Needed to deal with floating point precision issues when checking if a point is in a box
             eps = 1e-12
-            return box[0] - eps <= point[0] <= box[1] + eps and box[0] - eps <= point[1] <= box[1] + eps
+            return (
+                box[0] - eps <= point[0] <= box[1] + eps
+                and box[0] - eps <= point[1] <= box[1] + eps
+            )
 
-        points_in_boxes = sum(1 for point in points if any(is_point_in_box(point, box) for box in boxes))
+        points_in_boxes = sum(
+            1 for point in points if any(is_point_in_box(point, box) for box in boxes)
+        )
 
         election_type_str = f"Election type: {election_type:>12}"
         points_in_boxes_str = f"Points in boxes: {points_in_boxes} / {len(points)}"
-        print(f"{election_type_str:<20}, {points_in_boxes_str:<50}")      
+        print(f"{election_type_str:<20}, {points_in_boxes_str:<50}")
 
         ax.step(
             np.linspace(0, 1, N_SEATS + 1),
@@ -171,8 +181,23 @@ def main():
             c="gray",
             where="post",
         )
-        ax.set_xlim(-0.01, 1.01)
-        ax.set_ylim(-0.01, 1.01)
+
+        ticks = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+
+        ax.set_xlim(min(ticks) - 0.01, max(ticks) + 0.01)
+        ax.set_ylim(min(ticks) - 0.01, max(ticks) + 0.01)
+
+        ax.set_xticks(
+            ticks,
+            labels=[f"{tick:.1f}" for tick in ticks],
+            fontsize=ALT_FONT_SIZES.get(election_type, DEFAULT_FONT_SIZE),
+        )
+        ax.set_yticks(
+            ticks,
+            labels=[f"{tick:.1f}" for tick in ticks],
+            fontsize=ALT_FONT_SIZES.get(election_type, DEFAULT_FONT_SIZE),
+        )
+
         ax.set_aspect("equal", adjustable="box")
         # print(f"Saving {election_type} waterfall plot...")
         plt.savefig(

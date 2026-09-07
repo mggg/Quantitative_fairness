@@ -5,7 +5,7 @@ from itertools import combinations, product
 import numpy as np
 from typing import Any, Sequence
 from math import pi, sqrt, asin
-from voting_rules import ElectionConstructor
+from voting_rules import ElectionConstructor, random_candidate_order
 
 
 def kendall_tau_distance(list1: Sequence[Any], list2: Sequence[Any]) -> int:
@@ -298,6 +298,58 @@ def sigma_IIA(
     return 1 - total_kendall_distance / (n_candidates)
 
 
+def __random_profile_ranking(
+    profile: RankProfile, n_seats: int, excluded=()
+) -> tuple[frozenset, ...]:
+    excluded = set(excluded)
+    remaining_cast = [
+        candidate for candidate in profile.candidates_cast if candidate not in excluded
+    ]
+    if n_seats <= 0:
+        raise ValueError("m must be strictly positive")
+    if len(remaining_cast) < n_seats:
+        raise ValueError("Not enough candidates received votes to be elected.")
+    return tuple(
+        frozenset({candidate})
+        for candidate in random_candidate_order(profile, excluded)
+    )
+
+
+def sigma_IIA_random(
+    profile: RankProfile,
+    voting_rule: ElectionConstructor,
+    n_seats: int,
+    *,
+    variant: str = "average",
+) -> float:
+    """Compute sigma_IIA for a random election directly from the profile candidates."""
+    del voting_rule
+    if variant not in ("average", "worst_case"):
+        raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
+
+    n_candidates = len(profile.candidates)
+    original_ranking = __random_profile_ranking(profile, n_seats)
+    distance_divisor = comb(n_candidates - 1, 2)
+    total_distance = 0
+    largest_distance = 0
+
+    for candidate in profile.candidates:
+        original_ranking_without_cand = [
+            c_set for c_set in original_ranking if candidate not in c_set
+        ]
+        new_ranking = __random_profile_ranking(profile, n_seats, (candidate,))
+        distance = (
+            kendall_tau_distance(original_ranking_without_cand, new_ranking)
+            / distance_divisor
+        )
+        total_distance += distance
+        largest_distance = max(largest_distance, distance)
+
+    if variant == "worst_case":
+        return 1 - largest_distance
+    return 1 - total_distance / n_candidates
+
+
 def sigma_IIA_all_subset(
     profile: RankProfile,
     voting_rule: ElectionConstructor,
@@ -438,6 +490,61 @@ def sigma_IIA_winner_set(
 
     n_subsets_considered = len(profile.candidates) - (1 if len(original_winners_set) == 1 else 0)
 
+    return total_distance / n_subsets_considered
+
+
+def sigma_IIA_winner_set_random(
+    profile: RankProfile,
+    voting_rule: ElectionConstructor,
+    n_seats: int,
+    *,
+    variant: str = "average",
+) -> float:
+    """Compute winner-set sigma_IIA for a random election from the profile candidates."""
+    del voting_rule
+    if variant not in ("average", "worst_case"):
+        raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
+
+    n_candidates = len(profile.candidates)
+    original_winners_set = set(__random_profile_ranking(profile, n_seats)[:n_seats])
+    if n_candidates == n_seats or (n_candidates == 2 and n_seats == 1):
+        return 1.0
+    if n_seats < 1:
+        raise ValueError(f"Number of seats must be at least 1, found {n_seats}.")
+    if n_seats > n_candidates:
+        raise ValueError(
+            "Number of seats must be at most the number of candidates, "
+            f"found {n_seats} seats and {n_candidates} candidates."
+        )
+
+    total_distance = 0
+    smallest_normalized_intersection = 1
+    for candidate in profile.candidates:
+        singleton = {frozenset({candidate})}
+        if singleton == original_winners_set:
+            continue
+
+        new_available_seats = n_seats - len(
+            singleton.intersection(original_winners_set)
+        )
+        new_winner_set = set(
+            __random_profile_ranking(profile, new_available_seats, (candidate,))[
+                :new_available_seats
+            ]
+        )
+        distance = len(original_winners_set.intersection(new_winner_set)) / (
+            new_available_seats
+        )
+        total_distance += distance
+        smallest_normalized_intersection = min(
+            smallest_normalized_intersection, distance
+        )
+
+    if variant == "worst_case":
+        return smallest_normalized_intersection
+    n_subsets_considered = len(profile.candidates) - (
+        1 if len(original_winners_set) == 1 else 0
+    )
     return total_distance / n_subsets_considered
 
 

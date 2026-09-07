@@ -29,8 +29,8 @@ rule_color_map = {
 
 DEFAULT_FONT_SIZE = 24
 ALT_FONT_SIZES = {
-    "random": 12,
-    "ranked-pairs": 12,
+    "random": 16,
+    "ranked-pairs": 16,
 }
 
 titles = {
@@ -100,7 +100,14 @@ for metric in iia_metric_list:
 
         print(f"Creating plot: {plot_name} with {len(um_data)} points.")
 
-        ax.scatter(um_data, iia_data, color=rule_color_map[voting_rule])
+        ax.scatter(
+            um_data,
+            iia_data,
+            color=rule_color_map[voting_rule],
+            s=100,
+            alpha=0.3,
+            edgecolors="none",
+        )
 
         ticks = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
 

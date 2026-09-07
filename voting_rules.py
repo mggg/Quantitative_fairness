@@ -13,6 +13,20 @@ AllowedRule: TypeAlias = Literal[
 ]
 
 
+def random_candidate_order(profile: RankProfile, excluded=()) -> list:
+    """Randomly order the profile's cast candidates, followed by its uncast candidates."""
+    excluded = set(excluded)
+    cast_cands = sorted(
+        cand for cand in profile.candidates_cast if cand not in excluded
+    )
+    uncast_cands = sorted(
+        set(profile.candidates) - set(profile.candidates_cast) - excluded
+    )
+    random.shuffle(cast_cands)
+    random.shuffle(uncast_cands)
+    return cast_cands + uncast_cands
+
+
 class ElectRandom(RankingElection):
     """
     Randomly ranks all of the candidates that received votes and then elects the top m candidates.
@@ -70,13 +84,7 @@ class ElectRandom(RankingElection):
         Returns:
             RankProfile: The profile of ballots after the round is completed.
         """
-        cast_cands = list(profile.candidates_cast)
-        uncast_cands = list(set(profile.candidates) - set(cast_cands))
-
-        random.shuffle(cast_cands)
-        random.shuffle(uncast_cands)
-
-        ordered_candidates = cast_cands + uncast_cands
+        ordered_candidates = random_candidate_order(profile)
 
         elected = tuple(frozenset({c}) for c in ordered_candidates[: self.m])
         remaining = tuple(frozenset({c}) for c in ordered_candidates[self.m :])

@@ -1,8 +1,11 @@
 import json
+import random
 import runpy
 from pathlib import Path
+from types import SimpleNamespace
 
 from click.testing import CliRunner
+from votekit import Ballot, PreferenceProfile
 
 MODULE = runpy.run_path(Path(__file__).with_name("collect_stats_final_set_v2.py"))
 
@@ -37,10 +40,15 @@ def test_output_jobs_preserve_run_and_retry_semantics(tmp_path, monkeypatch):
     assert "All outputs already exist." in result.output
 
 
-def test_profile_batch_scores_keep_their_input_order(tmp_path, monkeypatch):
+def test_profile_batch_loads_each_profile_once_for_multiple_metrics(
+    tmp_path, monkeypatch
+):
+    loaded = []
+
     class FakeRankProfile:
         @staticmethod
         def from_csv(path):
+            loaded.append(path)
             return int(path.stem)
 
     def metric(profile, voting_rule, n_seats, variant, interpolation_type):
@@ -57,19 +65,74 @@ def test_profile_batch_scores_keep_their_input_order(tmp_path, monkeypatch):
         lambda *args, **kwargs: "rule",
     )
 
+    profile_batch = ((2, tmp_path / "2.csv"), (5, tmp_path / "5.csv"))
     result = run_profile_batch(
-        7,
-        ((2, tmp_path / "2.csv"), (5, tmp_path / "5.csv")),
+        profile_batch,
         8,
         3,
         "random",
         "lex",
-        metric,
-        "worst_case",
-        "asin",
+        (
+            (7, metric, "worst_case", "asin"),
+            (9, metric, "worst_case", "asin"),
+        ),
     )
 
-    assert result == (7, ((2, 5), (5, 8)))
+    expected_scores = ((2, 5), (5, 8))
+    assert result == ((7, expected_scores), (9, expected_scores))
+    assert loaded == [tmp_path / "2.csv", tmp_path / "5.csv"]
+
+
+def test_random_iia_fast_paths_are_profile_based_and_deterministic_when_seeded():
+    from fairness_metric import sigma_IIA_random, sigma_IIA_winner_set_random
+    from voting_rules import build_voting_rule, random_candidate_order
+
+    profile = PreferenceProfile(
+        ballots=(
+            Ballot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}]))),
+            Ballot(ranking=tuple(map(frozenset, [{"D"}, {"C"}, {"B"}, {"A"}]))),
+        )
+    )
+    voting_rule = build_voting_rule(4, "random")
+
+    for seed in range(5):
+        for variant in ("average", "worst_case"):
+            random.seed(seed)
+            expected = sigma_IIA_random(profile, voting_rule, 2, variant=variant)
+            random.seed(seed)
+            assert (
+                sigma_IIA_random(profile, voting_rule, 2, variant=variant) == expected
+            )
+
+            random.seed(seed)
+            expected = sigma_IIA_winner_set_random(
+                profile, voting_rule, 2, variant=variant
+            )
+            random.seed(seed)
+            assert (
+                sigma_IIA_winner_set_random(profile, voting_rule, 2, variant=variant)
+                == expected
+            )
+
+    expanded_profile = PreferenceProfile(
+        ballots=profile.ballots,
+        candidates=(*profile.candidates, "E"),
+    )
+    expanded_rule = build_voting_rule(5, "random")
+    random.seed(0)
+    original_score = sigma_IIA_random(profile, voting_rule, 2)
+    random.seed(0)
+    expanded_score = sigma_IIA_random(expanded_profile, expanded_rule, 2)
+    assert expanded_score != original_score
+
+    first = SimpleNamespace(candidates=("A", "B", "C"), candidates_cast=("C", "A", "B"))
+    second = SimpleNamespace(
+        candidates=("C", "B", "A"), candidates_cast=("B", "C", "A")
+    )
+    random.seed(10)
+    first_order = random_candidate_order(first)
+    random.seed(10)
+    assert random_candidate_order(second) == first_order
 
 
 def test_write_scores_is_atomic(tmp_path):

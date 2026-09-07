@@ -17,7 +17,9 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from fairness_metric import (  # noqa: E402
     sigma_IIA,
+    sigma_IIA_random,
     sigma_IIA_winner_set,
+    sigma_IIA_winner_set_random,
     sigma_UM,
     sigma_UM_winner_set,
 )
@@ -32,6 +34,10 @@ RUNS = (
     ("sigma_IIA", sigma_IIA, "average", "None"),
     ("sigma_IIA_winner_set", sigma_IIA_winner_set, "average", "None"),
 )
+RANDOM_METRICS = {
+    sigma_IIA: sigma_IIA_random,
+    sigma_IIA_winner_set: sigma_IIA_winner_set_random,
+}
 
 
 def output_jobs(input_folder, n_seats, election_type, tiebreak):
@@ -71,27 +77,30 @@ def output_jobs(input_folder, n_seats, election_type, tiebreak):
 
 
 def run_profile_batch(
-    output_id,
     profile_batch,
     n_cands,
     n_seats,
     election_type,
     tiebreak,
-    metric_function,
-    variant,
-    interpolation_type,
+    metric_jobs,
 ):
     with contextlib.redirect_stdout(None):
         voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
-        metric = partial(metric_function, n_seats=n_seats, variant=variant)
-        if interpolation_type != "None":
-            metric = partial(metric, interpolation_type=interpolation_type)
-        scores = tuple(
-            (index, metric(RankProfile.from_csv(path), voting_rule))
-            for index, path in profile_batch
-        )
+        metrics = []
+        scores = {}
+        for output_id, metric_function, variant, interpolation_type in metric_jobs:
+            metric = partial(metric_function, n_seats=n_seats, variant=variant)
+            if interpolation_type != "None":
+                metric = partial(metric, interpolation_type=interpolation_type)
+            metrics.append((output_id, metric))
+            scores[output_id] = []
 
-    return output_id, scores
+        for index, path in profile_batch:
+            profile = RankProfile.from_csv(path)
+            for output_id, metric in metrics:
+                scores[output_id].append((index, metric(profile, voting_rule)))
+
+    return tuple((output_id, tuple(values)) for output_id, values in scores.items())
 
 
 def write_scores(output_file, scores):
@@ -153,6 +162,7 @@ def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_
         n_cands, folder_jobs = output_jobs(folder, n_seats, election_type, tiebreak)
         profile_files = sorted(Path(folder).resolve().glob("*.csv"))
         profile_batches = list(batched(enumerate(profile_files), profile_batch_size))
+        metric_jobs = []
 
         for metric_function, variant, interpolation_type, output_file in folder_jobs:
             if output_file.exists():
@@ -171,20 +181,24 @@ def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_
                 written += 1
                 continue
 
-            tasks.extend(
-                (
-                    output_id,
-                    profile_batch,
-                    n_cands,
-                    n_seats,
-                    election_type,
-                    tiebreak,
-                    metric_function,
-                    variant,
-                    interpolation_type,
-                )
-                for profile_batch in profile_batches
+            if election_type == "random":
+                metric_function = RANDOM_METRICS.get(metric_function, metric_function)
+            metric_jobs.append(
+                (output_id, metric_function, variant, interpolation_type)
             )
+
+        tasks.extend(
+            (
+                profile_batch,
+                n_cands,
+                n_seats,
+                election_type,
+                tiebreak,
+                tuple(metric_jobs),
+            )
+            for profile_batch in profile_batches
+            if metric_jobs
+        )
 
     if skipped:
         click.echo(f"Skipping {skipped} completed folder/metric outputs.")
@@ -206,19 +220,20 @@ def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_
             unit="output",
         ) as output_progress,
     ):
-        for output_id, batch_scores in results:
+        for batch_results in results:
             batch_progress.update()
-            output = outputs[output_id]
-            for index, score in batch_scores:
-                output["scores"][index] = score
-            output["remaining_batches"] -= 1
-            if output["remaining_batches"]:
-                continue
+            for output_id, batch_scores in batch_results:
+                output = outputs[output_id]
+                for index, score in batch_scores:
+                    output["scores"][index] = score
+                output["remaining_batches"] -= 1
+                if output["remaining_batches"]:
+                    continue
 
-            write_scores(output["output_file"], output["scores"])
-            written += 1
-            output_progress.set_postfix_str(output["label"], refresh=False)
-            output_progress.update()
+                write_scores(output["output_file"], output["scores"])
+                written += 1
+                output_progress.set_postfix_str(output["label"], refresh=False)
+                output_progress.update()
 
     click.echo(f"Wrote {written} output files.")
 

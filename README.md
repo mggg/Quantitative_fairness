@@ -72,8 +72,6 @@ To repeat the experiments in the paper, you just need to run the pipeline files:
 > If BT preference profiles are already present (pulled via git-lfs in `setup.sh`), the runner
 > skips regeneration.
 
-
-
 > ⚠️ Replication requires system tools `git`, `git-lfs`, `uv`, `wget`, and `unzip`, plus
 > Python `>=3.12`. `setup.sh` downloads data from the internet and can require multiple GB of disk
 > space (BT profiles are large). The BT pipeline is CPU-heavy and may take a long time without
