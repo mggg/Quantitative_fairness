@@ -7,7 +7,7 @@ from matplotlib.patches import Rectangle
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
+from voting_metrics_main_code.replication import PLOTS_DIR, SCOTTISH_BOOTSTRAP_INPUT
 
 rule_color_map = {
     "borda": "#1460bc",         # denim
@@ -66,11 +66,17 @@ def plot_rectangles(df: pd.DataFrame, metric: str, rule_color_map: dict[str, str
     
 if __name__ == "__main__":
     
-    df = pd.read_csv(STATS_INPUT / "scottish_stats/bootstrap/bootstrap_rectangles_sigma_IIA_average_vs_sigma_UM_worst_case_asin.csv")
+    df = pd.read_csv(
+        SCOTTISH_BOOTSTRAP_INPUT
+        / "bootstrap_rectangles_sigma_IIA_average_vs_sigma_UM_worst_case_asin.csv"
+    )
 
     total_df = df.query("candidate_size.isna()")
     plot_rectangles(total_df, "rho_UM", rule_color_map)
 
-    winner_df = pd.read_csv(STATS_INPUT / "scottish_stats/bootstrap/bootstrap_rectangles_sigma_IIA_winner_set_average_vs_sigma_UM_winner_set_worst_case_asin.csv")
+    winner_df = pd.read_csv(
+        SCOTTISH_BOOTSTRAP_INPUT
+        / "bootstrap_rectangles_sigma_IIA_winner_set_average_vs_sigma_UM_winner_set_worst_case_asin.csv"
+    )
     winner_total_df = winner_df.query("candidate_size.isna()")
     plot_rectangles(winner_total_df, "sigma_UM", rule_color_map)

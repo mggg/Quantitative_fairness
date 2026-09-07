@@ -55,6 +55,7 @@ def make_scottish_M_histogram(rule: str) -> None:
     )[0]
 
     output_file = scottish_plots_dir / f"M_{rule}_scottish_histogram.png"
+    scottish_plots_dir.mkdir(parents=True, exist_ok=True)
     with open(file, "r") as f:
         data = json.load(f)
 
@@ -103,6 +104,7 @@ def make_bt_M_histograms(rule: str, bprop_values: Sequence[float] | None = None)
     if rule == "random":
         return
 
+    bt_plots_dir.mkdir(parents=True, exist_ok=True)
     if bprop_values is None:
         bprop_values = [0.5, 0.6, 0.7, 0.8, 0.9]
     for bprop in bprop_values:

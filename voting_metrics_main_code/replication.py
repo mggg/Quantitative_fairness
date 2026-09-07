@@ -32,9 +32,12 @@ def check_output_directory(path: Path) -> Path:
 check_output_directory(RESULTS_DIR)
 STATS_OUTPUT = RESULTS_DIR / "stats"
 PLOTS_DIR = RESULTS_DIR / "plots"
-STATS_INPUT = Path(os.environ.get("QF_STATS_DIR", STATS_OUTPUT)).resolve()
+STATS_INPUT = Path(os.environ.get("QF_STATS_DIR", ROOT / "stats")).resolve()
 BT_STATS_INPUT = Path(
     os.environ.get("QF_BT_STATS_DIR", STATS_INPUT / "bt_2_bloc_profile_stats")
+).resolve()
+SCOTTISH_BOOTSTRAP_INPUT = Path(
+    os.environ.get("QF_BOOTSTRAP_DIR", STATS_INPUT / "scottish_stats/bootstrap")
 ).resolve()
 N_JOBS = int(os.environ.get("QF_N_JOBS", "1"))
 

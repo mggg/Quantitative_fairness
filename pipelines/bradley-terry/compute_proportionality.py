@@ -93,22 +93,25 @@ def process_profile(
     Returns:
         dict[str, dict[str, dict[str, float]]]: A dictionary containing processed data for the given file.
     """
-    utility_file = file.replace("preference_profiles", "preference_dfs").replace(
-        ".csv", "_utilities.csv"
+    profile_path = Path(file)
+    relative_profile = profile_path.relative_to(profile_path.parents[2])
+    utility_file = (
+        profile_path.parents[3] / "preference_dfs"
+        / relative_profile.with_name(f"{profile_path.stem}_utilities.csv")
     )
     utility_df = pd.read_csv(utility_file, index_col=0)
     ranking_df = pd.read_csv(file, skiprows=list(range(8)))
 
     a_cohesion, b_cohesion = list(
-        map(float, file.split("_COHESION_(")[1].split(")/")[0].split(","))
+        map(float, profile_path.parent.name.split("_COHESION_(")[1].split(")")[0].split(","))
     )
-    b_proportion = float(file.split("b_proportion_")[1].split("__")[0])
+    b_proportion = float(profile_path.parent.name.split("b_proportion_")[1].split("__")[0])
 
     counts = {"A": 0, "B": 0}
     slate_to_candidates: dict[str, list[str]] = {"bloc_1": [], "bloc_2": []}
 
     n_a_candidates, n_b_candidates = list(
-        map(int, file.split("preference_profiles/")[1].split("/")[0].split("_"))
+        map(int, profile_path.parent.parent.name.split("_"))
     )
     n_cands = n_a_candidates + n_b_candidates
     slate_to_candidates = {

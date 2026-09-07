@@ -12,6 +12,8 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 from pipelines.scottish.create_scottish_scatterplots import (
     build_limited_scatter_plot_name,
     draw_limited_scatter_base,
@@ -21,9 +23,7 @@ from pipelines.scottish.create_scottish_scatterplots import (
     run_limited_scatter_plots,
 )
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
+from voting_metrics_main_code.replication import PLOTS_DIR, SCOTTISH_BOOTSTRAP_INPUT, STATS_INPUT
 
 
 def _metric_name_from_key(metric_key: str, tiebreak: str) -> str:
@@ -221,6 +221,7 @@ def run_limited_scatter_plots_by_candidate_count_with_bootstrap(
                     x_data=x_data,
                     y_data=y_data,
                     color=rule_color_map[voting_rule],
+                    voting_rule=voting_rule,
                 )
                 overlay_fn(ax, voting_rule, um_key, iia_key, x_data, y_data)
                 plt.savefig(output_path, bbox_inches="tight", dpi=300)
@@ -243,7 +244,7 @@ def main() -> None:
     tiebreak = "lex"
 
     stats_dir = STATS_INPUT / "scottish_stats"
-    bootstrap_dir = stats_dir / "bootstrap"
+    bootstrap_dir = SCOTTISH_BOOTSTRAP_INPUT
     output_dir = PLOTS_DIR / "scottish"
     output_dir.mkdir(parents=True, exist_ok=True)
 

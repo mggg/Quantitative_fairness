@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from voting_metrics_main_code.replication import check_output_directory  # noqa: E402
+from voting_metrics_main_code.replication import DATA_DIR, check_output_directory  # noqa: E402
 
 
 def main():
@@ -47,6 +47,7 @@ def main():
     env = os.environ.copy()
     env.update(
         {
+            "QF_DATA_DIR": str(DATA_DIR),
             "QF_RESULTS_DIR": str(output),
             "QF_STATS_DIR": str(stats),
             "QF_BT_STATS_DIR": str(bt_stats),

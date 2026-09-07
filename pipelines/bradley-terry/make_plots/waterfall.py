@@ -15,8 +15,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
-TOP_DIR = Path(__file__).parents[3]
-
 rule_color_map = {
     "borda": "#1460bc",  # lightblue
     "3-approval": "#8cb500",  # applegreen
@@ -94,9 +92,11 @@ def main():
         )
         all_settings_strings[settings_str] = True
 
-    list(all_settings_strings.keys())[0]
-
     all_files = glob(f"{STATS_INPUT}/bt_proportionality/*.json")
+    if not all_files:
+        raise FileNotFoundError(
+            f"No proportionality JSON files under {STATS_INPUT / 'bt_proportionality'}"
+        )
     df_list = []
     for path in all_files:
         with open(path, "r") as f:
@@ -117,33 +117,24 @@ def main():
         df_list.append(pd.DataFrame(rows))
 
     df = pd.concat(df_list, ignore_index=True)
-    df["file"] = df["file"].str.split("/data/").str[1]
-
-    cache_dir = TOP_DIR / ".waterfall_cache" / "bt_proportionality"
-    cache_dir.mkdir(parents=True, exist_ok=True)
+    df["file"] = df["file"].map(lambda path: "/".join(Path(path).parts[-3:-1]))
+    output_dir = PLOTS_DIR / "bt_plots/waterfall"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     N_SEATS = 3
     for election_type in AllowedRule:
         rule_df = df.query("method == @election_type")
         _, ax = plt.subplots(1, 1, figsize=(8, 8))
 
-        cache_file = cache_dir / f"{election_type}_waterfall_cache.json"
-        if cache_file.exists():
-            with open(cache_file, "r") as f:
-                cached_data = json.load(f)
-            all_x_values = cached_data["all_x_values"]
-            all_y_values = cached_data["all_y_values"]
-        else:
-            all_x_values = []
-            all_y_values = []
-            for pat in tqdm(all_settings_strings):
-                filtered = rule_df[rule_df["file"].str.contains(pat, regex=False, na=False)]
-                all_x_values.append(
-                    float(filtered["expected_proportion"].iloc[0])
-                )  # They are all the same for a given setting
-                all_y_values.append(float(filtered["observed_proportion"].values.mean()))
-            with open(cache_file, "w") as f:
-                json.dump({"all_x_values": all_x_values, "all_y_values": all_y_values}, f)
+        grouped = rule_df.groupby("file", sort=False)
+        all_x_values = []
+        all_y_values = []
+        for pat in tqdm(all_settings_strings):
+            filtered = grouped.get_group(pat)
+            all_x_values.append(
+                float(filtered["expected_proportion"].iloc[0])
+            )  # They are all the same for a given setting
+            all_y_values.append(float(filtered["observed_proportion"].values.mean()))
 
         points = list(zip(all_x_values, all_y_values))
 
@@ -207,10 +198,11 @@ def main():
         ax.set_aspect("equal", adjustable="box")
         # print(f"Saving {election_type} waterfall plot...")
         plt.savefig(
-            f"{PLOTS_DIR}/bt_plots/waterfall/{election_type}_waterfall.png",
+            output_dir / f"{election_type}_waterfall.png",
             dpi=300,
             bbox_inches="tight",
         )
+        plt.close()
 
 
 if __name__ == "__main__":

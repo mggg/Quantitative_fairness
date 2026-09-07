@@ -109,6 +109,43 @@ remain available as research analyses but are not automatically executed by the 
 Proportionality also needs the original matching `preference_dfs` utility files, which are not in
 the tracked profile archive. Portland clustering is opt-in with `--diagnostics`.
 
+Two older Scottish exporters still expect legacy flat JSON files that the current collectors do
+not produce: `create_scottish_outputs.py` and the CSV stage of
+`create_scottish_boxplots_variant_tiebreak.py`. With the current statistics tree, they fail on
+missing legacy inputs. Use `create_scottish_boxplot.py` and `make_scottish_csv_limited.py` for
+the current layout; the maintained Scottish runner already uses the latter for tables.
+
+Standalone plotting scripts read the preserved `stats/` tree by default and write under
+`results/generated/plots/`. Select different inputs explicitly with `QF_STATS_DIR` (the parent
+of the dataset statistics directories) or `QF_BT_STATS_DIR` (the exact BT primary-metric tree).
+`QF_RESULTS_DIR` changes the output root without changing the input selection. The maintained
+runner selects its generated statistics explicitly in `--mode all`; `--mode figures` defaults
+to preserved statistics. Relative command-line and environment paths resolve from the calling
+directory, including when a shell runner is invoked from outside the repository.
+
+```sh
+uv run --locked python pipelines/bradley-terry/make_plots/waterfall.py
+QF_STATS_DIR=results/new-run/stats QF_RESULTS_DIR=results/new-run \
+  uv run --locked python pipelines/bradley-terry/make_plots/waterfall.py
+```
+
+Waterfall derives points from the selected JSON inputs each time; it no longer reads or writes
+the old root-level `.waterfall_cache/`. Profile paths stored in those JSON files may point outside
+the repository, provided they retain the candidate-count and experiment folder names.
+
+Scottish bootstrap collection also separates preserved inputs from generated outputs. To plot
+new bootstrap intervals alongside the preserved primary statistics, select the generated
+bootstrap directory independently. Without `QF_BOOTSTRAP_DIR`, bootstrap plots read
+`scottish_stats/bootstrap/` beneath `QF_STATS_DIR` (or the preserved `stats/` default).
+
+```sh
+uv run --locked python pipelines/scottish/collect_bootstrap_scottish.py
+QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
+  uv run --locked python pipelines/scottish/create_scottish_scatterplots_with_bootstrap.py
+QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
+  uv run --locked python pipelines/scottish/create_bonferroni_rectangle_plots.py
+```
+
 `config/bt_profiles.txt` retains the original selection and order with repository-relative paths.
 Generate a new selection without overwriting the old file:
 

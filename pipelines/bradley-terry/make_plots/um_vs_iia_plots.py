@@ -85,12 +85,13 @@ for metric in iia_metric_list:
             with open(iia_file, "r") as f:
                 iia_data.extend(json.load(f))
             um_file = (
-                iia_file.replace("METRIC_sigma_IIA", "METRIC_sigma_UM")
+                str(Path(iia_file).relative_to(BT_STATS_INPUT))
+                .replace("METRIC_sigma_IIA", "METRIC_sigma_UM")
                 .replace("__INTERP_None", "__INTERP_asin")
                 .replace("/sigma_IIA", "/sigma_UM")
                 .replace(f"_VARIANT_{iia_variant}", f"_VARIANT_{um_variant}")
             )
-            with open(um_file, "r") as f_um:
+            with open(BT_STATS_INPUT / um_file, "r") as f_um:
                 um_data.extend(json.load(f_um))
 
         um_type = metric.replace("sigma_IIA", "sigma_UM")
