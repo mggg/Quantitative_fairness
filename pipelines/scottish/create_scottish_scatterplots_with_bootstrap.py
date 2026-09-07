@@ -14,6 +14,7 @@ from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import RULE_ORDER
 from pipelines.scottish.create_scottish_scatterplots import (
     build_limited_scatter_plot_name,
     draw_limited_scatter_base,
@@ -230,15 +231,7 @@ def run_limited_scatter_plots_by_candidate_count_with_bootstrap(
 
 def main() -> None:
     """Run the limited Scottish scatterplot pipeline with bootstrap overlays."""
-    ordered_rules = [
-        "borda",
-        "3-approval",
-        "2-approval",
-        "plurality",
-        "stv",
-        "ranked-pairs",
-        "random",
-    ]
+    ordered_rules = RULE_ORDER
     variant_um = "worst_case"
     variant_iia = "average"
     tiebreak = "lex"

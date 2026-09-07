@@ -14,6 +14,12 @@ from votekit.ballot_generator import BlocSlateConfig
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import (
+    BT_ALPHA_COMBINATIONS,
+    BT_BLOC_PROPORTIONS,
+    BT_CANDIDATE_COMBINATIONS,
+    BT_COHESION_COMBINATIONS,
+)
 from voting_metrics_main_code.replication import RESULTS_DIR, check_output_directory, seed_task
 
 
@@ -139,30 +145,10 @@ if __name__ == "__main__":
     n_voters = args.n_voters
     n_samples = args.n_samples
 
-    b_bloc_proportions = [0.5, 0.6, 0.7, 0.8, 0.9]
-    alpha_combinations = [
-        (1, 1, 1, 1),
-        (0.5, 0.5, 0.5, 0.5),
-        (2, 2, 2, 2),
-        (1, 0.5, 1, 0.5),
-        (1, 2, 1, 2),
-        (0.5, 1, 0.5, 1),
-        (2, 1, 2, 1),
-    ]
-    cohesion_combinations = [
-        (0.7, 0.7),
-        (0.7, 0.9),
-        (0.9, 0.7),
-        (0.9, 0.9),
-    ]
-    candidate_count_combinations = [
-        (2, 6),
-        (4, 4),
-        (6, 2),
-        (2, 8),
-        (5, 5),
-        (8, 2),
-    ]
+    b_bloc_proportions = BT_BLOC_PROPORTIONS
+    alpha_combinations = BT_ALPHA_COMBINATIONS
+    cohesion_combinations = BT_COHESION_COMBINATIONS
+    candidate_count_combinations = BT_CANDIDATE_COMBINATIONS
 
     output_base_dir = str(profile_root)
 

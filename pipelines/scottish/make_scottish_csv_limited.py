@@ -9,6 +9,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import RULE_ORDER
 from voting_metrics_main_code.replication import STATS_INPUT, STATS_OUTPUT
 
 script_dir = Path(__file__).parent
@@ -16,15 +17,7 @@ top_dir = script_dir.parents[1]
 
 (STATS_OUTPUT / "scottish_stats").mkdir(parents=True, exist_ok=True)
 
-for voting_rule in [
-    "borda",
-    "3-approval",
-    "2-approval",
-    "plurality",
-    "stv",
-    "ranked-pairs",
-    "random",
-]:
+for voting_rule in RULE_ORDER:
     all_files = glob(
         str(STATS_INPUT / "scottish_stats" / "**" / f"{voting_rule}" / "*.json")
     )

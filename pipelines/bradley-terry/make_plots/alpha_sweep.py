@@ -19,21 +19,13 @@ from metric_lists import (
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from voting_metrics_main_code.constants import BT_ALPHA_COMBINATIONS as alpha_combinations
 from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
 plots_dir = PLOTS_DIR / "bt_plots" / "alpha_sweep_plots"
 
-alpha_combinations = [
-    (1, 1, 1, 1),
-    (0.5, 0.5, 0.5, 0.5),
-    (2, 2, 2, 2),
-    (1, 0.5, 1, 0.5),
-    (1, 2, 1, 2),
-    (0.5, 1, 0.5, 1),
-    (2, 1, 2, 1),
-]
 
 bprop = "*"
 voting_rule = "*"

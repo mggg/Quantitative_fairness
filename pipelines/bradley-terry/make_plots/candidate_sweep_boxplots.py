@@ -21,18 +21,13 @@ from metric_lists import (
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from voting_metrics_main_code.constants import (
+    BT_CANDIDATE_COMBINATIONS as candidate_count_combinations,
+    COMPARISON_RULE_LABELS as new_names,
+    COMPARISON_RULE_ORDER as voting_rule_list,
+    RULE_COLORS as rule_color_map,
+)
 from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
-
-rule_color_map = {
-    "borda": "#1460bc",  # lightblue
-    "3-approval": "#8cb500",  # applegreen
-    "2-approval": "#218c21",  # forestgreen
-    "plurality": "#d11942",  # alizarin
-    "stv": "#ffc40c",  # mikadoyellow
-    "ranked-pairs": "#ffb7c4",  # cherryblossompink
-    "random": "#707f8e",  # slategray
-}
-
 
 
 script_dir = Path(__file__).parent
@@ -110,16 +105,6 @@ def build_plot_for_metric(
 
     return ax
 
-
-candidate_count_combinations = [
-    (2, 6),
-    (4, 4),
-    (6, 2),
-    (2, 8),
-    (5, 5),
-    (8, 2),
-]
-voting_rule_list = ["borda", "stv", "plurality"]
 
 variant = "average"
 tiebreak = "lex"
@@ -261,11 +246,6 @@ ax = build_plot_for_metric(voting_rule_to_data, ax=ax, rule_color_map=rule_color
 legend = ax.get_legend()
 
 handles, labels = ax.get_legend_handles_labels()
-new_names = {
-    "borda": "Borda",
-    "plurality": "Plurality",
-    "stv": "STV",
-}
 labels = [new_names[label] for label in labels]
 legend = ax.legend(handles, labels, title="Voting rule", loc=(1.02, 0.5))
 

@@ -15,6 +15,7 @@ from votekit.cvr_loaders import load_scottish
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import RULE_ORDER
 from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
     sigma_IIA_all_subset,
@@ -417,9 +418,7 @@ if __name__ == "__main__":
             "sigma_IIA_average", "sigma_IIA_winner_set_average",
         )
     }
-    all_election_types = [
-        "borda", "3-approval", "2-approval", "plurality", "stv", "ranked-pairs", "random",
-    ]
+    all_election_types = RULE_ORDER
     tiebreak_types = ["lex", "random"]
     if not all_files:
         raise ValueError(f"No Scottish election CSVs found under {DATA_DIR / 'scot-elex'}")

@@ -1,5 +1,5 @@
 import random
-from typing import Callable, Literal, TypeAlias
+from typing import Callable, TypeAlias
 
 from votekit.elections import STV, Borda, Plurality, RankedPairs
 from votekit.elections.election_state import ElectionState
@@ -7,10 +7,9 @@ from votekit.elections.election_types.ranking.abstract_ranking import RankingEle
 from votekit.models import Election
 from votekit.pref_profile import RankProfile
 
+from voting_metrics_main_code.constants import AllowedRule
+
 ElectionConstructor: TypeAlias = Callable[..., Election]
-AllowedRule: TypeAlias = Literal[
-    "borda", "3-approval", "2-approval", "plurality", "stv", "ranked-pairs", "random"
-]
 
 
 def random_candidate_order(profile: RankProfile, excluded=()) -> list:

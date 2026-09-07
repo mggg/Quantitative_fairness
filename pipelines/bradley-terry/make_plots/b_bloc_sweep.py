@@ -19,13 +19,13 @@ from metric_lists import (
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from voting_metrics_main_code.constants import BT_BLOC_PROPORTIONS as b_bloc_proportions
 from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
 plots_dir = PLOTS_DIR / "bt_plots" / "b_bloc_sweep_plots"
 
-b_bloc_proportions = [0.5, 0.6, 0.7, 0.8, 0.9]
 
 bprop = "*"
 voting_rule = "*"

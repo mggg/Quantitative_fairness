@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from voting_metrics_main_code.constants import RULE_ORDER  # noqa: E402
 from voting_metrics_main_code.replication import DATA_DIR, check_output_directory  # noqa: E402
 
 
@@ -86,15 +87,7 @@ def main():
 
     if args.mode != "figures":
         if args.dataset == "bt":
-            for rule in (
-                "borda",
-                "3-approval",
-                "2-approval",
-                "plurality",
-                "stv",
-                "ranked-pairs",
-                "random",
-            ):
+            for rule in RULE_ORDER:
                 run(
                     "pipelines/bradley-terry/collect_stats_final_set_v2.py",
                     "--settings-file",

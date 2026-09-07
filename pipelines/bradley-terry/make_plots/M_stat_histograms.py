@@ -13,22 +13,16 @@ import seaborn as sns
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from voting_metrics_main_code.constants import (
+    BT_BLOC_PROPORTIONS,
+    RULE_COLORS as rule_color_map,
+)
 from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR, STATS_INPUT
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
 scottish_plots_dir = PLOTS_DIR / "scottish" / "M_histograms"
 bt_plots_dir = PLOTS_DIR / "bt_plots" / "M_histograms"
-
-rule_color_map = {
-    "borda": "#1460bc",  # lightblue
-    "3-approval": "#8cb500",  # applegreen
-    "2-approval": "#218c21",  # forestgreen
-    "plurality": "#d11942",  # alizarin
-    "stv": "#ffc40c",  # mikadoyellow
-    "ranked-pairs": "#ffb7c4",  # cherryblossompink
-    "random": "#707f8e",  # slategray
-}
 
 
 def inverse_interp(x: float) -> float:
@@ -106,7 +100,7 @@ def make_bt_M_histograms(rule: str, bprop_values: Sequence[float] | None = None)
 
     bt_plots_dir.mkdir(parents=True, exist_ok=True)
     if bprop_values is None:
-        bprop_values = [0.5, 0.6, 0.7, 0.8, 0.9]
+        bprop_values = BT_BLOC_PROPORTIONS
     for bprop in bprop_values:
         all_files = glob(
             f"{BT_STATS_INPUT}/3_seats/sigma_UM/**/{rule}/"

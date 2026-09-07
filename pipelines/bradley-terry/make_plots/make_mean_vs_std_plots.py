@@ -191,11 +191,6 @@ for (
     plt.close()
 
 
-voting_rule_list = [
-    "borda",
-    "plurality",
-    "stv",
-]
 for (
     metric,
     variant,
@@ -338,11 +333,6 @@ for (
 # ============================
 
 
-voting_rule_list = [
-    "borda",
-    "plurality",
-    "stv",
-]
 for (
     metric,
     variant,

@@ -14,34 +14,14 @@ from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import (
+    ALT_FONT_SIZES,
+    DEFAULT_FONT_SIZE,
+    RULE_COLORS as rule_color_map,
+    RULE_LABELS as titles,
+    RULE_ORDER,
+)
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
-
-rule_color_map = {
-    "borda": "#1460bc",  # denim
-    "3-approval": "#8cb500",  # applegreen
-    "2-approval": "#218c21",  # forestgreen
-    "plurality": "#d11942",  # alizarin
-    "stv": "#ffc40c",  # mikadoyellow
-    "ranked-pairs": "#ffb7c4",  # cherryblossompink
-    "random": "#707f8e",  # slategray
-}
-
-
-DEFAULT_FONT_SIZE = 24
-ALT_FONT_SIZES = {
-    "random": 16,
-    "ranked-pairs": 16,
-}
-
-titles = {
-    "borda": "Borda",
-    "3-approval": "3-Approval",
-    "2-approval": "2-Approval",
-    "plurality": "Plurality",
-    "stv": "STV",
-    "ranked-pairs": "Ranked Pairs",
-    "random": "Random",
-}
 
 
 def construct_df_scottish(
@@ -520,15 +500,7 @@ def run_limited_scatter_plots(
 
 def main() -> None:
     """Run the Scottish limited scatterplot pipeline."""
-    ordered_rules = [
-        "borda",
-        "3-approval",
-        "2-approval",
-        "plurality",
-        "stv",
-        "ranked-pairs",
-        "random",
-    ]
+    ordered_rules = RULE_ORDER
     stats_dir = STATS_INPUT / "scottish_stats"
     output_dir = PLOTS_DIR / "scottish"
     output_dir.mkdir(parents=True, exist_ok=True)

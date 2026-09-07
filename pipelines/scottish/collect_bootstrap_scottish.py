@@ -13,6 +13,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import RULE_ORDER
 from voting_metrics_main_code.replication import STATS_INPUT, STATS_OUTPUT
 
 TIEBREAK_PATTERN = re.compile(r"__TIEBREAK_([^_]+)_output\.json$")
@@ -160,6 +161,7 @@ def bootstrap_confidence_rectangle(
     n_resamples: int = 5000,
     alpha: float = 0.05,
     seed: int = 0,
+    return_samples: bool = False,
 ) -> dict[str, Any]:
     """Compute a Bonferroni-adjusted rectangle for paired IIA/UM means.
 
@@ -173,6 +175,7 @@ def bootstrap_confidence_rectangle(
         n_resamples (int): Number of bootstrap resamples.
         alpha (float): Family-wise error target for the 2D rectangle.
         seed (int): Random seed for reproducible resampling.
+        return_samples (bool): Include paired observations and resampled means for plotting.
 
     Returns:
         dict[str, Any]: Rectangle output with IIA/UM intervals, pair counts,
@@ -202,7 +205,7 @@ def bootstrap_confidence_rectangle(
         common_ids = set(iia_by_election.keys()) & set(um_by_election.keys())
         overlap_counts[size_key] = len(common_ids)
 
-        for election_id in common_ids:
+        for election_id in sorted(common_ids):
             paired_values.append(
                 (
                     float(iia_by_election[election_id]),
@@ -226,7 +229,7 @@ def bootstrap_confidence_rectangle(
     iia_lower, um_lower = np.quantile(boot, q_lo, axis=0)
     iia_upper, um_upper = np.quantile(boot, q_hi, axis=0)
 
-    return {
+    result = {
         "iia_L": float(iia_lower),
         "iia_U": float(iia_upper),
         "um_L": float(um_lower),
@@ -236,6 +239,9 @@ def bootstrap_confidence_rectangle(
         "sizes_used": size_keys,
         "overlap_counts_by_size": overlap_counts,
     }
+    if return_samples:
+        result.update(paired=paired, bootstrap_means=boot)
+    return result
 
 
 def iter_metric_json_files(
@@ -596,15 +602,7 @@ if __name__ == "__main__":
     alpha = 0.05
     seed = 0
 
-    all_election_types = [
-        "borda",
-        "3-approval",
-        "2-approval",
-        "plurality",
-        "stv",
-        "ranked-pairs",
-        "random",
-    ]
+    all_election_types = list(RULE_ORDER)
 
     top_dir = Path(__file__).resolve().parents[2]
     stats_dir = STATS_INPUT / "scottish_stats"

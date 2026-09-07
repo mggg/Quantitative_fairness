@@ -7,17 +7,9 @@ from matplotlib.patches import Rectangle
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import RULE_COLORS as rule_color_map
 from voting_metrics_main_code.replication import PLOTS_DIR, SCOTTISH_BOOTSTRAP_INPUT
 
-rule_color_map = {
-    "borda": "#1460bc",         # denim
-    "3-approval": "#8cb500",    # applegreen
-    "2-approval": "#218c21",    # forestgreen
-    "plurality": "#d11942",     # alizarin
-    "stv": "#ffc40c",           # mikadoyellow
-    "ranked-pairs": "#ffb7c4",  # cherryblossompink
-    "random": "#707f8e",        # slategray
-}
 
 TOP_DIR = Path(__file__).resolve().parents[2]
 

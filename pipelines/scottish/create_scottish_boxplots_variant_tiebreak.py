@@ -14,6 +14,7 @@ from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import RULE_ORDER
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT, STATS_OUTPUT
 
 rule_color_map = {
@@ -116,15 +117,7 @@ def main(
         tiebreak (str): Tiebreak rule to plot (e.g., lex or random).
         n_cand_list (Sequence[int]): Candidate counts to include.
     """
-    ordered_rules = [
-        "borda",
-        "3-approval",
-        "2-approval",
-        "plurality",
-        "stv",
-        "ranked-pairs",
-        "random",
-    ]
+    ordered_rules = RULE_ORDER
 
     stat_file_base_dir = str(Path(f"{STATS_INPUT}/scottish_stats/").resolve())
     output_dir = f"{PLOTS_DIR}/scottish"

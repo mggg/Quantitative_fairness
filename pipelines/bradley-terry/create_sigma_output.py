@@ -11,6 +11,7 @@ from matplotlib.patches import Patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 
@@ -115,14 +116,7 @@ def main(n_seats, variant, tiebreak):
         Path(f"{STATS_INPUT}/bt_profile_stats/{n_seats}_seats").resolve()
     )
 
-    all_rules = [
-        "borda",
-        "3-approval",
-        "2-approval",
-        "plurality",
-        "stv",
-        "ranked-pairs",
-    ]
+    all_rules = NON_RANDOM_RULE_ORDER
     cand_counts = list(range(6, 10))
     alpha_values = [1 / 3, 1 / 2, 1, 2, 3]
 

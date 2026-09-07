@@ -23,6 +23,9 @@ dependencies = [
     "votekit>=3.3.0",
 ]
 
+[project.optional-dependencies]
+geography = ["geopandas==1.1.4"]
+
 [dependency-groups]
 dev = [
     "black>=26.1.0",

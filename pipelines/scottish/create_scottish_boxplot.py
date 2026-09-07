@@ -14,6 +14,11 @@ from matplotlib.legend import Legend
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import (
+    RULE_COLORS as rule_color_map,
+    RULE_LABELS,
+    RULE_ORDER,
+)
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 colors = [
@@ -72,15 +77,6 @@ colors = [
 #     "random": "#b2bac7",
 # }
 
-rule_color_map = {
-    "borda": "#1460bc",  # lightblue
-    "3-approval": "#8cb500",  # applegreen
-    "2-approval": "#218c21",  # forestgreen
-    "plurality": "#d11942",  # alizarin
-    "stv": "#ffc40c",  # mikadoyellow
-    "ranked-pairs": "#ffb7c4",  # cherryblossompink
-    "random": "#707f8e",  # slategray
-}
 
 # \definecolor{applegreen}{rgb}{0.55, 0.71, 0.0} #"#8cb500"
 # \definecolor{alizarin}{rgb}{0.82, 0.1, 0.26} #"#d11942"
@@ -228,15 +224,7 @@ def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
     Args:
         n_cand_list (Sequence[int]): Candidate counts to include.
     """
-    ordered_rules = [
-        "borda",
-        "3-approval",
-        "2-approval",
-        "plurality",
-        "stv",
-        "ranked-pairs",
-        "random",
-    ]
+    ordered_rules = RULE_ORDER
 
     output_dir = f"{PLOTS_DIR}/scottish/scottish_sigma_plots_collected"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -357,15 +345,7 @@ def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
     legend = ax.get_legend()
 
     handles, labels = ax.get_legend_handles_labels()
-    new_names = {
-        "borda": "Borda",
-        "3-approval": "3-Approval",
-        "2-approval": "2-Approval",
-        "plurality": "Plurality",
-        "stv": "STV",
-        "ranked-pairs": "Ranked Pairs",
-        "random": "Random",
-    }
+    new_names = RULE_LABELS
     labels = [new_names[label] for label in labels]
     legend = ax.legend(handles, labels, title="Voting rule", loc=(1.02, 0.5))
 

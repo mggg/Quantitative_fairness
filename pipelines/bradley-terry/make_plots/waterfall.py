@@ -13,63 +13,26 @@ from tqdm.auto import tqdm
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
-
-rule_color_map = {
-    "borda": "#1460bc",  # lightblue
-    "3-approval": "#8cb500",  # applegreen
-    "2-approval": "#218c21",  # forestgreen
-    "plurality": "#d11942",  # alizarin
-    "stv": "#ffc40c",  # mikadoyellow
-    "ranked-pairs": "#ffb7c4",  # cherryblossompink
-    "random": "#707f8e",  # slategray
-}
-
-
-DEFAULT_FONT_SIZE = 24
-ALT_FONT_SIZES = {
-    "random": 16,
-    "ranked-pairs": 16,
-}
-
-AllowedRule = (
-    "borda",
-    "3-approval",
-    "2-approval",
-    "plurality",
-    "stv",
-    "ranked-pairs",
-    "random",
+from voting_metrics_main_code.constants import (
+    ALT_FONT_SIZES,
+    BT_ALPHA_COMBINATIONS,
+    BT_BLOC_PROPORTIONS,
+    BT_CANDIDATE_COMBINATIONS,
+    BT_COHESION_COMBINATIONS,
+    DEFAULT_FONT_SIZE,
+    RULE_COLORS as rule_color_map,
+    RULE_ORDER as AllowedRule,
 )
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 
 def main():
     n_samples = 100
 
-    b_bloc_proportions = [0.5, 0.6, 0.7, 0.8, 0.9]
-    alpha_combinations = [
-        (1, 1, 1, 1),
-        (0.5, 0.5, 0.5, 0.5),
-        (2, 2, 2, 2),
-        (1, 0.5, 1, 0.5),
-        (1, 2, 1, 2),
-        (0.5, 1, 0.5, 1),
-        (2, 1, 2, 1),
-    ]
-    cohesion_combinations = [
-        (0.7, 0.7),
-        (0.7, 0.9),
-        (0.9, 0.7),
-        (0.9, 0.9),
-    ]
-    candidate_count_combinations = [
-        (2, 6),
-        (4, 4),
-        (6, 2),
-        (2, 8),
-        (5, 5),
-        (8, 2),
-    ]
+    b_bloc_proportions = BT_BLOC_PROPORTIONS
+    alpha_combinations = BT_ALPHA_COMBINATIONS
+    cohesion_combinations = BT_COHESION_COMBINATIONS
+    candidate_count_combinations = BT_CANDIDATE_COMBINATIONS
 
     all_settings_strings = dict()
     for (n_a_cands, n_b_cands), b_bloc_proportion, (a_coh, b_coh), (
