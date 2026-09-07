@@ -1,26 +1,28 @@
 """Run the short burst algorithm on the Portland profiles."""
 
+import argparse
+import random
+import sys
+from pathlib import Path
+
+import numpy as np
 from votekit import RankProfile
-from votekit.elections import FastSTV
 from votekit.cleaning import remove_and_condense_rank_profile
+from votekit.elections import FastSTV
 from votekit.matrices import boost_matrix
 from votekit.utils import mentions
-import random
-import argparse
-import numpy as np
-from pathlib import Path
-import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import DATA_DIR
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 TOP_DIR = SCRIPT_DIR.parents[1]
-sys.path.append(str(SCRIPT_DIR))
 
 from modularity_functions import (  # noqa: E402
-    run_modularity_maximization_short_bursts,
     compute_modularity,
+    run_modularity_maximization_short_bursts,
 )
-
 from modularity_viz import viz_partition  # noqa: E402
 
 
@@ -32,7 +34,7 @@ def load_and_project(profile_number: int):
     """
 
     profile = RankProfile.from_csv(
-        f"{TOP_DIR}/data/Portland_D{profile_number}_cleaned_votekit.csv"
+        f"{DATA_DIR}/Portland_D{profile_number}_cleaned_votekit.csv"
     )
     candidates = list(profile.candidates)
 

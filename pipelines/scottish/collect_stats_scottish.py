@@ -1,11 +1,11 @@
 """Collect Scottish election statistics across metrics and rules."""
 
 import contextlib
+import json
+import sys
 from glob import glob
 from itertools import product
-import json
 from pathlib import Path
-import sys
 from typing import Mapping, Protocol, cast
 
 from joblib import Parallel, delayed
@@ -13,8 +13,7 @@ from joblib_progress import joblib_progress
 from votekit import RankProfile
 from votekit.cvr_loaders import load_scottish
 
-
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
@@ -24,6 +23,7 @@ from voting_metrics_main_code.fairness_metric import (
     sigma_UM,
     sigma_UM_winner_set,
 )
+from voting_metrics_main_code.replication import DATA_DIR, N_JOBS, STATS_OUTPUT, seed_task
 from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 
@@ -81,6 +81,7 @@ def compute_results_single_file(
     """
     file_name = str(Path(f).stem)
 
+    seed_task(Path(f).parent.name, Path(f).name, election_name, tiebreak)
     output = load_scottish(f)
     profile, seats = output[:2]
 
@@ -120,6 +121,7 @@ def compute_results_single_file_and_metric(
     """
     file_name = str(Path(f).stem)
 
+    seed_task(Path(f).parent.name, Path(f).name, election_name, tiebreak)
     output = load_scottish(f)
     profile, seats = output[:2]
 
@@ -379,14 +381,14 @@ if __name__ == "__main__":
     # NOTE: Change this to your desired output directory. I changed it
     # already to make sure that the first set of statistics are not overwritten.
     top_dir = str(Path(__file__).resolve().parents[2])
-    output_folder = Path(f"{top_dir}/stats/scottish_stats/").resolve()
+    output_folder = Path(f"{STATS_OUTPUT}/scottish_stats/").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
 
     # WARN: Change this for different candidate ranges
     candidate_range = range(3, 15)
 
-    all_files = glob(f"{top_dir}/data/scot-elex/*/*.csv")
+    all_files = glob(f"{DATA_DIR}/scot-elex/*/*.csv")
     all_files = [
         f for f in all_files if any([f"/{i}_cands" in f for i in candidate_range])
     ]
@@ -409,16 +411,19 @@ if __name__ == "__main__":
         "sigma_IIA_winner_set_all_subset_worst_case": sigma_IIA_winner_set_all_subset_worst_case(),
         "sigma_IIA_winner_set_all_subset_average": sigma_IIA_winner_set_all_subset_average(),
     }
+    metric_function_dict = {
+        name: metric_function_dict[name] for name in (
+            "sigma_UM_worst_case_asin", "sigma_UM_winner_set_worst_case_asin",
+            "sigma_IIA_average", "sigma_IIA_winner_set_average",
+        )
+    }
     all_election_types = [
-        # "borda",
-        # "3-approval",
-        # "2-approval",
-        # "plurality",
-        # "stv",
-        # "ranked-pairs",
-        "random",
+        "borda", "3-approval", "2-approval", "plurality", "stv", "ranked-pairs", "random",
     ]
     tiebreak_types = ["lex", "random"]
+    if not all_files:
+        raise ValueError(f"No Scottish election CSVs found under {DATA_DIR / 'scot-elex'}")
+    all_files.sort()
     file_to_column_data_dict = {}
 
     for f in all_files[:]:
@@ -443,7 +448,7 @@ if __name__ == "__main__":
             total=len(all_files),
             description=f"Collecting stats for {metric}, {election_name}, {tiebreak}",
         ):
-            results = Parallel(n_jobs=-1)(
+            results = Parallel(n_jobs=N_JOBS)(
                 delayed(compute_results_single_file_and_metric)(
                     f, election_name, metric_function_dict, metric, tiebreak
                 )

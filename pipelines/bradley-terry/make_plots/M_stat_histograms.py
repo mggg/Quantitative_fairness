@@ -1,8 +1,9 @@
 """Create M-statistic histograms for Scottish and Bradley-Terry outputs."""
 
 import json
-from glob import glob
 import math
+import sys
+from glob import glob
 from pathlib import Path
 from typing import Sequence
 
@@ -10,10 +11,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR, STATS_INPUT
+
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
-scottish_plots_dir = top_dir / "plots" / "scottish" / "M_histograms"
-bt_plots_dir = top_dir / "plots" / "bt_plots" / "M_histograms"
+scottish_plots_dir = PLOTS_DIR / "scottish" / "M_histograms"
+bt_plots_dir = PLOTS_DIR / "bt_plots" / "M_histograms"
 
 rule_color_map = {
     "borda": "#1460bc",  # lightblue
@@ -45,7 +50,7 @@ def make_scottish_M_histogram(rule: str) -> None:
         rule (str): Voting rule name used to locate the stats file.
     """
     file = glob(
-        f"{top_dir}/stats/scottish_stats/sigma_UM_worst_case_asin/**/*{rule}*lex_output.json",
+        f"{STATS_INPUT}/scottish_stats/sigma_UM_worst_case_asin/**/*{rule}*lex_output.json",
         recursive=True,
     )[0]
 
@@ -102,7 +107,7 @@ def make_bt_M_histograms(rule: str, bprop_values: Sequence[float] | None = None)
         bprop_values = [0.5, 0.6, 0.7, 0.8, 0.9]
     for bprop in bprop_values:
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/sigma_UM/**/{rule}/"
+            f"{BT_STATS_INPUT}/3_seats/sigma_UM/**/{rule}/"
             f"METRIC_sigma_UM__VARIANT_worst_case__INTERP_asin__*BPROP_{bprop}*TIEBREAK_lex.json"
         )
 

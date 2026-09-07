@@ -1,15 +1,20 @@
 """Create consolidated Scottish boxplots across metrics and rules."""
 
-from glob import glob
 import json
+import sys
+from glob import glob
 from pathlib import Path
 from typing import Mapping, Sequence
 
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.legend import Legend
 import pandas as pd
 import seaborn as sns
+from matplotlib.axes import Axes
+from matplotlib.legend import Legend
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 colors = [
     "#00B8D4",  # Borda
@@ -233,8 +238,7 @@ def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
         "random",
     ]
 
-    top_dir = str(Path(__file__).resolve().parents[2])
-    output_dir = f"{top_dir}/plots/scottish/scottish_sigma_plots_collected"
+    output_dir = f"{PLOTS_DIR}/scottish/scottish_sigma_plots_collected"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     # ==========================
@@ -248,7 +252,7 @@ def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
     for variant in ["average", "worst_case"]:
         for voting_rule in ordered_rules:
             all_output_files = glob(
-                f"{top_dir}/stats/scottish_stats/*{variant}*/{voting_rule}/*{tiebreak}_output.json"
+                f"{STATS_INPUT}/scottish_stats/*{variant}*/{voting_rule}/*{tiebreak}_output.json"
             )
             metric_to_values = {}
             for output_file in all_output_files:

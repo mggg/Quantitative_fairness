@@ -1,13 +1,19 @@
 """This script generates waterfall plots for the Bradley-Terry proportionality analysis."""
 
 import json
-import pandas as pd
+import sys
 from glob import glob
-import matplotlib.pyplot as plt
-import numpy as np
-from tqdm.auto import tqdm
 from itertools import product
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from tqdm.auto import tqdm
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 TOP_DIR = Path(__file__).parents[3]
 
@@ -90,7 +96,7 @@ def main():
 
     list(all_settings_strings.keys())[0]
 
-    all_files = glob(f"{TOP_DIR}/stats/bt_proportionality/*.json")
+    all_files = glob(f"{STATS_INPUT}/bt_proportionality/*.json")
     df_list = []
     for path in all_files:
         with open(path, "r") as f:
@@ -201,7 +207,7 @@ def main():
         ax.set_aspect("equal", adjustable="box")
         # print(f"Saving {election_type} waterfall plot...")
         plt.savefig(
-            f"{TOP_DIR}/plots/bt_plots/waterfall/{election_type}_waterfall.png",
+            f"{PLOTS_DIR}/bt_plots/waterfall/{election_type}_waterfall.png",
             dpi=300,
             bbox_inches="tight",
         )

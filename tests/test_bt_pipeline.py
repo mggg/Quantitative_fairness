@@ -5,19 +5,22 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from click.testing import CliRunner
-from votekit import Ballot, PreferenceProfile
+from votekit import RankBallot as Ballot
+from votekit import RankProfile as PreferenceProfile
 
-MODULE = runpy.run_path(Path(__file__).with_name("collect_stats_final_set_v2.py"))
+MODULE = runpy.run_path(
+    Path(__file__).resolve().parents[1] / "pipelines/bradley-terry/collect_stats_final_set_v2.py"
+)
 
 
 def test_output_jobs_preserve_run_and_retry_semantics(tmp_path, monkeypatch):
     input_folder = (
-        tmp_path
-        / "02_06"
-        / "b_proportion_0.5__ALPHA_(0.50,1.00,0.50,1.00)__COHESION_(0.70,0.90)"
+        tmp_path / "02_06" / "b_proportion_0.5__ALPHA_(0.50,1.00,0.50,1.00)__COHESION_(0.70,0.90)"
     )
-    monkeypatch.setitem(MODULE["output_jobs"].__globals__, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setitem(MODULE["output_jobs"].__globals__, "STATS_OUTPUT", tmp_path / "stats")
 
+    input_folder.mkdir(parents=True)
+    (input_folder / "profile_0.csv").touch()
     _, jobs = MODULE["output_jobs"](input_folder, 3, "random", "lex")
 
     assert len(jobs) == 4
@@ -40,9 +43,7 @@ def test_output_jobs_preserve_run_and_retry_semantics(tmp_path, monkeypatch):
     assert "All outputs already exist." in result.output
 
 
-def test_profile_batch_loads_each_profile_once_for_multiple_metrics(
-    tmp_path, monkeypatch
-):
+def test_profile_batch_loads_each_profile_once_for_multiple_metrics(tmp_path, monkeypatch):
     loaded = []
 
     class FakeRankProfile:
@@ -84,8 +85,11 @@ def test_profile_batch_loads_each_profile_once_for_multiple_metrics(
 
 
 def test_random_iia_fast_paths_are_profile_based_and_deterministic_when_seeded():
-    from fairness_metric import sigma_IIA_random, sigma_IIA_winner_set_random
-    from voting_rules import build_voting_rule, random_candidate_order
+    from voting_metrics_main_code.fairness_metric import (
+        sigma_IIA_random,
+        sigma_IIA_winner_set_random,
+    )
+    from voting_metrics_main_code.voting_rules import build_voting_rule, random_candidate_order
 
     profile = PreferenceProfile(
         ballots=(
@@ -100,19 +104,12 @@ def test_random_iia_fast_paths_are_profile_based_and_deterministic_when_seeded()
             random.seed(seed)
             expected = sigma_IIA_random(profile, voting_rule, 2, variant=variant)
             random.seed(seed)
-            assert (
-                sigma_IIA_random(profile, voting_rule, 2, variant=variant) == expected
-            )
+            assert sigma_IIA_random(profile, voting_rule, 2, variant=variant) == expected
 
             random.seed(seed)
-            expected = sigma_IIA_winner_set_random(
-                profile, voting_rule, 2, variant=variant
-            )
+            expected = sigma_IIA_winner_set_random(profile, voting_rule, 2, variant=variant)
             random.seed(seed)
-            assert (
-                sigma_IIA_winner_set_random(profile, voting_rule, 2, variant=variant)
-                == expected
-            )
+            assert sigma_IIA_winner_set_random(profile, voting_rule, 2, variant=variant) == expected
 
     expanded_profile = PreferenceProfile(
         ballots=profile.ballots,
@@ -126,9 +123,7 @@ def test_random_iia_fast_paths_are_profile_based_and_deterministic_when_seeded()
     assert expanded_score != original_score
 
     first = SimpleNamespace(candidates=("A", "B", "C"), candidates_cast=("C", "A", "B"))
-    second = SimpleNamespace(
-        candidates=("C", "B", "A"), candidates_cast=("B", "C", "A")
-    )
+    second = SimpleNamespace(candidates=("C", "B", "A"), candidates_cast=("B", "C", "A"))
     random.seed(10)
     first_order = random_candidate_order(first)
     random.seed(10)

@@ -1,23 +1,27 @@
 """Build boxplots across candidate-count sweeps for BT metrics."""
 
+import json
+import sys
 from glob import glob
 from itertools import product
-import json
 from pathlib import Path
-import sys
 from typing import Mapping, Sequence, cast
 
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
-from matplotlib.legend import Legend
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.legend import Legend
 from metric_lists import (
     iia_metric_list,
     um_metric_list,
 )
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
 
 rule_color_map = {
     "borda": "#1460bc",  # lightblue
@@ -29,12 +33,11 @@ rule_color_map = {
     "random": "#707f8e",  # slategray
 }
 
-sys.path.append(str(Path(__file__).parents[3].resolve()))
 
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
-plots_dir = top_dir / "plots" / "bt_plots" / "candidate_sweep_boxplots"
+plots_dir = PLOTS_DIR / "bt_plots" / "candidate_sweep_boxplots"
 
 
 def save_legend_only(
@@ -141,7 +144,7 @@ for metric, (c1, c2) in product(iia_metric_list, candidate_count_combinations):
         )
 
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+            f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
         )
 
         data_points = []
@@ -190,7 +193,7 @@ for metric, (c1, c2) in product(um_metric_list, candidate_count_combinations):
         )
 
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+            f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
         )
 
         data_points = []
@@ -238,7 +241,7 @@ for voting_rule in voting_rule_list:
     )
 
     all_files = glob(
-        f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+        f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
     )
 
     data_points = []

@@ -1,29 +1,30 @@
-from votekit import RankProfile
-from glob import glob
-import json
-import contextlib
-import warnings
-from pathlib import Path
 import ast
+import contextlib
+import json
 import os
 import sys
-import click
+import warnings
 from functools import partial
+from glob import glob
+from pathlib import Path
+
+import click
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
+from votekit import RankProfile
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from fairness_metric import (
-    sigma_UM,
-    sigma_UM_winner_set,
+from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
     sigma_IIA_all_subset,
     sigma_IIA_winner_set,
     sigma_IIA_winner_set_all_subset,
+    sigma_UM,
+    sigma_UM_winner_set,
 )
-from voting_rules import build_voting_rule
-
+from voting_metrics_main_code.replication import STATS_OUTPUT
+from voting_metrics_main_code.voting_rules import build_voting_rule
 
 warnings.filterwarnings("ignore")
 
@@ -113,8 +114,7 @@ def main(
 
     # UPDATE PAST THIS
 
-    top_dir = str(Path(__file__).resolve().parents[2])
-    output_folder = Path(f"{top_dir}/stats/bt_2_bloc_profile_stats/{n_seats}_seats").resolve()
+    output_folder = Path(f"{STATS_OUTPUT}/bt_2_bloc_profile_stats/{n_seats}_seats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
 

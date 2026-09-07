@@ -1,12 +1,20 @@
 """Create limited Scottish CSV exports for selected metrics."""
 
+import json
+import sys
 from glob import glob
 from pathlib import Path
+
 import pandas as pd
-import json
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import STATS_INPUT, STATS_OUTPUT
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[1]
+
+(STATS_OUTPUT / "scottish_stats").mkdir(parents=True, exist_ok=True)
 
 for voting_rule in [
     "borda",
@@ -18,7 +26,7 @@ for voting_rule in [
     "random",
 ]:
     all_files = glob(
-        str(top_dir / "stats" / "scottish_stats" / "**" / f"{voting_rule}" / "*.json")
+        str(STATS_INPUT / "scottish_stats" / "**" / f"{voting_rule}" / "*.json")
     )
 
     filter_tiebreak = "lex"
@@ -62,7 +70,7 @@ for voting_rule in [
 
     full_df.to_csv(
         str(
-            top_dir / "stats" / "scottish_stats" / f"scottish_{voting_rule}_limited.csv"
+            STATS_OUTPUT / "scottish_stats" / f"scottish_{voting_rule}_limited.csv"
         ),
         index=False,
     )

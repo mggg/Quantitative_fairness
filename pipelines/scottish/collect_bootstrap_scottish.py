@@ -4,12 +4,16 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any, Iterable
 
 import numpy as np
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import STATS_INPUT, STATS_OUTPUT
 
 TIEBREAK_PATTERN = re.compile(r"__TIEBREAK_([^_]+)_output\.json$")
 
@@ -603,9 +607,9 @@ if __name__ == "__main__":
     ]
 
     top_dir = Path(__file__).resolve().parents[2]
-    stats_dir = top_dir / "stats" / "scottish_stats"
+    stats_dir = STATS_INPUT / "scottish_stats"
 
-    output_folder = stats_dir / "bootstrap"
+    output_folder = STATS_OUTPUT / "scottish_stats" / "bootstrap"
     output_folder.mkdir(parents=True, exist_ok=True)
 
     # =============================

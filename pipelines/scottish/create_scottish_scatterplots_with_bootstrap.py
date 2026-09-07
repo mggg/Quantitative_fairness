@@ -2,17 +2,15 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import sys
+from pathlib import Path
 from typing import Callable, Sequence
 
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
 import numpy as np
 import pandas as pd
 import seaborn as sns
-
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+from matplotlib.axes import Axes
 
 from pipelines.scottish.create_scottish_scatterplots import (
     build_limited_scatter_plot_name,
@@ -22,6 +20,10 @@ from pipelines.scottish.create_scottish_scatterplots import (
     rule_color_map,
     run_limited_scatter_plots,
 )
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 
 def _metric_name_from_key(metric_key: str, tiebreak: str) -> str:
@@ -240,10 +242,9 @@ def main() -> None:
     variant_iia = "average"
     tiebreak = "lex"
 
-    top_dir = Path(__file__).resolve().parents[2]
-    stats_dir = top_dir / "stats" / "scottish_stats"
+    stats_dir = STATS_INPUT / "scottish_stats"
     bootstrap_dir = stats_dir / "bootstrap"
-    output_dir = top_dir / "plots" / "scottish"
+    output_dir = PLOTS_DIR / "scottish"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     outputs_by_election_type = load_outputs_by_election_type(

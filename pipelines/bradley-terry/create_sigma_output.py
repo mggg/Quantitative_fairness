@@ -1,11 +1,17 @@
-import matplotlib.pyplot as plt
 import json
-import seaborn as sns
-import pandas as pd
+import sys
 from fractions import Fraction
-from matplotlib.patches import Patch
 from pathlib import Path
+
 import click
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from matplotlib.patches import Patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 
 def load_file(file_path):
@@ -105,9 +111,8 @@ def build_plot_for_metric_and_alpha(
 @click.option("--variant", type=click.Choice(["worst_case", "average"]))
 @click.option("--tiebreak", type=click.Choice(["lex", "random"]))
 def main(n_seats, variant, tiebreak):
-    top_dir = str(Path(__file__).resolve().parents[2])
     stat_file_base_dir = str(
-        Path(f"{top_dir}/stats/bt_profile_stats/{n_seats}_seats").resolve()
+        Path(f"{STATS_INPUT}/bt_profile_stats/{n_seats}_seats").resolve()
     )
 
     all_rules = [
@@ -171,7 +176,7 @@ def main(n_seats, variant, tiebreak):
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
     palette = sns.color_palette("colorblind", len(all_rules))
     rule_color_map = dict(zip(all_rules, palette))
-    output_folder = Path(f"{top_dir}/plots/simulated_BT_plots/")
+    output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
     output_folder.mkdir(parents=True, exist_ok=True)
     output_plot_name = (
         f"{output_folder}/BESTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png"
@@ -262,7 +267,7 @@ def main(n_seats, variant, tiebreak):
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
     palette = sns.color_palette("colorblind", len(all_rules))
     rule_color_map = dict(zip(all_rules, palette))
-    output_folder = Path(f"{top_dir}/plots/simulated_BT_plots/")
+    output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
     output_folder.mkdir(parents=True, exist_ok=True)
     output_plot_name = (
         f"{output_folder}/ALTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png"
@@ -360,7 +365,7 @@ def main(n_seats, variant, tiebreak):
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
     palette = sns.color_palette("colorblind", len(all_rules))
     rule_color_map = dict(zip(all_rules, palette))
-    output_folder = Path(f"{top_dir}/plots/simulated_BT_plots/")
+    output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
     output_folder.mkdir(parents=True, exist_ok=True)
     output_plot_name = f"{output_folder}/AGGREGATE__NSEATS_{n_seats}__VARIANT_{variant}__TIEBREAK_{tiebreak}.png"
 
@@ -442,7 +447,7 @@ def main(n_seats, variant, tiebreak):
     for idx, (_, metric_base_name, interpolation_type, y_label) in enumerate(
         metric_label_pairs
     ):
-        output_folder = Path(f"{top_dir}/plots/simulated_BT_plots/")
+        output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
         output_folder.mkdir(parents=True, exist_ok=True)
         output_plot_name = f"{output_folder}/METRIC_{metric_base_name}__NSEATS_{n_seats}__VARIANT_{variant}__TIEBREAK_{tiebreak}__INTERP_{interpolation_type}.png"
         fig, ax = plt.subplots(

@@ -1,16 +1,20 @@
 """Create scatter plots comparing UM and IIA metrics in Scottish data."""
 
+import json
+import sys
 from glob import glob
 from itertools import product
-import json
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
 import pandas as pd
 import seaborn as sns
+from matplotlib.axes import Axes
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 rule_color_map = {
     "borda": "#1460bc",  # denim
@@ -525,9 +529,8 @@ def main() -> None:
         "ranked-pairs",
         "random",
     ]
-    top_dir = Path(__file__).resolve().parents[2]
-    stats_dir = top_dir / "stats" / "scottish_stats"
-    output_dir = top_dir / "plots" / "scottish"
+    stats_dir = STATS_INPUT / "scottish_stats"
+    output_dir = PLOTS_DIR / "scottish"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     outputs_by_election_type = load_outputs_by_election_type(

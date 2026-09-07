@@ -13,9 +13,9 @@ from joblib import Parallel, delayed
 from tqdm.auto import tqdm
 from votekit import RankProfile
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from fairness_metric import (  # noqa: E402
+from voting_metrics_main_code.fairness_metric import (  # noqa: E402
     sigma_IIA,
     sigma_IIA_random,
     sigma_IIA_winner_set,
@@ -23,7 +23,8 @@ from fairness_metric import (  # noqa: E402
     sigma_UM,
     sigma_UM_winner_set,
 )
-from voting_rules import build_voting_rule  # noqa: E402
+from voting_metrics_main_code.replication import STATS_OUTPUT, seed_task
+from voting_metrics_main_code.voting_rules import build_voting_rule  # noqa: E402
 
 warnings.filterwarnings("ignore")
 
@@ -53,7 +54,7 @@ def output_jobs(input_folder, n_seats, election_type, tiebreak):
     n_a_cands, n_b_cands = map(int, cand_parts)
     n_cands = n_a_cands + n_b_cands
     output_root = (
-        PROJECT_ROOT / "stats" / "bt_2_bloc_profile_stats" / f"{n_seats}_seats"
+        STATS_OUTPUT / "bt_2_bloc_profile_stats" / f"{n_seats}_seats"
     )
 
     jobs = []
@@ -98,6 +99,10 @@ def run_profile_batch(
         for index, path in profile_batch:
             profile = RankProfile.from_csv(path)
             for output_id, metric in metrics:
+                seed_task(
+                    path.parent.parent.name, path.parent.name, path.name,
+                    election_type, tiebreak, n_seats, metric.func.__name__, metric.keywords,
+                )
                 scores[output_id].append((index, metric(profile, voting_rule)))
 
     return tuple((output_id, tuple(values)) for output_id, values in scores.items())
@@ -115,7 +120,7 @@ def write_scores(output_file, scores):
 @click.option(
     "--settings-file",
     type=click.Path(path_type=Path, exists=True, dir_okay=False),
-    default=PROJECT_ROOT / "settings.txt",
+    default=PROJECT_ROOT / "config/bt_profiles.txt",
     show_default=True,
 )
 @click.option("--n-seats", type=click.IntRange(min=1), default=3, show_default=True)
@@ -141,7 +146,7 @@ def write_scores(output_file, scores):
     default="lex",
     show_default=True,
 )
-@click.option("--n-jobs", type=int, default=-1, show_default=True)
+@click.option("--n-jobs", type=click.IntRange(min=1), default=1, show_default=True)
 @click.option(
     "--profile-batch-size",
     type=click.IntRange(min=1),
@@ -149,11 +154,19 @@ def write_scores(output_file, scores):
     show_default=True,
 )
 def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_size):
-    """Compute every metric from run.sh across the folders in SETTINGS_FILE."""
+    """Compute the four primary metrics across the folders in SETTINGS_FILE."""
     input_folders = list(
         dict.fromkeys(line.strip() for line in settings_file.read_text().splitlines())
     )
-    input_folders = [folder for folder in input_folders if folder]
+    input_folders = [
+        (Path(folder) if Path(folder).is_absolute() else PROJECT_ROOT / folder).resolve()
+        for folder in input_folders if folder and not folder.startswith("#")
+    ]
+    if not input_folders:
+        raise click.ClickException("The settings file contains no profile folders.")
+    for folder in input_folders:
+        if not folder.is_dir() or not any(folder.glob("*.csv")):
+            raise click.ClickException(f"Missing or empty profile folder: {folder}")
     tasks = []
     outputs = {}
     skipped = 0

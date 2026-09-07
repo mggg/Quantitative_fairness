@@ -1,10 +1,16 @@
-import matplotlib.pyplot as plt
 import json
+import sys
 from glob import glob
-import seaborn as sns
-import pandas as pd
 from pathlib import Path
+
 import click
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT, STATS_OUTPUT
 
 
 def construct_df_scottish(data_dictionary, n_cands, metric):
@@ -71,9 +77,8 @@ def main(variant, tiebreak, n_cand_list=list(range(6, 10))):
         "ranked-pairs",
     ]
 
-    top_dir = str(Path(__file__).resolve().parents[2])
-    stat_file_base_dir = str(Path(f"{top_dir}/stats/scottish_stats/").resolve())
-    output_dir = f"{top_dir}/plots/scottish"
+    stat_file_base_dir = str(Path(f"{STATS_INPUT}/scottish_stats/").resolve())
+    output_dir = f"{PLOTS_DIR}/scottish"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     output_plot_name = (
         f"{str(output_dir)}/scottish_sigma_plots_{variant}_{tiebreak}.png"
@@ -82,7 +87,7 @@ def main(variant, tiebreak, n_cand_list=list(range(6, 10))):
     # ==========================
     # Make the scottish boxplots
     # ==========================
-    all_output_files = glob(f"{top_dir}/stats/scottish_stats/*output.json")
+    all_output_files = glob(f"{STATS_INPUT}/scottish_stats/*output.json")
 
     outputs_by_election_type = {}
     for output_file in all_output_files:
@@ -157,7 +162,8 @@ def main(variant, tiebreak, n_cand_list=list(range(6, 10))):
         ),
     )
 
-    df.to_csv(f"{stat_file_base_dir}/scottish_stats_{variant}_{tiebreak}.csv")
+    (STATS_OUTPUT / "scottish_stats").mkdir(parents=True, exist_ok=True)
+    df.to_csv(f"{STATS_OUTPUT}/scottish_stats/scottish_stats_{variant}_{tiebreak}.csv")
 
 
 if __name__ == "__main__":

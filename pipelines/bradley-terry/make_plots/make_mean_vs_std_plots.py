@@ -1,26 +1,30 @@
 """Generate mean vs std plots for BT metrics and interpolation types."""
 
-from pathlib import Path
-from glob import glob
-from pprint import pprint as print
-from itertools import product
 import json
-import numpy as np
+import sys
+from glob import glob
+from itertools import product
+from pathlib import Path
+from pprint import pprint as print
 
 import matplotlib.pyplot as plt
+import numpy as np
 from colors import colors2 as colors
 from metric_lists import (
-    um_metric_list,
     iia_metric_list,
-    variant_list,
     interpolation_type_list,
+    um_metric_list,
+    variant_list,
 )
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
 
-plots_dir = top_dir / "plots" / "bt_plots" / "mean_vs_std"
+plots_dir = PLOTS_DIR / "bt_plots" / "mean_vs_std"
 
 
 bprop = "*"
@@ -58,7 +62,7 @@ for (
         )
 
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+            f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
         )
 
         if len(all_files) == 0:
@@ -144,7 +148,7 @@ for (
         )
 
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+            f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
         )
 
         if len(all_files) == 0:
@@ -225,7 +229,7 @@ for (
         )
 
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+            f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
         )
 
         if len(all_files) == 0:
@@ -292,7 +296,7 @@ for (
     )
 
     all_files = glob(
-        f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+        f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
     )
 
     if len(all_files) == 0:
@@ -366,7 +370,7 @@ for (
     )
 
     all_files = glob(
-        f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+        f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
     )
 
     if len(all_files) == 0:

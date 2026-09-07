@@ -1,21 +1,22 @@
 """Compute proportionality diagnostics for BT preference profiles."""
 
-from glob import glob
 import json
-from pathlib import Path
 import sys
+from glob import glob
+from pathlib import Path
 from typing import get_args
 
 import click
+import pandas as pd
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
-import pandas as pd
-from votekit import RankProfile, PreferenceProfile
+from votekit import PreferenceProfile, RankProfile
 from votekit.ballot_generator import BlocSlateConfig
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from voting_metrics_main_code.voting_rules import build_voting_rule, AllowedRule
+from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT
+from voting_metrics_main_code.voting_rules import AllowedRule, build_voting_rule
 
 TOP_DIR = Path(__file__).resolve().parents[2]
 
@@ -52,7 +53,7 @@ def get_all_profiles(
         dict[str, PreferenceProfile]: A dictionary mapping file paths to PreferenceProfiles.
     """
     search_string = (
-        f"{TOP_DIR}/data/preference_profiles/{n_a_cand:02d}_{n_b_cand:02d}/"
+        f"{DATA_DIR}/preference_profiles/{n_a_cand:02d}_{n_b_cand:02d}/"
         f"b_proportion_{b_prop:0.1f}__ALPHA_(*)__COHESION_({a_coh:0.2f},{b_coh:0.2f})/*.csv"
     )
     profile_files = sorted(glob(search_string))
@@ -204,7 +205,7 @@ def main(
     for file_dict in all_file_to_rule_dicts:
         total_dictionary.update(file_dict)
 
-    out_dir = Path(f"{TOP_DIR}/stats/bt_proportionality")
+    out_dir = Path(f"{STATS_OUTPUT}/bt_proportionality")
     out_dir.mkdir(parents=True, exist_ok=True)
     with open(
         f"{out_dir}/{n_a_cand:02d}_{n_b_cand:02d}_bprop_"

@@ -1,11 +1,13 @@
 """Plot mean vs std colored by alpha parameters for BT metrics."""
 
-from pathlib import Path
+import json
+import sys
 from glob import glob
 from itertools import product
-import json
-import numpy as np
+from pathlib import Path
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Imports from this folder
 from colors import colors3 as colors
@@ -15,10 +17,13 @@ from metric_lists import (
     variant_list,
 )
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
 
 script_dir = Path(__file__).parent
 top_dir = script_dir.parents[2].resolve()
-plots_dir = top_dir / "plots" / "bt_plots" / "alpha_sweep_plots"
+plots_dir = PLOTS_DIR / "bt_plots" / "alpha_sweep_plots"
 
 alpha_combinations = [
     (1, 1, 1, 1),
@@ -61,7 +66,7 @@ for (
         )
 
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+            f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
         )
 
         data_points = [list()] * len(all_files)
@@ -127,7 +132,7 @@ for (
         )
 
         all_files = glob(
-            f"{top_dir}/stats/bt_2_bloc_profile_stats/3_seats/{metric}/**/**/{file_basename}.json"
+            f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json"
         )
 
         data_points = [list()] * len(all_files)

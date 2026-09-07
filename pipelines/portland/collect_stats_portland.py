@@ -1,32 +1,33 @@
 """Collect Portland election statistics across rules and metrics."""
 
+import json
+import sys
+from pathlib import Path
 from typing import Callable, cast
 
 from votekit import RankProfile
-import json
 
-import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
-    sigma_UM,
     sigma_IIA_winner_set,
+    sigma_UM,
     sigma_UM_winner_set,
 )
-from voting_metrics_main_code.voting_rules import AllowedRule, ElectionConstructor, build_voting_rule
-
+from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, seed_task
+from voting_metrics_main_code.voting_rules import (
+    AllowedRule,
+    ElectionConstructor,
+    build_voting_rule,
+)
 
 if __name__ == "__main__":
-    # Load the data
-    top_dir = str(Path(__file__).resolve().parents[2])
-    output_folder = Path(f"{top_dir}/stats/portland_stats/").resolve()
+    output_folder = Path(f"{STATS_OUTPUT}/portland_stats/").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
 
-    base_data_dir = str(Path(f"{top_dir}/data").resolve())
+    base_data_dir = str(DATA_DIR)
 
     n_seats = 3
 
@@ -71,6 +72,7 @@ if __name__ == "__main__":
             )
 
             for metric_name, metric_function in metric_function_dict.items():
+                seed_task("portland", district, election_name, metric_name)
                 portland_election_stats[district][metric_name].append(
                     float(
                         metric_function(

@@ -1,15 +1,20 @@
 """Create Scottish boxplots split by variant and tiebreak."""
 
-from glob import glob
 import json
+import sys
+from glob import glob
 from pathlib import Path
 from typing import Mapping, Sequence
 
 import click
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
 import pandas as pd
 import seaborn as sns
+from matplotlib.axes import Axes
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT, STATS_OUTPUT
 
 rule_color_map = {
     "borda": "#00B8D4",
@@ -121,9 +126,8 @@ def main(
         "random",
     ]
 
-    top_dir = str(Path(__file__).resolve().parents[2])
-    stat_file_base_dir = str(Path(f"{top_dir}/stats/scottish_stats/").resolve())
-    output_dir = f"{top_dir}/plots/scottish"
+    stat_file_base_dir = str(Path(f"{STATS_INPUT}/scottish_stats/").resolve())
+    output_dir = f"{PLOTS_DIR}/scottish"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     output_plot_name = (
         f"{str(output_dir)}/scottish_sigma_plots_{variant}_{tiebreak}.png"
@@ -134,7 +138,7 @@ def main(
     # ==========================
 
     all_output_files = glob(
-        f"{top_dir}/stats/scottish_stats_newr_but_still_old/*output.json"
+        f"{STATS_INPUT}/scottish_stats_newr_but_still_old/*output.json"
     )
 
     outputs_by_election_type = {}
@@ -156,7 +160,7 @@ def main(
 
     for voting_rule in ordered_rules:
         all_output_files = glob(
-            f"{top_dir}/stats/scottish_stats/*{variant}*/{voting_rule}/*{tiebreak}_output.json"
+            f"{STATS_INPUT}/scottish_stats/*{variant}*/{voting_rule}/*{tiebreak}_output.json"
         )
         metric_to_values = {}
         for output_file in all_output_files:
@@ -263,7 +267,8 @@ def main(
         ),
     )
 
-    df.to_csv(f"{stat_file_base_dir}/scottish_stats_{variant}_{tiebreak}.csv")
+    (STATS_OUTPUT / "scottish_stats").mkdir(parents=True, exist_ok=True)
+    df.to_csv(f"{STATS_OUTPUT}/scottish_stats/scottish_stats_{variant}_{tiebreak}.csv")
 
 
 if __name__ == "__main__":

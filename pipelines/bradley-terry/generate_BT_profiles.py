@@ -1,13 +1,26 @@
 """Generate and save BT preference profiles and utilities."""
 
+import argparse
+import sys
 from itertools import product
 from pathlib import Path
 
+import numpy as np
+import votekit.ballot_generator as bg
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
-import votekit.ballot_generator as bg
-from votekit import PreferenceInterval, PreferenceProfile
+from votekit import PreferenceInterval, RankProfile
 from votekit.ballot_generator import BlocSlateConfig
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from voting_metrics_main_code.replication import RESULTS_DIR, check_output_directory, seed_task
+
+
+def sample_preference_interval(candidates: list[str], alpha: float) -> PreferenceInterval:
+    """Draw a preference interval from the task's seeded NumPy stream."""
+    # VoteKit's from_dirichlet creates an unseeded generator on each call.
+    return PreferenceInterval(dict(zip(candidates, np.random.dirichlet([alpha] * len(candidates)))))
 
 
 def generate_and_save_profile(
@@ -40,6 +53,33 @@ def generate_and_save_profile(
         idx (int): Sample index for file naming.
         output_base_dir (str): Base directory for profile outputs.
     """
+    profile_root = Path(output_base_dir).resolve()
+    utility_root = profile_root.parent / "preference_dfs"
+    relative_folder = (
+        f"{n_a_cands:02d}_{n_b_cands:02d}/b_proportion_{b_proportion}"
+        f"__ALPHA_({aa_alpha:.2f},{ab_alpha:.2f},{ba_alpha:.2f},{bb_alpha:.2f})"
+        f"__COHESION_({a_cohesion:.2f},{b_cohesion:.2f})"
+    )
+    output_dir = profile_root / relative_folder
+    df_dir = utility_root / relative_folder
+    profile_path = check_output_directory(output_dir / f"profile_{idx}.csv")
+    utility_path = check_output_directory(df_dir / f"profile_{idx}_utilities.csv")
+    for path in (profile_path, utility_path):
+        if path.exists() or path.is_symlink():
+            raise FileExistsError(f"Preserving existing generated data: {path}")
+    seed_task(
+        n_a_cands,
+        n_b_cands,
+        n_voters,
+        b_proportion,
+        a_cohesion,
+        b_cohesion,
+        aa_alpha,
+        ab_alpha,
+        ba_alpha,
+        bb_alpha,
+        idx,
+    )
     slate_to_candidates = {
         "bloc_1": [f"A{i + 1}" for i in range(n_a_cands)],
         "bloc_2": [f"B{i + 1}" for i in range(n_b_cands)],
@@ -54,21 +94,21 @@ def generate_and_save_profile(
         bloc_proportions={"bloc_1": 1 - b_proportion, "bloc_2": b_proportion},
         preference_mapping={
             "bloc_1": {
-                "bloc_1": PreferenceInterval.from_dirichlet(
+                "bloc_1": sample_preference_interval(
                     candidates=slate_to_candidates["bloc_1"],
                     alpha=aa_alpha,
                 ),
-                "bloc_2": PreferenceInterval.from_dirichlet(
+                "bloc_2": sample_preference_interval(
                     candidates=slate_to_candidates["bloc_2"],
                     alpha=ab_alpha,
                 ),
             },
             "bloc_2": {
-                "bloc_1": PreferenceInterval.from_dirichlet(
+                "bloc_1": sample_preference_interval(
                     candidates=slate_to_candidates["bloc_1"],
                     alpha=ba_alpha,
                 ),
-                "bloc_2": PreferenceInterval.from_dirichlet(
+                "bloc_2": sample_preference_interval(
                     candidates=slate_to_candidates["bloc_2"],
                     alpha=bb_alpha,
                 ),
@@ -76,32 +116,28 @@ def generate_and_save_profile(
         },
     )
     prof = bg.slate_bt_profile_generator(config)
-    output_dir = (
-        f"{output_base_dir}/"
-        f"{n_a_cands:02d}_{n_b_cands:02d}/"
-        f"b_proportion_{b_proportion}"
-        f"__ALPHA_({aa_alpha:.2f},{ab_alpha:.2f},{ba_alpha:.2f},{bb_alpha:.2f})"
-        f"__COHESION_({a_cohesion:.2f},{b_cohesion:.2f})"
-    )
-
     Path(output_dir).mkdir(parents=True, exist_ok=True)
-    assert isinstance(prof, PreferenceProfile)
-    prof.to_csv(f"{output_dir}/profile_{idx}.csv")
-
-    df_dir = (
-        f"{output_base_dir}/../preference_dfs/"
-        f"{n_a_cands:02d}_{n_b_cands:02d}/"
-        f"b_proportion_{b_proportion}"
-        f"__ALPHA_({aa_alpha:.2f},{ab_alpha:.2f},{ba_alpha:.2f},{bb_alpha:.2f})"
-        f"__COHESION_({a_cohesion:.2f},{b_cohesion:.2f})"
-    )
     Path(df_dir).mkdir(parents=True, exist_ok=True)
-    config.preference_df.to_csv(f"{df_dir}/profile_{idx}_utilities.csv")
+    assert isinstance(prof, RankProfile)
+    prof.to_csv(profile_path)
+    config.preference_df.to_csv(utility_path)
 
 
 if __name__ == "__main__":
-    n_voters = 15_000
-    n_samples = 100
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path, default=RESULTS_DIR / "data/preference_profiles")
+    parser.add_argument("--n-voters", type=int, default=15_000)
+    parser.add_argument("--n-samples", type=int, default=100)
+    parser.add_argument("--n-jobs", type=int, default=1)
+    args = parser.parse_args()
+    if min(args.n_voters, args.n_samples, args.n_jobs) < 1:
+        parser.error("Voter, sample, and worker counts must be positive")
+    profile_root = check_output_directory(args.output_dir)
+    utility_root = check_output_directory(profile_root.parent / "preference_dfs")
+    if profile_root.exists() or utility_root.exists():
+        parser.error("Profile or utility directory already exists; choose a new --output-dir")
+    n_voters = args.n_voters
+    n_samples = args.n_samples
 
     b_bloc_proportions = [0.5, 0.6, 0.7, 0.8, 0.9]
     alpha_combinations = [
@@ -128,11 +164,7 @@ if __name__ == "__main__":
         (8, 2),
     ]
 
-    # NOTE: Change this to your desired output directory. I changed it
-    # already to make sure that the first set of profiles are not overwritten.
-    output_base_dir = str(
-        Path(f"{__file__}").parents[2] / Path("data/preference_profiles/").resolve()
-    )
+    output_base_dir = str(profile_root)
 
     with joblib_progress(
         "Generating profiles",
@@ -142,7 +174,7 @@ if __name__ == "__main__":
         * len(cohesion_combinations)
         * len(candidate_count_combinations),
     ):
-        Parallel(n_jobs=-1)(
+        Parallel(n_jobs=args.n_jobs)(
             delayed(generate_and_save_profile)(
                 n_a_cands=n_a_cands,
                 n_b_cands=n_b_cands,
