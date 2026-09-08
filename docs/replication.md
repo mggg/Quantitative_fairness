@@ -41,6 +41,18 @@ uv run --locked python scripts/smoke_test.py
 regenerate data.
 The smoke example uses a temporary synthetic profile and checks its numerical output.
 
+## Shared settings
+
+`voting_metrics_main_code/constants.py` defines shared voting-rule order, colors, labels, font
+sizes, and the Bradley–Terry experiment grid. The profile generator and matching plotters import
+the same grid; changing it affects both. The grid matches the preserved profile manifest in
+`config/bt_profiles.txt`. Historical analyses with distinct palettes or rule order keep those
+settings locally.
+
+Runtime paths and random-seed handling live in `voting_metrics_main_code/replication.py`.
+BT metric lists and sweep palettes remain in `pipelines/bradley-terry/make_plots/metric_lists.py`
+and `colors.py`, respectively.
+
 ## Inputs
 
 NY and Portland cleaned CSVs are already tracked. Their SHA-256 checksums and the original code
