@@ -29,7 +29,7 @@ def main():
         subprocess.run(
             [
                 sys.executable,
-                str(ROOT / "pipelines/bradley-terry/collect_stats_final_set_v2.py"),
+                str(ROOT / "pipelines/bradley_terry/collect_metrics.py"),
                 "--settings-file",
                 str(settings),
                 "--election-type",

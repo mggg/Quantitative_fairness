@@ -15,7 +15,7 @@ from voting_metrics_main_code.constants import RULE_ORDER  # noqa: E402
 from voting_metrics_main_code.replication import DATA_DIR, check_output_directory  # noqa: E402
 
 
-def main():
+def parse_arguments() -> tuple[argparse.ArgumentParser, argparse.Namespace]:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset", choices=("ny", "portland", "scottish", "bt"))
     parser.add_argument("--mode", choices=("stats", "figures", "all"), default="all")
@@ -33,6 +33,11 @@ def main():
         parser.error("--stats-dir and --bt-stats-dir are only used in figures mode")
     if args.diagnostics and args.dataset != "portland":
         parser.error("--diagnostics is only available for Portland")
+    return parser, args
+
+
+def main() -> None:
+    parser, args = parse_arguments()
     output = check_output_directory(args.output_dir)
     stats = (
         args.stats_dir or (ROOT / "stats" if args.mode == "figures" else output / "stats")
@@ -89,7 +94,7 @@ def main():
         if args.dataset == "bt":
             for rule in RULE_ORDER:
                 run(
-                    "pipelines/bradley-terry/collect_stats_final_set_v2.py",
+                    "pipelines/bradley_terry/collect_metrics.py",
                     "--settings-file",
                     settings,
                     "--election-type",
@@ -98,20 +103,24 @@ def main():
                     args.n_jobs,
                 )
         else:
-            folder = "NY" if args.dataset == "ny" else args.dataset
-            run(f"pipelines/{folder}/collect_stats_{args.dataset}.py")
+            folder = "new_york" if args.dataset == "ny" else args.dataset
+            run(f"pipelines/{folder}/collect_metrics.py")
     if args.mode != "stats":
         if args.dataset == "bt":
-            for name in ("um_vs_iia_plots", "candidate_sweep_boxplots", "b_bloc_sweep_boxplots"):
-                run(f"pipelines/bradley-terry/make_plots/{name}.py")
+            for name in (
+                "plot_um_iia_scatter",
+                "plot_candidate_count_boxplots",
+                "plot_bloc_proportion_boxplots",
+            ):
+                run(f"pipelines/bradley_terry/plots/{name}.py")
         elif args.dataset == "scottish":
-            run("pipelines/scottish/create_scottish_scatterplots.py")
-            run("pipelines/scottish/make_scottish_csv_limited.py")
+            run("pipelines/scottish/plots/plot_um_iia_scatter.py")
+            run("pipelines/scottish/export_metric_tables.py")
         else:
             run("scripts/export_tables.py", args.dataset)
     if args.diagnostics:
-        run("pipelines/portland/short_burst_clustering.py")
-        run("pipelines/portland/brute_force_clustering.py")
+        run("pipelines/portland/clustering/run_short_bursts.py")
+        run("pipelines/portland/clustering/run_brute_force.py")
 
 
 if __name__ == "__main__":

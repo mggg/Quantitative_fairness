@@ -9,7 +9,7 @@ from votekit import RankBallot as Ballot
 from votekit import RankProfile as PreferenceProfile
 
 MODULE = runpy.run_path(
-    Path(__file__).resolve().parents[1] / "pipelines/bradley-terry/collect_stats_final_set_v2.py"
+    Path(__file__).resolve().parents[1] / "pipelines/bradley_terry/collect_metrics.py"
 )
 
 

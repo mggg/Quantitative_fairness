@@ -14,14 +14,14 @@ No result directory has been renamed, discarded, or declared to be the published
 because its name includes `final`. The following inventory identifies runnable artifact families,
 not a claim that every published result has been verified.
 
-| Artifact family | Inputs | Computation | Generated artifact |
-| --- | --- | --- | --- |
-| NY election metrics | Checksummed NY cleaned CSV | `pipelines/NY/collect_stats_ny.py` | `stats/ny_stats/`, `tables/ny.csv` |
-| Portland election metrics | Four checksummed district CSVs | `pipelines/portland/collect_stats_portland.py` | `stats/portland_stats/`, `tables/portland.csv` |
-| Scottish primary metrics | Pinned `scot-elex` CSVs, 3–14 candidates | `pipelines/scottish/collect_stats_scottish.py` | `stats/scottish_stats/` |
-| Scottish comparisons | Scottish primary statistics | `create_scottish_scatterplots.py`, `make_scottish_csv_limited.py` | `plots/scottish/`, limited CSVs under `stats/scottish_stats/` |
-| BT primary metrics | Folders listed in `config/bt_profiles.txt` | `pipelines/bradley-terry/collect_stats_final_set_v2.py` | `stats/bt_2_bloc_profile_stats/3_seats/` |
-| BT comparisons | Matching primary BT statistics | `um_vs_iia_plots.py`, `candidate_sweep_boxplots.py`, `b_bloc_sweep_boxplots.py` | `plots/bt_plots/` |
+| Artifact family           | Inputs                                     | Computation                                                                                      | Generated artifact                                            |
+| ------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| NY election metrics       | Checksummed NY cleaned CSV                 | `pipelines/new_york/collect_metrics.py`                                                          | `stats/ny_stats/`, `tables/ny.csv`                            |
+| Portland election metrics | Four checksummed district CSVs             | `pipelines/portland/collect_metrics.py`                                                          | `stats/portland_stats/`, `tables/portland.csv`                |
+| Scottish primary metrics  | Pinned `scot-elex` CSVs, 3–14 candidates   | `pipelines/scottish/collect_metrics.py`                                                          | `stats/scottish_stats/`                                       |
+| Scottish comparisons      | Scottish primary statistics                | `plot_um_iia_scatter.py`, `export_metric_tables.py`                                              | `plots/scottish/`, limited CSVs under `stats/scottish_stats/` |
+| BT primary metrics        | Folders listed in `config/bt_profiles.txt` | `pipelines/bradley_terry/collect_metrics.py`                                                     | `stats/bt_2_bloc_profile_stats/3_seats/`                      |
+| BT comparisons            | Matching primary BT statistics             | `plot_um_iia_scatter.py`, `plot_candidate_count_boxplots.py`, `plot_bloc_proportion_boxplots.py` | `plots/bt_plots/`                                             |
 
 In the local manuscript, ranking metrics use rho and winner-set metrics use sigma. The Python
 names `sigma_IIA` and `sigma_UM` denote ranking metrics; names ending in `_winner_set` denote
@@ -43,6 +43,9 @@ The smoke example uses a temporary synthetic profile and checks its numerical ou
 
 ## Shared settings
 
+The [pipeline index](../pipelines/README.md) lists collectors, plotters, clustering analyses,
+and their input requirements by dataset.
+
 `voting_metrics_main_code/constants.py` defines shared voting-rule order, colors, labels, font
 sizes, and the Bradley–Terry experiment grid. The profile generator and matching plotters import
 the same grid; changing it affects both. The grid matches the preserved profile manifest in
@@ -50,8 +53,8 @@ the same grid; changing it affects both. The grid matches the preserved profile 
 settings locally.
 
 Runtime paths and random-seed handling live in `voting_metrics_main_code/replication.py`.
-BT metric lists and sweep palettes remain in `pipelines/bradley-terry/make_plots/metric_lists.py`
-and `colors.py`, respectively.
+BT metric lists and sweep palettes remain in `pipelines/bradley_terry/plots/_metrics.py`
+and `_palettes.py`, respectively.
 
 ## Inputs
 
@@ -90,7 +93,7 @@ particular redistribution license.
 ./scripts/run_ny_pipeline.sh
 ./scripts/run_portland_pipeline.sh
 ./scripts/run_scottish_pipeline.sh --n-jobs 4
-./scripts/run_2_bloc_BT_pipeline.sh --n-jobs 4
+./scripts/run_bt_pipeline.sh --n-jobs 4
 ```
 
 New artifacts go to `results/generated/`, with `stats/`, `plots/`, and `tables/` beneath it.
@@ -110,7 +113,7 @@ for BT, settings checksum. They are not certificates of provenance for old resul
 ```sh
 ./scripts/run_ny_pipeline.sh --mode figures --stats-dir stats
 ./scripts/run_scottish_pipeline.sh --mode figures --stats-dir stats
-./scripts/run_2_bloc_BT_pipeline.sh --mode figures \
+./scripts/run_bt_pipeline.sh --mode figures \
   --bt-stats-dir stats/bt_2_bloc_profile_stats_final_experiment
 ```
 
@@ -121,10 +124,10 @@ remain available as research analyses but are not automatically executed by the 
 Proportionality also needs the original matching `preference_dfs` utility files, which are not in
 the tracked profile archive. Portland clustering is opt-in with `--diagnostics`.
 
-Two older Scottish exporters still expect legacy flat JSON files that the current collectors do
-not produce: `create_scottish_outputs.py` and the CSV stage of
-`create_scottish_boxplots_variant_tiebreak.py`. With the current statistics tree, they fail on
-missing legacy inputs. Use `create_scottish_boxplot.py` and `make_scottish_csv_limited.py` for
+Two Scottish plot-and-table exporters expect aggregate JSON files that the current collectors do
+not produce: `plot_boxplots_and_tables.py` and the CSV stage of
+`plot_boxplots_by_variant_and_tiebreak.py`. With the current statistics tree, they fail on
+missing aggregate inputs. Use `plot_metric_boxplots.py` and `export_metric_tables.py` for
 the current layout; the maintained Scottish runner already uses the latter for tables.
 
 Standalone plotting scripts read the preserved `stats/` tree by default and write under
@@ -136,9 +139,9 @@ to preserved statistics. Relative command-line and environment paths resolve fro
 directory, including when a shell runner is invoked from outside the repository.
 
 ```sh
-uv run --locked python pipelines/bradley-terry/make_plots/waterfall.py
+uv run --locked python pipelines/bradley_terry/plots/plot_proportionality_waterfall.py
 QF_STATS_DIR=results/new-run/stats QF_RESULTS_DIR=results/new-run \
-  uv run --locked python pipelines/bradley-terry/make_plots/waterfall.py
+  uv run --locked python pipelines/bradley_terry/plots/plot_proportionality_waterfall.py
 ```
 
 Waterfall derives points from the selected JSON inputs each time; it no longer reads or writes
@@ -151,11 +154,11 @@ bootstrap directory independently. Without `QF_BOOTSTRAP_DIR`, bootstrap plots r
 `scottish_stats/bootstrap/` beneath `QF_STATS_DIR` (or the preserved `stats/` default).
 
 ```sh
-uv run --locked python pipelines/scottish/collect_bootstrap_scottish.py
+uv run --locked python pipelines/scottish/compute_bootstrap_intervals.py
 QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
-  uv run --locked python pipelines/scottish/create_scottish_scatterplots_with_bootstrap.py
+  uv run --locked python pipelines/scottish/plots/plot_um_iia_bootstrap.py
 QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
-  uv run --locked python pipelines/scottish/create_bonferroni_rectangle_plots.py
+  uv run --locked python pipelines/scottish/plots/plot_bootstrap_rectangles.py
 ```
 
 `config/bt_profiles.txt` retains the original selection and order with repository-relative paths.
@@ -163,7 +166,7 @@ Generate a new selection without overwriting the old file:
 
 ```sh
 uv run --locked python scripts/generate_settings.py --output config/new-bt-profiles.txt
-./scripts/run_2_bloc_BT_pipeline.sh --settings-file config/new-bt-profiles.txt \
+./scripts/run_bt_pipeline.sh --settings-file config/new-bt-profiles.txt \
   --output-dir results/new-run
 ```
 
@@ -171,7 +174,7 @@ To create a new synthetic sample, run the generator with a new output location. 
 profile or utility directories and never replaces the archived data:
 
 ```sh
-QF_SEED=0 uv run --locked python pipelines/bradley-terry/generate_BT_profiles.py \
+QF_SEED=0 uv run --locked python pipelines/bradley_terry/generate_profiles.py \
   --output-dir results/new-sample/preference_profiles --n-jobs 4
 uv run --locked python scripts/generate_settings.py \
   --profile-root results/new-sample/preference_profiles \

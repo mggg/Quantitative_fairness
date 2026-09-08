@@ -30,19 +30,19 @@ calculations may still differ from the historical runs. See the replication guid
 
 ## Layout
 
-| Location                     | Purpose                                                            |
-| ---------------------------- | ------------------------------------------------------------------ |
-| `voting_metrics_main_code/`  | Authoritative metrics and voting rules                             |
-| `pipelines/`                 | Dataset collectors and plotting code                               |
-| `scripts/`                   | Maintained replication runners, input retrieval, and smoke example |
-| `config/`                    | Experiment selections, including the BT profile folders            |
-| `tests/`                     | Maintained behavior and replication checks                         |
-| `data/`                      | Preserved inputs; optional large downloads                         |
-| `stats/`, `plots/`           | Preserved historical results, pending publication designation      |
-| `results/generated/`         | Ignored outputs of new runs                                        |
-| `docs/`                      | Replication inventory, provenance, and baseline                    |
-| `archive/`                   | Preserved superseded source snapshots                              |
-| `notebooks/`, `other_files/` | Historical notebooks and preparation utilities                     |
+| Location                            | Purpose                                                            |
+| ----------------------------------- | ------------------------------------------------------------------ |
+| `voting_metrics_main_code/`         | Authoritative metrics and voting rules                             |
+| [`pipelines/`](pipelines/README.md) | Dataset collectors, plotters, and analysis index                   |
+| `scripts/`                          | Maintained replication runners, input retrieval, and smoke example |
+| `config/`                           | Experiment selections, including the BT profile folders            |
+| `tests/`                            | Maintained behavior and replication checks                         |
+| `data/`                             | Preserved inputs; optional large downloads                         |
+| `stats/`, `plots/`                  | Preserved historical results, pending publication designation      |
+| `results/generated/`                | Ignored outputs of new runs                                        |
+| `docs/`                             | Replication inventory, provenance, and baseline                    |
+| `archive/`                          | Preserved superseded source snapshots                              |
+| `notebooks/`, `other_files/`        | Historical notebooks and preparation utilities                     |
 
 Import metrics and voting rules directly from `voting_metrics_main_code`. Run commands through
 `scripts/`; there are no root forwarding scripts. The ignored `paper/` and `dev_files/` directories
@@ -54,7 +54,7 @@ contain local research material and are not included in a clone.
 ./scripts/run_ny_pipeline.sh
 ./scripts/run_portland_pipeline.sh
 ./scripts/run_scottish_pipeline.sh --n-jobs 4
-./scripts/run_2_bloc_BT_pipeline.sh --n-jobs 4
+./scripts/run_bt_pipeline.sh --n-jobs 4
 ```
 
 Use `--mode figures --stats-dir stats` to regenerate presentation artifacts from existing

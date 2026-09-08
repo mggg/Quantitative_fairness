@@ -21,20 +21,29 @@ def test_runner_resolves_relative_data_before_changing_child_directory(tmp_path)
         "sys.argv = sys.argv[1:]; runpy.run_path(sys.argv[0], run_name='__main__')"
     )
     result = subprocess.run(
-        [sys.executable, "-c", code, str(script), "ny", "--mode", "stats",
-         "--output-dir", "output"],
+        [
+            sys.executable,
+            "-c",
+            code,
+            str(script),
+            "ny",
+            "--mode",
+            "stats",
+            "--output-dir",
+            "output",
+        ],
         cwd=tmp_path,
         env={**os.environ, "QF_DATA_DIR": "inputs", "QF_RESULTS_DIR": str(tmp_path / "output")},
-        capture_output=True, text=True, check=True,
+        capture_output=True,
+        text=True,
+        check=True,
     )
     assert json.loads(result.stdout) == str(tmp_path / "inputs")
 
 
 def test_bt_paired_statistics_keep_the_selected_root(tmp_path):
     tree = tmp_path / "sigma_IIA-run"
-    output_jobs = runpy.run_path(ROOT / "pipelines/bradley-terry/collect_stats_final_set_v2.py")[
-        "output_jobs"
-    ]
+    output_jobs = runpy.run_path(ROOT / "pipelines/bradley_terry/collect_metrics.py")["output_jobs"]
     folder = tmp_path / "02_06/b_proportion_0.5__ALPHA_(1.00,1.00,1.00,1.00)__COHESION_(0.70,0.70)"
     for rule in ("borda", "stv", "plurality", "2-approval", "3-approval", "ranked-pairs", "random"):
         _, jobs = output_jobs(folder, 3, rule, "lex")
@@ -43,10 +52,15 @@ def test_bt_paired_statistics_keep_the_selected_root(tmp_path):
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_text("[0.2, 0.3]")
     subprocess.run(
-        [sys.executable, str(ROOT / "pipelines/bradley-terry/make_plots/um_vs_iia_plots.py")],
+        [sys.executable, str(ROOT / "pipelines/bradley_terry/plots/plot_um_iia_scatter.py")],
         cwd=tmp_path,
-        env={**os.environ, "QF_BT_STATS_DIR": str(tree), "QF_RESULTS_DIR": str(tmp_path / "output")},
-        capture_output=True, check=True,
+        env={
+            **os.environ,
+            "QF_BT_STATS_DIR": str(tree),
+            "QF_RESULTS_DIR": str(tmp_path / "output"),
+        },
+        capture_output=True,
+        check=True,
     )
     assert len(list((tmp_path / "output").rglob("*.png"))) == 14
 
@@ -54,10 +68,10 @@ def test_bt_paired_statistics_keep_the_selected_root(tmp_path):
 def test_proportionality_keeps_profile_and_utility_roots(tmp_path):
     from votekit import RankProfile
 
-    generate = runpy.run_path(ROOT / "pipelines/bradley-terry/generate_BT_profiles.py")[
+    generate = runpy.run_path(ROOT / "pipelines/bradley_terry/generate_profiles.py")[
         "generate_and_save_profile"
     ]
-    process = runpy.run_path(ROOT / "pipelines/bradley-terry/compute_proportionality.py")[
+    process = runpy.run_path(ROOT / "pipelines/bradley_terry/compute_proportionality.py")[
         "process_profile"
     ]
     data = tmp_path / "preference_profiles/b_proportion_bad.csv/_COHESION_(bad)"
@@ -89,13 +103,14 @@ def test_standalone_defaults_and_explicit_inputs(tmp_path, monkeypatch):
 
 
 @pytest.mark.parametrize("mode", ["all", "figures"])
-def test_runner_selects_statistics_for_its_mode(tmp_path, monkeypatch, mode):
+@pytest.mark.parametrize("dataset", ["ny", "portland", "scottish", "bt"])
+def test_runner_selects_statistics_for_its_mode(tmp_path, monkeypatch, mode, dataset):
     main = runpy.run_path(ROOT / "scripts/replicate.py")["main"]
     calls = []
     monkeypatch.setattr(subprocess, "run", lambda *args, **kwargs: calls.append((args, kwargs)))
     monkeypatch.chdir(tmp_path)
     monkeypatch.setattr(
-        sys, "argv", ["replicate.py", "ny", "--mode", mode, "--output-dir", "new-results"]
+        sys, "argv", ["replicate.py", dataset, "--mode", mode, "--output-dir", "new-results"]
     )
     main()
     expected = ROOT / "stats" if mode == "figures" else tmp_path / "new-results/stats"
@@ -107,12 +122,15 @@ def test_runner_selects_statistics_for_its_mode(tmp_path, monkeypatch, mode):
 
 
 def test_bootstrap_plot_imports_without_project_on_pythonpath(tmp_path):
-    path = ROOT / "pipelines/scottish/create_scottish_scatterplots_with_bootstrap.py"
+    path = ROOT / "pipelines/scottish/plots/plot_um_iia_bootstrap.py"
     env = {key: value for key, value in os.environ.items() if key != "PYTHONPATH"}
     env["QF_RESULTS_DIR"] = str(tmp_path / "results")
     subprocess.run(
         [sys.executable, "-c", "import runpy, sys; runpy.run_path(sys.argv[1])", str(path)],
-        cwd=tmp_path, env=env, check=True, capture_output=True,
+        cwd=tmp_path,
+        env=env,
+        check=True,
+        capture_output=True,
     )
 
 
@@ -125,8 +143,7 @@ def test_bootstrap_plots_can_select_generated_intervals_separately(tmp_path):
             f"_vs_sigma_UM{suffix}_worst_case_asin.csv"
         )
         (intervals / filename).write_text(
-            "rule,tiebreak,candidate_size,um_L,um_U,iia_L,iia_U\n"
-            "borda,lex,,0.6,0.8,0.5,0.7\n"
+            "rule,tiebreak,candidate_size,um_L,um_U,iia_L,iia_U\nborda,lex,,0.6,0.8,0.5,0.7\n"
         )
     env = {
         **os.environ,
@@ -134,9 +151,9 @@ def test_bootstrap_plots_can_select_generated_intervals_separately(tmp_path):
         "QF_BOOTSTRAP_DIR": str(intervals),
         "QF_RESULTS_DIR": str(tmp_path / "output"),
     }
-    for name in ("create_scottish_scatterplots_with_bootstrap", "create_bonferroni_rectangle_plots"):
+    for name in ("plot_um_iia_bootstrap", "plot_bootstrap_rectangles"):
         command = [sys.executable]
-        if name == "create_scottish_scatterplots_with_bootstrap":
+        if name == "plot_um_iia_bootstrap":
             command += [
                 "-c",
                 "import runpy, sys; m = runpy.run_path(sys.argv[1]); "
@@ -145,15 +162,19 @@ def test_bootstrap_plots_can_select_generated_intervals_separately(tmp_path):
                 "assert len(rows) == 2",
             ]
         result = subprocess.run(
-            [*command, str(ROOT / f"pipelines/scottish/{name}.py")],
-            cwd=tmp_path, env=env, capture_output=True, text=True, check=True,
+            [*command, str(ROOT / f"pipelines/scottish/plots/{name}.py")],
+            cwd=tmp_path,
+            env=env,
+            capture_output=True,
+            text=True,
+            check=True,
         )
         assert "Missing rectangle file" not in result.stdout
     assert len(list((tmp_path / "output/plots/scottish/bonferroni_rectangles").glob("*.png"))) == 2
 
 
 def test_bootstrap_candidate_count_plot(tmp_path):
-    module = runpy.run_path(ROOT / "pipelines/scottish/create_scottish_scatterplots_with_bootstrap.py")
+    module = runpy.run_path(ROOT / "pipelines/scottish/plots/plot_um_iia_bootstrap.py")
     um_key, iia_key = module["get_limited_metric_key_pairs"]()[0]
     module["run_limited_scatter_plots_by_candidate_count_with_bootstrap"](
         outputs_by_election_type={"borda": {"3": {um_key: [0.6, 0.8], iia_key: [0.5, 0.7]}}},
@@ -169,7 +190,7 @@ def test_bootstrap_candidate_count_plot(tmp_path):
 
 
 def test_histograms_create_fresh_output_directories(tmp_path, monkeypatch):
-    module = runpy.run_path(ROOT / "pipelines/bradley-terry/make_plots/M_stat_histograms.py")
+    module = runpy.run_path(ROOT / "pipelines/cross_dataset/plot_m_statistic_histograms.py")
     bt = module["make_bt_M_histograms"]
     scottish = module["make_scottish_M_histogram"]
     source = tmp_path / "source.json"
@@ -185,7 +206,9 @@ def test_histograms_create_fresh_output_directories(tmp_path, monkeypatch):
 
 
 def test_waterfall_uses_selected_inputs_without_stale_cache(tmp_path, monkeypatch):
-    main = runpy.run_path(ROOT / "pipelines/bradley-terry/make_plots/waterfall.py")["main"]
+    main = runpy.run_path(ROOT / "pipelines/bradley_terry/plots/plot_proportionality_waterfall.py")[
+        "main"
+    ]
     settings = "02_06/b_proportion_0.5__ALPHA_(1.00,1.00,1.00,1.00)__COHESION_(0.70,0.70)"
     source = tmp_path / "stats/bt_proportionality"
     source.mkdir(parents=True)
@@ -193,7 +216,8 @@ def test_waterfall_uses_selected_inputs_without_stale_cache(tmp_path, monkeypatc
     monkeypatch.setitem(main.__globals__, "PLOTS_DIR", tmp_path / "plots")
     monkeypatch.setitem(main.__globals__, "AllowedRule", ("borda",))
     monkeypatch.setitem(
-        main.__globals__, "product",
+        main.__globals__,
+        "product",
         lambda *args: [((2, 6), 0.5, (0.7, 0.7), (1, 1, 1, 1), 0)],
     )
     points = []
@@ -218,13 +242,15 @@ def test_waterfall_uses_selected_inputs_without_stale_cache(tmp_path, monkeypatc
 
 
 def test_waterfall_reports_missing_input_directory(tmp_path, monkeypatch):
-    main = runpy.run_path(ROOT / "pipelines/bradley-terry/make_plots/waterfall.py")["main"]
+    main = runpy.run_path(ROOT / "pipelines/bradley_terry/plots/plot_proportionality_waterfall.py")[
+        "main"
+    ]
     monkeypatch.setitem(main.__globals__, "STATS_INPUT", tmp_path)
     with pytest.raises(FileNotFoundError, match="bt_proportionality"):
         main()
 
 
-@pytest.mark.parametrize("dataset", ["ny", "portland", "scottish", "2_bloc_BT"])
+@pytest.mark.parametrize("dataset", ["ny", "portland", "scottish", "bt"])
 def test_shell_runners_preserve_the_calling_directory(tmp_path, dataset):
     executable = tmp_path / "uv"
     executable.write_text(
@@ -237,11 +263,18 @@ def test_shell_runners_preserve_the_calling_directory(tmp_path, dataset):
         [str(ROOT / f"scripts/run_{dataset}_pipeline.sh"), "--output-dir", "new-results"],
         cwd=tmp_path,
         env={**os.environ, "PATH": str(tmp_path) + os.pathsep + os.environ["PATH"]},
-        check=True, capture_output=True, text=True,
+        check=True,
+        capture_output=True,
+        text=True,
     )
     invocation = json.loads(result.stdout)
     assert invocation["cwd"] == str(tmp_path)
     assert invocation["args"][:6] == [
-        "run", "--project", str(ROOT), "--locked", "python", str(ROOT / "scripts/replicate.py")
+        "run",
+        "--project",
+        str(ROOT),
+        "--locked",
+        "python",
+        str(ROOT / "scripts/replicate.py"),
     ]
     assert invocation["args"][-2:] == ["--output-dir", "new-results"]

@@ -15,12 +15,8 @@ ElectionConstructor: TypeAlias = Callable[..., Election]
 def random_candidate_order(profile: RankProfile, excluded=()) -> list:
     """Randomly order the profile's cast candidates, followed by its uncast candidates."""
     excluded = set(excluded)
-    cast_cands = sorted(
-        cand for cand in profile.candidates_cast if cand not in excluded
-    )
-    uncast_cands = sorted(
-        set(profile.candidates) - set(profile.candidates_cast) - excluded
-    )
+    cast_cands = sorted(cand for cand in profile.candidates_cast if cand not in excluded)
+    uncast_cands = sorted(set(profile.candidates) - set(profile.candidates_cast) - excluded)
     random.shuffle(cast_cands)
     random.shuffle(uncast_cands)
     return cast_cands + uncast_cands

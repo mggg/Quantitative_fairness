@@ -270,9 +270,7 @@ def test_low_UM_plurality():
     profile = RankProfile(
         ballots=tuple(
             [
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=99
-                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=99),
                 RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}]))),
             ]
         )
@@ -295,27 +293,18 @@ def test_low_UM_plurality():
 
 def test_IIA_Borda_high():
     voting_rule = build_voting_rule(4, "borda")
-    assert (
-        abs(sigma_IIA(basic_IIA_profile, voting_rule, 1, variant="average") - 0.917)
-        < 1e-3
-    )
+    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 1, variant="average") - 0.917) < 1e-3
 
 
 def test_IIA_Plurality_high_needs_lex_tiebreak_due_to_tie_in_final_ranking():
     voting_rule = build_voting_rule(4, "plurality")
-    assert (
-        abs(sigma_IIA(basic_IIA_profile, voting_rule, 1, variant="average") - 0.833)
-        < 1e-3
-    )
+    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 1, variant="average") - 0.833) < 1e-3
 
 
 def test_IIA_Plurality_high_needs_borda_tiebreak():
     voting_rule = build_voting_rule(4, "plurality", tiebreak="borda")
 
-    assert (
-        abs(sigma_IIA(basic_IIA_profile, voting_rule, 2, variant="average") - 0.917)
-        < 1e-3
-    )
+    assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 2, variant="average") - 0.917) < 1e-3
 
 
 def test_IIA_winner_set_STV_ub():
@@ -324,21 +313,14 @@ def test_IIA_winner_set_STV_ub():
     profile = RankProfile(
         ballots=tuple(
             [
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=7
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=2
-                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=7),
+                RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=2),
                 RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}]))),
             ]
         )
     )
     voting_rule = build_voting_rule(n_cands, "stv")
-    assert (
-        abs(sigma_IIA_winner_set(profile, voting_rule, n_seats, variant="average") - 1)
-        < 1e-4
-    )
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, n_seats, variant="average") - 1) < 1e-4
 
 
 def test_IIA_winner_set_STV_mid():
@@ -347,22 +329,14 @@ def test_IIA_winner_set_STV_mid():
     profile = RankProfile(
         ballots=tuple(
             [
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=6
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=4
-                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=6),
+                RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=4),
             ]
         )
     )
     voting_rule = build_voting_rule(n_cands, "stv")
     assert (
-        abs(
-            sigma_IIA_winner_set(profile, voting_rule, n_seats, variant="average")
-            - 2 / 3.0
-        )
-        < 1e-4
+        abs(sigma_IIA_winner_set(profile, voting_rule, n_seats, variant="average") - 2 / 3.0) < 1e-4
     )
 
 
@@ -373,15 +347,9 @@ def test_UM_borda_ub():
     profile = RankProfile(
         ballots=tuple(
             [
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=5
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}])), weight=3
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=2
-                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=5),
+                RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}])), weight=3),
+                RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=2),
             ]
         )
     )
@@ -409,15 +377,9 @@ def test_UM_plurality_ub():
     profile = RankProfile(
         ballots=tuple(
             [
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=5
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}])), weight=3
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=2
-                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}])), weight=5),
+                RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"A"}, {"C"}])), weight=3),
+                RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}])), weight=2),
             ]
         )
     )
@@ -461,9 +423,7 @@ def test_UM_4_cands_STV():
     voting_rule = build_voting_rule(4, "stv")
     assert (
         abs(
-            sigma_UM(
-                profile, voting_rule, 1, variant="worst_case", interpolation_type="asin"
-            )
+            sigma_UM(profile, voting_rule, 1, variant="worst_case", interpolation_type="asin")
             - 0.436
         )
         < 1e-3
@@ -524,11 +484,7 @@ def test_IIA_winner_set_5_cand_STV_ub():
 
     voting_rule = build_voting_rule(4, "stv")
     assert (
-        abs(
-            sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average")
-            - 1
-        )
-        < 1e-3
+        abs(sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average") - 1) < 1e-3
     )
 
 
@@ -536,11 +492,7 @@ def test_IIA_winner_set_5_cand_Plurality_ub():
 
     voting_rule = build_voting_rule(4, "plurality")
     assert (
-        abs(
-            sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average")
-            - 1
-        )
-        < 1e-3
+        abs(sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average") - 1) < 1e-3
     )
 
 
@@ -548,11 +500,7 @@ def test_IIA_winner_set_5_cand_Borda_ub():
 
     voting_rule = build_voting_rule(4, "borda")
     assert (
-        abs(
-            sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average")
-            - 1
-        )
-        < 1e-3
+        abs(sigma_IIA_winner_set(profile_5_cand_ub, voting_rule, 1, variant="average") - 1) < 1e-3
     )
 
 
@@ -677,22 +625,13 @@ def test_IIA_winner_set_changes_with_election_type():
     )
 
     voting_rule = build_voting_rule(5, "stv")
-    assert (
-        abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.8)
-        < 1e-3
-    )
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.8) < 1e-3
 
     voting_rule = build_voting_rule(5, "plurality")
-    assert (
-        abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.8)
-        < 1e-3
-    )
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.8) < 1e-3
 
     voting_rule = build_voting_rule(5, "borda")
-    assert (
-        abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 1.0)
-        < 1e-3
-    )
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 1.0) < 1e-3
 
 
 def test_IIA_winner_set_changes_with_seat_number_Plurality():
@@ -701,21 +640,15 @@ def test_IIA_winner_set_changes_with_seat_number_Plurality():
         ballots=tuple(
             [
                 RankBallot(
-                    ranking=tuple(
-                        map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}])
-                    ),
+                    ranking=tuple(map(frozenset, [{"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}])),
                     weight=8,
                 ),
                 RankBallot(
-                    ranking=tuple(
-                        map(frozenset, [{"D"}, {"A"}, {"B"}, {"C"}, {"E"}, {"F"}])
-                    ),
+                    ranking=tuple(map(frozenset, [{"D"}, {"A"}, {"B"}, {"C"}, {"E"}, {"F"}])),
                     weight=7,
                 ),
                 RankBallot(
-                    ranking=tuple(
-                        map(frozenset, [{"C"}, {"A"}, {"B"}, {"F"}, {"E"}, {"D"}])
-                    ),
+                    ranking=tuple(map(frozenset, [{"C"}, {"A"}, {"B"}, {"F"}, {"E"}, {"D"}])),
                     weight=5,
                 ),
             ]
@@ -723,32 +656,18 @@ def test_IIA_winner_set_changes_with_seat_number_Plurality():
     )
 
     voting_rule = build_voting_rule(6, "plurality")
-    assert (
-        abs(sigma_IIA_winner_set(profile, voting_rule, 1, variant="average") - 1) < 1e-3
-    )
-    assert (
-        abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.833)
-        < 1e-3
-    )
-    assert (
-        abs(sigma_IIA_winner_set(profile, voting_rule, 3, variant="average") - 0.917)
-        < 1e-3
-    )
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 1, variant="average") - 1) < 1e-3
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 0.833) < 1e-3
+    assert abs(sigma_IIA_winner_set(profile, voting_rule, 3, variant="average") - 0.917) < 1e-3
 
 
 def test_IIA_Plurality_obtains_zero():
     profile = RankProfile(
         ballots=tuple(
             [
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2
-                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
+                RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
+                RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
             ]
         )
     )
@@ -761,15 +680,9 @@ def test_IIA_winner_set_Plurality_obtains_lb():
     profile = RankProfile(
         ballots=tuple(
             [
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2
-                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
+                RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
+                RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
             ]
         )
     )
@@ -782,15 +695,9 @@ def test_IIA_winner_set_Plurality_low():
     profile = RankProfile(
         ballots=tuple(
             [
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3
-                ),
-                RankBallot(
-                    ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2
-                ),
+                RankBallot(ranking=tuple(map(frozenset, [{"A"}, {"C"}, {"B"}])), weight=4),
+                RankBallot(ranking=tuple(map(frozenset, [{"B"}, {"C"}, {"A"}])), weight=3),
+                RankBallot(ranking=tuple(map(frozenset, [{"C"}, {"B"}, {"A"}])), weight=2),
             ]
         )
     )
@@ -822,9 +729,7 @@ def test_UM_Plurality_low():
     voting_rule = build_voting_rule(4, "plurality")
     assert (
         abs(
-            sigma_UM(
-                profile, voting_rule, 1, variant="worst_case", interpolation_type="asin"
-            )
+            sigma_UM(profile, voting_rule, 1, variant="worst_case", interpolation_type="asin")
             - 0.436
         )
         < 1e-3

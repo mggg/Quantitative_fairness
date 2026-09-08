@@ -6,6 +6,9 @@ palettes, and metric variants remain with their callers.
 
 from typing import Literal, TypeAlias, get_args
 
+MetricVariant: TypeAlias = Literal["average", "worst_case"]
+InterpolationType: TypeAlias = Literal["asin", "odds", "linear"]
+
 AllowedRule: TypeAlias = Literal[
     "borda", "3-approval", "2-approval", "plurality", "stv", "ranked-pairs", "random"
 ]

@@ -67,7 +67,7 @@ def test_bt_rejects_missing_profiles_without_writing_results(tmp_path):
     result = subprocess.run(
         [
             sys.executable,
-            str(ROOT / "pipelines/bradley-terry/collect_stats_final_set_v2.py"),
+            str(ROOT / "pipelines/bradley_terry/collect_metrics.py"),
             "--settings-file",
             str(settings),
         ],
@@ -99,7 +99,7 @@ def test_bt_random_results_do_not_depend_on_worker_count_or_resume(tmp_path):
         subprocess.run(
             [
                 sys.executable,
-                str(ROOT / "pipelines/bradley-terry/collect_stats_final_set_v2.py"),
+                str(ROOT / "pipelines/bradley_terry/collect_metrics.py"),
                 "--settings-file",
                 str(settings),
                 "--election-type",
@@ -139,7 +139,7 @@ def test_smoke_example():
 
 
 def test_generated_profiles_and_utilities_are_seeded_and_never_replaced(tmp_path):
-    generate = runpy.run_path(ROOT / "pipelines/bradley-terry/generate_BT_profiles.py")[
+    generate = runpy.run_path(ROOT / "pipelines/bradley_terry/generate_profiles.py")[
         "generate_and_save_profile"
     ]
     arguments = (2, 2, 40, 0.5, 0.7, 0.7, 1, 1, 1, 1, 0)

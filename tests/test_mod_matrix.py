@@ -6,13 +6,11 @@ import numpy as np
 ROOT_DIR = Path(__file__).parents[1].resolve()
 sys.path.append(str(ROOT_DIR))
 
-from pipelines.portland.modularity_functions import boost_modularity_matrix  # noqa: E402
+from pipelines.portland.clustering.modularity import boost_modularity_matrix  # noqa: E402
 
 
 def test_modularity_score_4x4():
-    test_matrix = np.array(
-        [[0, 5, -5, -2], [2, 0, -10, 0], [-10, -1, 0, 12], [-3, 0, 6, 0]]
-    )
+    test_matrix = np.array([[0, 5, -5, -2], [2, 0, -10, 0], [-10, -1, 0, 12], [-3, 0, 6, 0]])
 
     test_mod_matrix = boost_modularity_matrix(test_matrix, [0, 0, 1, 1])
 
