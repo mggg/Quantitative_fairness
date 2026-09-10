@@ -1,7 +1,7 @@
 """Plot UM metric summaries colored by election type."""
 
+import argparse
 import sys
-from glob import glob
 from itertools import product
 from pathlib import Path
 
@@ -10,28 +10,37 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from pipelines.bradley_terry.plots._data import load_metric_summaries
-
-from pipelines.bradley_terry.plots._palettes import colors
+from pipelines.bradley_terry.plots._data import find_metric_files, load_metric_summaries
 from pipelines.bradley_terry.plots._metrics import (
     um_metric_list,
     variant_list,
 )
-
-from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
-
-plots_dir = PLOTS_DIR / "bt_plots" / "um_plots"
+from pipelines.bradley_terry.plots._palettes import colors
+from voting_metrics_main_code.replication import ROOT
 
 
-def plot_um_metric(metric: str, variant: str, tiebreak: str = "lex") -> None:
+def plot_um_metric(
+    metric: str,
+    variant: str,
+    tiebreak: str = "lex",
+    *,
+    bt_stats_root: Path,
+    output_root: Path,
+    n_seats: int = 3,
+) -> None:
     """Save UM means versus standard deviations colored by voting rule.
 
     Args:
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
+        bt_stats_root (Path): Exact two-bloc BT statistics tree.
+        output_root (Path): Run root containing stats, plots, and tables.
         metric (str): Metric identifier used in the statistics filenames.
         variant (str): Metric aggregation variant, 'average' or 'worst_case'.
         tiebreak (str, optional): Tiebreak rule token used in the statistics filenames. Defaults to
             'lex'.
     """
+    plots_dir = output_root / "plots" / "bt_plots" / "um_plots"
+
     plots_dir.mkdir(parents=True, exist_ok=True)
     output_file = plots_dir / f"{metric}__{variant}__mean_vs_std_colored_by_election_type.png"
 
@@ -40,20 +49,15 @@ def plot_um_metric(metric: str, variant: str, tiebreak: str = "lex") -> None:
     }
 
     for voting_rule in ["borda", "stv", "plurality"]:
-        file_basename = (
-            f"METRIC_{metric}"
-            f"__VARIANT_{variant}"
-            f"__INTERP_asin"
-            f"__NCANDS_(*)"
-            f"__SEATS_3"
-            f"__BPROP_*"
-            f"__ALPHA_(*)"
-            f"__COHESION_(*)"
-            f"__TYPE_{voting_rule}"
-            f"__TIEBREAK_{tiebreak}"
+        all_files = find_metric_files(
+            bt_stats_root,
+            metric,
+            variant,
+            "asin",
+            n_seats=n_seats,
+            rule=voting_rule,
+            tiebreak=tiebreak,
         )
-
-        all_files = glob(f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json")
 
         data_points = load_metric_summaries(all_files)
 
@@ -86,11 +90,32 @@ def plot_um_metric(metric: str, variant: str, tiebreak: str = "lex") -> None:
     plt.close()
 
 
-def main() -> None:
-    """Save the configured BT metric comparisons grouped by voting rule."""
+def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats: int = 3) -> None:
+    """Save the configured BT metric comparisons grouped by voting rule.
+
+    Args:
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
+        bt_stats_root (Path | None, optional): Exact two-bloc BT statistics tree. None uses the
+            selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()
+    print(f"BT statistics: {bt_stats_root}")
+    print(f"Output root: {output_root}")
+    print(f"Seats: {n_seats}")
+
     for metric, variant in product(um_metric_list, variant_list):
-        plot_um_metric(metric, variant)
+        plot_um_metric(
+            metric, variant, bt_stats_root=bt_stats_root, output_root=output_root, n_seats=n_seats
+        )
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bt-stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    parser.add_argument("--n-seats", type=int, default=3)
+    args = parser.parse_args()
+    main(bt_stats_root=args.bt_stats_dir, output_root=args.output_dir, n_seats=args.n_seats)

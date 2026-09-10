@@ -17,8 +17,8 @@ uv run --locked python scripts/smoke_test.py
 
 Environment synchronization installs the locked dependencies without modifying data. NY and Portland
 cleaned inputs are tracked; optional Scottish and BT retrieval commands are in the guide. BT inputs
-use Git LFS. The runners write under `results/generated/`; standalone collectors and plotters
-default to `stats/` and `plots/`. Preference profiles, preference interval dataframes, and saved
+use Git LFS. Runners and standalone analyses default to the repository run root, writing to `stats/` and
+`plots/`. Use `--output-dir results/new-run` for a separate computation. Preference profiles, preference interval dataframes, and saved
 metric scores or election results are never replaced. Move those files manually to recompute them.
 Figures and other derived outputs are overwritten by default.
 
@@ -41,13 +41,13 @@ calculations may still differ from the historical runs. See the replication guid
 | `tests/`                            | Maintained behavior and replication checks                         |
 | `data/`                             | Preserved inputs; optional large downloads                         |
 | `stats/`, `plots/`                  | Saved statistics and regenerable figures                           |
-| `results/generated/`                | Ignored outputs of new runs                                        |
+| `results/generated/`                | Optional ignored output root                                        |
 | `docs/`                             | Replication inventory, provenance, and baseline                    |
 | `archive/`                          | Preserved superseded source snapshots                              |
 | `notebooks/`, `other_files/`        | Historical notebooks and preparation utilities                     |
 
-Import metrics and voting rules directly from `voting_metrics_main_code`. Run commands through
-`scripts/`; there are no root forwarding scripts. The ignored `paper/` and `dev_files/` directories
+Import metrics and voting rules directly from `voting_metrics_main_code`. Run individual workflows directly, or inspect a dataset recipe with
+`uv run --locked python scripts/replicate.py portland --dry-run`. The ignored `paper/` and `dev_files/` directories
 contain local research material and are not included in a clone.
 
 ## Replication commands
@@ -59,9 +59,10 @@ contain local research material and are not included in a clone.
 ./scripts/run_bt_pipeline.sh --n-jobs 4
 ```
 
-Use `--mode figures --stats-dir stats` to regenerate presentation artifacts from existing
-statistics, or `--mode stats` to compute without plotting. BT reference trees can be selected with
-`--bt-stats-dir` in figures mode. Full runs can be expensive; start with the smoke example.
+Use `--mode figures` to plot statistics beneath the selected `--output-dir`, or `--mode stats`
+to compute without plotting. Pass `--stats-dir stats` to select preserved statistics explicitly. BT reference trees can be selected with
+`--bt-stats-dir` in figures mode. Individual workflows expose their paths and options with `--help`. Full runs can be expensive;
+start with the smoke example.
 
 All commands, numerical conventions, and known provenance gaps are documented in
 [docs/replication.md](docs/replication.md). Exact paper figure numbers and the final citation await

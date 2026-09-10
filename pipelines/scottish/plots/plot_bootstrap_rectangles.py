@@ -1,5 +1,6 @@
 """Plot Bonferroni confidence rectangles from Scottish bootstrap interval tables."""
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -10,13 +11,16 @@ from matplotlib.patches import Rectangle
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from voting_metrics_main_code.constants import RULE_COLORS as rule_color_map
-from voting_metrics_main_code.replication import PLOTS_DIR, SCOTTISH_BOOTSTRAP_INPUT
+from voting_metrics_main_code.replication import ROOT
 
 
-def plot_rectangles(df: pd.DataFrame, metric: str, rule_color_map: dict[str, str]) -> None:
+def plot_rectangles(
+    df: pd.DataFrame, metric: str, rule_color_map: dict[str, str], *, output_root: Path
+) -> None:
     """Plot rectangles [um_L, um_U] x [iia_L, iia_U] for each row in df.
 
     Args:
+        output_root (Path): Run root containing stats, plots, and tables.
         df (pd.DataFrame): DataFrame with columns 'um_L', 'um_U', 'iia_L', 'iia_U', 'rule'.
         metric (str): Metric label used in the output filename.
         rule_color_map (dict[str, str]): dict mapping rule names to colors.
@@ -50,30 +54,49 @@ def plot_rectangles(df: pd.DataFrame, metric: str, rule_color_map: dict[str, str
     ax.tick_params(axis="both", which="major", labelsize=16)
 
     output_file = (
-        PLOTS_DIR / "scottish" / "bonferroni_rectangles" / f"{metric}_bonferroni_rectangle_plot.png"
+        output_root
+        / "plots"
+        / "scottish"
+        / "bonferroni_rectangles"
+        / f"{metric}_bonferroni_rectangle_plot.png"
     )
     output_file.parent.mkdir(parents=True, exist_ok=True)
 
     plt.savefig(output_file, bbox_inches="tight", dpi=300)
 
 
-def main() -> None:
-    """Save pooled bootstrap rectangle plots for ranking and winner-set metrics."""
+def main(*, bootstrap_root: Path | None = None, output_root: Path = ROOT) -> None:
+    """Save pooled bootstrap rectangle plots for ranking and winner-set metrics.
+
+    Args:
+        bootstrap_root (Path | None, optional): Directory containing bootstrap interval CSVs. None
+            uses the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    bootstrap_root = (bootstrap_root or output_root / "stats/scottish_stats/bootstrap").resolve()
+    print(f"Bootstrap intervals: {bootstrap_root}")
+    print(f"Output root: {output_root}")
+
     df = pd.read_csv(
-        SCOTTISH_BOOTSTRAP_INPUT
-        / "bootstrap_rectangles_sigma_IIA_average_vs_sigma_UM_worst_case_asin.csv"
+        bootstrap_root / "bootstrap_rectangles_sigma_IIA_average_vs_sigma_UM_worst_case_asin.csv"
     )
 
     total_df = df.query("candidate_size.isna()")
-    plot_rectangles(total_df, "rho_UM", rule_color_map)
+    plot_rectangles(total_df, "rho_UM", rule_color_map, output_root=output_root)
 
     winner_df = pd.read_csv(
-        SCOTTISH_BOOTSTRAP_INPUT
+        bootstrap_root
         / "bootstrap_rectangles_sigma_IIA_winner_set_average_vs_sigma_UM_winner_set_worst_case_asin.csv"
     )
     winner_total_df = winner_df.query("candidate_size.isna()")
-    plot_rectangles(winner_total_df, "sigma_UM", rule_color_map)
+    plot_rectangles(winner_total_df, "sigma_UM", rule_color_map, output_root=output_root)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bootstrap-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    args = parser.parse_args()
+    main(bootstrap_root=args.bootstrap_dir, output_root=args.output_dir)

@@ -1,67 +1,164 @@
 # Replication workflow
 
-## Scope and status
+## Start with an artifact
 
-This package supports the four primary metrics: worst-case UM with arcsin interpolation and
-average single-candidate IIA, each for rankings and winner sets. NY elects one candidate,
-Portland and the maintained BT runner elect three, and Scotland uses the seat count in each input.
-NY, Portland, and BT use lexicographic tie-breaking; Scotland collects lexicographic and random
-variants. All seven voting rules run for BT and Scotland; NY and Portland run the six substantive
-rules, as in their original collectors.
+Use the [pipeline index](../pipelines/README.md) to locate a figure or analysis. Each executable
+workflow accepts `--help`. The commands below are ordinary Python scripts; each prints its selected
+paths, and the dataset runner prints every command before executing it.
 
-The publication reference directory and exact figure/table numbers still need author designation.
-No result directory has been renamed, discarded, or declared to be the published truth merely
-because its name includes `final`. The following inventory identifies runnable artifact families,
-not a claim that every published result has been verified.
+The publication reference tree and exact figure/table numbers still need author designation.
+Directories containing `final` in their names are not automatically publication references.
 
-| Artifact family           | Inputs                                     | Computation                                                                                      | Generated artifact                                            |
-| ------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- |
-| NY election metrics       | Checksummed NY cleaned CSV                 | `pipelines/new_york/collect_metrics.py`                                                          | `stats/ny_stats/`, `tables/ny.csv`                            |
-| Portland election metrics | Four checksummed district CSVs             | `pipelines/portland/collect_metrics.py`                                                          | `stats/portland_stats/`, `tables/portland.csv`                |
-| Scottish primary metrics  | Pinned `scot-elex` CSVs, 3–14 candidates   | `pipelines/scottish/collect_metrics.py`                                                          | `stats/scottish_stats/`                                       |
-| Scottish comparisons      | Scottish primary statistics                | `plot_um_iia_scatter.py`, `export_metric_tables.py`                                              | `plots/scottish/`, limited CSVs under `stats/scottish_stats/` |
-| BT primary metrics        | Folders listed in `config/bt_profiles.txt` | `pipelines/bradley_terry/collect_metrics.py`                                                     | `stats/bt_2_bloc_profile_stats/3_seats/`                      |
-| BT comparisons            | Matching primary BT statistics             | `plot_um_iia_scatter.py`, `plot_candidate_count_boxplots.py`, `plot_bloc_proportion_boxplots.py` | `plots/bt_plots/`                                             |
+| Artifact | Computation | Inputs | Output beneath the run root |
+| --- | --- | --- | --- |
+| NY metrics and table | `pipelines/new_york/collect_metrics.py`, `scripts/export_tables.py ny` | Cleaned NY CSV | `stats/ny_stats/`, `tables/ny.csv` |
+| Portland metrics and table | `pipelines/portland/collect_metrics.py`, `scripts/export_tables.py portland` | Four cleaned district CSVs | `stats/portland_stats/`, `tables/portland.csv` |
+| Portland boost matrices | `pipelines/portland/plots/plot_boost_matrix.py --district all` | Cleaned district CSVs | `plots/portland/boost_matrix/` |
+| Scottish metrics | `pipelines/scottish/collect_metrics.py` | Pinned `scot-elex` CSVs | `stats/scottish_stats/` |
+| Scottish primary figures and tables | `pipelines/scottish/plots/plot_um_iia_scatter.py`, `pipelines/scottish/export_metric_tables.py` | Scottish metric JSONs | `plots/scottish/`, `stats/scottish_stats/*limited.csv` |
+| BT metrics | `pipelines/bradley_terry/collect_metrics.py` | Profile folders in a settings file | `stats/bt_2_bloc_profile_stats/` |
+| BT primary figures | `plot_um_iia_scatter.py`, `plot_candidate_count_boxplots.py`, `plot_bloc_proportion_boxplots.py` under `pipelines/bradley_terry/plots/` | Matching BT metric JSONs | `plots/bt_plots/` |
+
+The primary recipes compute worst-case UM with arcsin interpolation and average single-candidate
+IIA, for rankings and winner sets. NY elects one candidate, Portland three, and Scotland uses the
+seat count in each input. BT defaults to three seats and exposes `--n-seats` in both collection
+and plotting. NY, Portland, and BT use lexicographic tie-breaking; Scotland collects lexicographic
+and random variants. BT and Scotland run seven rules; NY and Portland run six substantive rules.
 
 In the local manuscript, ranking metrics use rho and winner-set metrics use sigma. The Python
-names `sigma_IIA` and `sigma_UM` denote ranking metrics; names ending in `_winner_set` denote
-winner-set metrics. Match the final manuscript's notation before assigning publication numbers.
+names `sigma_IIA` and `sigma_UM` denote ranking metrics; `_winner_set` names denote winner-set metrics.
 
-## Install and check
+## Install and inspect
 
-Use Python 3.12 and uv. The checked-in lockfile records the dependency versions.
+Use Python 3.12 and uv. The lockfile fixes the environment.
 
 ```sh
 uv sync --locked
 uv run --locked pytest
 uv run --locked python scripts/smoke_test.py
+uv run --locked python scripts/replicate.py portland --dry-run
 ```
 
-`uv sync --locked` only synchronizes the environment. It does not download, extract, clean, or
-regenerate data.
-The smoke example uses a temporary synthetic profile and checks its numerical output.
+Synchronization does not retrieve, extract, clean, or regenerate data. The smoke example writes
+only temporary synthetic inputs and checks all four metric outputs. A dry run prints the complete
+recipe without writing files or requiring its data to be present. Printed commands include the
+project location and process settings, so they can be copied into a terminal from another directory.
 
-## Shared settings
+## Paths and saved results
 
-The [pipeline index](../pipelines/README.md) lists collectors, plotters, clustering analyses,
-and their input requirements by dataset.
+`--output-dir` always names a **run root**, with `stats/`, `plots/`, `tables/`, and generated
+`data/` beneath it as applicable. It defaults to the repository root, for both individual analyses
+and dataset recipes. This preserves the familiar `stats/` and `plots/` locations.
 
-`voting_metrics_main_code/constants.py` defines shared voting-rule order, colors, labels, font
-sizes, and the Bradley–Terry experiment grid. The profile generator and matching plotters import
-the same grid; changing it affects both. The grid matches the preserved profile manifest in
-`config/bt_profiles.txt`. Historical analyses with distinct palettes or rule order keep those
-settings locally.
+In the code, `ROOT` is the only shared path constant. Workflow entry points derive their
+directories directly with `Path` joins, such as `ROOT / "data"` or
+`output_root / "stats/bt_2_bloc_profile_stats"`. Helpers receive the selected paths explicitly;
+they do not choose a separate default input or output tree. When calling a helper from Python,
+pass its required path arguments. The command-line defaults and options are unchanged.
 
-Runtime paths and random-seed handling live in `voting_metrics_main_code/replication.py`.
-BT metric lists and sweep palettes remain in `pipelines/bradley_terry/plots/_metrics.py`
-and `_palettes.py`, respectively.
+| Option | Meaning | Default |
+| --- | --- | --- |
+| `--data-dir` | Directory containing cleaned inputs and downloaded input trees | Repository `data/` |
+| `--output-dir` | Run root for new outputs | Repository root |
+| `--stats-dir` | Parent of dataset statistics directories | `<output-dir>/stats/` |
+| `--bt-stats-dir` | Exact two-bloc BT result tree, containing seat-count directories | `<output-dir>/stats/bt_2_bloc_profile_stats/` |
+| `--bootstrap-dir` | Exact directory of Scottish bootstrap interval CSVs | Selected statistics root's `scottish_stats/bootstrap/` |
+| `--seed` | Base seed for collection or generation | `0` |
+| `--n-jobs` | Parallel workers in workflows that support parallelism | `1` |
 
-## Inputs
+Only relevant options appear in each workflow's help. The runner derives its default BT tree
+from the selected `--stats-dir`; bootstrap-only plotters derive their default interval directory
+from the run root. Relative options resolve from the calling directory.
 
-NY and Portland cleaned CSVs are already tracked. Their SHA-256 checksums and the original code
-revision are recorded in `baseline.json`; source locations are in `data_sources.json`.
+For a new computation, choose a new run root. Figures mode reads that run's statistics by default:
 
-Retrieve additional inputs only when needed:
+```sh
+./scripts/run_bt_pipeline.sh --output-dir results/new-run --n-jobs 4 --seed 42
+./scripts/run_bt_pipeline.sh --mode figures --output-dir results/new-run
+uv run --locked python pipelines/bradley_terry/plots/plot_um_iia_scatter.py \
+  --output-dir results/new-run
+```
+
+To plot preserved results into a different output location, select the input explicitly:
+
+```sh
+uv run --locked python pipelines/bradley_terry/plots/plot_um_iia_scatter.py \
+  --bt-stats-dir stats/bt_2_bloc_profile_stats_final_experiment \
+  --output-dir results/figure-review
+```
+
+Preference profiles, preference interval dataframes, metric scores, and election results are
+never replaced. Move an existing file manually before recomputing it; there is no force option.
+Collectors skip completed results before doing expensive work. The shared writer publishes only
+complete files and refuses a destination created concurrently by another process.
+
+Figures, exported tables, bootstrap summaries, and settings files overwrite by default. Recipe
+manifests record execution settings and reject changes within an existing run root. Existing
+historical results do not have complete execution provenance, and skipping a result does not
+validate it against the current experiment.
+
+## Dataset recipes and individual commands
+
+```sh
+./scripts/run_ny_pipeline.sh --output-dir results/ny-run
+./scripts/run_portland_pipeline.sh --output-dir results/portland-run
+./scripts/run_scottish_pipeline.sh --output-dir results/scottish-run --n-jobs 4
+./scripts/run_bt_pipeline.sh --output-dir results/bt-run --n-jobs 4
+```
+
+`--mode stats` computes scores; `--mode figures` refreshes primary presentation artifacts;
+`--mode all` performs both stages of the primary recipe. Portland includes boost plots.
+The runner is an optional command recipe: individual scripts take the same explicit arguments.
+It does not run every exploratory plot. Full runs can take many CPU-hours; there is no reliable
+runtime benchmark yet. Inspect `--dry-run` before launching a full computation.
+
+BT result filenames retain the existing experiment layout. Plotters use one shared selector for
+metric, aggregation, interpolation, seats, voting rule, candidate counts, bloc proportions,
+Dirichlet parameters, and cohesion. It prints the selection and matching file count. Missing
+experiments raise an error identifying the exact requested files rather than producing empty plots.
+Paired UM/IIA loading also checks that the two score arrays have the same length; the historical
+format still assumes their observations have matching profile order.
+
+## Additional analyses and prerequisites
+
+Scottish bootstrap plots require interval CSVs as well as primary metric JSONs. Their numerical
+settings are explicit: 10,000 resamples, alpha 0.05, seed 0 by default.
+
+```sh
+uv run --locked python pipelines/scottish/compute_bootstrap_intervals.py \
+  --output-dir results/scottish-run --n-resamples 10000 --alpha 0.05 --seed 0
+uv run --locked python pipelines/scottish/plots/plot_um_iia_bootstrap.py \
+  --output-dir results/scottish-run
+uv run --locked python pipelines/scottish/plots/plot_bootstrap_rectangles.py \
+  --output-dir results/scottish-run
+```
+
+Use `--stats-dir stats --bootstrap-dir results/scottish-run/stats/scottish_stats/bootstrap`
+on the overlay plotter when combining preserved primary scores with new interval CSVs.
+
+BT proportionality requires matching `preference_dfs` utility files alongside `preference_profiles`.
+Those utilities are not in the tracked profile archive. The collector exposes the candidate counts,
+bloc proportion, and cohesion in `--help`; its output feeds `plot_proportionality_waterfall.py`.
+Broad BT sensitivity plots require more metric variants than the primary recipe computes.
+`collect_single_folder_metrics.py` exposes the individual metric and variant choices.
+The separate `alpha_sweep/` experiment uses candidate-count/alpha folders rather than two-bloc folders.
+
+The Scottish `plot_boxplots_and_tables.py` and the CSV stage of
+`plot_boxplots_by_variant_and_tiebreak.py` require aggregate `*stats.json` inputs that the primary
+collector does not produce. Use `plot_metric_boxplots.py` and `export_metric_tables.py` for primary
+collector outputs. These alternative plots remain independently runnable for artifact selection.
+
+Portland clustering is available separately, or through the Portland recipe's `--diagnostics`.
+It can be expensive. Boost plotting computes from the selected CSV by default. To speed repeated
+font/layout adjustments, pass `--cache-dir results/boost-cache`. Cache keys include the CSV contents,
+ordered focus candidates, and VoteKit version. A missing input is an error even if a cache exists.
+The old district-only `.boost_cache/` files are retained but are not consulted.
+
+## Inputs and synthetic samples
+
+NY and Portland cleaned CSVs are tracked. Checksums and the original code revision are in
+[`baseline.json`](baseline.json); source locations are in [`data_sources.json`](data_sources.json).
+Retrieve optional inputs with:
 
 ```sh
 uv run --locked python scripts/fetch_data.py scottish
@@ -69,150 +166,58 @@ git lfs pull --include=data/preference_profiles.tar.xz
 uv run --locked python scripts/fetch_data.py bt
 ```
 
-Fetch refuses an existing destination, including a symlink. BT extraction verifies the archive
-checksum, extracts into a temporary sibling, and publishes a complete new directory. It never
-merges into an existing profile tree. Existing partial inputs can be investigated or supplemented
-at a separate `--destination`; they are not automatically repaired or replaced.
+Fetching refuses existing destinations, including symlinks. BT extraction verifies the archive
+checksum and publishes a complete new directory; it does not merge into a partially populated tree.
+The Scottish revision is pinned. The BT archive is about 1.96 GB compressed; the local research
+data tree included additional archives and utilities and was about 41 GB during the inventory.
 
-The Scottish revision is pinned to the local input checkout recorded during cleanup. The BT
-archive is about 1.96 GB compressed. The existing local data tree was about 41 GB, including
-additional archives and utility files. Full recomputation can require many CPU-hours; no reliable
-runtime benchmark has yet been established. `--n-jobs` defaults to one to bound resource usage.
-
-The historical cleaners remain in `other_files/`. The NY cleaner relies on an untracked
-`NY_mayor_all.csv`, and the Portland cleaner retrieves a mutable upstream branch. Neither is part
-of environment synchronization or the supported replication path. Reconstructing and validating
-the original raw-to-clean transformation remains a provenance task; do not run those scripts
-against the preserved CSVs. Input redistribution terms must be recorded separately from the
-repository's code license before publication. Existing source links are not evidence of a
-particular redistribution license.
-
-## Recompute statistics and figures
+`config/bt_profiles.txt` preserves the original folder selection and order. Its relative entries
+resolve against the repository root. A new synthetic sample and selection can be created with:
 
 ```sh
-./scripts/run_ny_pipeline.sh
-./scripts/run_portland_pipeline.sh
-./scripts/run_scottish_pipeline.sh --n-jobs 4
-./scripts/run_bt_pipeline.sh --n-jobs 4
-```
-
-The runners write under `results/generated/`, with `stats/`, `plots/`, and `tables/` beneath it.
-Standalone collectors and plotters default to the repository's `stats/` and `plots/` directories.
-Protection applies to individual data files, not whole directory trees: preference profiles,
-preference interval dataframes, metric scores, and election results are never replaced. Move an
-existing file manually in your file explorer or terminal before recomputing it. There is no force
-or overwrite option for these files. Completed data is published only if the destination remains
-absent; failed writes leave no partial result at the destination.
-
-Figures, exported tables, bootstrap summaries, and generated settings files overwrite by default.
-Importing the shared path module does not scan or validate output directories.
-The maintained entry points live under `scripts/`. Redundant root runners have been removed;
-the original research runners are preserved in `archive/pre_cleanup/`.
-
-Use `--mode stats` to compute without plotting, `--mode figures` to use existing statistics, and
-`--output-dir /path/to/new-results` for a separate run. Repeated runs may replace generated tables
-and plots. All collectors skip existing result files before computation. Use a new output directory
-when changing inputs, code, seeds, or experiment definitions; existing historical outputs have no
-complete execution provenance. Run manifests record the seed, interpreter, lock checksum and,
-for BT, settings checksum. They are not certificates of provenance for old results.
-
-```sh
-./scripts/run_ny_pipeline.sh --mode figures --stats-dir stats
-./scripts/run_scottish_pipeline.sh --mode figures --stats-dir stats
-./scripts/run_bt_pipeline.sh --mode figures \
-  --bt-stats-dir stats/bt_2_bloc_profile_stats_final_experiment
-```
-
-The last command selects an existing tree explicitly; it does not designate it as the publication
-reference. Plotting expects the directory layout and matching four metrics produced by the BT
-collector. Bootstrap, proportionality, broad sensitivity sweeps, and earlier plotting scripts
-remain available as research analyses but are not automatically executed by the maintained runner.
-Proportionality also needs the original matching `preference_dfs` utility files, which are not in
-the tracked profile archive. Portland clustering is opt-in with `--diagnostics`.
-
-Two Scottish plot-and-table exporters expect aggregate JSON files that the current collectors do
-not produce: `plot_boxplots_and_tables.py` and the CSV stage of
-`plot_boxplots_by_variant_and_tiebreak.py`. With the current statistics tree, they fail on
-missing aggregate inputs. Use `plot_metric_boxplots.py` and `export_metric_tables.py` for
-the current layout; the maintained Scottish runner already uses the latter for tables.
-
-Standalone plotting scripts read the `stats/` tree by default and overwrite figures under
-`plots/`. Select different inputs explicitly with `QF_STATS_DIR` (the parent
-of the dataset statistics directories) or `QF_BT_STATS_DIR` (the exact BT primary-metric tree).
-`QF_RESULTS_DIR` changes the output root without changing the input selection. The maintained
-runner selects its generated statistics explicitly in `--mode all`; `--mode figures` defaults
-to preserved statistics. Relative command-line and environment paths resolve from the calling
-directory, including when a shell runner is invoked from outside the repository.
-
-```sh
-uv run --locked python pipelines/bradley_terry/plots/plot_proportionality_waterfall.py
-QF_STATS_DIR=results/new-run/stats QF_RESULTS_DIR=results/new-run \
-  uv run --locked python pipelines/bradley_terry/plots/plot_proportionality_waterfall.py
-```
-
-Waterfall derives points from the selected JSON inputs each time; it no longer reads or writes
-the old root-level `.waterfall_cache/`. Profile paths stored in those JSON files may point outside
-the repository, provided they retain the candidate-count and experiment folder names.
-
-Scottish bootstrap collection also separates preserved inputs from generated outputs. To plot
-new bootstrap intervals alongside the preserved primary statistics, select the generated
-bootstrap directory independently. Without `QF_BOOTSTRAP_DIR`, bootstrap plots read
-`scottish_stats/bootstrap/` beneath `QF_STATS_DIR` (or the preserved `stats/` default).
-
-```sh
-QF_RESULTS_DIR=results/generated \
-  uv run --locked python pipelines/scottish/compute_bootstrap_intervals.py
-QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
-  uv run --locked python pipelines/scottish/plots/plot_um_iia_bootstrap.py
-QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
-  uv run --locked python pipelines/scottish/plots/plot_bootstrap_rectangles.py
-```
-
-`config/bt_profiles.txt` retains the original selection and order with repository-relative paths.
-Generate a selection at a separate path to keep the old settings file:
-
-```sh
-uv run --locked python scripts/generate_settings.py --output config/new-bt-profiles.txt
-./scripts/run_bt_pipeline.sh --settings-file config/new-bt-profiles.txt \
-  --output-dir results/new-run
-```
-
-To create a new synthetic sample, run the generator with a new output location. Existing directories
-are allowed, but an existing profile or preference interval CSV must be moved manually before that
-sample can be regenerated:
-
-```sh
-QF_SEED=0 uv run --locked python pipelines/bradley_terry/generate_profiles.py \
-  --output-dir results/new-sample/preference_profiles --n-jobs 4
+PYTHONHASHSEED=0 uv run --locked python pipelines/bradley_terry/generate_profiles.py \
+  --output-dir results/new-sample --seed 0 --n-jobs 4
 uv run --locked python scripts/generate_settings.py \
-  --profile-root results/new-sample/preference_profiles \
+  --profile-root results/new-sample/data/preference_profiles \
   --output config/new-sample-profiles.txt
+./scripts/run_bt_pipeline.sh --settings-file config/new-sample-profiles.txt \
+  --output-dir results/new-sample --seed 0 --n-jobs 4
 ```
 
-Task seeds derive from the requested seed and stable task identifiers, so BT resume order and
-worker scheduling do not choose the random stream. The launchers also set `PYTHONHASHSEED=0`.
-The archived profiles were generated with seeded runs of an older code version. The current code
-follows different random-number and execution paths, so regenerating profiles and rerunning the
-analyses should produce statistically similar results, not exact historical matches, even when
-using the same seed. A seed fixes a stream within an implementation; it does not fix the sequence
-of draws or how the implementation uses them. The original seed values are not recorded in the
-replication metadata collected here. Reusing the archived profiles fixes the input sample, while
-randomized voting and metric calculations can still differ from their historical counterparts.
-The consolidated random rule sorts candidates before shuffling, incorporating the root version's
-existing reproducibility improvement. The package's UM input validation and useful docstrings are
-retained. Baseline deterministic comparisons and the test suite guard against accidental changes.
+The generator and sweep plotters share the experiment grid in
+`voting_metrics_main_code/constants.py`. Changing the grid affects both. If either a profile or its
+paired interval dataframe exists, generation prints a message and skips that sample, then continues
+with the remaining samples. Move both files manually before regenerating the pair.
 
-## Preservation and release work
+## Reproducibility and release status
 
-`baseline.json` records the starting revision, Git tree IDs for tracked artifacts, cleaned-input
-checksums, and local file counts. A full before/after local file inventory is used during cleanup.
-No data, statistics, figures, notebooks, or manuscript files are removed or relocated. Historical
-code snapshots live in `archive/pre_cleanup/`; the maintained implementation is in
-`voting_metrics_main_code/`. Import from that package directly; root import shims have been removed.
+Task seeds are passed explicitly and derived from stable task identifiers. Primary collectors and
+profile generation are checked for repeatability; BT worker count and resume order do not choose
+random streams. Recipes set `PYTHONHASHSEED=0`; set it likewise when launching standalone randomized
+computations. Clustering retains its separate research algorithm and is not covered by the BT
+worker-count guarantee.
 
-Before release, designate the final manuscript version and each reference result tree, fill in
-figure/table numbers in the inventory, validate all final artifacts, record input permissions,
-and add the final citation. `paper/` is an ignored independent Git checkout, so it does not ship
-with this repository. `dev_files/` is also ignored and must be inspected for unique publication
-analyses before deciding what to distribute. Archiving the many individual JSON results or
-rewriting Git history is deliberately deferred; neither is required to make the workflow usable.
+The archived profiles were seeded with an older code version. This version follows different
+random-number and execution paths, so regeneration should produce statistically similar results,
+not exactly the same profiles or numerical values. Original seed values are not recorded in the
+replication metadata. Reusing archived profiles fixes the sample, while randomized election and
+metric calculations may still differ from historical runs.
+
+The historical cleaners in `other_files/` have additional provenance requirements: the NY cleaner
+needs untracked `NY_mayor_all.csv`, and the Portland cleaner retrieves a mutable upstream branch.
+They are not part of the supported replication recipe. Raw-to-clean validation and input
+redistribution permissions remain release tasks.
+
+Before publication, designate the final manuscript, reference result trees, figure/table numbers,
+and citation; validate the selected artifacts and record input permissions. The ignored `paper/`
+and `dev_files/` material does not ship in a clone. Source snapshots remain under `archive/`;
+research inputs, stored results, and notebooks are preserved.
+
+## Changes from the earlier commands
+
+Runtime `QF_*` environment overrides have been replaced by explicit CLI options. Use the table
+above to translate old commands. `--output-dir` now means the run root in every analysis, including
+boost plotting and profile generation; it is not the exact figure or profile directory.
+The default recipe output root is now the repository, matching standalone scripts.
+`collect_metrics_borda_tiebreak.py` has been consolidated into `alpha_sweep/collect_metrics.py`,
+which accepts `--tiebreak borda` for the substantive voting rules.

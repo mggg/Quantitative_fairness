@@ -6,7 +6,7 @@ import os
 import sys
 import warnings
 from collections.abc import Callable
-from glob import glob
+from glob import escape, glob
 from pathlib import Path
 
 import click
@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.bradley_terry._metrics import configure_metric
 from voting_metrics_main_code.constants import AllowedRule, MetricVariant
-from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, new_data_file
+from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 warnings.filterwarnings("ignore")
@@ -28,10 +28,13 @@ def run_score(
     profile_file: str | Path,
     metric_function: Callable[..., float],
     voting_rule: ElectionConstructor,
+    *,
+    seed: int = 0,
 ) -> float:
     """Load one profile and evaluate its metric with standard output suppressed.
 
     Args:
+        seed (int, optional): Base seed for independent profile streams. Defaults to 0.
         profile_file (str | Path): Path to a preference-profile CSV.
         metric_function (Callable[..., float]): Metric callable with seat count and variants already
             bound.
@@ -43,6 +46,10 @@ def run_score(
     Raises:
         FileNotFoundError: The profile CSV does not exist.
     """
+    profile_path = Path(profile_file)
+    seed_task(
+        profile_path.parent.parent.name, profile_path.parent.name, profile_path.name, seed=seed
+    )
     with contextlib.redirect_stdout(None):
         profile = RankProfile.from_csv(profile_file)
         score = metric_function(profile, voting_rule)
@@ -96,7 +103,7 @@ def run_score(
 )
 @click.option(
     "--tiebreak",
-    type=click.Choice(["lex", "random"]),
+    type=click.Choice(["lex", "random", "borda"]),
     help="Tiebreaking method",
     required=True,
 )
@@ -106,6 +113,24 @@ def run_score(
     help="Show progress bar",
     default=False,
 )
+@click.option(
+    "--data-dir",
+    "data_root",
+    type=click.Path(path_type=Path),
+    default=ROOT / "data",
+    show_default=True,
+    help="Directory containing election inputs",
+)
+@click.option(
+    "--output-dir",
+    "output_root",
+    type=click.Path(path_type=Path),
+    default=ROOT,
+    show_default=True,
+    help="Run root containing stats, plots, and tables",
+)
+@click.option("--n-jobs", type=click.IntRange(min=1), default=1, show_default=True)
+@click.option("--seed", type=int, default=0, show_default=True)
 def main(
     n_seats: int,
     n_cands: int,
@@ -116,10 +141,20 @@ def main(
     election_type: AllowedRule,
     tiebreak: str,
     show_progress: bool,
+    *,
+    data_root: Path = ROOT / "data",
+    output_root: Path = ROOT,
+    n_jobs: int = 1,
+    seed: int = 0,
 ) -> None:
     """Collect and save one metric for a fixed candidate count and Dirichlet alpha.
 
     Args:
+        data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
+        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
+        seed (int, optional): Base seed for independent profile streams. Defaults to 0.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
         n_seats (int): Number of seats to elect.
         n_cands (int): Number of candidates.
         alpha_value (str): Formatted Dirichlet parameter: '0.33', '0.50', '1.00', '2.00', or '3.00'.
@@ -133,6 +168,15 @@ def main(
     Raises:
         ValueError: The seat count is below one or a UM interpolation is not 'asin' or 'odds'.
     """
+    output_root = output_root.resolve()
+    data_root = data_root.resolve()
+    print(f"Data: {data_root}")
+    print(f"Output root: {output_root}")
+    print(f"Seats: {n_seats}")
+
+    if election_type == "random" and tiebreak == "borda":
+        raise click.BadParameter("Borda tie-breaking applies to substantive voting rules")
+
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
 
@@ -144,10 +188,10 @@ def main(
         "3.00": 3,
     }
 
-    output_folder = Path(f"{STATS_OUTPUT}/bt_profile_stats/{n_seats}_seats").resolve()
+    output_folder = (output_root / "stats/bt_profile_stats" / f"{n_seats}_seats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
-    profile_folder_base = str(Path(f"{DATA_DIR}/preference_profiles/").resolve())
+    profile_folder_base = str((data_root / "preference_profiles").resolve())
 
     if "UM" in metric and interpolation_type not in ["asin", "odds"]:
         raise ValueError(
@@ -170,7 +214,9 @@ def main(
         print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
         return
 
-    all_csv_profiles = sorted(glob(f"{profile_folder_base}/{n_cands:02d}/alpha_{alpha:.2f}/*.csv"))
+    all_csv_profiles = sorted(
+        glob(f"{escape(profile_folder_base)}/{n_cands:02d}/alpha_{alpha:.2f}/*.csv")
+    )
     voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
 
     progress = (
@@ -184,8 +230,9 @@ def main(
     )
 
     with progress:
-        scores = Parallel(n_jobs=-1)(
-            delayed(run_score)(file, metric_function, voting_rule) for file in all_csv_profiles
+        scores = Parallel(n_jobs=n_jobs)(
+            delayed(run_score)(file, metric_function, voting_rule, seed=seed)
+            for file in all_csv_profiles
         )
 
     with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
@@ -14,7 +15,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from voting_metrics_main_code.constants import RULE_ORDER
-from voting_metrics_main_code.replication import STATS_INPUT, STATS_OUTPUT
+from voting_metrics_main_code.replication import ROOT
 
 TIEBREAK_PATTERN = re.compile(r"__TIEBREAK_([^_]+)_output\.json$")
 
@@ -612,13 +613,35 @@ def run_bootstrap_rectangle(
         print(f"Saved confidence rectangles: {rectangle_output_file}")
 
 
-def main() -> None:
+def main(
+    *,
+    stats_root: Path | None = None,
+    output_root: Path = ROOT,
+    n_resamples: int = 10000,
+    alpha: float = 0.05,
+    seed: int = 0,
+) -> None:
     """Save bootstrap intervals and paired confidence rectangles for the primary Scottish metrics.
 
     Raises:
         ValueError: A requested metric or metric pair produces no rows, or bootstrap inputs are
             invalid.
+
+    Args:
+        alpha (float, optional): Bootstrap error probability. Defaults to 0.05.
+        n_resamples (int, optional): Bootstrap resamples. Defaults to 10000.
+        seed (int, optional): Base seed for task streams. Defaults to 0.
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
     """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Output root: {output_root}")
+    print(f"Seed: {seed}")
+
     # Defaults chosen to match the bootstrap notebook experiments.
     ci_metrics = [
         "sigma_IIA_average",
@@ -632,15 +655,11 @@ def main() -> None:
         ("sigma_IIA_winner_set_average", "sigma_UM_winner_set_worst_case_asin"),
     ]
 
-    n_resamples = 10000
-    alpha = 0.05
-    seed = 0
-
     all_election_types = list(RULE_ORDER)
 
-    stats_dir = STATS_INPUT / "scottish_stats"
+    stats_dir = stats_root / "scottish_stats"
 
-    output_folder = STATS_OUTPUT / "scottish_stats" / "bootstrap"
+    output_folder = output_root / "stats" / "scottish_stats" / "bootstrap"
     output_folder.mkdir(parents=True, exist_ok=True)
 
     # =============================
@@ -672,4 +691,17 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--n-resamples", type=int, default=10000)
+    parser.add_argument("--alpha", type=float, default=0.05)
+    args = parser.parse_args()
+    main(
+        stats_root=args.stats_dir,
+        output_root=args.output_dir,
+        seed=args.seed,
+        n_resamples=args.n_resamples,
+        alpha=args.alpha,
+    )

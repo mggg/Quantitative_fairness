@@ -2,7 +2,7 @@
 
 import json
 import sys
-from glob import glob
+from glob import escape, glob
 from pathlib import Path
 from typing import cast, get_args
 
@@ -15,7 +15,7 @@ from votekit.ballot_generator import BlocSlateConfig
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, new_data_file
+from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import AllowedRule, build_voting_rule
 
 
@@ -38,10 +38,14 @@ def get_all_profiles(
     b_prop: float,
     a_coh: float,
     b_coh: float,
+    *,
+    data_root: Path,
+    n_jobs: int = 1,
 ) -> dict[str, PreferenceProfile]:
     """Get all preference profiles based on given parameters.
 
     Args:
+        data_root (Path): Directory containing election inputs.
         n_a_cand (int): Number of A candidates.
         n_b_cand (int): Number of B candidates.
         b_prop (float): Proportion of B voters.
@@ -52,7 +56,7 @@ def get_all_profiles(
         dict[str, PreferenceProfile]: A dictionary mapping file paths to PreferenceProfiles.
     """
     search_string = (
-        f"{DATA_DIR}/preference_profiles/{n_a_cand:02d}_{n_b_cand:02d}/"
+        f"{escape(str(data_root))}/preference_profiles/{n_a_cand:02d}_{n_b_cand:02d}/"
         f"b_proportion_{b_prop:0.1f}__ALPHA_(*)__COHESION_({a_coh:0.2f},{b_coh:0.2f})/*.csv"
     )
     profile_files = sorted(glob(search_string))
@@ -61,7 +65,7 @@ def get_all_profiles(
         # Joblib's default list result contains exactly the worker return values.
         pairs = cast(
             list[tuple[str, PreferenceProfile]],
-            Parallel(n_jobs=-1, prefer="processes", batch_size="auto")(
+            Parallel(n_jobs=n_jobs, prefer="processes", batch_size="auto")(
                 delayed(load_one)(p) for p in profile_files
             ),
         )
@@ -86,7 +90,7 @@ def frsp(r: int, s: int, rho: float) -> float:
 
 
 def process_profile(
-    file: str, profile: PreferenceProfile
+    file: str, profile: PreferenceProfile, *, seed: int = 0
 ) -> dict[str, dict[str, dict[str, float]]]:
     """Process a preference profile and calculate various metrics.
 
@@ -98,6 +102,7 @@ def process_profile(
         dict[str, dict[str, dict[str, float]]]: A dictionary containing processed data for the given
             file.
     """
+    seed_task(Path(file).parent.parent.name, Path(file).parent.name, Path(file).name, seed=seed)
     profile_path = Path(file)
     relative_profile = profile_path.relative_to(profile_path.parents[2])
     utility_file = (
@@ -177,18 +182,58 @@ def process_profile(
 )
 @click.option("--a-coh", type=float, required=True, help="Cohesion of A voters (between 0 and 1)")
 @click.option("--b-coh", type=float, required=True, help="Cohesion of B voters (between 0 and 1)")
-def main(n_a_cand: int, n_b_cand: int, b_prop: float, a_coh: float, b_coh: float) -> None:
+@click.option(
+    "--data-dir",
+    "data_root",
+    type=click.Path(path_type=Path),
+    default=ROOT / "data",
+    show_default=True,
+    help="Directory containing election inputs",
+)
+@click.option(
+    "--output-dir",
+    "output_root",
+    type=click.Path(path_type=Path),
+    default=ROOT,
+    show_default=True,
+    help="Run root containing stats, plots, and tables",
+)
+@click.option("--n-jobs", type=click.IntRange(min=1), default=1, show_default=True)
+@click.option("--seed", type=int, default=0, show_default=True)
+def main(
+    n_a_cand: int,
+    n_b_cand: int,
+    b_prop: float,
+    a_coh: float,
+    b_coh: float,
+    *,
+    data_root: Path = ROOT / "data",
+    output_root: Path = ROOT,
+    n_jobs: int = 1,
+    seed: int = 0,
+) -> None:
     """Compute and save expected and observed bloc representation for one BT parameter setting.
 
     Args:
+        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
+        seed (int, optional): Base seed for task streams. Defaults to 0.
+        data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
         n_a_cand (int): Number of A candidates.
         n_b_cand (int): Number of B candidates.
         b_prop (float): Proportion of B voters.
         a_coh (float): Cohesion of A voters.
         b_coh (float): Cohesion of B voters.
     """
+    output_root = output_root.resolve()
+    data_root = data_root.resolve()
+    print(f"Data: {data_root}")
+    print(f"Output root: {output_root}")
+
     output_file = (
-        STATS_OUTPUT
+        output_root
+        / "stats"
         / "bt_proportionality"
         / (
             f"{n_a_cand:02d}_{n_b_cand:02d}_bprop_"
@@ -200,13 +245,16 @@ def main(n_a_cand: int, n_b_cand: int, b_prop: float, a_coh: float, b_coh: float
         print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
         return
 
-    all_profiles = get_all_profiles(n_a_cand, n_b_cand, b_prop, a_coh, b_coh)
+    all_profiles = get_all_profiles(
+        n_a_cand, n_b_cand, b_prop, a_coh, b_coh, data_root=data_root, n_jobs=n_jobs
+    )
 
     with joblib_progress(total=len(all_profiles)):
         all_file_to_rule_dicts = cast(
             list[dict[str, dict[str, dict[str, float]]]],
-            Parallel(n_jobs=-1, prefer="processes", batch_size="auto")(
-                delayed(process_profile)(file, profile) for file, profile in all_profiles.items()
+            Parallel(n_jobs=n_jobs, prefer="processes", batch_size="auto")(
+                delayed(process_profile)(file, profile, seed=seed)
+                for file, profile in all_profiles.items()
             ),
         )
 

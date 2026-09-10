@@ -68,7 +68,7 @@ def test_path_imports_allow_existing_output_trees_without_scanning(
 
     paths = runpy.run_path(str(ROOT / "voting_metrics_main_code/replication.py"))
 
-    assert paths["PLOTS_DIR"] == output / "plots"
+    assert paths["ROOT"] == ROOT
     assert list(output.iterdir()) == [output / "alias"]
 
 
@@ -102,6 +102,8 @@ def test_bt_rejects_missing_profiles_without_writing_results(tmp_path: Path) -> 
             str(ROOT / "pipelines/bradley_terry/collect_metrics.py"),
             "--settings-file",
             str(settings),
+            "--output-dir",
+            str(tmp_path / "output"),
         ],
         env={**os.environ, "QF_RESULTS_DIR": str(tmp_path / "output")},
         capture_output=True,
@@ -142,6 +144,10 @@ def test_bt_random_results_do_not_depend_on_worker_count_or_resume(tmp_path: Pat
                 "1",
                 "--n-jobs",
                 str(workers),
+                "--output-dir",
+                str(output),
+                "--seed",
+                "42",
             ],
             env={
                 **os.environ,
@@ -170,7 +176,9 @@ def test_smoke_example() -> None:
     runpy.run_path(str(ROOT / "scripts/smoke_test.py"))["main"]()
 
 
-def test_generated_profiles_and_utilities_are_seeded_and_never_replaced(tmp_path: Path) -> None:
+def test_generated_profiles_and_utilities_are_seeded_and_never_replaced(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
     generate = runpy.run_path(str(ROOT / "pipelines/bradley_terry/generate_profiles.py"))[
         "generate_and_save_profile"
     ]
@@ -182,12 +190,15 @@ def test_generated_profiles_and_utilities_are_seeded_and_never_replaced(tmp_path
     expected = {p.relative_to(first): p.read_bytes() for p in first.rglob("*.csv")}
     assert len(expected) == 2
     assert expected == {p.relative_to(second): p.read_bytes() for p in second.rglob("*.csv")}
-    with pytest.raises(FileExistsError):
-        generate(*arguments, str(first / "preference_profiles"))
+    generate(*arguments, str(first / "preference_profiles"))
+    assert "Skipping profile/interval pair:" in capsys.readouterr().out
     assert expected == {p.relative_to(first): p.read_bytes() for p in first.rglob("*.csv")}
 
 
-def test_preference_intervals_are_preserved_when_the_profile_has_been_moved(tmp_path: Path) -> None:
+@pytest.mark.parametrize("moved_kind", ["profile", "interval"])
+def test_generation_skips_incomplete_pairs_and_continues_with_new_samples(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str], moved_kind: str
+) -> None:
     generate = runpy.run_path(str(ROOT / "pipelines/bradley_terry/generate_profiles.py"))[
         "generate_and_save_profile"
     ]
@@ -196,17 +207,20 @@ def test_preference_intervals_are_preserved_when_the_profile_has_been_moved(tmp_
     generate(*arguments, 0, str(profiles))
     profile = next(profiles.rglob("*.csv"))
     interval = next((tmp_path / "preference_dfs").rglob("*.csv"))
-    contents = interval.read_bytes()
-    profile.rename(tmp_path / "moved-profile.csv")
+    moved, remaining = (profile, interval) if moved_kind == "profile" else (interval, profile)
+    contents = remaining.read_bytes()
+    moved.rename(tmp_path / "moved.csv")
 
-    with pytest.raises(FileExistsError, match="manually"):
-        generate(*arguments, 0, str(profiles))
+    for sample in (0, 1):
+        generate(*arguments, sample, str(profiles))
 
-    assert not profile.exists()
-    assert interval.read_bytes() == contents
-
-    generate(*arguments, 1, str(profiles))
-    assert len(list((tmp_path / "preference_dfs").rglob("*.csv"))) == 2
+    assert (
+        f"{remaining} exists. Move both outputs manually to recompute." in capsys.readouterr().out
+    )
+    assert not moved.exists()
+    assert remaining.read_bytes() == contents
+    assert (profile.parent / "profile_1.csv").is_file()
+    assert (interval.parent / "profile_1_utilities.csv").is_file()
 
 
 def test_consolidated_metrics_match_both_deterministic_baselines(

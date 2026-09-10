@@ -9,7 +9,8 @@ import pytest
 from matplotlib.figure import Figure, SubFigure
 from votekit import RankBallot, RankProfile
 
-from pipelines.bradley_terry.alpha_sweep import collect_metrics, collect_metrics_borda_tiebreak
+from pipelines.bradley_terry import collect_single_folder_metrics
+from pipelines.bradley_terry.alpha_sweep import collect_metrics
 from pipelines.portland.clustering import run_brute_force, run_short_bursts
 from pipelines.scottish.plots.plot_metric_boxplots import save_legend_only
 
@@ -25,7 +26,7 @@ def ranked_profile() -> RankProfile:
     )
 
 
-@pytest.mark.parametrize("collector", [collect_metrics, collect_metrics_borda_tiebreak])
+@pytest.mark.parametrize("collector", [collect_metrics, collect_single_folder_metrics])
 def test_alpha_collector_loads_ranked_csv(
     collector: ModuleType, ranked_profile: RankProfile, tmp_path: Path
 ) -> None:
@@ -42,13 +43,15 @@ def test_alpha_collector_loads_ranked_csv(
 
 
 def test_short_burst_trivial_partition_returns_complete_result(
-    monkeypatch: pytest.MonkeyPatch, ranked_profile: RankProfile
+    monkeypatch: pytest.MonkeyPatch, ranked_profile: RankProfile, tmp_path: Path
 ) -> None:
     boost = np.array([[0.0, 0.2, -0.1], [-0.3, 0.0, 0.1], [0.2, -0.1, 0.0]])
-    monkeypatch.setattr(run_short_bursts, "load_and_project", lambda _: (ranked_profile, boost))
+    monkeypatch.setattr(
+        run_short_bursts, "load_and_project", lambda _, **kwargs: (ranked_profile, boost)
+    )
 
     assignment, score, returned_boost, candidates = (
-        run_short_bursts.run_short_burst_for_portland_profile_i(1, n_clusters=3)
+        run_short_bursts.run_short_burst_for_portland_profile_i(1, n_clusters=3, data_root=tmp_path)
     )
 
     np.testing.assert_array_equal(assignment, [0, 1, 2])
@@ -65,10 +68,9 @@ def test_projection_uses_boost_matrix_without_probability_matrices(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     ranked_profile.to_csv(tmp_path / "Portland_D1_cleaned_votekit.csv")
-    monkeypatch.setattr(workflow, "DATA_DIR", tmp_path)
     monkeypatch.setattr(workflow, "FastSTV", lambda *args, **kwargs: SimpleNamespace(threshold=0))
 
-    projected, boost = workflow.load_and_project(1)
+    projected, boost = workflow.load_and_project(1, data_root=tmp_path)
 
     assert set(projected.candidates) == set(ranked_profile.candidates)
     assert boost.shape == (3, 3)

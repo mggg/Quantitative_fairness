@@ -6,6 +6,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
+from matplotlib.figure import Figure
 from votekit import RankBallot, RankProfile
 
 from pipelines.portland.plots import plot_boost_matrix
@@ -63,13 +64,12 @@ def test_boost_cli_loads_ranked_profile_and_saves_both_figures(
     data = tmp_path / "data"
     data.mkdir()
     profile.to_csv(data / "Portland_D3_cleaned_votekit.csv")
-    output = tmp_path / "figures"
-    output.mkdir()
+    output = tmp_path / "plots/portland/boost_matrix"
+    output.mkdir(parents=True)
     for name in ("boost_matrix_D3.png", "boost_matrix_colorbar.png"):
         (output / name).write_text("old figure")
     cache = tmp_path / "cache"
     cache.mkdir()
-    monkeypatch.setattr(plot_boost_matrix, "CACHE_DIR", cache)
     monkeypatch.setattr(
         sys,
         "argv",
@@ -78,7 +78,9 @@ def test_boost_cli_loads_ranked_profile_and_saves_both_figures(
             "--data-dir",
             str(data),
             "--output-dir",
-            str(output),
+            str(tmp_path),
+            "--cache-dir",
+            str(cache),
             "--limit",
             str(limit),
         ],
@@ -92,7 +94,7 @@ def test_boost_cli_loads_ranked_profile_and_saves_both_figures(
         }
         for path in output.iterdir():
             assert path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
-        cached_matrix = np.load(cache / "boost_matrix_Portland_D3_boost.npy")
+        cached_matrix = np.load(next(cache.glob("*.npy")))
         reference, _ = plot_boost_matrix.plot_boost(
             plot_boost_matrix.FOCUS_CANDIDATES["D3"], "D3", matrix=cached_matrix
         )
@@ -101,3 +103,52 @@ def test_boost_cli_loads_ranked_profile_and_saves_both_figures(
         assert heatmap_image.shape[:2] == (expected_height, expected_width)
     finally:
         plt.close("all")
+
+
+def test_boost_cache_tracks_selected_profile_contents(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    candidates = [name for slate in plot_boost_matrix.FOCUS_CANDIDATES["D3"] for name in slate]
+    data = tmp_path / "inputs"
+    data.mkdir()
+    profile_path = data / "Portland_D3_cleaned_votekit.csv"
+    cache = tmp_path / "cache"
+    captured_matrices = []
+
+    def capture_plot(*args: object, **kwargs: object) -> tuple[Figure, np.ndarray]:
+        matrix = kwargs.get("matrix")
+        if matrix is None:
+            profile = kwargs["profile"]
+            assert isinstance(profile, RankProfile)
+            matrix = np.array([[profile.total_ballot_wt]])
+            cache_path = kwargs.get("matrix_savepath")
+            if cache_path is not None:
+                assert isinstance(cache_path, Path)
+                np.save(cache_path, matrix)
+        assert isinstance(matrix, np.ndarray)
+        captured_matrices.append(matrix.copy())
+        return plt.figure(figsize=(1, 1)), matrix
+
+    monkeypatch.setattr(plot_boost_matrix, "plot_boost", capture_plot)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "plot_boost_matrix.py",
+            "--data-dir",
+            str(data),
+            "--output-dir",
+            str(tmp_path),
+            "--cache-dir",
+            str(cache),
+        ],
+    )
+    for weight in (3, 3, 5):
+        RankProfile(
+            ballots=(
+                RankBallot(ranking=tuple(frozenset({name}) for name in candidates), weight=weight),
+            )
+        ).to_csv(profile_path)
+        plot_boost_matrix.main()
+    assert [matrix.item() for matrix in captured_matrices] == [3, 3, 5]
+    assert len(list(cache.glob("*.npy"))) == 2

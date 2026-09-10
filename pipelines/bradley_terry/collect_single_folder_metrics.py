@@ -7,7 +7,7 @@ import os
 import sys
 import warnings
 from collections.abc import Callable
-from glob import glob
+from glob import escape, glob
 from pathlib import Path
 
 import click
@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from pipelines.bradley_terry._metrics import configure_metric
 from voting_metrics_main_code.constants import AllowedRule, MetricVariant
-from voting_metrics_main_code.replication import STATS_OUTPUT, new_data_file
+from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 warnings.filterwarnings("ignore")
@@ -29,10 +29,13 @@ def run_score(
     profile_file: str | Path,
     metric_function: Callable[..., float],
     voting_rule: ElectionConstructor,
+    *,
+    seed: int = 0,
 ) -> float:
     """Load one profile and evaluate its metric with standard output suppressed.
 
     Args:
+        seed (int, optional): Base seed for independent profile streams. Defaults to 0.
         profile_file (str | Path): Path to a preference-profile CSV.
         metric_function (Callable[..., float]): Metric callable with seat count and variants already
             bound.
@@ -44,6 +47,10 @@ def run_score(
     Raises:
         FileNotFoundError: The profile CSV does not exist.
     """
+    profile_path = Path(profile_file)
+    seed_task(
+        profile_path.parent.parent.name, profile_path.parent.name, profile_path.name, seed=seed
+    )
     with contextlib.redirect_stdout(None):
         profile = RankProfile.from_csv(profile_file)
         score = metric_function(profile, voting_rule)
@@ -100,6 +107,16 @@ def run_score(
     help="Tiebreaking method",
     default="lex",
 )
+@click.option(
+    "--output-dir",
+    "output_root",
+    type=click.Path(path_type=Path),
+    default=ROOT,
+    show_default=True,
+    help="Run root containing stats, plots, and tables",
+)
+@click.option("--n-jobs", type=click.IntRange(min=1), default=1, show_default=True)
+@click.option("--seed", type=int, default=0, show_default=True)
 def main(
     input_folder: str | Path,
     n_seats: int,
@@ -108,10 +125,18 @@ def main(
     interpolation_type: str,
     election_type: AllowedRule,
     tiebreak: str,
+    *,
+    output_root: Path = ROOT,
+    n_jobs: int = 1,
+    seed: int = 0,
 ) -> None:
     """Collect and save one metric for a two-bloc profile folder.
 
     Args:
+        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
+        seed (int, optional): Base seed for independent profile streams. Defaults to 0.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
         input_folder (str | Path): Two-bloc profile directory with encoded candidate and bloc
             parameters.
         n_seats (int): Number of seats to elect.
@@ -125,6 +150,10 @@ def main(
         ValueError: The seat count is below one or a UM interpolation is not 'asin', 'odds', or
             'linear'.
     """
+    output_root = output_root.resolve()
+    print(f"Output root: {output_root}")
+    print(f"Seats: {n_seats}")
+
     input_folder_full_path = Path(input_folder).resolve()
     base_parent = input_folder_full_path.name
     cand_folder = input_folder_full_path.parent.stem
@@ -141,7 +170,7 @@ def main(
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
 
-    output_folder = Path(f"{STATS_OUTPUT}/bt_2_bloc_profile_stats/{n_seats}_seats").resolve()
+    output_folder = (output_root / "stats/bt_2_bloc_profile_stats" / f"{n_seats}_seats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
 
@@ -177,7 +206,7 @@ def main(
 
     metric_function = configure_metric(metric, n_seats, variant, interpolation_type)
 
-    all_csv_profiles = sorted(glob(f"{input_folder_full_path}/*.csv"))
+    all_csv_profiles = sorted(glob(f"{escape(str(input_folder_full_path))}/*.csv"))
 
     voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
 
@@ -186,8 +215,9 @@ def main(
     with joblib_progress(
         description=f"Computing scores for metric {metric}", total=len(all_csv_profiles)
     ):
-        scores = Parallel(n_jobs=-1)(
-            delayed(run_score)(file, metric_function, voting_rule) for file in all_csv_profiles
+        scores = Parallel(n_jobs=n_jobs)(
+            delayed(run_score)(file, metric_function, voting_rule, seed=seed)
+            for file in all_csv_profiles
         )
 
     with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:

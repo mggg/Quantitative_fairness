@@ -2,7 +2,7 @@
 
 import json
 import sys
-from glob import glob
+from glob import escape, glob
 from pathlib import Path
 from typing import Mapping, Sequence, cast
 
@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.scottish.plots._data import load_outputs_by_election_type
 from voting_metrics_main_code.constants import RULE_ORDER
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT, STATS_OUTPUT
+from voting_metrics_main_code.replication import ROOT
 
 rule_color_map = {
     "borda": "#00B8D4",
@@ -114,10 +114,13 @@ def export_aggregate_tables(
     n_cand_list: Sequence[int],
     variant: str,
     tiebreak: str,
+    *,
+    output_root: Path,
 ) -> None:
     """Export aggregate Scottish statistics ordered by rule and candidate count.
 
     Args:
+        output_root (Path): Run root containing stats, plots, and tables.
         stat_file_base_dir (str): Base directory containing the metric JSON files.
         ordered_rules (Sequence[str]): Voting rules in the order to load or display.
         n_cand_list (Sequence[int]): Candidate counts to include, in display order.
@@ -126,7 +129,7 @@ def export_aggregate_tables(
         tiebreak (str): Tiebreak token used in the output filename; input files are not filtered by
             it.
     """
-    all_stats_files = glob(f"{stat_file_base_dir}/*stats.json")
+    all_stats_files = glob(f"{escape(stat_file_base_dir)}/*stats.json")
 
     stats_by_type = {}
 
@@ -152,31 +155,59 @@ def export_aggregate_tables(
         ),
     )
 
-    (STATS_OUTPUT / "scottish_stats").mkdir(parents=True, exist_ok=True)
+    (output_root / "stats" / "scottish_stats").mkdir(parents=True, exist_ok=True)
 
-    df.to_csv(f"{STATS_OUTPUT}/scottish_stats/scottish_stats_{variant}_{tiebreak}.csv")
+    df.to_csv(f"{(output_root / 'stats')}/scottish_stats/scottish_stats_{variant}_{tiebreak}.csv")
 
 
 @click.command()
 @click.option("--variant", required=True)
 @click.option("--tiebreak", required=True)
+@click.option(
+    "--stats-dir",
+    "stats_root",
+    type=click.Path(path_type=Path),
+    default=None,
+    show_default=True,
+    help="Parent of the dataset statistics directories",
+)
+@click.option(
+    "--output-dir",
+    "output_root",
+    type=click.Path(path_type=Path),
+    default=ROOT,
+    show_default=True,
+    help="Run root containing stats, plots, and tables",
+)
 def main(
     variant: str,
     tiebreak: str,
     n_cand_list: Sequence[int] = list(range(6, 10)),
+    *,
+    stats_root: Path | None = None,
+    output_root: Path = ROOT,
 ) -> None:
     """Save Scottish metric boxplots and export aggregate statistics for the selected labels.
 
     Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
         variant (str): Metric variant to plot (e.g., average or worst_case).
         tiebreak (str): Tiebreak rule to plot (e.g., lex or random).
         n_cand_list (Sequence[int], optional): Candidate counts to include. Defaults to
             list(range(6, 10)).
     """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Output root: {output_root}")
+
     ordered_rules = RULE_ORDER
 
-    stat_file_base_dir = str(Path(f"{STATS_INPUT}/scottish_stats/").resolve())
-    output_dir = f"{PLOTS_DIR}/scottish"
+    stat_file_base_dir = str((stats_root / "scottish_stats").resolve())
+    output_dir = str(output_root / "plots/scottish")
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     output_plot_name = f"{str(output_dir)}/scottish_sigma_plots_{variant}_{tiebreak}.png"
 
@@ -185,7 +216,7 @@ def main(
     # ==========================
 
     outputs_by_election_type = load_outputs_by_election_type(
-        STATS_INPUT / "scottish_stats", ordered_rules, variants=(variant,), tiebreaks=(tiebreak,)
+        stats_root / "scottish_stats", ordered_rules, variants=(variant,), tiebreaks=(tiebreak,)
     )
 
     metric_label_pairs = [
@@ -239,7 +270,9 @@ def main(
     # ===========================
     # Make the scottish stats csv
     # ===========================
-    export_aggregate_tables(stat_file_base_dir, ordered_rules, n_cand_list, variant, tiebreak)
+    export_aggregate_tables(
+        stat_file_base_dir, ordered_rules, n_cand_list, variant, tiebreak, output_root=output_root
+    )
 
 
 if __name__ == "__main__":

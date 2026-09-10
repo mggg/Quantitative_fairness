@@ -1,9 +1,10 @@
 """Create M-statistic histograms for Scottish and Bradley-Terry outputs."""
 
+import argparse
 import json
 import math
 import sys
-from glob import glob
+from glob import escape, glob
 from pathlib import Path
 from typing import Sequence
 
@@ -13,16 +14,14 @@ import seaborn as sns
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from pipelines.bradley_terry.plots._data import load_metric_samples
-
+from pipelines.bradley_terry.plots._data import find_metric_files, load_metric_samples
 from voting_metrics_main_code.constants import (
     BT_BLOC_PROPORTIONS,
+)
+from voting_metrics_main_code.constants import (
     RULE_COLORS as rule_color_map,
 )
-from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR, STATS_INPUT
-
-scottish_plots_dir = PLOTS_DIR / "scottish" / "M_histograms"
-bt_plots_dir = PLOTS_DIR / "bt_plots" / "M_histograms"
+from voting_metrics_main_code.replication import ROOT
 
 
 def inverse_interp(x: float) -> float:
@@ -73,14 +72,18 @@ def save_histogram(
     plt.close()
 
 
-def make_scottish_M_histogram(rule: str) -> None:
+def make_scottish_M_histogram(rule: str, *, stats_root: Path, output_root: Path) -> None:
     """Generate and save an M histogram for the Scottish datasets.
 
     Args:
+        stats_root (Path): Parent of the dataset statistics directories.
+        output_root (Path): Run root containing stats, plots, and tables.
         rule (str): Voting rule name used to locate the stats file.
     """
+    scottish_plots_dir = output_root / "plots" / "scottish" / "M_histograms"
+
     file = glob(
-        f"{STATS_INPUT}/scottish_stats/sigma_UM_worst_case_asin/**/*{rule}*lex_output.json",
+        f"{escape(str(stats_root))}/scottish_stats/sigma_UM_worst_case_asin/**/*{rule}*lex_output.json",
         recursive=True,
     )[0]
 
@@ -104,14 +107,26 @@ def make_scottish_M_histogram(rule: str) -> None:
     save_histogram(m_values, rule, output_file, bin_width=0.005, upper_limit=0.5)
 
 
-def make_bt_M_histograms(rule: str, bprop_values: Sequence[float] | None = None) -> None:
+def make_bt_M_histograms(
+    rule: str,
+    bprop_values: Sequence[float] | None = None,
+    *,
+    bt_stats_root: Path,
+    n_seats: int = 3,
+    output_root: Path,
+) -> None:
     """Generate M, ASIN, and odds histograms for BT simulations.
 
     Args:
+        n_seats (int, optional): Seat count of the selected experiment. Defaults to 3.
+        bt_stats_root (Path): Exact two-bloc BT statistics tree.
+        output_root (Path): Run root containing stats, plots, and tables.
         rule (str): Voting rule name used to locate the stats files.
         bprop_values (Sequence[float] | None, optional): B-bloc proportions to plot; None uses
             BT_BLOC_PROPORTIONS. Defaults to None.
     """
+    bt_plots_dir = output_root / "plots" / "bt_plots" / "M_histograms"
+
     if rule == "random":
         return
 
@@ -121,9 +136,14 @@ def make_bt_M_histograms(rule: str, bprop_values: Sequence[float] | None = None)
         bprop_values = BT_BLOC_PROPORTIONS
 
     for bprop in bprop_values:
-        paths = glob(
-            f"{BT_STATS_INPUT}/3_seats/sigma_UM/**/{rule}/"
-            f"METRIC_sigma_UM__VARIANT_worst_case__INTERP_asin__*BPROP_{bprop}*TIEBREAK_lex.json"
+        paths = find_metric_files(
+            bt_stats_root,
+            "sigma_UM",
+            "worst_case",
+            "asin",
+            n_seats=n_seats,
+            rule=rule,
+            bloc_proportion=bprop,
         )
         scores = load_metric_samples(paths)
         asin_scores = [score for score in scores if score < 1.0]
@@ -161,13 +181,34 @@ def make_legend() -> None:
     plt.close()
 
 
-def main() -> None:
-    """Save BT M, ASIN, and odds histograms for B-bloc proportion 0.7 under each nonrandom rule."""
+def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats: int = 3) -> None:
+    """Save BT M, ASIN, and odds histograms for B-bloc proportion 0.7 under each nonrandom rule.
+
+    Args:
+        n_seats (int, optional): Seat count of the selected experiment. Defaults to 3.
+        bt_stats_root (Path | None, optional): Exact two-bloc BT statistics tree. None uses the
+            selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()
+    print(f"BT statistics: {bt_stats_root}")
+    print(f"Output root: {output_root}")
+
     for rule in rule_color_map:
         # make_scottish_M_histogram(rule)
-        make_bt_M_histograms(rule, [0.7])
+        make_bt_M_histograms(
+            rule, [0.7], bt_stats_root=bt_stats_root, output_root=output_root, n_seats=n_seats
+        )
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--n-seats", type=int, default=3, help="Seat count of the BT experiment.")
+    parser.add_argument("--bt-stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    args = parser.parse_args()
+    main(bt_stats_root=args.bt_stats_dir, output_root=args.output_dir, n_seats=args.n_seats)
+
     # make_legend()

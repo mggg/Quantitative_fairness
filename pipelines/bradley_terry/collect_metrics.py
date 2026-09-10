@@ -27,12 +27,11 @@ from voting_metrics_main_code.fairness_metric import (  # noqa: E402
     sigma_UM,
     sigma_UM_winner_set,
 )
-from voting_metrics_main_code.replication import STATS_OUTPUT, new_data_file, seed_task
+from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import build_voting_rule  # noqa: E402
 
 warnings.filterwarnings("ignore")
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 RUNS = (
     ("sigma_UM", sigma_UM, "worst_case", "asin"),
     ("sigma_UM_winner_set", sigma_UM_winner_set, "worst_case", "asin"),
@@ -66,11 +65,17 @@ class OutputProgress(TypedDict):
 
 
 def output_jobs(
-    input_folder: str | Path, n_seats: int, election_type: AllowedRule, tiebreak: str
+    input_folder: str | Path,
+    n_seats: int,
+    election_type: AllowedRule,
+    tiebreak: str,
+    *,
+    output_root: Path,
 ) -> tuple[int, list[tuple[Callable[..., float], str, str, Path]]]:
     """Build metric jobs and output paths from a two-bloc profile directory name.
 
     Args:
+        output_root (Path): Run root containing stats, plots, and tables.
         input_folder (str | Path): Two-bloc profile directory with encoded candidate and bloc
             parameters.
         n_seats (int): Number of seats to elect.
@@ -95,7 +100,7 @@ def output_jobs(
     a_cohesion, b_cohesion = ast.literal_eval(base_parts[2].split("_")[-1])
     n_a_cands, n_b_cands = map(int, cand_parts)
     n_cands = n_a_cands + n_b_cands
-    output_root = STATS_OUTPUT / "bt_2_bloc_profile_stats" / f"{n_seats}_seats"
+    output_root = output_root / "stats" / "bt_2_bloc_profile_stats" / f"{n_seats}_seats"
 
     jobs = []
 
@@ -126,10 +131,13 @@ def run_profile_batch(
     election_type: AllowedRule,
     tiebreak: str,
     metric_jobs: Sequence[tuple[int, Callable[..., float], str, str]],
+    *,
+    seed: int = 0,
 ) -> BatchScores:
     """Score a batch of profiles with a separate deterministic seed for each metric.
 
     Args:
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
         profile_batch (Sequence[tuple[int, Path]]): Pairs of CSV-order index and profile path.
         n_cands (int): Number of candidates.
         n_seats (int): Number of seats to elect.
@@ -172,6 +180,7 @@ def run_profile_batch(
                     n_seats,
                     metric.func.__name__,
                     metric.keywords,
+                    seed=seed,
                 )
 
                 scores[output_id].append((index, metric(profile, voting_rule)))
@@ -215,7 +224,7 @@ def load_profile_folders(settings_file: Path) -> list[Path]:
         dict.fromkeys(line.strip() for line in settings_file.read_text().splitlines())
     )
     input_folders = [
-        (Path(folder) if Path(folder).is_absolute() else PROJECT_ROOT / folder).resolve()
+        (Path(folder) if Path(folder).is_absolute() else ROOT / folder).resolve()
         for folder in input_folders
         if folder and not folder.startswith("#")
     ]
@@ -236,12 +245,15 @@ def prepare_tasks(
     election_type: AllowedRule,
     tiebreak: str,
     profile_batch_size: int,
+    *,
+    output_root: Path,
 ) -> tuple[list[ProfileBatchTask], dict[int, OutputProgress], int, int]:
     """Build pending batch tasks and output progress, skipping existing result files.
 
     Empty profile folders produce empty JSON arrays immediately.
 
     Args:
+        output_root (Path): Run root containing stats, plots, and tables.
         input_folders (Sequence[Path]): Profile directories to process, in task preparation order.
         n_seats (int): Number of seats to elect.
         election_type (AllowedRule): Voting rule name.
@@ -262,7 +274,9 @@ def prepare_tasks(
     written = 0
 
     for folder in tqdm(input_folders, desc="Preparing folders", unit="folder"):
-        n_cands, folder_jobs = output_jobs(folder, n_seats, election_type, tiebreak)
+        n_cands, folder_jobs = output_jobs(
+            folder, n_seats, election_type, tiebreak, output_root=output_root
+        )
         profile_files = sorted(Path(folder).resolve().glob("*.csv"))
         profile_batches = list(batched(enumerate(profile_files), profile_batch_size))
         metric_jobs = []
@@ -310,7 +324,7 @@ def prepare_tasks(
 @click.option(
     "--settings-file",
     type=click.Path(path_type=Path, exists=True, dir_okay=False),
-    default=PROJECT_ROOT / "config/bt_profiles.txt",
+    default=ROOT / "config/bt_profiles.txt",
     show_default=True,
 )
 @click.option("--n-seats", type=click.IntRange(min=1), default=3, show_default=True)
@@ -343,6 +357,22 @@ def prepare_tasks(
     default=5,
     show_default=True,
 )
+@click.option(
+    "--output-dir",
+    "output_root",
+    type=click.Path(path_type=Path),
+    default=ROOT,
+    show_default=True,
+    help="Run root containing stats, plots, and tables",
+)
+@click.option(
+    "--seed",
+    "seed",
+    type=int,
+    default=0,
+    show_default=True,
+    help="Base seed for independent task streams",
+)
 def main(
     settings_file: Path,
     n_seats: int,
@@ -350,10 +380,16 @@ def main(
     tiebreak: str,
     n_jobs: int,
     profile_batch_size: int,
+    *,
+    output_root: Path = ROOT,
+    seed: int = 0,
 ) -> None:
     """Compute the four primary metrics across the folders in SETTINGS_FILE.
 
     Args:
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
         settings_file (Path): Text file listing profile directories, one per line.
         n_seats (int): Number of seats to elect.
         election_type (AllowedRule): Voting rule name.
@@ -364,9 +400,17 @@ def main(
     Raises:
         click.ClickException: The settings file lists no usable profile folders.
     """
+    output_root = output_root.resolve()
+    if n_jobs < 1:
+        raise ValueError("n_jobs must be positive")
+    print(f"Output root: {output_root}")
+    print(f"Seed: {seed}")
+    print(f"Workers: {n_jobs}")
+    print(f"Seats: {n_seats}")
+
     input_folders = load_profile_folders(settings_file)
     tasks, outputs, skipped, written = prepare_tasks(
-        input_folders, n_seats, election_type, tiebreak, profile_batch_size
+        input_folders, n_seats, election_type, tiebreak, profile_batch_size, output_root=output_root
     )
 
     if skipped:
@@ -387,7 +431,7 @@ def main(
             # Joblib accepts integer batch sizes despite its inferred string parameter type.
             batch_size=1,  # pyright: ignore[reportArgumentType]
             return_as="generator_unordered",
-        )(delayed(run_profile_batch)(*task) for task in tasks),
+        )(delayed(run_profile_batch)(*task, seed=seed) for task in tasks),
     )
 
     with (

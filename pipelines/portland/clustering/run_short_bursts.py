@@ -21,17 +21,17 @@ from pipelines.portland.clustering.modularity import (  # noqa: E402
     run_modularity_maximization_short_bursts,
 )
 from pipelines.portland.clustering.partition_visualization import viz_partition  # noqa: E402
+from voting_metrics_main_code.replication import ROOT
 
-from voting_metrics_main_code.replication import DATA_DIR
 
-
-def load_and_project(profile_number: int) -> tuple[RankProfile, NDArray]:
+def load_and_project(profile_number: int, *, data_root: Path) -> tuple[RankProfile, NDArray]:
     """Load in the profile and project it to the viable candidates.
 
     Candidates with mentions below the three-seat STV threshold are removed.
     Nonfinite boost entries are replaced using NumPy’s nan_to_num defaults.
 
     Args:
+        data_root (Path): Directory containing election inputs.
         profile_number (int): The number of the profile to load and project.
 
     Returns:
@@ -42,7 +42,7 @@ def load_and_project(profile_number: int) -> tuple[RankProfile, NDArray]:
     """
     profile = cast(
         RankProfile,
-        RankProfile.from_csv(f"{DATA_DIR}/Portland_D{profile_number}_cleaned_votekit.csv"),
+        RankProfile.from_csv(f"{data_root}/Portland_D{profile_number}_cleaned_votekit.csv"),
     )
     candidates = list(profile.candidates)
 
@@ -65,10 +65,13 @@ def run_short_burst_for_portland_profile_i(
     burst_length: int = 5,
     n_bursts: int = 200,
     rng_seed: int = 42,
+    *,
+    data_root: Path,
 ) -> tuple[NDArray, float, NDArray, list[str]]:
     """Run the short burst algorithm on the given Portland profile.
 
     Args:
+        data_root (Path): Directory containing election inputs.
         profile_number (int): The number of the profile to run the algorithm on.
         n_clusters (int, optional): The number of clusters to use. Defaults to 2.
         burst_length (int, optional): The length of each burst. Defaults to 5.
@@ -87,7 +90,7 @@ def run_short_burst_for_portland_profile_i(
                 different from the best assignment and its binary-label complement.
     """
     rng = random.Random(rng_seed)
-    profile, boost_matrix = load_and_project(profile_number)
+    profile, boost_matrix = load_and_project(profile_number, data_root=data_root)
     cands = list(profile.candidates)
 
     if len(cands) < n_clusters:
@@ -163,16 +166,12 @@ def run_short_burst_for_portland_profile_i(
     return best_assignment_vec, best_modularity, boost_matrix, cands
 
 
-def main() -> None:
-    """Run Portland district 3 clustering and optionally display the resulting partition."""
-    parser = argparse.ArgumentParser(description="Run short burst on Portland profiles.")
-    parser.add_argument(
-        "--show-viz",
-        action="store_true",
-        help="Whether to show the visualization of the partition.",
-    )
-    args = parser.parse_args()
+def main(show_viz: bool = False, *, data_root: Path = ROOT / "data") -> None:
+    """Run Portland district 3 clustering and optionally display the resulting partition.
 
+    Args:
+        data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
+    """
     # for profile_number in range(1, 5):
     for profile_number in [3]:
         tag_string = f"== PROFILE {profile_number} =="
@@ -180,13 +179,19 @@ def main() -> None:
         print(tag_string)
         print("=" * len(tag_string))
         print(f"Loading profile {profile_number}...", end="\r")
-        best_vec, _, boost_mat, cand_list = run_short_burst_for_portland_profile_i(profile_number)
+        best_vec, _, boost_mat, cand_list = run_short_burst_for_portland_profile_i(
+            profile_number, data_root=data_root
+        )
 
         print()
 
-        if args.show_viz:
+        if show_viz:
             viz_partition(best_vec, boost_mat, cand_list, centered=True)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--show-viz", action="store_true")
+    parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
+    args = parser.parse_args()
+    main(show_viz=args.show_viz, data_root=args.data_dir.resolve())

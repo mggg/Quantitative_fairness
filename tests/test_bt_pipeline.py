@@ -21,11 +21,10 @@ def test_output_jobs_preserve_run_and_retry_semantics(
     input_folder = (
         tmp_path / "02_06" / "b_proportion_0.5__ALPHA_(0.50,1.00,0.50,1.00)__COHESION_(0.70,0.90)"
     )
-    monkeypatch.setitem(MODULE["output_jobs"].__globals__, "STATS_OUTPUT", tmp_path / "stats")
 
     input_folder.mkdir(parents=True)
     (input_folder / "profile_0.csv").touch()
-    _, jobs = MODULE["output_jobs"](input_folder, 3, "random", "lex")
+    _, jobs = MODULE["output_jobs"](input_folder, 3, "random", "lex", output_root=tmp_path)
 
     assert len(jobs) == 4
     assert {job[-1].parts[-4] for job in jobs} == {
@@ -40,7 +39,9 @@ def test_output_jobs_preserve_run_and_retry_semantics(
     settings_file = tmp_path / "settings.txt"
     settings_file.write_text(str(input_folder))
 
-    result = CliRunner().invoke(MODULE["main"], ["--settings-file", str(settings_file)])
+    result = CliRunner().invoke(
+        MODULE["main"], ["--settings-file", str(settings_file), "--output-dir", str(tmp_path)]
+    )
 
     assert result.exit_code == 0
     assert "Skipping 4 completed folder/metric outputs." in result.output

@@ -51,3 +51,34 @@ def test_metric_loaders_preserve_file_and_observation_order(tmp_path: Path) -> N
     assert load_metric_samples(paths) == [3, 1, 8, 4]
     assert load_metric_summaries(paths) == [[2.0, 1.0], [6.0, 2.0]]
     assert load_metric_summaries(paths, "var") == [[2.0, 1.0], [6.0, 4.0]]
+
+
+def test_workflow_help_is_available_without_running_analyses(tmp_path: Path) -> None:
+    code = """
+import ast
+import runpy
+import sys
+from pathlib import Path
+root = Path(sys.argv[1])
+for path in [*root.joinpath('pipelines').rglob('*.py'), *root.joinpath('scripts').glob('*.py')]:
+    if path.name == 'smoke_test.py':
+        continue
+    tree = ast.parse(path.read_text())
+    if not any(isinstance(node, ast.If) and '__name__' in ast.unparse(node.test) for node in tree.body):
+        continue
+    sys.argv = [str(path), '--help']
+    try:
+        runpy.run_path(str(path), run_name='__main__')
+    except SystemExit as error:
+        assert error.code == 0, (path, error.code)
+    else:
+        raise AssertionError(f'{path} did not provide --help')
+"""
+    subprocess.run(
+        [sys.executable, "-c", code, str(ROOT)],
+        cwd=tmp_path,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert not list(tmp_path.iterdir())

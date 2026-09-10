@@ -1,7 +1,7 @@
 """Load Scottish metric JSON layouts into plotting tables."""
 
 import json
-from glob import glob
+from glob import escape, glob
 from itertools import product
 from pathlib import Path
 from typing import Sequence
@@ -31,7 +31,7 @@ def load_outputs_by_election_type(
 
     for variant, tiebreak, voting_rule in product(variants, tiebreaks, ordered_rules):
         all_output_files = glob(
-            str(stats_dir / f"*{variant}*" / voting_rule / f"*{tiebreak}_output.json")
+            f"{escape(str(stats_dir))}/*{variant}*/{voting_rule}/*{tiebreak}_output.json"
         )
         metric_to_values: dict[str, dict[str, list[float]]] = {}
         election_type = voting_rule

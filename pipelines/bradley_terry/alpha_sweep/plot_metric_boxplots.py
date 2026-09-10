@@ -17,7 +17,7 @@ from matplotlib.patches import Patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER, MetricVariant
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
+from voting_metrics_main_code.replication import ROOT
 
 
 def load_file(file_path: str | Path) -> list[float]:
@@ -217,11 +217,17 @@ def variant_comparison_panels(variant: MetricVariant) -> list[MetricPanel]:
 
 
 def save_metric_grid(
-    panels: Sequence[MetricPanel], n_seats: int, tiebreak: str, output_file: Path
+    panels: Sequence[MetricPanel],
+    n_seats: int,
+    tiebreak: str,
+    output_file: Path,
+    *,
+    stats_root: Path,
 ) -> None:
     """Load and save metric rows across the five alpha values with a shared voting-rule legend.
 
     Args:
+        stats_root (Path): Parent of the dataset statistics directories.
         panels (Sequence[MetricPanel]): Metric rows in display order.
         n_seats (int): Seat count encoded in the input paths.
         tiebreak (str): Tiebreak token used to select statistics.
@@ -230,7 +236,7 @@ def save_metric_grid(
     alpha_values = (1 / 3, 1 / 2, 1, 2, 3)
     candidate_counts = range(6, 10)
     rules = NON_RANDOM_RULE_ORDER
-    statistics_dir = str((STATS_INPUT / "bt_profile_stats" / f"{n_seats}_seats").resolve())
+    statistics_dir = str((stats_root / "bt_profile_stats" / f"{n_seats}_seats").resolve())
     output_file.parent.mkdir(parents=True, exist_ok=True)
 
     figure, axes = plt.subplots(
@@ -275,52 +281,91 @@ def save_metric_grid(
     plt.close(figure)
 
 
-def plot_average_iia_panel(n_seats: int, tiebreak: str) -> None:
+def plot_average_iia_panel(
+    n_seats: int, tiebreak: str, *, stats_root: Path, output_root: Path
+) -> None:
     """Save a panel grid comparing worst-case ASIN UM with average IIA across alpha values.
 
     Args:
+        stats_root (Path): Parent of the dataset statistics directories.
+        output_root (Path): Run root containing stats, plots, and tables.
         n_seats (int): Number of seats to elect.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
     """
     output_file = (
-        PLOTS_DIR / "simulated_BT_plots" / (f"BESTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
+        output_root
+        / "plots"
+        / "simulated_BT_plots"
+        / (f"BESTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
     )
-    save_metric_grid(iia_comparison_panels("average"), n_seats, tiebreak, output_file)
+    save_metric_grid(
+        iia_comparison_panels("average"), n_seats, tiebreak, output_file, stats_root=stats_root
+    )
 
 
-def plot_worst_case_ranking_iia_panel(n_seats: int, tiebreak: str) -> None:
+def plot_worst_case_ranking_iia_panel(
+    n_seats: int, tiebreak: str, *, stats_root: Path, output_root: Path
+) -> None:
     """Save the alpha panel grid with worst-case ranking IIA and average subset/winner-set IIA.
 
     Args:
+        stats_root (Path): Parent of the dataset statistics directories.
+        output_root (Path): Run root containing stats, plots, and tables.
         n_seats (int): Number of seats to elect.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
     """
     output_file = (
-        PLOTS_DIR / "simulated_BT_plots" / (f"ALTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
+        output_root
+        / "plots"
+        / "simulated_BT_plots"
+        / (f"ALTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
     )
-    save_metric_grid(iia_comparison_panels("worst_case"), n_seats, tiebreak, output_file)
+    save_metric_grid(
+        iia_comparison_panels("worst_case"), n_seats, tiebreak, output_file, stats_root=stats_root
+    )
 
 
-def plot_variant_comparison(n_seats: int, variant: MetricVariant, tiebreak: str) -> None:
+def plot_variant_comparison(
+    n_seats: int,
+    variant: MetricVariant,
+    tiebreak: str,
+    *,
+    stats_root: Path,
+    output_root: Path,
+) -> None:
     """Save an alpha panel grid comparing UM interpolations and IIA metric families.
 
     Args:
+        stats_root (Path): Parent of the dataset statistics directories.
+        output_root (Path): Run root containing stats, plots, and tables.
         n_seats (int): Number of seats to elect.
         variant (MetricVariant): Metric aggregation variant.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
     """
     output_file = (
-        PLOTS_DIR
+        output_root
+        / "plots"
         / "simulated_BT_plots"
         / (f"AGGREGATE__NSEATS_{n_seats}__VARIANT_{variant}__TIEBREAK_{tiebreak}.png")
     )
-    save_metric_grid(variant_comparison_panels(variant), n_seats, tiebreak, output_file)
+    save_metric_grid(
+        variant_comparison_panels(variant), n_seats, tiebreak, output_file, stats_root=stats_root
+    )
 
 
-def plot_individual_metrics(n_seats: int, variant: MetricVariant, tiebreak: str) -> None:
+def plot_individual_metrics(
+    n_seats: int,
+    variant: MetricVariant,
+    tiebreak: str,
+    *,
+    stats_root: Path,
+    output_root: Path,
+) -> None:
     """Save a separate alpha panel grid for each metric and interpolation.
 
     Args:
+        stats_root (Path): Parent of the dataset statistics directories.
+        output_root (Path): Run root containing stats, plots, and tables.
         n_seats (int): Number of seats to elect.
         variant (MetricVariant): Metric aggregation variant.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
@@ -329,32 +374,72 @@ def plot_individual_metrics(n_seats: int, variant: MetricVariant, tiebreak: str)
 
     for panel in variant_comparison_panels(variant):
         output_file = (
-            PLOTS_DIR
+            output_root
+            / "plots"
             / "simulated_BT_plots"
             / (
                 f"METRIC_{panel.metric}__NSEATS_{n_seats}__VARIANT_{variant}"
                 f"__TIEBREAK_{tiebreak}__INTERP_{panel.interpolation}.png"
             )
         )
-        save_metric_grid([panel], n_seats, tiebreak, output_file)
+        save_metric_grid([panel], n_seats, tiebreak, output_file, stats_root=stats_root)
 
 
 @click.command()
 @click.option("--n-seats", type=int, default=1, help="Number of seats")
 @click.option("--variant", type=click.Choice(["worst_case", "average"]))
 @click.option("--tiebreak", type=click.Choice(["lex", "random"]))
-def main(n_seats: int, variant: MetricVariant, tiebreak: str) -> None:
+@click.option(
+    "--stats-dir",
+    "stats_root",
+    type=click.Path(path_type=Path),
+    default=None,
+    show_default=True,
+    help="Parent of the dataset statistics directories",
+)
+@click.option(
+    "--output-dir",
+    "output_root",
+    type=click.Path(path_type=Path),
+    default=ROOT,
+    show_default=True,
+    help="Run root containing stats, plots, and tables",
+)
+def main(
+    n_seats: int,
+    variant: MetricVariant,
+    tiebreak: str,
+    *,
+    stats_root: Path | None = None,
+    output_root: Path = ROOT,
+) -> None:
     """Save combined and individual metric boxplot grids across the single-alpha profile sweep.
 
     Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
         n_seats (int): Number of seats to elect.
         variant (MetricVariant): Metric aggregation variant, 'average' or 'worst_case'.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
     """
-    plot_average_iia_panel(n_seats, tiebreak)
-    plot_worst_case_ranking_iia_panel(n_seats, tiebreak)
-    plot_variant_comparison(n_seats, variant, tiebreak)
-    plot_individual_metrics(n_seats, variant, tiebreak)
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Output root: {output_root}")
+    print(f"Seats: {n_seats}")
+
+    plot_average_iia_panel(n_seats, tiebreak, stats_root=stats_root, output_root=output_root)
+    plot_worst_case_ranking_iia_panel(
+        n_seats, tiebreak, stats_root=stats_root, output_root=output_root
+    )
+    plot_variant_comparison(
+        n_seats, variant, tiebreak, stats_root=stats_root, output_root=output_root
+    )
+    plot_individual_metrics(
+        n_seats, variant, tiebreak, stats_root=stats_root, output_root=output_root
+    )
 
 
 if __name__ == "__main__":

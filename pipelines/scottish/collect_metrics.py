@@ -1,10 +1,11 @@
 """Collect Scottish election statistics across metrics and rules."""
 
+import argparse
 import contextlib
-from functools import partial
 import json
 import sys
-from glob import glob
+from functools import partial
+from glob import escape, glob
 from itertools import product
 from pathlib import Path
 from typing import Mapping, Protocol, cast
@@ -16,22 +17,14 @@ from votekit.cvr_loaders import load_scottish
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from voting_metrics_main_code.constants import AllowedRule, RULE_ORDER
+from voting_metrics_main_code.constants import RULE_ORDER, AllowedRule
 from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
-    sigma_IIA_all_subset,
     sigma_IIA_winner_set,
-    sigma_IIA_winner_set_all_subset,
     sigma_UM,
     sigma_UM_winner_set,
 )
-from voting_metrics_main_code.replication import (
-    DATA_DIR,
-    N_JOBS,
-    STATS_OUTPUT,
-    new_data_file,
-    seed_task,
-)
+from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 
@@ -83,10 +76,13 @@ def compute_results_single_file(
     election_name: AllowedRule,
     metric_function_dict: Mapping[str, MetricFn],
     tiebreak: str,
+    *,
+    seed: int = 0,
 ) -> dict[str, dict[str, dict[str, float]]]:
     """Compute all metrics for a single Scottish election file.
 
     Args:
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
         f (str | Path): Path to the election file.
         election_name (AllowedRule): Voting rule name.
         metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
@@ -97,7 +93,7 @@ def compute_results_single_file(
     """
     file_name = str(Path(f).stem)
 
-    seed_task(Path(f).parent.name, Path(f).name, election_name, tiebreak)
+    seed_task(Path(f).parent.name, Path(f).name, election_name, tiebreak, seed=seed)
     output = load_scottish(f)
     profile, seats = output[:2]
 
@@ -120,10 +116,13 @@ def compute_results_single_file_and_metric(
     metric_function_dict: Mapping[str, MetricFn],
     metric_name: str,
     tiebreak: str,
+    *,
+    seed: int = 0,
 ) -> tuple[str, str, float]:
     """Compute a single metric for one election file.
 
     Args:
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
         f (str | Path): Path to the election file.
         election_name (AllowedRule): Voting rule name.
         metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
@@ -135,7 +134,7 @@ def compute_results_single_file_and_metric(
     """
     file_name = str(Path(f).stem)
 
-    seed_task(Path(f).parent.name, Path(f).name, election_name, tiebreak)
+    seed_task(Path(f).parent.name, Path(f).name, election_name, tiebreak, seed=seed)
     output = load_scottish(f)
     profile, seats = output[:2]
 
@@ -152,179 +151,54 @@ def compute_results_single_file_and_metric(
 # =================================================================
 
 
-def sigma_UM_worst_case_asin() -> MetricFn:
-    """Wrap sigma_UM with worst-case ASIN interpolation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_UM, variant="worst_case", interpolation_type="asin")
-
-
-def sigma_UM_average_asin() -> MetricFn:
-    """Wrap sigma_UM with average-case ASIN interpolation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_UM, variant="average", interpolation_type="asin")
-
-
-def sigma_UM_worst_case_odds() -> MetricFn:
-    """Wrap sigma_UM with worst-case odds interpolation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_UM, variant="worst_case", interpolation_type="odds")
-
-
-def sigma_UM_average_odds() -> MetricFn:
-    """Wrap sigma_UM with average-case odds interpolation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_UM, variant="average", interpolation_type="odds")
-
-
-def sigma_UM_winner_set_worst_case_asin() -> MetricFn:
-    """Wrap sigma_UM_winner_set with worst-case ASIN interpolation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_UM_winner_set, variant="worst_case", interpolation_type="asin")
-
-
-def sigma_UM_winner_set_average_asin() -> MetricFn:
-    """Wrap sigma_UM_winner_set with average-case ASIN interpolation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_UM_winner_set, variant="average", interpolation_type="asin")
-
-
-def sigma_UM_winner_set_worst_case_odds() -> MetricFn:
-    """Wrap sigma_UM_winner_set with worst-case odds interpolation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_UM_winner_set, variant="worst_case", interpolation_type="odds")
-
-
-def sigma_UM_winner_set_average_odds() -> MetricFn:
-    """Wrap sigma_UM_winner_set with average-case odds interpolation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_UM_winner_set, variant="average", interpolation_type="odds")
-
-
-# =================================================================
-
-
-def sigma_IIA_worst_case() -> MetricFn:
-    """Wrap sigma_IIA with worst-case aggregation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_IIA, variant="worst_case")
-
-
-def sigma_IIA_average() -> MetricFn:
-    """Wrap sigma_IIA with average-case aggregation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_IIA, variant="average")
-
-
-def sigma_IIA_all_subset_worst_case() -> MetricFn:
-    """Wrap sigma_IIA_all_subset with worst-case aggregation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_IIA_all_subset, variant="worst_case")
-
-
-def sigma_IIA_all_subset_average() -> MetricFn:
-    """Wrap sigma_IIA_all_subset with average-case aggregation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_IIA_all_subset, variant="average")
-
-
-def sigma_IIA_winner_set_worst_case() -> MetricFn:
-    """Wrap sigma_IIA_winner_set with worst-case aggregation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_IIA_winner_set, variant="worst_case")
-
-
-def sigma_IIA_winner_set_average() -> MetricFn:
-    """Wrap sigma_IIA_winner_set with average-case aggregation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_IIA_winner_set, variant="average")
-
-
-def sigma_IIA_winner_set_all_subset_worst_case() -> MetricFn:
-    """Wrap sigma_IIA_winner_set_all_subset with worst-case aggregation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_IIA_winner_set_all_subset, variant="worst_case")
-
-
-def sigma_IIA_winner_set_all_subset_average() -> MetricFn:
-    """Wrap sigma_IIA_winner_set_all_subset with average-case aggregation.
-
-    Returns:
-        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
-    """
-    return partial(sigma_IIA_winner_set_all_subset, variant="average")
-
-
-def main() -> None:
+def main(
+    *, data_root: Path = ROOT / "data", output_root: Path = ROOT, seed: int = 0, n_jobs: int = 1
+) -> None:
     """Save primary Scottish metrics by rule and tiebreak, skipping existing output files.
 
     Raises:
         ValueError: No Scottish election CSVs match the supported candidate counts.
+
+    Args:
+        data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
+        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
     """
-    output_folder = Path(f"{STATS_OUTPUT}/scottish_stats/").resolve()
+    output_root = output_root.resolve()
+    data_root = data_root.resolve()
+    if n_jobs < 1:
+        raise ValueError("n_jobs must be positive")
+    print(f"Data: {data_root}")
+    print(f"Output root: {output_root}")
+    print(f"Seed: {seed}")
+    print(f"Workers: {n_jobs}")
+
+    output_folder = (output_root / "stats/scottish_stats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
 
     candidate_range = range(3, 15)
 
-    all_files = glob(f"{DATA_DIR}/scot-elex/*/*.csv")
+    all_files = glob(f"{escape(str(data_root))}/scot-elex/*/*.csv")
     all_files = [f for f in all_files if any([f"/{i}_cands" in f for i in candidate_range])]
 
     metric_function_dict = {
-        "sigma_UM_worst_case_asin": sigma_UM_worst_case_asin(),
-        "sigma_UM_winner_set_worst_case_asin": sigma_UM_winner_set_worst_case_asin(),
-        "sigma_IIA_average": sigma_IIA_average(),
-        "sigma_IIA_winner_set_average": sigma_IIA_winner_set_average(),
+        "sigma_UM_worst_case_asin": partial(
+            sigma_UM, variant="worst_case", interpolation_type="asin"
+        ),
+        "sigma_UM_winner_set_worst_case_asin": partial(
+            sigma_UM_winner_set, variant="worst_case", interpolation_type="asin"
+        ),
+        "sigma_IIA_average": partial(sigma_IIA, variant="average"),
+        "sigma_IIA_winner_set_average": partial(sigma_IIA_winner_set, variant="average"),
     }
     all_election_types = RULE_ORDER
     tiebreak_types = ["lex", "random"]
 
     if not all_files:
-        raise ValueError(f"No Scottish election CSVs found under {DATA_DIR / 'scot-elex'}")
+        raise ValueError(f"No Scottish election CSVs found under {data_root / 'scot-elex'}")
 
     all_files.sort()
 
@@ -349,9 +223,9 @@ def main() -> None:
             # Joblib does not retain the worker's tuple type in its return annotation.
             results = cast(
                 list[tuple[str, str, float]],
-                Parallel(n_jobs=N_JOBS)(
+                Parallel(n_jobs=n_jobs)(
                     delayed(compute_results_single_file_and_metric)(
-                        f, election_name, metric_function_dict, metric, tiebreak
+                        f, election_name, metric_function_dict, metric, tiebreak, seed=seed
                     )
                     for f in all_files
                 ),
@@ -368,4 +242,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--n-jobs", type=int, default=1)
+    args = parser.parse_args()
+    main(data_root=args.data_dir, output_root=args.output_dir, seed=args.seed, n_jobs=args.n_jobs)

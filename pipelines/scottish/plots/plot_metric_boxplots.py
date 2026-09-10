@@ -1,5 +1,6 @@
 """Create consolidated Scottish boxplots across metrics and rules."""
 
+import argparse
 import sys
 from pathlib import Path
 from typing import Mapping, Sequence
@@ -20,7 +21,7 @@ from voting_metrics_main_code.constants import (
     RULE_LABELS,
     RULE_ORDER,
 )
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
+from voting_metrics_main_code.replication import ROOT
 
 colors = [
     "#00B8D4",  # Borda
@@ -232,11 +233,12 @@ def save_legend_only(
 
 
 def load_boxplot_metrics(
-    ordered_rules: Sequence[str],
+    ordered_rules: Sequence[str], *, stats_root: Path
 ) -> dict[str, dict[str, dict[str, list[float]]]]:
     """Load average and worst-case Scottish metric arrays with lexicographic tiebreaks.
 
     Args:
+        stats_root (Path): Parent of the dataset statistics directories.
         ordered_rules (Sequence[str]): Voting rules in the order to load or display.
 
     Returns:
@@ -244,20 +246,34 @@ def load_boxplot_metrics(
             and metric key including the tiebreak suffix.
     """
     return load_outputs_by_election_type(
-        STATS_INPUT / "scottish_stats", ordered_rules, tiebreaks=("lex",)
+        stats_root / "scottish_stats", ordered_rules, tiebreaks=("lex",)
     )
 
 
-def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
+def main(
+    n_cand_list: Sequence[int] = list(range(6, 10)),
+    *,
+    stats_root: Path | None = None,
+    output_root: Path = ROOT,
+) -> None:
     """Run the Scottish boxplot pipeline and export plots.
 
     Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
         n_cand_list (Sequence[int], optional): Candidate counts to include. Defaults to
             list(range(6, 10)).
     """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Output root: {output_root}")
+
     ordered_rules = RULE_ORDER
 
-    output_dir = f"{PLOTS_DIR}/scottish/scottish_sigma_plots_collected"
+    output_dir = str(output_root / "plots/scottish/scottish_sigma_plots_collected")
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     # ==========================
@@ -265,7 +281,7 @@ def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
     # ==========================
 
     tiebreak = "lex"
-    outputs_by_election_type = load_boxplot_metrics(ordered_rules)
+    outputs_by_election_type = load_boxplot_metrics(ordered_rules, stats_root=stats_root)
 
     metric_label_pairs = [
         (f"sigma_UM_worst_case_asin_{tiebreak}", "$\\sigma_{UM}$ ranking"),
@@ -333,4 +349,8 @@ def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    args = parser.parse_args()
+    main(stats_root=args.stats_dir, output_root=args.output_dir)

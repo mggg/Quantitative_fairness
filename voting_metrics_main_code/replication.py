@@ -1,4 +1,4 @@
-"""Shared input paths, generated output paths, and reproducible task seeds."""
+"""Repository root, protected data writes, and reproducible task seeds."""
 
 import hashlib
 import os
@@ -11,20 +11,6 @@ from tempfile import TemporaryDirectory
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = Path(os.environ.get("QF_DATA_DIR", ROOT / "data")).resolve()
-RESULTS_DIR = Path(os.environ.get("QF_RESULTS_DIR", ROOT / "results/generated")).resolve()
-
-
-STATS_OUTPUT = Path(os.environ.get("QF_RESULTS_DIR", ROOT)).resolve() / "stats"
-PLOTS_DIR = Path(os.environ.get("QF_RESULTS_DIR", ROOT)).resolve() / "plots"
-STATS_INPUT = Path(os.environ.get("QF_STATS_DIR", ROOT / "stats")).resolve()
-BT_STATS_INPUT = Path(
-    os.environ.get("QF_BT_STATS_DIR", STATS_INPUT / "bt_2_bloc_profile_stats")
-).resolve()
-SCOTTISH_BOOTSTRAP_INPUT = Path(
-    os.environ.get("QF_BOOTSTRAP_DIR", STATS_INPUT / "scottish_stats/bootstrap")
-).resolve()
-N_JOBS = int(os.environ.get("QF_N_JOBS", "1"))
 
 
 @contextmanager
@@ -59,9 +45,14 @@ def new_data_file(path: Path) -> Generator[Path, None, None]:
             ) from None
 
 
-def seed_task(*identity: object) -> None:
-    """Seed each task independently of worker count, scheduling, and resume order."""
-    key = repr((int(os.environ.get("QF_SEED", "0")), identity)).encode()
+def seed_task(*identity: object, seed: int = 0) -> None:
+    """Seed each task independently of worker count, scheduling, and resume order.
+
+    Args:
+        *identity (object): Stable identifiers for the experiment and individual task.
+        seed (int, optional): Base seed supplied by the workflow. Defaults to 0.
+    """
+    key = repr((seed, identity)).encode()
     seed = int.from_bytes(hashlib.sha256(key).digest()[:4], "big")
     random.seed(seed)
     np.random.seed(seed)

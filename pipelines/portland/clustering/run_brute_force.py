@@ -3,6 +3,7 @@
 Compare these optima with the assignments found by heuristic optimization.
 """
 
+import argparse
 import sys
 from math import comb
 from pathlib import Path
@@ -19,16 +20,17 @@ from votekit.utils import mentions
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.portland.clustering.modularity import compute_modularity  # noqa: E402
-from voting_metrics_main_code.replication import DATA_DIR
+from voting_metrics_main_code.replication import ROOT
 
 
-def load_and_project(profile_number: int) -> tuple[RankProfile, NDArray]:
+def load_and_project(profile_number: int, *, data_root: Path) -> tuple[RankProfile, NDArray]:
     """Load in the profile and project it to the viable candidates.
 
     Candidates with mentions below the three-seat STV threshold are removed.
     Nonfinite boost entries are replaced using NumPy’s nan_to_num defaults.
 
     Args:
+        data_root (Path): Directory containing election inputs.
         profile_number (int): The number of the profile to load and project.
 
     Returns:
@@ -39,7 +41,7 @@ def load_and_project(profile_number: int) -> tuple[RankProfile, NDArray]:
     """
     profile = cast(
         RankProfile,
-        RankProfile.from_csv(f"{DATA_DIR}/Portland_D{profile_number}_cleaned_votekit.csv"),
+        RankProfile.from_csv(f"{data_root}/Portland_D{profile_number}_cleaned_votekit.csv"),
     )
     candidates = list(profile.candidates)
 
@@ -192,8 +194,15 @@ class PartitionAssignments:
             return total
 
 
-def main() -> None:
-    """Print exhaustive best modularity assignments for Portland districts and two to four parts."""
+def main(*, data_root: Path = ROOT / "data") -> None:
+    """Print exhaustive best modularity assignments for Portland districts and two to four parts.
+
+    Args:
+        data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
+    """
+    data_root = data_root.resolve()
+    print(f"Data: {data_root}")
+
     for n_parts in range(2, 5):
         print("=" * 50)
         print(f"  {n_parts} PARTS  ".center(50, "="))
@@ -201,7 +210,7 @@ def main() -> None:
 
         for i in range(1, 5):
             print(f"Loading profile {i}...", end="\r")
-            profile, boost = load_and_project(i)
+            profile, boost = load_and_project(i, data_root=data_root)
             cands = list(profile.candidates)
 
             max_score = float("-inf")
@@ -227,4 +236,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
+    args = parser.parse_args()
+    main(data_root=args.data_dir)

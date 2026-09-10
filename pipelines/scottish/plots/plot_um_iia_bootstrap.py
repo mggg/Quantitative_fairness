@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 from typing import Callable, Sequence
@@ -16,8 +17,6 @@ from matplotlib.patches import Rectangle
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.scottish.plots._data import load_outputs_by_election_type
-
-from voting_metrics_main_code.constants import RULE_ORDER
 from pipelines.scottish.plots.plot_um_iia_scatter import (
     build_limited_scatter_plot_name,
     draw_limited_scatter_base,
@@ -25,8 +24,8 @@ from pipelines.scottish.plots.plot_um_iia_scatter import (
     rule_color_map,
     run_limited_scatter_plots,
 )
-
-from voting_metrics_main_code.replication import PLOTS_DIR, SCOTTISH_BOOTSTRAP_INPUT, STATS_INPUT
+from voting_metrics_main_code.constants import RULE_ORDER
+from voting_metrics_main_code.replication import ROOT
 
 
 def _metric_name_from_key(metric_key: str, tiebreak: str) -> str:
@@ -290,16 +289,37 @@ def run_limited_scatter_plots_by_candidate_count_with_bootstrap(
                 plt.close(fig)
 
 
-def main() -> None:
-    """Run the limited Scottish scatterplot pipeline with bootstrap overlays."""
+def main(
+    *,
+    stats_root: Path | None = None,
+    bootstrap_root: Path | None = None,
+    output_root: Path = ROOT,
+) -> None:
+    """Run the limited Scottish scatterplot pipeline with bootstrap overlays.
+
+    Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        bootstrap_root (Path | None, optional): Directory containing bootstrap interval CSVs. None
+            uses the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    bootstrap_root = (bootstrap_root or stats_root / "scottish_stats/bootstrap").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Bootstrap intervals: {bootstrap_root}")
+    print(f"Output root: {output_root}")
+
     ordered_rules = RULE_ORDER
     variant_um = "worst_case"
     variant_iia = "average"
     tiebreak = "lex"
 
-    stats_dir = STATS_INPUT / "scottish_stats"
-    bootstrap_dir = SCOTTISH_BOOTSTRAP_INPUT
-    output_dir = PLOTS_DIR / "scottish"
+    stats_dir = stats_root / "scottish_stats"
+    bootstrap_dir = bootstrap_root
+    output_dir = output_root / "plots" / "scottish"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     outputs_by_election_type = load_outputs_by_election_type(
@@ -345,4 +365,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stats-dir", type=Path)
+    parser.add_argument("--bootstrap-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    args = parser.parse_args()
+    main(stats_root=args.stats_dir, bootstrap_root=args.bootstrap_dir, output_root=args.output_dir)

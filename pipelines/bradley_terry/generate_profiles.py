@@ -20,7 +20,7 @@ from voting_metrics_main_code.constants import (
     BT_CANDIDATE_COMBINATIONS,
     BT_COHESION_COMBINATIONS,
 )
-from voting_metrics_main_code.replication import RESULTS_DIR, new_data_file, seed_task
+from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 
 
 def sample_preference_interval(candidates: list[str], alpha: float) -> PreferenceInterval:
@@ -53,8 +53,12 @@ def generate_and_save_profile(
     bb_alpha: float,
     idx: int,
     output_base_dir: str,
+    *,
+    seed: int = 0,
 ) -> None:
-    """Generate a single BT profile and save to disk.
+    """Generate a BT profile and its preference intervals unless either output already exists.
+
+    An existing file skips the entire pair, so new intervals are never paired with an old profile.
 
     Args:
         n_a_cands (int): Number of A candidates.
@@ -69,9 +73,10 @@ def generate_and_save_profile(
         bb_alpha (float): Dirichlet alpha for B-on-B preferences.
         idx (int): Sample index for file naming.
         output_base_dir (str): Base directory for profile outputs.
+        seed (int, optional): Base seed for independent samples. Defaults to 0.
 
     Raises:
-        FileExistsError: The target CSV already exists and is preserved.
+        FileExistsError: Another process creates a target CSV during generation.
         ValueError: The profile-generation parameters are invalid.
     """
     profile_root = Path(output_base_dir).resolve()
@@ -88,9 +93,11 @@ def generate_and_save_profile(
 
     for path in (profile_path, utility_path):
         if path.exists() or path.is_symlink():
-            raise FileExistsError(
-                f"Move the existing data file manually before recomputing: {path}"
+            print(
+                f"Skipping profile/interval pair: {path} exists."
+                " Move both outputs manually to recompute."
             )
+            return
 
     seed_task(
         n_a_cands,
@@ -104,6 +111,7 @@ def generate_and_save_profile(
         ba_alpha,
         bb_alpha,
         idx,
+        seed=seed,
     )
     slate_to_candidates = {
         "bloc_1": [f"A{i + 1}" for i in range(n_a_cands)],
@@ -160,9 +168,10 @@ def parse_arguments() -> argparse.Namespace:
         SystemExit: Voter, sample, or worker counts are nonpositive.
     """
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-dir", type=Path, default=RESULTS_DIR / "data/preference_profiles")
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
     parser.add_argument("--n-voters", type=int, default=15_000)
     parser.add_argument("--n-samples", type=int, default=100)
+    parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--n-jobs", type=int, default=1)
     args = parser.parse_args()
 
@@ -179,11 +188,11 @@ def main() -> None:
 
     Raises:
         SystemExit: Command-line parsing fails or a count is nonpositive.
-        FileExistsError: A target profile or preference interval CSV already exists.
+        FileExistsError: Another process creates a target CSV during generation.
         ValueError: The profile-generation parameters are invalid.
     """
     args = parse_arguments()
-    profile_root = args.output_dir
+    profile_root = args.output_dir / "data/preference_profiles"
     n_voters = args.n_voters
     n_samples = args.n_samples
 
@@ -216,6 +225,7 @@ def main() -> None:
                 bb_alpha=bb_al,
                 idx=i,
                 output_base_dir=output_base_dir,
+                seed=args.seed,
             )
             for (n_a_cands, n_b_cands), b_bloc_proportion, (a_coh, b_coh), (
                 aa_al,

@@ -1,27 +1,25 @@
 """Render Portland focus-candidate boost heatmaps and their separate colorbar."""
 
 import argparse
+import hashlib
 import sys
+from importlib.metadata import version
 from pathlib import Path
 from typing import Sequence, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
-from numpy.typing import NDArray
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.colors import TwoSlopeNorm
 from matplotlib.figure import Figure
+from numpy.typing import NDArray
 from votekit import RankProfile
 from votekit.matrices import boost_matrix
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from voting_metrics_main_code.replication import DATA_DIR, PLOTS_DIR, ROOT
-
-CACHE_DIR = ROOT / ".boost_cache"
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
-
+from voting_metrics_main_code.replication import ROOT
 
 FOCUS_CANDIDATES = {
     "D1": (
@@ -260,32 +258,41 @@ def main() -> None:
     """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--district", choices=[*FOCUS_CANDIDATES, "all"], default="D3")
-    parser.add_argument("--data-dir", type=Path, default=DATA_DIR)
-    parser.add_argument("--output-dir", type=Path, default=PLOTS_DIR / "portland/boost_matrix")
+    parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    parser.add_argument("--cache-dir", type=Path, help="Reuse matrices matched to input contents")
     parser.add_argument("--limit", type=float, default=0.21)
     args = parser.parse_args()
 
     if not np.isfinite(args.limit) or args.limit <= 0:
         parser.error("--limit must be finite and positive")
 
-    output = args.output_dir.resolve()
+    output = args.output_dir.resolve() / "plots/portland/boost_matrix"
     data = args.data_dir.resolve()
 
     output.mkdir(parents=True, exist_ok=True)
     districts = FOCUS_CANDIDATES if args.district == "all" else [args.district]
 
     for district in districts:
-        matrix_savepath = Path(CACHE_DIR / f"boost_matrix_Portland_{district}_boost.npy")
-        if matrix_savepath.exists():
-            print(f"Loading cached boost matrix for {district} from {matrix_savepath}")
+        profile_path = data / f"Portland_{district}_cleaned_votekit.csv"
+        matrix_savepath = None
+        if args.cache_dir is not None:
+            with profile_path.open("rb") as source:
+                profile_digest = hashlib.file_digest(source, "sha256").hexdigest()
+            identity = repr((profile_digest, FOCUS_CANDIDATES[district], version("votekit")))
+            cache_key = hashlib.sha256(identity.encode()).hexdigest()
+            args.cache_dir.mkdir(parents=True, exist_ok=True)
+            matrix_savepath = args.cache_dir / f"boost_matrix_{district}_{cache_key}.npy"
+
+        print(f"Input profile: {profile_path}")
+        if matrix_savepath is not None and matrix_savepath.exists():
+            print(f"Loading matched cache: {matrix_savepath}")
             matrix = np.load(matrix_savepath)
             fig, _ = plot_boost(
                 FOCUS_CANDIDATES[district], district, matrix=matrix, limit=args.limit
             )
         else:
-            profile = cast(
-                RankProfile, RankProfile.from_csv(data / f"Portland_{district}_cleaned_votekit.csv")
-            )
+            profile = cast(RankProfile, RankProfile.from_csv(profile_path))
             fig, _ = plot_boost(
                 FOCUS_CANDIDATES[district],
                 district,

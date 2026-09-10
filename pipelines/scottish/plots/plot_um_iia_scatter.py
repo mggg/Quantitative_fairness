@@ -1,5 +1,6 @@
 """Create scatter plots comparing UM and IIA metrics in Scottish data."""
 
+import argparse
 import sys
 from itertools import product
 from pathlib import Path
@@ -13,15 +14,18 @@ from matplotlib.axes import Axes
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.scottish.plots._data import load_outputs_by_election_type
-
 from voting_metrics_main_code.constants import (
     ALT_FONT_SIZES,
     DEFAULT_FONT_SIZE,
-    RULE_COLORS as rule_color_map,
-    RULE_LABELS as titles,
     RULE_ORDER,
 )
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
+from voting_metrics_main_code.constants import (
+    RULE_COLORS as rule_color_map,
+)
+from voting_metrics_main_code.constants import (
+    RULE_LABELS as titles,
+)
+from voting_metrics_main_code.replication import ROOT
 
 
 def construct_df_scottish(
@@ -453,11 +457,23 @@ def run_limited_scatter_plots(
             )
 
 
-def main() -> None:
-    """Run the Scottish limited scatterplot pipeline."""
+def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
+    """Run the Scottish limited scatterplot pipeline.
+
+    Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Output root: {output_root}")
+
     ordered_rules = RULE_ORDER
-    stats_dir = STATS_INPUT / "scottish_stats"
-    output_dir = PLOTS_DIR / "scottish"
+    stats_dir = stats_root / "scottish_stats"
+    output_dir = output_root / "plots" / "scottish"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     outputs_by_election_type = load_outputs_by_election_type(
@@ -479,4 +495,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    args = parser.parse_args()
+    main(stats_root=args.stats_dir, output_root=args.output_dir)

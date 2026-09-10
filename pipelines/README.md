@@ -12,7 +12,7 @@ retained analyses; the runners execute only the primary subset indicated here.
 | Scotland | [`run_scottish_pipeline.sh`](../scripts/run_scottish_pipeline.sh) | [`scottish/collect_metrics.py`](scottish/collect_metrics.py) |
 | Bradley–Terry, two blocs | [`run_bt_pipeline.sh`](../scripts/run_bt_pipeline.sh) | [`bradley_terry/collect_metrics.py`](bradley_terry/collect_metrics.py) |
 
-The NY and Portland runners export tables through [`export_tables.py`](../scripts/export_tables.py).
+The Portland runner also generates boost matrices. NY and Portland export tables through [`export_tables.py`](../scripts/export_tables.py).
 The Scottish runner renders UM–IIA scatterplots and exports metric tables. The BT runner renders
 UM–IIA scatterplots plus candidate-count and bloc-proportion boxplots.
 
@@ -65,7 +65,6 @@ metric parameters. The alpha boxplot script keeps its panel selections and grid 
 | [`plot_um_mean_vs_variance.py`](bradley_terry/plots/plot_um_mean_vs_variance.py) | UM mean versus variance, split by interpolation |
 | [`plot_proportionality_waterfall.py`](bradley_terry/plots/plot_proportionality_waterfall.py) | Representation shortfalls from proportionality JSONs |
 | [`alpha_sweep/collect_metrics.py`](bradley_terry/alpha_sweep/collect_metrics.py) | Compute a selected metric from candidate-count/alpha folders |
-| [`alpha_sweep/collect_metrics_borda_tiebreak.py`](bradley_terry/alpha_sweep/collect_metrics_borda_tiebreak.py) | Alternate alpha-sweep CLI that also offers Borda tie-breaking |
 | [`alpha_sweep/plot_metric_boxplots.py`](bradley_terry/alpha_sweep/plot_metric_boxplots.py) | Boxplots from `bt_profile_stats`, selected by seats, variant, and tie-breaking |
 
 BT plotting helpers are [`_metrics.py`](bradley_terry/plots/_metrics.py),
@@ -95,20 +94,25 @@ From the repository root:
 ```sh
 uv run --locked python pipelines/scottish/plots/plot_um_iia_scatter.py
 uv run --locked python pipelines/portland/plots/plot_boost_matrix.py --district all
-QF_BT_STATS_DIR=stats/bt_2_bloc_profile_stats_final_experiment \
-  uv run --locked python pipelines/bradley_terry/plots/plot_um_iia_scatter.py
+uv run --locked python pipelines/bradley_terry/plots/plot_um_iia_scatter.py \
+  --bt-stats-dir stats/bt_2_bloc_profile_stats_final_experiment
 ```
 
 Standalone collectors and plotters default to `stats/` and `plots/`, respectively. Collectors skip
-existing result files; move them manually before recomputing. Profile generation likewise refuses
-to replace either a profile or its preference interval dataframe. Figures, exported tables, and
-bootstrap summaries may overwrite existing derived files.
+existing result files; move them manually before recomputing. Profile generation prints a message
+and skips a sample if either its profile or preference interval dataframe exists. Move both files
+before regenerating that pair. Figures, exported tables, and bootstrap summaries may overwrite
+existing derived files.
 
-Use `QF_STATS_DIR`, `QF_BT_STATS_DIR`, and `QF_BOOTSTRAP_DIR` to select inputs and `QF_RESULTS_DIR`
-to choose a separate output tree. Script moves do not change the figure filenames or result
-directory layouts. Importing pipeline modules does not run their analyses; execute a script or
-call its `main()` function explicitly. Some plotters do not implement `--help`; consult their
-module docstring and this index before launching a batch.
+Use `--stats-dir`, `--bt-stats-dir`, and `--bootstrap-dir` to select inputs and `--output-dir`
+to choose a run root containing `stats/`, `plots/`, and `tables/`. Inputs default to the selected
+run root's statistics. All executable workflows support `--help`; importing modules does not run
+analyses. The [replication guide](../docs/replication.md) contains ordered commands and prerequisites
+for the primary recipes and additional analyses. `replicate.py --dry-run` prints its full recipe.
+
+BT plotters expose `--n-seats` and share a selector in `_data.py` that reports the requested
+experiment and matched files. The single alpha-sweep collector also accepts `--tiebreak borda`.
+Boost plotting reads the requested CSV by default; `--cache-dir` enables content-matched caching.
 
 The BT runner was renamed from `run_2_bloc_BT_pipeline.sh` to `run_bt_pipeline.sh`. The primary
 BT collector is now `bradley_terry/collect_metrics.py`, replacing the `final_set_v2` filename.

@@ -1,7 +1,7 @@
 """Generate mean vs std plots for BT metrics and interpolation types."""
 
+import argparse
 import sys
-from glob import glob
 from itertools import product
 from pathlib import Path
 from pprint import pprint as print
@@ -11,21 +11,15 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from pipelines.bradley_terry.plots._data import load_metric_summaries
-
-from pipelines.bradley_terry.plots._palettes import colors2 as colors
+from pipelines.bradley_terry.plots._data import find_metric_files, load_metric_summaries
 from pipelines.bradley_terry.plots._metrics import (
     iia_metric_list,
     interpolation_type_list,
     um_metric_list,
     variant_list,
 )
-
-from voting_metrics_main_code.replication import BT_STATS_INPUT, PLOTS_DIR
-
-
-plots_dir = PLOTS_DIR / "bt_plots" / "mean_vs_std"
-
+from pipelines.bradley_terry.plots._palettes import colors2 as colors
+from voting_metrics_main_code.replication import ROOT
 
 # ============================
 #   UM PLOTS BY OVERALL TYPE
@@ -33,18 +27,30 @@ plots_dir = PLOTS_DIR / "bt_plots" / "mean_vs_std"
 
 
 def plot_um_summary(
-    metric: str, variant: str, voting_rule: str, output_file: Path, title: str
+    metric: str,
+    variant: str,
+    voting_rule: str,
+    output_file: Path,
+    title: str,
+    *,
+    bt_stats_root: Path,
+    output_root: Path,
+    n_seats: int = 3,
 ) -> None:
     """Save UM means versus standard deviations for a voting-rule selection.
 
     Args:
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
+        bt_stats_root (Path): Exact two-bloc BT statistics tree.
+        output_root (Path): Run root containing stats, plots, and tables.
         metric (str): Metric identifier used in the statistics filenames.
         variant (str): Metric aggregation variant, 'average' or 'worst_case'.
         voting_rule (str): Rule token or '*' to match all rules in the input filenames.
         output_file (Path): Destination file path.
         title (str): Figure title.
     """
-    bprop = "*"
+    plots_dir = output_root / "plots" / "bt_plots" / "mean_vs_std"
+
     tiebreak = "lex"
 
     plots_dir.mkdir(parents=True, exist_ok=True)
@@ -54,23 +60,15 @@ def plot_um_summary(
     }
 
     for interpolation_type in interpolation_type_list:
-        file_basename = (
-            f"METRIC_{metric}"
-            f"__VARIANT_{variant}"
-            f"__INTERP_{interpolation_type}"
-            f"__NCANDS_(*)"
-            f"__SEATS_3"
-            f"__BPROP_{bprop}"
-            f"__ALPHA_(*)"
-            f"__COHESION_(*)"
-            f"__TYPE_{voting_rule}"
-            f"__TIEBREAK_{tiebreak}"
+        all_files = find_metric_files(
+            bt_stats_root,
+            metric,
+            variant,
+            interpolation_type,
+            n_seats=n_seats,
+            rule=voting_rule,
+            tiebreak=tiebreak,
         )
-
-        all_files = glob(f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json")
-
-        if len(all_files) == 0:
-            print(file_basename)
 
         data_points = load_metric_summaries(all_files)
 
@@ -104,39 +102,37 @@ def plot_um_summary(
 
 
 def plot_iia_summary(
-    metric: str, variant: str, voting_rule: str, output_file: Path, title: str
+    metric: str,
+    variant: str,
+    voting_rule: str,
+    output_file: Path,
+    title: str,
+    *,
+    bt_stats_root: Path,
+    output_root: Path,
+    n_seats: int = 3,
 ) -> None:
     """Save IIA means versus standard deviations for a voting-rule selection.
 
     Args:
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
+        bt_stats_root (Path): Exact two-bloc BT statistics tree.
+        output_root (Path): Run root containing stats, plots, and tables.
         metric (str): Metric identifier used in the statistics filenames.
         variant (str): Metric aggregation variant, 'average' or 'worst_case'.
         voting_rule (str): Rule token or '*' to match all rules in the input filenames.
         output_file (Path): Destination file path.
         title (str): Figure title.
     """
-    bprop = "*"
+    plots_dir = output_root / "plots" / "bt_plots" / "mean_vs_std"
+
     tiebreak = "lex"
 
     plots_dir.mkdir(parents=True, exist_ok=True)
 
-    file_basename = (
-        f"METRIC_{metric}"
-        f"__VARIANT_{variant}"
-        f"__INTERP_None"
-        f"__NCANDS_(*)"
-        f"__SEATS_3"
-        f"__BPROP_{bprop}"
-        f"__ALPHA_(*)"
-        f"__COHESION_(*)"
-        f"__TYPE_{voting_rule}"
-        f"__TIEBREAK_{tiebreak}"
+    all_files = find_metric_files(
+        bt_stats_root, metric, variant, "None", n_seats=n_seats, rule=voting_rule, tiebreak=tiebreak
     )
-
-    all_files = glob(f"{BT_STATS_INPUT}/3_seats/{metric}/**/**/{file_basename}.json")
-
-    if len(all_files) == 0:
-        print(file_basename)
 
     data_points = load_metric_summaries(all_files)
 
@@ -164,8 +160,24 @@ def plot_iia_summary(
     plt.close()
 
 
-def main() -> None:
-    """Save BT mean-versus-standard-deviation figures for configured metrics and rules."""
+def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats: int = 3) -> None:
+    """Save BT mean-versus-standard-deviation figures for configured metrics and rules.
+
+    Args:
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
+        bt_stats_root (Path | None, optional): Exact two-bloc BT statistics tree. None uses the
+            selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()
+    print(f"BT statistics: {bt_stats_root}")
+    print(f"Output root: {output_root}")
+    print(f"Seats: {n_seats}")
+
+    plots_dir = output_root / "plots" / "bt_plots" / "mean_vs_std"
+
     voting_rules = ("borda", "plurality", "stv")
 
     for metric, variant in product(um_metric_list, variant_list):
@@ -175,6 +187,9 @@ def main() -> None:
             "*",
             plots_dir / f"{metric}__{variant}__mean_vs_std.png",
             f"{metric} - {variant}",
+            bt_stats_root=bt_stats_root,
+            output_root=output_root,
+            n_seats=n_seats,
         )
 
     for metric, variant, rule in product(um_metric_list, variant_list, voting_rules):
@@ -184,6 +199,9 @@ def main() -> None:
             rule,
             plots_dir / f"{rule}__{metric}__{variant}__mean_vs_std.png",
             f"{metric} - {variant} - {rule}",
+            bt_stats_root=bt_stats_root,
+            output_root=output_root,
+            n_seats=n_seats,
         )
 
     # Unprefixed IIA figures retain the final rule from the UM comparison sequence.
@@ -194,6 +212,9 @@ def main() -> None:
             voting_rules[-1],
             plots_dir / f"{metric}__{variant}__mean_vs_std.png",
             f"{metric} - {variant}",
+            bt_stats_root=bt_stats_root,
+            output_root=output_root,
+            n_seats=n_seats,
         )
 
     for metric, variant, rule in product(iia_metric_list, variant_list, voting_rules):
@@ -203,8 +224,16 @@ def main() -> None:
             rule,
             plots_dir / f"{rule}__{metric}__{variant}__mean_vs_std.png",
             f"{metric} - {variant} - {rule}",
+            bt_stats_root=bt_stats_root,
+            output_root=output_root,
+            n_seats=n_seats,
         )
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bt-stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    parser.add_argument("--n-seats", type=int, default=3)
+    args = parser.parse_args()
+    main(bt_stats_root=args.bt_stats_dir, output_root=args.output_dir, n_seats=args.n_seats)

@@ -25,7 +25,7 @@ def main() -> None:
         profile.to_csv(folder / "profile_0.csv")
         settings = work / "settings.txt"
         settings.write_text(str(folder) + "\n")
-        env = {**os.environ, "QF_RESULTS_DIR": str(work / "results"), "PYTHONHASHSEED": "0"}
+        env = {**os.environ, "PYTHONHASHSEED": "0"}
         subprocess.run(
             [
                 sys.executable,
@@ -36,6 +36,8 @@ def main() -> None:
                 "borda",
                 "--n-seats",
                 "2",
+                "--output-dir",
+                str(work / "results"),
                 "--n-jobs",
                 "1",
             ],

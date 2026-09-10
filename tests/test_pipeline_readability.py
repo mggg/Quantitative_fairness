@@ -56,3 +56,14 @@ def test_configured_metrics_bind_interpolation_only_for_um(
         expected_options["interpolation_type"] = "odds"
 
     assert received == [("profile", "rule", expected_options)]
+
+
+def test_scottish_loader_treats_brackets_in_the_input_root_literally(tmp_path: Path) -> None:
+    for name, score in (("run[1]", 0.1), ("run1", 0.9)):
+        folder = tmp_path / name / "sigma_IIA_average/borda"
+        folder.mkdir(parents=True)
+        output = folder / "METRIC_sigma_IIA_average__ELECTION_TYPE_borda__TIEBREAK_lex_output.json"
+        output.write_text(json.dumps({"7": {"election.csv": score}}))
+
+    outputs = load_outputs_by_election_type(tmp_path / "run[1]", ["borda"], tiebreaks=("lex",))
+    assert outputs == {"borda": {"7": {"sigma_IIA_average_lex": [0.1]}}}

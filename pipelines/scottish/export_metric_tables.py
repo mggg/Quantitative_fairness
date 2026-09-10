@@ -1,8 +1,9 @@
 """Create limited Scottish CSV exports for selected metrics."""
 
+import argparse
 import json
 import sys
-from glob import glob
+from glob import escape, glob
 from pathlib import Path
 
 import pandas as pd
@@ -10,15 +11,27 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from voting_metrics_main_code.constants import RULE_ORDER
-from voting_metrics_main_code.replication import STATS_INPUT, STATS_OUTPUT
+from voting_metrics_main_code.replication import ROOT
 
 
-def main() -> None:
-    """Export primary Scottish metrics to one election-level CSV per voting rule."""
-    (STATS_OUTPUT / "scottish_stats").mkdir(parents=True, exist_ok=True)
+def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
+    """Export primary Scottish metrics to one election-level CSV per voting rule.
+
+    Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Output root: {output_root}")
+
+    (output_root / "stats" / "scottish_stats").mkdir(parents=True, exist_ok=True)
 
     for voting_rule in RULE_ORDER:
-        all_files = glob(str(STATS_INPUT / "scottish_stats" / "**" / f"{voting_rule}" / "*.json"))
+        all_files = glob(f"{escape(str(stats_root))}/scottish_stats/**/{voting_rule}/*.json")
 
         filter_tiebreak = "lex"
         filter_metrics = [
@@ -64,10 +77,14 @@ def main() -> None:
         full_df.reset_index(inplace=True)
 
         full_df.to_csv(
-            str(STATS_OUTPUT / "scottish_stats" / f"scottish_{voting_rule}_limited.csv"),
+            str(output_root / "stats" / "scottish_stats" / f"scottish_{voting_rule}_limited.csv"),
             index=False,
         )
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    args = parser.parse_args()
+    main(stats_root=args.stats_dir, output_root=args.output_dir)

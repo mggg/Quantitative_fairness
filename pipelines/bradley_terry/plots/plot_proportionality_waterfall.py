@@ -1,9 +1,10 @@
 """This script generates waterfall plots for the Bradley-Terry proportionality analysis."""
 
+import argparse
 import json
 import sys
 from collections.abc import Sequence
-from glob import glob
+from glob import escape, glob
 from itertools import product
 from pathlib import Path
 
@@ -27,7 +28,7 @@ from voting_metrics_main_code.constants import (
 from voting_metrics_main_code.constants import (
     RULE_ORDER as AllowedRule,
 )
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
+from voting_metrics_main_code.replication import ROOT
 
 
 def profile_settings() -> list[str]:
@@ -66,7 +67,7 @@ def profile_settings() -> list[str]:
     return settings
 
 
-def load_proportionality_statistics() -> pd.DataFrame:
+def load_proportionality_statistics(*, stats_root: Path) -> pd.DataFrame:
     """Load proportionality JSONs into one row per profile and voting rule.
 
     Returns:
@@ -76,12 +77,15 @@ def load_proportionality_statistics() -> pd.DataFrame:
     Raises:
         FileNotFoundError: No proportionality JSON files exist in the configured input directory.
         json.JSONDecodeError: A proportionality input file is not valid JSON.
+
+    Args:
+        stats_root (Path): Parent of the dataset statistics directories.
     """
-    all_files = glob(f"{STATS_INPUT}/bt_proportionality/*.json")
+    all_files = glob(f"{escape(str(stats_root))}/bt_proportionality/*.json")
 
     if not all_files:
         raise FileNotFoundError(
-            f"No proportionality JSON files under {STATS_INPUT / 'bt_proportionality'}"
+            f"No proportionality JSON files under {stats_root / 'bt_proportionality'}"
         )
 
     df_list = []
@@ -239,16 +243,27 @@ def plot_rule_waterfall(
     plt.close()
 
 
-def main() -> None:
+def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
     """Load proportionality statistics and save a waterfall for each configured voting rule.
 
     Raises:
         FileNotFoundError: No proportionality JSON files exist in the configured input directory.
+
+    Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
     """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Output root: {output_root}")
+
     all_settings_strings = profile_settings()
 
-    df = load_proportionality_statistics()
-    output_dir = PLOTS_DIR / "bt_plots/waterfall"
+    df = load_proportionality_statistics(stats_root=stats_root)
+    output_dir = output_root / "plots" / "bt_plots/waterfall"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for election_type in AllowedRule:
@@ -256,4 +271,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    args = parser.parse_args()
+    main(stats_root=args.stats_dir, output_root=args.output_dir)

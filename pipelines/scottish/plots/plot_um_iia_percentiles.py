@@ -1,5 +1,6 @@
 """Plot UM and IIA percentile thresholds and means by Scottish voting rule."""
 
+import argparse
 import sys
 from itertools import product
 from pathlib import Path
@@ -18,8 +19,7 @@ from pipelines.scottish.plots.plot_um_iia_scatter import (
     get_limited_metric_key_pairs,
     rule_color_map,
 )
-
-from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
+from voting_metrics_main_code.replication import ROOT
 
 rule_to_dot_size = {
     "borda": 9,
@@ -220,8 +220,20 @@ def run_limited_line_plots(
         plt.close(fig)
 
 
-def main() -> None:
-    """Plot Scottish UM and IIA percentile thresholds and means."""
+def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
+    """Plot Scottish UM and IIA percentile thresholds and means.
+
+    Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+    print(f"Statistics: {stats_root}")
+    print(f"Output root: {output_root}")
+
     ordered_rules = [
         "3-approval",
         "borda",
@@ -231,8 +243,8 @@ def main() -> None:
         "ranked-pairs",
         "random",
     ]
-    stats_dir = STATS_INPUT / "scottish_stats"
-    output_dir = PLOTS_DIR / "scottish"
+    stats_dir = stats_root / "scottish_stats"
+    output_dir = output_root / "plots" / "scottish"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     outputs_by_election_type = load_outputs_by_election_type(
@@ -247,4 +259,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stats-dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, default=ROOT)
+    args = parser.parse_args()
+    main(stats_root=args.stats_dir, output_root=args.output_dir)
