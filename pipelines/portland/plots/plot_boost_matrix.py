@@ -144,21 +144,8 @@ def plot_boost(
     ax.axvline(len(slates[0]), color=separator_color, linewidth=sep_width)
     ax.axhline(len(slates[0]), color=separator_color, linewidth=sep_width)
 
-    # slate_1_color = "#FFA812"
-    # slate_2_color = "#008080"
-
-    slate_1_color = "#CE6C47"
-    slate_2_color = "#145EB8"
-
-    slate_1_color = "#b35c1e"
     slate_1_color = "#c35c1e"
     slate_2_color = "#2A6FA1"
-
-    # for labels in (ax.get_xticklabels(), ax.get_yticklabels()):
-    #     for index, label in enumerate(labels):
-    #         label.set_color("#FFA812" if index < len(slates[0]) else "#008080")
-    #         label.set_fontweight("bold")
-    #         label.set_fontsize(18)
 
     for index, label in enumerate(ax.get_yticklabels()):
         label.set_color(slate_1_color if index < len(slates[0]) else slate_2_color)
