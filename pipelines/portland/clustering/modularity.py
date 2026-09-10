@@ -10,12 +10,13 @@ adjustments have been made to ensure compatibility with the current codebase. Th
 structure of the functions (including most parameter names) remains unchanged.
 """
 
-import numpy as np
-from numpy.typing import NDArray
 import random
 
+import numpy as np
+from numpy.typing import NDArray
 
-def boost_modularity_matrix(A: NDArray, assignment_vec: NDArray):
+
+def boost_modularity_matrix(A: NDArray, assignment_vec: NDArray) -> NDArray:
     """Construct the (directed, weighted) modularity matrix for an adjacency matrix.
 
     See Newman (2006) "Modularity and community structure in networks" for the original
@@ -85,7 +86,7 @@ def boost_modularity_matrix(A: NDArray, assignment_vec: NDArray):
     return modularity_matrix
 
 
-def compute_modularity(A: NDArray, assignment_vec: NDArray):
+def compute_modularity(A: NDArray, assignment_vec: NDArray) -> float:
     """Compute the modularity score for a given adjacency matrix and cluster assignment.
 
     Note:
@@ -107,7 +108,9 @@ def compute_modularity(A: NDArray, assignment_vec: NDArray):
     return np.sum(modularity_matrix) / np.sum(np.abs(A))
 
 
-def generate_flip_proposal(mutated_assignment_vec: NDArray, n_clusters: int, rng: random.Random):
+def generate_flip_proposal(
+    mutated_assignment_vec: NDArray, n_clusters: int, rng: random.Random
+) -> NDArray:
     """Generate a new cluster assignment proposal by flipping the cluster assignment of one node.
 
     At least one cluster must contain more than one node for the selection loop to terminate.
@@ -145,7 +148,7 @@ def run_modularity_maximization_short_bursts(
     burst_length: int,
     n_bursts: int,
     rng: random.Random,
-):
+) -> tuple[NDArray, float]:
     """Run modularity maximization using short bursts of local search.
 
     In each burst, it generates a sequence of cluster assignment proposals by flipping the cluster

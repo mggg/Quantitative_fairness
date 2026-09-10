@@ -3,6 +3,7 @@ import random
 import runpy
 from pathlib import Path
 from types import SimpleNamespace
+from typing import cast
 
 import pytest
 from click.testing import CliRunner
@@ -10,11 +11,13 @@ from votekit import RankBallot as Ballot
 from votekit import RankProfile as PreferenceProfile
 
 MODULE = runpy.run_path(
-    Path(__file__).resolve().parents[1] / "pipelines/bradley_terry/collect_metrics.py"
+    str(Path(__file__).resolve().parents[1] / "pipelines/bradley_terry/collect_metrics.py")
 )
 
 
-def test_output_jobs_preserve_run_and_retry_semantics(tmp_path, monkeypatch):
+def test_output_jobs_preserve_run_and_retry_semantics(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     input_folder = (
         tmp_path / "02_06" / "b_proportion_0.5__ALPHA_(0.50,1.00,0.50,1.00)__COHESION_(0.70,0.90)"
     )
@@ -44,16 +47,20 @@ def test_output_jobs_preserve_run_and_retry_semantics(tmp_path, monkeypatch):
     assert "All outputs already exist." in result.output
 
 
-def test_profile_batch_loads_each_profile_once_for_multiple_metrics(tmp_path, monkeypatch):
+def test_profile_batch_loads_each_profile_once_for_multiple_metrics(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     loaded = []
 
     class FakeRankProfile:
         @staticmethod
-        def from_csv(path):
+        def from_csv(path: Path) -> int:
             loaded.append(path)
             return int(path.stem)
 
-    def metric(profile, voting_rule, n_seats, variant, interpolation_type):
+    def metric(
+        profile: int, voting_rule: str, n_seats: int, variant: str, interpolation_type: str
+    ) -> int:
         assert voting_rule == "rule"
         assert variant == "worst_case"
         assert interpolation_type == "asin"
@@ -85,7 +92,7 @@ def test_profile_batch_loads_each_profile_once_for_multiple_metrics(tmp_path, mo
     assert loaded == [tmp_path / "2.csv", tmp_path / "5.csv"]
 
 
-def test_random_iia_fast_paths_are_profile_based_and_deterministic_when_seeded():
+def test_random_iia_fast_paths_are_profile_based_and_deterministic_when_seeded() -> None:
     from voting_metrics_main_code.fairness_metric import (
         sigma_IIA_random,
         sigma_IIA_winner_set_random,
@@ -126,12 +133,12 @@ def test_random_iia_fast_paths_are_profile_based_and_deterministic_when_seeded()
     first = SimpleNamespace(candidates=("A", "B", "C"), candidates_cast=("C", "A", "B"))
     second = SimpleNamespace(candidates=("C", "B", "A"), candidates_cast=("B", "C", "A"))
     random.seed(10)
-    first_order = random_candidate_order(first)
+    first_order = random_candidate_order(cast(PreferenceProfile, first))
     random.seed(10)
-    assert random_candidate_order(second) == first_order
+    assert random_candidate_order(cast(PreferenceProfile, second)) == first_order
 
 
-def test_write_scores_publishes_complete_results_without_replacing_them(tmp_path):
+def test_write_scores_publishes_complete_results_without_replacing_them(tmp_path: Path) -> None:
     output_file = tmp_path / "scores.json"
 
     MODULE["write_scores"](output_file, [0.2, 0.8])

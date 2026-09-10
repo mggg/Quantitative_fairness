@@ -3,12 +3,13 @@
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 from pipelines.bradley_terry.plots._data import load_metric_samples, load_metric_summaries
 from voting_metrics_main_code.replication import ROOT
 
 
-def test_pipeline_imports_do_not_require_data_or_render_figures(tmp_path):
+def test_pipeline_imports_do_not_require_data_or_render_figures(tmp_path: Path) -> None:
     output = tmp_path / "output"
     environment = {key: value for key, value in os.environ.items() if key != "PYTHONPATH"}
     environment.update(
@@ -40,7 +41,7 @@ for path in sorted(Path(sys.argv[1]).rglob('*.py')):
     assert not output.exists()
 
 
-def test_metric_loaders_preserve_file_and_observation_order(tmp_path):
+def test_metric_loaders_preserve_file_and_observation_order(tmp_path: Path) -> None:
     first = tmp_path / "z.json"
     second = tmp_path / "a.json"
     first.write_text("[3, 1]")

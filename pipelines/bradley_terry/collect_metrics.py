@@ -5,6 +5,7 @@ import contextlib
 import json
 import sys
 import warnings
+from collections.abc import Callable, Sequence
 from functools import partial
 from itertools import batched
 from pathlib import Path
@@ -17,6 +18,7 @@ from votekit import RankProfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import AllowedRule
 from voting_metrics_main_code.fairness_metric import (  # noqa: E402
     sigma_IIA,
     sigma_IIA_random,
@@ -42,6 +44,14 @@ RANDOM_METRICS = {
     sigma_IIA_winner_set: sigma_IIA_winner_set_random,
 }
 
+ProfileBatchTask: TypeAlias = tuple[
+    tuple[tuple[int, Path], ...],
+    int,
+    int,
+    AllowedRule,
+    str,
+    tuple[tuple[int, Callable[..., float], str, str], ...],
+]
 # Joblib must serialize this annotation when the collector runs as a standalone script.
 BatchScores: TypeAlias = tuple[tuple[int, tuple[tuple[int, float], ...]], ...]
 
@@ -55,14 +65,16 @@ class OutputProgress(TypedDict):
     label: str
 
 
-def output_jobs(input_folder, n_seats, election_type, tiebreak):
+def output_jobs(
+    input_folder: str | Path, n_seats: int, election_type: AllowedRule, tiebreak: str
+) -> tuple[int, list[tuple[Callable[..., float], str, str, Path]]]:
     """Build metric jobs and output paths from a two-bloc profile directory name.
 
     Args:
         input_folder (str | Path): Two-bloc profile directory with encoded candidate and bloc
             parameters.
         n_seats (int): Number of seats to elect.
-        election_type (str): Voting rule name.
+        election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
 
     Returns:
@@ -108,12 +120,12 @@ def output_jobs(input_folder, n_seats, election_type, tiebreak):
 
 
 def run_profile_batch(
-    profile_batch,
-    n_cands,
-    n_seats,
-    election_type,
-    tiebreak,
-    metric_jobs,
+    profile_batch: Sequence[tuple[int, Path]],
+    n_cands: int,
+    n_seats: int,
+    election_type: AllowedRule,
+    tiebreak: str,
+    metric_jobs: Sequence[tuple[int, Callable[..., float], str, str]],
 ) -> BatchScores:
     """Score a batch of profiles with a separate deterministic seed for each metric.
 
@@ -121,7 +133,7 @@ def run_profile_batch(
         profile_batch (Sequence[tuple[int, Path]]): Pairs of CSV-order index and profile path.
         n_cands (int): Number of candidates.
         n_seats (int): Number of seats to elect.
-        election_type (str): Voting rule name.
+        election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
         metric_jobs (Sequence[tuple[int, Callable[..., float], str, str]]): Jobs containing output
             ID, metric callable, variant, and interpolation token.
@@ -167,7 +179,7 @@ def run_profile_batch(
     return tuple((output_id, tuple(values)) for output_id, values in scores.items())
 
 
-def write_scores(output_file, scores):
+def write_scores(output_file: Path, scores: list[float]) -> None:
     """Publish completed JSON scores without replacing an existing result.
 
     Args:
@@ -218,7 +230,13 @@ def load_profile_folders(settings_file: Path) -> list[Path]:
     return input_folders
 
 
-def prepare_tasks(input_folders, n_seats, election_type, tiebreak, profile_batch_size):
+def prepare_tasks(
+    input_folders: Sequence[Path],
+    n_seats: int,
+    election_type: AllowedRule,
+    tiebreak: str,
+    profile_batch_size: int,
+) -> tuple[list[ProfileBatchTask], dict[int, OutputProgress], int, int]:
     """Build pending batch tasks and output progress, skipping existing result files.
 
     Empty profile folders produce empty JSON arrays immediately.
@@ -226,12 +244,12 @@ def prepare_tasks(input_folders, n_seats, election_type, tiebreak, profile_batch
     Args:
         input_folders (Sequence[Path]): Profile directories to process, in task preparation order.
         n_seats (int): Number of seats to elect.
-        election_type (str): Voting rule name.
+        election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
         profile_batch_size (int): Maximum number of profiles per parallel task; must be positive.
 
     Returns:
-        tuple[list[tuple], dict[int, OutputProgress], int, int]: Tasks accepted by
+        tuple[list[ProfileBatchTask], dict[int, OutputProgress], int, int]: Tasks accepted by
             run_profile_batch, progress keyed by output ID, skipped file count, and written file
             count.
 
@@ -325,13 +343,20 @@ def prepare_tasks(input_folders, n_seats, election_type, tiebreak, profile_batch
     default=5,
     show_default=True,
 )
-def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_size):
+def main(
+    settings_file: Path,
+    n_seats: int,
+    election_type: AllowedRule,
+    tiebreak: str,
+    n_jobs: int,
+    profile_batch_size: int,
+) -> None:
     """Compute the four primary metrics across the folders in SETTINGS_FILE.
 
     Args:
         settings_file (Path): Text file listing profile directories, one per line.
         n_seats (int): Number of seats to elect.
-        election_type (str): Voting rule name.
+        election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
         n_jobs (int): Number of parallel workers.
         profile_batch_size (int): Maximum number of profiles per parallel task; must be positive.
@@ -388,7 +413,8 @@ def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_
                 if output["remaining_batches"]:
                     continue
 
-                write_scores(output["output_file"], output["scores"])
+                # Every CSV slot has a score once all batches have finished.
+                write_scores(output["output_file"], cast(list[float], output["scores"]))
                 written += 1
                 output_progress.set_postfix_str(output["label"], refresh=False)
 

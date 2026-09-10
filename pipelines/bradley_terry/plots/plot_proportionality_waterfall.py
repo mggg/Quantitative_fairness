@@ -2,10 +2,10 @@
 
 import json
 import sys
+from collections.abc import Sequence
 from glob import glob
 from itertools import product
 from pathlib import Path
-from collections.abc import Sequence
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,7 +20,11 @@ from voting_metrics_main_code.constants import (
     BT_CANDIDATE_COMBINATIONS,
     BT_COHESION_COMBINATIONS,
     DEFAULT_FONT_SIZE,
+)
+from voting_metrics_main_code.constants import (
     RULE_COLORS as rule_color_map,
+)
+from voting_metrics_main_code.constants import (
     RULE_ORDER as AllowedRule,
 )
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
@@ -171,7 +175,7 @@ def plot_rule_waterfall(
 
     boxes = [(i / n_seats, (i + 1) / n_seats) for i in range(n_seats + 1)]
 
-    def is_point_in_box(point, box):
+    def is_point_in_box(point: tuple[float, float], box: tuple[float, float]) -> bool:
         """Check whether both point coordinates lie within one interval, allowing rounding error.
 
         Args:

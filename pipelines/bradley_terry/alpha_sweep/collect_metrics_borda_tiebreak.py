@@ -5,6 +5,7 @@ import json
 import os
 import sys
 import warnings
+from collections.abc import Callable
 from glob import glob
 from pathlib import Path
 
@@ -16,14 +17,18 @@ from votekit import RankProfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.bradley_terry._metrics import configure_metric
-
+from voting_metrics_main_code.constants import AllowedRule, MetricVariant
 from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, new_data_file
-from voting_metrics_main_code.voting_rules import build_voting_rule
+from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 warnings.filterwarnings("ignore")
 
 
-def run_score(profile_file, metric_function, voting_rule):
+def run_score(
+    profile_file: str | Path,
+    metric_function: Callable[..., float],
+    voting_rule: ElectionConstructor,
+) -> float:
     """Load one profile and evaluate its metric with standard output suppressed.
 
     Args:
@@ -100,16 +105,16 @@ def run_score(profile_file, metric_function, voting_rule):
     default=False,
 )
 def main(
-    n_seats,
-    n_cands,
-    alpha_value,
-    metric,
-    variant,
-    interpolation_type,
-    election_type,
-    tiebreak,
-    show_progress,
-):
+    n_seats: int,
+    n_cands: int,
+    alpha_value: str,
+    metric: str,
+    variant: MetricVariant,
+    interpolation_type: str,
+    election_type: AllowedRule,
+    tiebreak: str,
+    show_progress: bool,
+) -> None:
     """Collect and save one metric for a fixed candidate count and Dirichlet alpha.
 
     Args:
@@ -117,9 +122,9 @@ def main(
         n_cands (int): Number of candidates.
         alpha_value (str): Formatted Dirichlet parameter: '0.33', '0.50', '1.00', '2.00', or '3.00'.
         metric (str): Metric identifier used in the statistics filenames.
-        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        variant (MetricVariant): Metric aggregation variant, 'average' or 'worst_case'.
         interpolation_type (str): UM interpolation token; use the string 'None' for IIA metrics.
-        election_type (str): Voting rule name.
+        election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
         show_progress (bool): Whether to display collection progress.
 

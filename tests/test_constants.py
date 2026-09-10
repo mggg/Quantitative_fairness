@@ -11,7 +11,7 @@ from voting_metrics_main_code.constants import (
 )
 
 
-def test_bt_grid_matches_preserved_profile_manifest():
+def test_bt_grid_matches_preserved_profile_manifest() -> None:
     settings = {
         f"data/preference_profiles/{n_a:02d}_{n_b:02d}/b_proportion_{b_prop}"
         f"__ALPHA_({aa:.2f},{ab:.2f},{ba:.2f},{bb:.2f})"

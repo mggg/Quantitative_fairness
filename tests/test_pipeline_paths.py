@@ -8,12 +8,13 @@ import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pytest
 
 from voting_metrics_main_code.replication import ROOT
 
 
-def test_runner_resolves_relative_data_before_changing_child_directory(tmp_path):
+def test_runner_resolves_relative_data_before_changing_child_directory(tmp_path: Path) -> None:
     script = ROOT / "scripts/replicate.py"
     code = (
         "import json, runpy, subprocess, sys; "
@@ -41,9 +42,11 @@ def test_runner_resolves_relative_data_before_changing_child_directory(tmp_path)
     assert json.loads(result.stdout) == str(tmp_path / "inputs")
 
 
-def test_bt_paired_statistics_keep_the_selected_root(tmp_path):
+def test_bt_paired_statistics_keep_the_selected_root(tmp_path: Path) -> None:
     tree = tmp_path / "sigma_IIA-run"
-    output_jobs = runpy.run_path(ROOT / "pipelines/bradley_terry/collect_metrics.py")["output_jobs"]
+    output_jobs = runpy.run_path(str(ROOT / "pipelines/bradley_terry/collect_metrics.py"))[
+        "output_jobs"
+    ]
     folder = tmp_path / "02_06/b_proportion_0.5__ALPHA_(1.00,1.00,1.00,1.00)__COHESION_(0.70,0.70)"
     for rule in ("borda", "stv", "plurality", "2-approval", "3-approval", "ranked-pairs", "random"):
         _, jobs = output_jobs(folder, 3, rule, "lex")
@@ -65,13 +68,13 @@ def test_bt_paired_statistics_keep_the_selected_root(tmp_path):
     assert len(list((tmp_path / "output").rglob("*.png"))) == 14
 
 
-def test_proportionality_keeps_profile_and_utility_roots(tmp_path):
+def test_proportionality_keeps_profile_and_utility_roots(tmp_path: Path) -> None:
     from votekit import RankProfile
 
-    generate = runpy.run_path(ROOT / "pipelines/bradley_terry/generate_profiles.py")[
+    generate = runpy.run_path(str(ROOT / "pipelines/bradley_terry/generate_profiles.py"))[
         "generate_and_save_profile"
     ]
-    process = runpy.run_path(ROOT / "pipelines/bradley_terry/compute_proportionality.py")[
+    process = runpy.run_path(str(ROOT / "pipelines/bradley_terry/compute_proportionality.py"))[
         "process_profile"
     ]
     data = tmp_path / "preference_profiles/b_proportion_bad.csv/_COHESION_(bad)"
@@ -81,12 +84,14 @@ def test_proportionality_keeps_profile_and_utility_roots(tmp_path):
     assert len(result[str(profile)]) == 7
 
 
-def test_standalone_defaults_and_explicit_inputs(tmp_path, monkeypatch):
+def test_standalone_defaults_and_explicit_inputs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     monkeypatch.chdir(tmp_path)
     for name in ("QF_DATA_DIR", "QF_STATS_DIR", "QF_BT_STATS_DIR", "QF_BOOTSTRAP_DIR"):
         monkeypatch.delenv(name, raising=False)
     monkeypatch.setenv("QF_RESULTS_DIR", str(tmp_path / "new-results"))
-    paths = runpy.run_path(ROOT / "voting_metrics_main_code/replication.py")
+    paths = runpy.run_path(str(ROOT / "voting_metrics_main_code/replication.py"))
     assert paths["STATS_INPUT"] == ROOT / "stats"
     assert paths["BT_STATS_INPUT"] == ROOT / "stats/bt_2_bloc_profile_stats"
     assert paths["STATS_OUTPUT"] == tmp_path / "new-results/stats"
@@ -94,7 +99,7 @@ def test_standalone_defaults_and_explicit_inputs(tmp_path, monkeypatch):
     monkeypatch.setenv("QF_STATS_DIR", "selected-statistics")
     monkeypatch.setenv("QF_BT_STATS_DIR", "selected-bt-tree")
     monkeypatch.setenv("QF_BOOTSTRAP_DIR", "new-results/stats/scottish_stats/bootstrap")
-    paths = runpy.run_path(ROOT / "voting_metrics_main_code/replication.py")
+    paths = runpy.run_path(str(ROOT / "voting_metrics_main_code/replication.py"))
     assert paths["STATS_INPUT"] == tmp_path / "selected-statistics"
     assert paths["BT_STATS_INPUT"] == tmp_path / "selected-bt-tree"
     assert paths["SCOTTISH_BOOTSTRAP_INPUT"] == (
@@ -102,15 +107,17 @@ def test_standalone_defaults_and_explicit_inputs(tmp_path, monkeypatch):
     )
 
     monkeypatch.delenv("QF_RESULTS_DIR")
-    paths = runpy.run_path(ROOT / "voting_metrics_main_code/replication.py")
+    paths = runpy.run_path(str(ROOT / "voting_metrics_main_code/replication.py"))
     assert paths["STATS_OUTPUT"] == ROOT / "stats"
     assert paths["PLOTS_DIR"] == ROOT / "plots"
 
 
 @pytest.mark.parametrize("mode", ["all", "figures"])
 @pytest.mark.parametrize("dataset", ["ny", "portland", "scottish", "bt"])
-def test_runner_selects_statistics_for_its_mode(tmp_path, monkeypatch, mode, dataset):
-    main = runpy.run_path(ROOT / "scripts/replicate.py")["main"]
+def test_runner_selects_statistics_for_its_mode(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mode: str, dataset: str
+) -> None:
+    main = runpy.run_path(str(ROOT / "scripts/replicate.py"))["main"]
     calls = []
     monkeypatch.setattr(subprocess, "run", lambda *args, **kwargs: calls.append((args, kwargs)))
     monkeypatch.chdir(tmp_path)
@@ -126,7 +133,7 @@ def test_runner_selects_statistics_for_its_mode(tmp_path, monkeypatch, mode, dat
         assert Path(kwargs["env"]["QF_RESULTS_DIR"]) == tmp_path / "new-results"
 
 
-def test_bootstrap_plot_imports_without_project_on_pythonpath(tmp_path):
+def test_bootstrap_plot_imports_without_project_on_pythonpath(tmp_path: Path) -> None:
     path = ROOT / "pipelines/scottish/plots/plot_um_iia_bootstrap.py"
     env = {key: value for key, value in os.environ.items() if key != "PYTHONPATH"}
     env["QF_RESULTS_DIR"] = str(tmp_path / "results")
@@ -139,7 +146,7 @@ def test_bootstrap_plot_imports_without_project_on_pythonpath(tmp_path):
     )
 
 
-def test_bootstrap_plots_can_select_generated_intervals_separately(tmp_path):
+def test_bootstrap_plots_can_select_generated_intervals_separately(tmp_path: Path) -> None:
     intervals = tmp_path / "generated-intervals"
     intervals.mkdir()
     for suffix in ("", "_winner_set"):
@@ -178,8 +185,8 @@ def test_bootstrap_plots_can_select_generated_intervals_separately(tmp_path):
     assert len(list((tmp_path / "output/plots/scottish/bonferroni_rectangles").glob("*.png"))) == 2
 
 
-def test_bootstrap_candidate_count_plot(tmp_path):
-    module = runpy.run_path(ROOT / "pipelines/scottish/plots/plot_um_iia_bootstrap.py")
+def test_bootstrap_candidate_count_plot(tmp_path: Path) -> None:
+    module = runpy.run_path(str(ROOT / "pipelines/scottish/plots/plot_um_iia_bootstrap.py"))
     um_key, iia_key = module["get_limited_metric_key_pairs"]()[0]
     module["run_limited_scatter_plots_by_candidate_count_with_bootstrap"](
         outputs_by_election_type={"borda": {"3": {um_key: [0.6, 0.8], iia_key: [0.5, 0.7]}}},
@@ -194,8 +201,10 @@ def test_bootstrap_candidate_count_plot(tmp_path):
     assert len(list(tmp_path.rglob("*.png"))) == 1
 
 
-def test_histograms_create_fresh_output_directories(tmp_path, monkeypatch):
-    module = runpy.run_path(ROOT / "pipelines/cross_dataset/plot_m_statistic_histograms.py")
+def test_histograms_create_fresh_output_directories(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = runpy.run_path(str(ROOT / "pipelines/cross_dataset/plot_m_statistic_histograms.py"))
     bt = module["make_bt_M_histograms"]
     scottish = module["make_scottish_M_histogram"]
     source = tmp_path / "source.json"
@@ -210,10 +219,12 @@ def test_histograms_create_fresh_output_directories(tmp_path, monkeypatch):
     assert len(list((tmp_path / "scottish").glob("*.png"))) == 1
 
 
-def test_waterfall_uses_selected_inputs_without_stale_cache(tmp_path, monkeypatch):
-    main = runpy.run_path(ROOT / "pipelines/bradley_terry/plots/plot_proportionality_waterfall.py")[
-        "main"
-    ]
+def test_waterfall_uses_selected_inputs_without_stale_cache(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    main = runpy.run_path(
+        str(ROOT / "pipelines/bradley_terry/plots/plot_proportionality_waterfall.py")
+    )["main"]
     settings = "02_06/b_proportion_0.5__ALPHA_(1.00,1.00,1.00,1.00)__COHESION_(0.70,0.70)"
     source = tmp_path / "stats/bt_proportionality"
     source.mkdir(parents=True)
@@ -227,9 +238,9 @@ def test_waterfall_uses_selected_inputs_without_stale_cache(tmp_path, monkeypatc
     )
     points = []
 
-    def save_plot(path, **kwargs):
+    def save_plot(path: str | Path, **kwargs: object) -> None:
         assert Path(path).parent.is_dir()
-        points.append(tuple(plt.gca().lines[0].get_ydata()))
+        points.append(tuple(np.asarray(plt.gca().lines[0].get_ydata())))
 
     monkeypatch.setattr(plt, "savefig", save_plot)
     for observed in (0.2, 0.4):
@@ -246,17 +257,19 @@ def test_waterfall_uses_selected_inputs_without_stale_cache(tmp_path, monkeypatc
     assert points[1] == pytest.approx((0.5,))
 
 
-def test_waterfall_reports_missing_input_directory(tmp_path, monkeypatch):
-    main = runpy.run_path(ROOT / "pipelines/bradley_terry/plots/plot_proportionality_waterfall.py")[
-        "main"
-    ]
+def test_waterfall_reports_missing_input_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    main = runpy.run_path(
+        str(ROOT / "pipelines/bradley_terry/plots/plot_proportionality_waterfall.py")
+    )["main"]
     monkeypatch.setitem(main.__globals__, "STATS_INPUT", tmp_path)
     with pytest.raises(FileNotFoundError, match="bt_proportionality"):
         main()
 
 
 @pytest.mark.parametrize("dataset", ["ny", "portland", "scottish", "bt"])
-def test_shell_runners_preserve_the_calling_directory(tmp_path, dataset):
+def test_shell_runners_preserve_the_calling_directory(tmp_path: Path, dataset: str) -> None:
     executable = tmp_path / "uv"
     executable.write_text(
         f"#!{sys.executable}\n"

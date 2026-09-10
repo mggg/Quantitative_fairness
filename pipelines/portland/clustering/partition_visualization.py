@@ -11,11 +11,12 @@ structure of the functions (including most parameter names) remains unchanged.
 """
 
 from typing import Sequence, TypeGuard
-import numpy as np
-from numpy.typing import NDArray
-import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
+
 import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.axes import Axes
+from numpy.typing import NDArray
 
 
 def create_modularity_matrix_plot(
@@ -102,7 +103,7 @@ def show_matrix(
     boundaries: Sequence[int] | None = None,
     centered: bool = False,
     log_scale: bool = False,
-):
+) -> None:
     """Display a boost matrix with optional candidate labels and cluster boundaries.
 
     Args:
@@ -180,7 +181,7 @@ def viz_partition(
     candidates: list[str],
     cmap: str = "PRGn",
     centered: bool = False,
-):
+) -> None:
     """Visualize the boost matrix reordered according to a given partition.
 
     Args:

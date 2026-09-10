@@ -82,7 +82,7 @@ def main() -> None:
             )
         record.write_text(json.dumps(manifest, indent=2) + "\n")
 
-    def run(relative_path, *options):
+    def run(relative_path: str, *options: str | int | Path) -> None:
         subprocess.run(
             [sys.executable, str(ROOT / relative_path), *map(str, options)],
             cwd=ROOT,

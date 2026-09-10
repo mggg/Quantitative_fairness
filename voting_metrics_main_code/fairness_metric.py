@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from itertools import combinations, product
 from math import asin, comb, pi, sqrt
 from typing import Any, Callable, Sequence
@@ -100,14 +101,14 @@ def determine_weighted_ranking_vector_XAB(
     return xab_vector * weight_vector
 
 
-def number_of_voters(profile: RankProfile, *args, **kwargs) -> float:
+def number_of_voters(profile: RankProfile, *args: object, **kwargs: object) -> float:
     """
     Compute the total number of voters as the sum of ballot weights.
 
     Args:
         profile (RankProfile): Preference profile containing a "Weight" column.
-        *args: Unused.
-        **kwargs: Unused.
+        *args (object): Unused.
+        **kwargs (object): Unused.
 
     Returns:
         float: Total number of voters (sum of weights).
@@ -556,7 +557,7 @@ def sigma_IIA_winner_set_all_subset(
 
 
 def __random_profile_ranking(
-    profile: RankProfile, n_seats: int, excluded=()
+    profile: RankProfile, n_seats: int, excluded: Iterable[str] = ()
 ) -> tuple[frozenset, ...]:
     excluded = set(excluded)
     remaining_cast = [

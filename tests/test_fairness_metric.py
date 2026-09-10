@@ -188,7 +188,7 @@ def make_random_profile(n_voters: int, cand_list: list[str]) -> RankProfile:
 #         )
 
 
-def test_condorcet_profile_borda():
+def test_condorcet_profile_borda() -> None:
     n_cands = 3
     n_seats = 1
     voting_rule = build_voting_rule(n_cands, "borda")
@@ -207,7 +207,7 @@ def test_condorcet_profile_borda():
     )
 
 
-def test_condorcet_profile_3_approval():
+def test_condorcet_profile_3_approval() -> None:
     n_cands = 3
     n_seats = 1
     voting_rule = build_voting_rule(n_cands, "3-approval")
@@ -226,7 +226,7 @@ def test_condorcet_profile_3_approval():
     )
 
 
-def test_condorcet_profile_2_approval():
+def test_condorcet_profile_2_approval() -> None:
     n_cands = 3
     n_seats = 1
     voting_rule = build_voting_rule(n_cands, "2-approval")
@@ -245,7 +245,7 @@ def test_condorcet_profile_2_approval():
     )
 
 
-def test_condorcet_profile_plurality():
+def test_condorcet_profile_plurality() -> None:
     n_cands = 3
     n_seats = 1
     voting_rule = build_voting_rule(n_cands, "plurality")
@@ -264,7 +264,7 @@ def test_condorcet_profile_plurality():
     )
 
 
-def test_low_UM_plurality():
+def test_low_UM_plurality() -> None:
     n_cands = 3
     n_seats = 1
     profile = RankProfile(
@@ -291,23 +291,23 @@ def test_low_UM_plurality():
     )
 
 
-def test_IIA_Borda_high():
+def test_IIA_Borda_high() -> None:
     voting_rule = build_voting_rule(4, "borda")
     assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 1, variant="average") - 0.917) < 1e-3
 
 
-def test_IIA_Plurality_high_needs_lex_tiebreak_due_to_tie_in_final_ranking():
+def test_IIA_Plurality_high_needs_lex_tiebreak_due_to_tie_in_final_ranking() -> None:
     voting_rule = build_voting_rule(4, "plurality")
     assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 1, variant="average") - 0.833) < 1e-3
 
 
-def test_IIA_Plurality_high_needs_borda_tiebreak():
+def test_IIA_Plurality_high_needs_borda_tiebreak() -> None:
     voting_rule = build_voting_rule(4, "plurality", tiebreak="borda")
 
     assert abs(sigma_IIA(basic_IIA_profile, voting_rule, 2, variant="average") - 0.917) < 1e-3
 
 
-def test_IIA_winner_set_STV_ub():
+def test_IIA_winner_set_STV_ub() -> None:
     n_cands = 3
     n_seats = 1
     profile = RankProfile(
@@ -323,7 +323,7 @@ def test_IIA_winner_set_STV_ub():
     assert abs(sigma_IIA_winner_set(profile, voting_rule, n_seats, variant="average") - 1) < 1e-4
 
 
-def test_IIA_winner_set_STV_mid():
+def test_IIA_winner_set_STV_mid() -> None:
     n_cands = 3
     n_seats = 2
     profile = RankProfile(
@@ -340,7 +340,7 @@ def test_IIA_winner_set_STV_mid():
     )
 
 
-def test_UM_borda_ub():
+def test_UM_borda_ub() -> None:
     n_cands = 3
     n_seats = 1
 
@@ -370,7 +370,7 @@ def test_UM_borda_ub():
     )
 
 
-def test_UM_plurality_ub():
+def test_UM_plurality_ub() -> None:
     n_cands = 3
     n_seats = 1
 
@@ -400,7 +400,7 @@ def test_UM_plurality_ub():
     )
 
 
-def test_UM_4_cands_STV():
+def test_UM_4_cands_STV() -> None:
     profile = RankProfile(
         ballots=tuple(
             [
@@ -430,7 +430,7 @@ def test_UM_4_cands_STV():
     )
 
 
-def test_UM_winner_set_changes_with_seat_number_STV():
+def test_UM_winner_set_changes_with_seat_number_STV() -> None:
     profile = RankProfile(
         ballots=tuple(
             [
@@ -480,7 +480,7 @@ def test_UM_winner_set_changes_with_seat_number_STV():
     )
 
 
-def test_IIA_winner_set_5_cand_STV_ub():
+def test_IIA_winner_set_5_cand_STV_ub() -> None:
 
     voting_rule = build_voting_rule(4, "stv")
     assert (
@@ -488,7 +488,7 @@ def test_IIA_winner_set_5_cand_STV_ub():
     )
 
 
-def test_IIA_winner_set_5_cand_Plurality_ub():
+def test_IIA_winner_set_5_cand_Plurality_ub() -> None:
 
     voting_rule = build_voting_rule(4, "plurality")
     assert (
@@ -496,7 +496,7 @@ def test_IIA_winner_set_5_cand_Plurality_ub():
     )
 
 
-def test_IIA_winner_set_5_cand_Borda_ub():
+def test_IIA_winner_set_5_cand_Borda_ub() -> None:
 
     voting_rule = build_voting_rule(4, "borda")
     assert (
@@ -504,7 +504,7 @@ def test_IIA_winner_set_5_cand_Borda_ub():
     )
 
 
-def test_UM_winner_set_5_cand_STV_ub():
+def test_UM_winner_set_5_cand_STV_ub() -> None:
 
     voting_rule = build_voting_rule(4, "stv")
     assert (
@@ -522,7 +522,7 @@ def test_UM_winner_set_5_cand_STV_ub():
     )
 
 
-def test_UM_winner_set_5_cand_Plurality_ub():
+def test_UM_winner_set_5_cand_Plurality_ub() -> None:
 
     voting_rule = build_voting_rule(4, "plurality")
     assert (
@@ -540,7 +540,7 @@ def test_UM_winner_set_5_cand_Plurality_ub():
     )
 
 
-def test_UM_winner_set_5_cand_Borda_ub():
+def test_UM_winner_set_5_cand_Borda_ub() -> None:
     voting_rule = build_voting_rule(4, "borda")
     assert (
         abs(
@@ -557,7 +557,7 @@ def test_UM_winner_set_5_cand_Borda_ub():
     )
 
 
-def test_UM_winner_set_5_cand_STV_mid():
+def test_UM_winner_set_5_cand_STV_mid() -> None:
     voting_rule = build_voting_rule(4, "stv")
     assert (
         abs(
@@ -574,7 +574,7 @@ def test_UM_winner_set_5_cand_STV_mid():
     )
 
 
-def test_UM_winner_set_5_cand_Plurality_mid():
+def test_UM_winner_set_5_cand_Plurality_mid() -> None:
     voting_rule = build_voting_rule(4, "plurality")
     assert (
         abs(
@@ -591,7 +591,7 @@ def test_UM_winner_set_5_cand_Plurality_mid():
     )
 
 
-def test_UM_winner_set_5_cand_Borda_mid():
+def test_UM_winner_set_5_cand_Borda_mid() -> None:
     voting_rule = build_voting_rule(4, "borda")
     assert (
         abs(
@@ -608,7 +608,7 @@ def test_UM_winner_set_5_cand_Borda_mid():
     )
 
 
-def test_IIA_winner_set_changes_with_election_type():
+def test_IIA_winner_set_changes_with_election_type() -> None:
     profile = RankProfile(
         ballots=tuple(
             [
@@ -634,7 +634,7 @@ def test_IIA_winner_set_changes_with_election_type():
     assert abs(sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") - 1.0) < 1e-3
 
 
-def test_IIA_winner_set_changes_with_seat_number_Plurality():
+def test_IIA_winner_set_changes_with_seat_number_Plurality() -> None:
 
     profile = RankProfile(
         ballots=tuple(
@@ -661,7 +661,7 @@ def test_IIA_winner_set_changes_with_seat_number_Plurality():
     assert abs(sigma_IIA_winner_set(profile, voting_rule, 3, variant="average") - 0.917) < 1e-3
 
 
-def test_IIA_Plurality_obtains_zero():
+def test_IIA_Plurality_obtains_zero() -> None:
     profile = RankProfile(
         ballots=tuple(
             [
@@ -676,7 +676,7 @@ def test_IIA_Plurality_obtains_zero():
     assert sigma_IIA(profile, voting_rule, 1, variant="average") == 0.0
 
 
-def test_IIA_winner_set_Plurality_obtains_lb():
+def test_IIA_winner_set_Plurality_obtains_lb() -> None:
     profile = RankProfile(
         ballots=tuple(
             [
@@ -691,7 +691,7 @@ def test_IIA_winner_set_Plurality_obtains_lb():
     assert sigma_IIA_winner_set(profile, voting_rule, 1, variant="average") == 0.0
 
 
-def test_IIA_winner_set_Plurality_low():
+def test_IIA_winner_set_Plurality_low() -> None:
     profile = RankProfile(
         ballots=tuple(
             [
@@ -706,7 +706,7 @@ def test_IIA_winner_set_Plurality_low():
     assert sigma_IIA_winner_set(profile, voting_rule, 2, variant="average") == 1 / 3.0
 
 
-def test_UM_Plurality_low():
+def test_UM_Plurality_low() -> None:
     profile = RankProfile(
         ballots=tuple(
             [

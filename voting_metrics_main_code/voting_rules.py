@@ -1,5 +1,6 @@
 import random
-from typing import Callable, TypeAlias
+from collections.abc import Iterable
+from typing import Any, Callable, TypeAlias
 
 from votekit.elections import STV, Borda, Plurality, RankedPairs
 from votekit.elections.election_state import ElectionState
@@ -12,7 +13,7 @@ from voting_metrics_main_code.constants import AllowedRule
 ElectionConstructor: TypeAlias = Callable[..., Election]
 
 
-def random_candidate_order(profile: RankProfile, excluded=()) -> list:
+def random_candidate_order(profile: RankProfile, excluded: Iterable[str] = ()) -> list[str]:
     """Randomly order the profile's cast candidates, followed by its uncast candidates."""
     excluded = set(excluded)
     cast_cands = sorted(cand for cand in profile.candidates_cast if cand not in excluded)
@@ -37,7 +38,7 @@ class ElectRandom(RankingElection):
         profile: RankProfile,
         tiebreak: str = "random",
         m: int = 1,
-    ):
+    ) -> None:
         if m <= 0:
             raise ValueError("m must be strictly positive")
         if len(profile.candidates_cast) < m:
@@ -121,7 +122,7 @@ def build_voting_rule(
     match voting_rule_name:
         case "borda":
 
-            def factory(*args, **kwargs) -> Election:
+            def factory(*args: Any, **kwargs: Any) -> Election:
                 return Borda(*args, tiebreak=tiebreak, **kwargs)
 
         case "3-approval":
@@ -129,7 +130,7 @@ def build_voting_rule(
                 raise ValueError("3-approval requires at least 3 candidates.")
             sv = [1] * 3 + [0] * (n_cands - 3)
 
-            def factory(*args, **kwargs) -> Election:
+            def factory(*args: Any, **kwargs: Any) -> Election:
                 return Borda(*args, tiebreak=tiebreak, score_vector=sv, **kwargs)
 
         case "2-approval":
@@ -137,27 +138,27 @@ def build_voting_rule(
                 raise ValueError("2-approval requires at least 2 candidates.")
             sv = [1] * 2 + [0] * (n_cands - 2)
 
-            def factory(*args, **kwargs) -> Election:
+            def factory(*args: Any, **kwargs: Any) -> Election:
                 return Borda(*args, tiebreak=tiebreak, score_vector=sv, **kwargs)
 
         case "plurality":
 
-            def factory(*args, **kwargs) -> Election:
+            def factory(*args: Any, **kwargs: Any) -> Election:
                 return Plurality(*args, tiebreak=tiebreak, **kwargs)
 
         case "stv":
 
-            def factory(*args, **kwargs) -> Election:
+            def factory(*args: Any, **kwargs: Any) -> Election:
                 return STV(*args, tiebreak=tiebreak, **kwargs)
 
         case "ranked-pairs":
 
-            def factory(*args, **kwargs) -> Election:
+            def factory(*args: Any, **kwargs: Any) -> Election:
                 return RankedPairs(*args, tiebreak=tiebreak, **kwargs)
 
         case "random":
 
-            def factory(*args, **kwargs) -> Election:
+            def factory(*args: Any, **kwargs: Any) -> Election:
                 return ElectRandom(*args, tiebreak=tiebreak, **kwargs)
 
         case _:

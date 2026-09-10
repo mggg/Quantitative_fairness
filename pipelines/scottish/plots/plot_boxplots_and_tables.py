@@ -2,6 +2,7 @@
 
 import json
 import sys
+from collections.abc import Mapping, Sequence
 from glob import glob
 from pathlib import Path
 from typing import cast
@@ -10,6 +11,7 @@ import click
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
@@ -17,7 +19,11 @@ from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT, STATS_OUTPUT
 
 
-def construct_df_scottish(data_dictionary, n_cands, metric):
+def construct_df_scottish(
+    data_dictionary: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    n_cands: int,
+    metric: str,
+) -> pd.DataFrame:
     """Construct a DataFrame for one metric at a fixed candidate count.
 
     Args:
@@ -38,8 +44,14 @@ def construct_df_scottish(data_dictionary, n_cands, metric):
 
 
 def build_plot_for_metric_scottish(
-    metric, ordered_outputs, ordered_rules, n_cand_list, ax, y_label="", use_one=False
-):
+    metric: str,
+    ordered_outputs: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    ordered_rules: Sequence[str],
+    n_cand_list: Sequence[int],
+    ax: Axes,
+    y_label: str = "",
+    use_one: bool = False,
+) -> None:
     """Build a boxplot for one metric across candidate counts and voting rules.
 
     Args:
@@ -89,7 +101,11 @@ def build_plot_for_metric_scottish(
 
 
 def export_aggregate_tables(
-    stat_file_base_dir: str, ordered_rules, n_cand_list, variant: str, tiebreak: str
+    stat_file_base_dir: str,
+    ordered_rules: Sequence[str],
+    n_cand_list: Sequence[int],
+    variant: str,
+    tiebreak: str,
 ) -> None:
     """Export aggregate Scottish statistics ordered by rule and candidate count.
 
@@ -123,7 +139,7 @@ def export_aggregate_tables(
 
     df = df.reindex(
         pd.MultiIndex.from_product(
-            [ordered_rules, n_cand_list],
+            [list(ordered_rules), list(n_cand_list)],
             names=["rule", "n_cands"],
         ),
     )
@@ -136,7 +152,7 @@ def export_aggregate_tables(
 @click.command()
 @click.option("--variant", required=True)
 @click.option("--tiebreak", required=True)
-def main(variant, tiebreak, n_cand_list=list(range(6, 10))):
+def main(variant: str, tiebreak: str, n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
     """Save Scottish metric boxplots and export aggregate statistics for the selected labels.
 
     Args:

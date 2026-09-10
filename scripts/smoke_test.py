@@ -12,7 +12,7 @@ from votekit import RankBallot, RankProfile
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def main():
+def main() -> None:
     with tempfile.TemporaryDirectory(prefix="qf-smoke-") as temporary:
         work = Path(temporary)
         folder = (

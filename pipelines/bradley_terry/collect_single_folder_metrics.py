@@ -6,6 +6,7 @@ import json
 import os
 import sys
 import warnings
+from collections.abc import Callable
 from glob import glob
 from pathlib import Path
 
@@ -17,14 +18,18 @@ from votekit import RankProfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from pipelines.bradley_terry._metrics import configure_metric
-
+from voting_metrics_main_code.constants import AllowedRule, MetricVariant
 from voting_metrics_main_code.replication import STATS_OUTPUT, new_data_file
-from voting_metrics_main_code.voting_rules import build_voting_rule
+from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 warnings.filterwarnings("ignore")
 
 
-def run_score(profile_file, metric_function, voting_rule):
+def run_score(
+    profile_file: str | Path,
+    metric_function: Callable[..., float],
+    voting_rule: ElectionConstructor,
+) -> float:
     """Load one profile and evaluate its metric with standard output suppressed.
 
     Args:
@@ -96,14 +101,14 @@ def run_score(profile_file, metric_function, voting_rule):
     default="lex",
 )
 def main(
-    input_folder,
-    n_seats,
-    metric,
-    variant,
-    interpolation_type,
-    election_type,
-    tiebreak,
-):
+    input_folder: str | Path,
+    n_seats: int,
+    metric: str,
+    variant: MetricVariant,
+    interpolation_type: str,
+    election_type: AllowedRule,
+    tiebreak: str,
+) -> None:
     """Collect and save one metric for a two-bloc profile folder.
 
     Args:
@@ -111,9 +116,9 @@ def main(
             parameters.
         n_seats (int): Number of seats to elect.
         metric (str): Metric identifier used in the statistics filenames.
-        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        variant (MetricVariant): Metric aggregation variant, 'average' or 'worst_case'.
         interpolation_type (str): UM interpolation token; use the string 'None' for IIA metrics.
-        election_type (str): Voting rule name.
+        election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
 
     Raises:

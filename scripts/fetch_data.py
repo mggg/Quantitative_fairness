@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOTTISH_REVISION = "304b0842b54f0fe89441757424106be8a991f57f"
 
 
-def extract_profiles(archive: Path, destination: Path):
+def extract_profiles(archive: Path, destination: Path) -> None:
     """Extract into a temporary sibling and publish only a complete, new directory."""
     if destination.exists() or destination.is_symlink():
         raise FileExistsError(f"Preserving existing directory: {destination}")
@@ -33,7 +33,7 @@ def extract_profiles(archive: Path, destination: Path):
         extracted.rename(destination)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset", choices=("bt", "scottish"))
     parser.add_argument("--destination", type=Path)

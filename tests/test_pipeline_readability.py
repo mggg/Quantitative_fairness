@@ -1,6 +1,7 @@
 """Check data selection and metric configuration shared by pipeline workflows."""
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -8,7 +9,9 @@ from pipelines.bradley_terry import _metrics
 from pipelines.scottish.plots._data import load_outputs_by_election_type
 
 
-def test_scottish_loader_filters_before_reading_and_preserves_election_order(tmp_path):
+def test_scottish_loader_filters_before_reading_and_preserves_election_order(
+    tmp_path: Path,
+) -> None:
     for metric, tiebreak, contents in (
         ("sigma_IIA_average", "lex", {"7": {"election_z": 0.8, "election_a": 0.2}}),
         ("sigma_UM_worst_case_asin", "lex", {"7": {"election_z": 0.6, "election_a": 0.4}}),
@@ -35,10 +38,12 @@ def test_scottish_loader_filters_before_reading_and_preserves_election_order(tmp
 
 
 @pytest.mark.parametrize("metric_name", ["sigma_UM", "sigma_IIA_winner_set_all_subset"])
-def test_configured_metrics_bind_interpolation_only_for_um(metric_name, monkeypatch):
+def test_configured_metrics_bind_interpolation_only_for_um(
+    metric_name: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
     received = []
 
-    def metric(profile, rule, **options):
+    def metric(profile: str, rule: str, **options: str | int) -> float:
         received.append((profile, rule, options))
         return 0.75
 

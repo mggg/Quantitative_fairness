@@ -1,6 +1,7 @@
 """Check Portland boost plotting through the command-line workflow."""
 
 import sys
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,7 +12,9 @@ from pipelines.portland.plots import plot_boost_matrix
 
 
 @pytest.mark.parametrize("font_sizes", [(10, 12), (16, 18), (24, 30)])
-def test_font_changes_resize_shared_canvas_without_scaling_heatmaps(monkeypatch, font_sizes):
+def test_font_changes_resize_shared_canvas_without_scaling_heatmaps(
+    monkeypatch: pytest.MonkeyPatch, font_sizes: tuple[int, int]
+) -> None:
     monkeypatch.setitem(plot_boost_matrix.FONTSIZES, "D2", font_sizes)
     canvas_sizes = []
     outer_margins = []
@@ -44,7 +47,9 @@ def test_font_changes_resize_shared_canvas_without_scaling_heatmaps(monkeypatch,
 
 
 @pytest.mark.parametrize("limit", [0.21, 0.3])
-def test_boost_cli_loads_ranked_profile_and_saves_both_figures(tmp_path, monkeypatch, limit):
+def test_boost_cli_loads_ranked_profile_and_saves_both_figures(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, limit: float
+) -> None:
     candidates = [
         candidate for slate in plot_boost_matrix.FOCUS_CANDIDATES["D3"] for candidate in slate
     ]

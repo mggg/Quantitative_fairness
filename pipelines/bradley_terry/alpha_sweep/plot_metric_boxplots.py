@@ -2,6 +2,7 @@
 
 import json
 import sys
+from collections.abc import Mapping
 from fractions import Fraction
 from pathlib import Path
 from typing import NamedTuple, Sequence
@@ -10,15 +11,16 @@ import click
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+from matplotlib.axes import Axes
 from matplotlib.patches import Patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from voting_metrics_main_code.constants import MetricVariant, NON_RANDOM_RULE_ORDER
+from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER, MetricVariant
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 
-def load_file(file_path):
+def load_file(file_path: str | Path) -> list[float]:
     """Load a metric JSON array, printing an error and returning an empty list on failure.
 
     Args:
@@ -39,16 +41,16 @@ def load_file(file_path):
 
 
 def create_ordered_dict_for_metric_and_alpha(
-    metric_base_name,
-    alpha,
-    ordered_rules,
-    ordered_n_cands,
-    stat_file_base_dir,
-    n_seats,
-    variant,
-    tiebreak,
-    interpolation_type,
-):
+    metric_base_name: str,
+    alpha: float,
+    ordered_rules: Sequence[str],
+    ordered_n_cands: Sequence[int],
+    stat_file_base_dir: str,
+    n_seats: int,
+    variant: str,
+    tiebreak: str,
+    interpolation_type: str,
+) -> dict[str, dict[int, list[float]]]:
     """Load scores for one metric and alpha, preserving rule and candidate-count order.
 
     Args:
@@ -86,19 +88,19 @@ def create_ordered_dict_for_metric_and_alpha(
 
 
 def build_plot_for_metric_and_alpha(
-    metric_base_name,
-    alpha,
-    ordered_rules,
-    ordered_n_cands,
-    rule_color_map,
-    ax,
-    y_label,
-    stat_file_base_dir,
-    n_seats,
-    variant,
-    tiebreak,
-    interpolation_type,
-):
+    metric_base_name: str,
+    alpha: float,
+    ordered_rules: Sequence[str],
+    ordered_n_cands: Sequence[int],
+    rule_color_map: Mapping[str, str | tuple[float, float, float]],
+    ax: Axes,
+    y_label: str,
+    stat_file_base_dir: str,
+    n_seats: int,
+    variant: str,
+    tiebreak: str,
+    interpolation_type: str,
+) -> None:
     """Draw one metric-and-alpha boxplot panel across candidate counts and voting rules.
 
     Args:
@@ -341,12 +343,12 @@ def plot_individual_metrics(n_seats: int, variant: MetricVariant, tiebreak: str)
 @click.option("--n-seats", type=int, default=1, help="Number of seats")
 @click.option("--variant", type=click.Choice(["worst_case", "average"]))
 @click.option("--tiebreak", type=click.Choice(["lex", "random"]))
-def main(n_seats, variant, tiebreak):
+def main(n_seats: int, variant: MetricVariant, tiebreak: str) -> None:
     """Save combined and individual metric boxplot grids across the single-alpha profile sweep.
 
     Args:
         n_seats (int): Number of seats to elect.
-        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        variant (MetricVariant): Metric aggregation variant, 'average' or 'worst_case'.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
     """
     plot_average_iia_panel(n_seats, tiebreak)

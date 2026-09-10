@@ -6,7 +6,7 @@ Compare these optima with the assignments found by heuristic optimization.
 import sys
 from math import comb
 from pathlib import Path
-from typing import cast
+from typing import Self, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -19,7 +19,6 @@ from votekit.utils import mentions
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.portland.clustering.modularity import compute_modularity  # noqa: E402
-
 from voting_metrics_main_code.replication import DATA_DIR
 
 
@@ -70,7 +69,7 @@ class PartitionAssignments:
         *,
         exclude_trivial: bool = True,
         require_all_parts_used: bool = True,
-    ):
+    ) -> None:
         """Initialize the generator.
 
         Args:
@@ -98,15 +97,15 @@ class PartitionAssignments:
         self.max_val = k_parts**n_cands  # count of all vectors
         self.current = 0
 
-    def __iter__(self):
+    def __iter__(self) -> Self:
         """Return this stateful iterator without resetting its current position.
 
         Returns:
-            PartitionAssignments: This iterator at its current position.
+            Self: This iterator at its current position.
         """
         return self
 
-    def _to_base_k_vec(self, x: int):
+    def _to_base_k_vec(self, x: int) -> list[int]:
         """Convert an integer x to a length-n_cands vector of digits in base k_parts.
 
         For example, if n_cands=3 and k_parts=2, then x=5 would convert to [1,0,1] since 5 in
@@ -127,7 +126,7 @@ class PartitionAssignments:
 
         return vec
 
-    def _accept(self, vec: list[int]):
+    def _accept(self, vec: list[int]) -> bool:
         """Check an assignment against the trivial-vector and required-parts filters.
 
         Args:
@@ -149,7 +148,7 @@ class PartitionAssignments:
 
         return True
 
-    def __next__(self):
+    def __next__(self) -> list[int]:
         """Advance to the next assignment satisfying the configured filtering rules.
 
         Returns:
@@ -167,7 +166,7 @@ class PartitionAssignments:
 
         raise StopIteration
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Count all accepted assignments, including any already consumed.
 
         Returns:

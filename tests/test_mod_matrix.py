@@ -9,10 +9,10 @@ sys.path.append(str(ROOT_DIR))
 from pipelines.portland.clustering.modularity import boost_modularity_matrix  # noqa: E402
 
 
-def test_modularity_score_4x4():
+def test_modularity_score_4x4() -> None:
     test_matrix = np.array([[0, 5, -5, -2], [2, 0, -10, 0], [-10, -1, 0, 12], [-3, 0, 6, 0]])
 
-    test_mod_matrix = boost_modularity_matrix(test_matrix, [0, 0, 1, 1])
+    test_mod_matrix = boost_modularity_matrix(test_matrix, np.array([0, 0, 1, 1]))
 
     assert test_mod_matrix[0, 1] == 5 - (5 * 5 / 25) + (7 * 1 / 31)
     assert test_mod_matrix[1, 0] == 2 - (2 * 2 / 25) + (10 * 13 / 31)

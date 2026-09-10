@@ -15,7 +15,6 @@ from matplotlib.axes import Axes
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.scottish.plots._data import load_outputs_by_election_type
-
 from voting_metrics_main_code.constants import RULE_ORDER
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT, STATS_OUTPUT
 
@@ -110,7 +109,11 @@ def build_plot_for_metric_scottish(
 
 
 def export_aggregate_tables(
-    stat_file_base_dir: str, ordered_rules, n_cand_list, variant: str, tiebreak: str
+    stat_file_base_dir: str,
+    ordered_rules: Sequence[str],
+    n_cand_list: Sequence[int],
+    variant: str,
+    tiebreak: str,
 ) -> None:
     """Export aggregate Scottish statistics ordered by rule and candidate count.
 
@@ -144,7 +147,7 @@ def export_aggregate_tables(
 
     df = df.reindex(
         pd.MultiIndex.from_product(
-            [ordered_rules, n_cand_list],
+            [list(ordered_rules), list(n_cand_list)],
             names=["rule", "n_cands"],
         ),
     )

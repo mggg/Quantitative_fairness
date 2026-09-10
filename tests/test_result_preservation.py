@@ -1,13 +1,16 @@
 """Check that collectors reuse saved metrics without replacing or recomputing them."""
 
 import importlib
+from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
 
 
 @pytest.mark.parametrize("dataset", ["new_york", "portland"])
-def test_city_collectors_skip_saved_results_before_loading_profiles(tmp_path, monkeypatch, dataset):
+def test_city_collectors_skip_saved_results_before_loading_profiles(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, dataset: str
+) -> None:
     collector = importlib.import_module(f"pipelines.{dataset}.collect_metrics")
     folder = tmp_path / ("ny_stats" if dataset == "new_york" else "portland_stats")
     folder.mkdir()
@@ -23,8 +26,8 @@ def test_city_collectors_skip_saved_results_before_loading_profiles(tmp_path, mo
 
 @pytest.mark.parametrize("module_name", ["collect_metrics", "collect_metrics_borda_tiebreak"])
 def test_alpha_collectors_skip_saved_results_before_parallel_work(
-    tmp_path, monkeypatch, module_name
-):
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, module_name: str
+) -> None:
     collector = importlib.import_module(f"pipelines.bradley_terry.alpha_sweep.{module_name}")
     folder = tmp_path / "bt_profile_stats/1_seats/sigma_UM/04/alpha_0.50"
     folder.mkdir(parents=True)
@@ -58,7 +61,9 @@ def test_alpha_collectors_skip_saved_results_before_parallel_work(
     assert output.read_text() == "saved result"
 
 
-def test_proportionality_skips_saved_results_before_loading_profiles(tmp_path, monkeypatch):
+def test_proportionality_skips_saved_results_before_loading_profiles(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     from pipelines.bradley_terry import compute_proportionality as collector
 
     folder = tmp_path / "bt_proportionality"

@@ -1,10 +1,12 @@
 """Exercise runtime failures exposed by pipeline type checking."""
 
-from types import SimpleNamespace
+from pathlib import Path
+from types import ModuleType, SimpleNamespace
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
+from matplotlib.figure import Figure, SubFigure
 from votekit import RankBallot, RankProfile
 
 from pipelines.bradley_terry.alpha_sweep import collect_metrics, collect_metrics_borda_tiebreak
@@ -13,7 +15,7 @@ from pipelines.scottish.plots.plot_metric_boxplots import save_legend_only
 
 
 @pytest.fixture
-def ranked_profile():
+def ranked_profile() -> RankProfile:
     return RankProfile(
         ballots=(
             RankBallot(ranking=(frozenset({"A"}), frozenset({"B"})), weight=3),
@@ -24,11 +26,13 @@ def ranked_profile():
 
 
 @pytest.mark.parametrize("collector", [collect_metrics, collect_metrics_borda_tiebreak])
-def test_alpha_collector_loads_ranked_csv(collector, ranked_profile, tmp_path):
+def test_alpha_collector_loads_ranked_csv(
+    collector: ModuleType, ranked_profile: RankProfile, tmp_path: Path
+) -> None:
     path = tmp_path / "profile.csv"
     ranked_profile.to_csv(path)
 
-    def metric(profile, rule):
+    def metric(profile: RankProfile, rule: str) -> float:
         assert isinstance(profile, RankProfile)
         assert profile.candidates == ranked_profile.candidates
         assert rule == "selected rule"
@@ -37,7 +41,9 @@ def test_alpha_collector_loads_ranked_csv(collector, ranked_profile, tmp_path):
     assert collector.run_score(path, metric, "selected rule") == 5
 
 
-def test_short_burst_trivial_partition_returns_complete_result(monkeypatch, ranked_profile):
+def test_short_burst_trivial_partition_returns_complete_result(
+    monkeypatch: pytest.MonkeyPatch, ranked_profile: RankProfile
+) -> None:
     boost = np.array([[0.0, 0.2, -0.1], [-0.3, 0.0, 0.1], [0.2, -0.1, 0.0]])
     monkeypatch.setattr(run_short_bursts, "load_and_project", lambda _: (ranked_profile, boost))
 
@@ -53,8 +59,11 @@ def test_short_burst_trivial_partition_returns_complete_result(monkeypatch, rank
 
 @pytest.mark.parametrize("workflow", [run_brute_force, run_short_bursts])
 def test_projection_uses_boost_matrix_without_probability_matrices(
-    workflow, ranked_profile, tmp_path, monkeypatch
-):
+    workflow: ModuleType,
+    ranked_profile: RankProfile,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     ranked_profile.to_csv(tmp_path / "Portland_D1_cleaned_votekit.csv")
     monkeypatch.setattr(workflow, "DATA_DIR", tmp_path)
     monkeypatch.setattr(workflow, "FastSTV", lambda *args, **kwargs: SimpleNamespace(threshold=0))
@@ -75,9 +84,10 @@ def test_projection_uses_boost_matrix_without_probability_matrices(
 
 
 @pytest.mark.parametrize("use_subfigure", [False, True])
-def test_legend_export_uses_root_figure(tmp_path, use_subfigure):
+def test_legend_export_uses_root_figure(tmp_path: Path, use_subfigure: bool) -> None:
     figure = plt.figure()
     parent = figure.subfigures() if use_subfigure else figure
+    assert isinstance(parent, (Figure, SubFigure))
     axes = parent.subplots()
     axes.plot([0, 1], [0.2, 0.8], label="Borda")
     legend = axes.legend()

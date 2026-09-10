@@ -13,7 +13,7 @@ from voting_metrics_main_code.constants import RULE_COLORS as rule_color_map
 from voting_metrics_main_code.replication import PLOTS_DIR, SCOTTISH_BOOTSTRAP_INPUT
 
 
-def plot_rectangles(df: pd.DataFrame, metric: str, rule_color_map: dict[str, str]):
+def plot_rectangles(df: pd.DataFrame, metric: str, rule_color_map: dict[str, str]) -> None:
     """Plot rectangles [um_L, um_U] x [iia_L, iia_U] for each row in df.
 
     Args:

@@ -13,9 +13,10 @@ from matplotlib.legend import Legend
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.scottish.plots._data import load_outputs_by_election_type
-
 from voting_metrics_main_code.constants import (
     RULE_COLORS as rule_color_map,
+)
+from voting_metrics_main_code.constants import (
     RULE_LABELS,
     RULE_ORDER,
 )
@@ -230,7 +231,9 @@ def save_legend_only(
     fig.savefig(filename, dpi=dpi, bbox_inches=bbox_inches, transparent=transparent)
 
 
-def load_boxplot_metrics(ordered_rules: Sequence[str]):
+def load_boxplot_metrics(
+    ordered_rules: Sequence[str],
+) -> dict[str, dict[str, dict[str, list[float]]]]:
     """Load average and worst-case Scottish metric arrays with lexicographic tiebreaks.
 
     Args:
