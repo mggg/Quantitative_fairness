@@ -42,8 +42,12 @@ FOCUS_CANDIDATES = {
 }
 
 
+FONTSIZES = {"D1": (14, 18), "D2": (14, 18), "D3": (14, 18), "D4": (14, 18)}
+
+
 def plot_boost(
     slates: Sequence[Sequence[str]],
+    district: str,
     profile: RankProfile | None = None,
     matrix: NDArray | None = None,
     limit: float = 0.21,
@@ -95,8 +99,26 @@ def plot_boost(
 
     assert matrix is not None, "Matrix should be defined at this point"
 
+    def first_initial_last(name: str) -> str:
+        """Convert a candidate name to a first-initial-last format.
+
+        Args:
+            name (str): Candidate name in "First Last" format.
+
+        Returns:
+            str: Candidate name in "F. Last" format.
+        """
+        parts = name.split()
+        if len(parts) < 2:
+            return name
+        first_initial = parts[0][0] + "."
+        last_name = " ".join(parts[1:])
+        return f"{first_initial} {last_name}"
+
+    # candidates = list(map(first_initial_last, candidates))
+
     fig, ax = plt.subplots(figsize=(10, 10))
-    sns.heatmap(
+    ax = sns.heatmap(
         matrix,
         ax=ax,
         cmap="PRGn",
@@ -105,10 +127,11 @@ def plot_boost(
         center=0,
         cbar=False,
         square=True,
-        linewidths=0,
+        linewidths=1,
         xticklabels=[" ".join(candidate.split()[1:]) for candidate in candidates],
         yticklabels=candidates,
     )
+    ax.tick_params(length=0, pad=8)
     ax.set_facecolor("white")
     ax.xaxis.set_ticks_position("top")
 
@@ -116,14 +139,36 @@ def plot_boost(
         spine.set_visible(True)
         spine.set_linewidth(1)
 
-    ax.axvline(len(slates[0]), color="black", linewidth=4)
-    ax.axhline(len(slates[0]), color="black", linewidth=4)
+    separator_color = "black"
+    sep_width = 6
+    ax.axvline(len(slates[0]), color=separator_color, linewidth=sep_width)
+    ax.axhline(len(slates[0]), color=separator_color, linewidth=sep_width)
 
-    for labels in (ax.get_xticklabels(), ax.get_yticklabels()):
-        for index, label in enumerate(labels):
-            label.set_color("#FFA812" if index < len(slates[0]) else "#008080")
-            label.set_fontweight("bold")
-            label.set_fontsize(18)
+    # slate_1_color = "#FFA812"
+    # slate_2_color = "#008080"
+
+    slate_1_color = "#CE6C47"
+    slate_2_color = "#145EB8"
+
+    slate_1_color = "#b35c1e"
+    slate_1_color = "#c35c1e"
+    slate_2_color = "#2A6FA1"
+
+    # for labels in (ax.get_xticklabels(), ax.get_yticklabels()):
+    #     for index, label in enumerate(labels):
+    #         label.set_color("#FFA812" if index < len(slates[0]) else "#008080")
+    #         label.set_fontweight("bold")
+    #         label.set_fontsize(18)
+
+    for index, label in enumerate(ax.get_yticklabels()):
+        label.set_color(slate_1_color if index < len(slates[0]) else slate_2_color)
+        label.set_fontweight("bold")
+        label.set_fontsize(14)
+
+    for index, label in enumerate(ax.get_xticklabels()):
+        label.set_color(slate_1_color if index < len(slates[0]) else slate_2_color)
+        label.set_fontweight("bold")
+        label.set_fontsize(18)
 
     for label in ax.get_xticklabels():
         label.set_rotation(45)
@@ -152,8 +197,13 @@ def plot_colorbar(limit: float = 0.21) -> Figure:
         plt.cm.ScalarMappable(norm=TwoSlopeNorm(vmin=-limit, vcenter=0, vmax=limit), cmap="PRGn"),
         cax=ax,
     )
-    ticks = np.arange(-0.2, 0.25, 0.05) if limit == 0.21 else np.linspace(-limit, limit, 9)
-    bar.set_ticks(ticks.tolist(), labels=[f"{tick:.2f}" for tick in ticks], fontsize=18)
+    ticks = np.arange(-0.2, 0.25, 0.10) if limit == 0.21 else np.linspace(-limit, limit, 9)
+    bar.set_ticks(
+        ticks.tolist(),
+        # Ternary to fix the negative sign on 0
+        labels=[f"{0:.1f}" if tick == 0 else f"{tick:.1f}" for tick in ticks],
+        fontsize=18,
+    )
 
     return fig
 
@@ -187,13 +237,16 @@ def main() -> None:
         if matrix_savepath.exists():
             print(f"Loading cached boost matrix for {district} from {matrix_savepath}")
             matrix = np.load(matrix_savepath)
-            fig, _ = plot_boost(FOCUS_CANDIDATES[district], matrix=matrix, limit=args.limit)
+            fig, _ = plot_boost(
+                FOCUS_CANDIDATES[district], district, matrix=matrix, limit=args.limit
+            )
         else:
             profile = cast(
                 RankProfile, RankProfile.from_csv(data / f"Portland_{district}_cleaned_votekit.csv")
             )
             fig, _ = plot_boost(
                 FOCUS_CANDIDATES[district],
+                district,
                 profile=profile,
                 limit=args.limit,
                 matrix_savepath=matrix_savepath,
