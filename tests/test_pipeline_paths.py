@@ -218,7 +218,7 @@ def test_waterfall_uses_selected_inputs_without_stale_cache(tmp_path, monkeypatc
     monkeypatch.setitem(
         main.__globals__,
         "product",
-        lambda *args: [((2, 6), 0.5, (0.7, 0.7), (1, 1, 1, 1), 0)],
+        lambda *args: [((2, 6), 0.5, (0.7, 0.7), (1, 1, 1, 1))],
     )
     points = []
 

@@ -35,6 +35,15 @@ plots_dir = PLOTS_DIR / "bt_plots" / "mean_vs_std"
 def plot_um_summary(
     metric: str, variant: str, voting_rule: str, output_file: Path, title: str
 ) -> None:
+    """Save UM means versus standard deviations for a voting-rule selection.
+
+    Args:
+        metric (str): Metric identifier used in the statistics filenames.
+        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        voting_rule (str): Rule token or '*' to match all rules in the input filenames.
+        output_file (Path): Destination file path.
+        title (str): Figure title.
+    """
     bprop = "*"
     tiebreak = "lex"
 
@@ -85,6 +94,7 @@ def plot_um_summary(
     ax.set_ylabel("Standard Deviation")
     ax.set_title(title)
     ax.legend()
+
     plt.savefig(
         output_file,
         bbox_inches="tight",
@@ -96,6 +106,15 @@ def plot_um_summary(
 def plot_iia_summary(
     metric: str, variant: str, voting_rule: str, output_file: Path, title: str
 ) -> None:
+    """Save IIA means versus standard deviations for a voting-rule selection.
+
+    Args:
+        metric (str): Metric identifier used in the statistics filenames.
+        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        voting_rule (str): Rule token or '*' to match all rules in the input filenames.
+        output_file (Path): Destination file path.
+        title (str): Figure title.
+    """
     bprop = "*"
     tiebreak = "lex"
 
@@ -136,6 +155,7 @@ def plot_iia_summary(
     ax.set_xlabel("Mean")
     ax.set_ylabel("Standard Deviation")
     ax.set_title(title)
+
     plt.savefig(
         output_file,
         bbox_inches="tight",
@@ -145,7 +165,9 @@ def plot_iia_summary(
 
 
 def main() -> None:
+    """Save BT mean-versus-standard-deviation figures for configured metrics and rules."""
     voting_rules = ("borda", "plurality", "stv")
+
     for metric, variant in product(um_metric_list, variant_list):
         plot_um_summary(
             metric,

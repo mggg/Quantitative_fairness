@@ -1,6 +1,7 @@
 """Collect Scottish election statistics across metrics and rules."""
 
 import contextlib
+from functools import partial
 import json
 import sys
 from glob import glob
@@ -33,7 +34,18 @@ class MetricFn(Protocol):
 
     def __call__(
         self, profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int
-    ) -> float: ...
+    ) -> float:
+        """Evaluate the configured metric for a profile, voting rule, and seat count.
+
+        Args:
+            profile (RankProfile): Ranked-ballot preference profile.
+            voting_rule (ElectionConstructor): Voting rule callable passed to the metric.
+            n_seats (int): Number of seats to elect.
+
+        Returns:
+            float: Metric score for the supplied election configuration.
+        """
+        ...
 
 
 def run_score(
@@ -56,6 +68,7 @@ def run_score(
     with contextlib.redirect_stdout(None):
         profile = RankProfile.from_csv(profile_file)
         score = metric_function(cast(RankProfile, profile), voting_rule, n_seats=n_seats)
+
     return score
 
 
@@ -70,13 +83,11 @@ def compute_results_single_file(
     Args:
         f (str | Path): Path to the election file.
         election_name (str): Voting rule name.
-        metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to
-            functions.
+        metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
         tiebreak (str): Tiebreak rule name.
 
     Returns:
-        dict[str, dict[str, dict[str, float]]]: Nested dict of candidate counts to
-            metric values.
+        dict[str, dict[str, dict[str, float]]]: Nested dict of candidate counts to metric values.
     """
     file_name = str(Path(f).stem)
 
@@ -93,6 +104,7 @@ def compute_results_single_file(
         output_dict[f"{metric_name}_{tiebreak}"][file_name] = float(
             metric_function(profile, voting_rule, n_seats=seats)
         )
+
     return {n_cands: output_dict}
 
 
@@ -108,8 +120,7 @@ def compute_results_single_file_and_metric(
     Args:
         f (str | Path): Path to the election file.
         election_name (str): Voting rule name.
-        metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to
-            functions.
+        metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
         metric_name (str): Metric key to compute.
         tiebreak (str): Tiebreak rule name.
 
@@ -136,205 +147,158 @@ def compute_results_single_file_and_metric(
 
 
 def sigma_UM_worst_case_asin() -> MetricFn:
-    """Wrap sigma_UM with worst-case ASIN interpolation."""
+    """Wrap sigma_UM with worst-case ASIN interpolation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_UM(
-            profile,
-            voting_rule,
-            n_seats=n_seats,
-            variant="worst_case",
-            interpolation_type="asin",
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_UM, variant="worst_case", interpolation_type="asin")
 
 
 def sigma_UM_average_asin() -> MetricFn:
-    """Wrap sigma_UM with average-case ASIN interpolation."""
+    """Wrap sigma_UM with average-case ASIN interpolation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_UM(
-            profile,
-            voting_rule,
-            n_seats=n_seats,
-            variant="average",
-            interpolation_type="asin",
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_UM, variant="average", interpolation_type="asin")
 
 
 def sigma_UM_worst_case_odds() -> MetricFn:
-    """Wrap sigma_UM with worst-case odds interpolation."""
+    """Wrap sigma_UM with worst-case odds interpolation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_UM(
-            profile,
-            voting_rule,
-            n_seats=n_seats,
-            variant="worst_case",
-            interpolation_type="odds",
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_UM, variant="worst_case", interpolation_type="odds")
 
 
 def sigma_UM_average_odds() -> MetricFn:
-    """Wrap sigma_UM with average-case odds interpolation."""
+    """Wrap sigma_UM with average-case odds interpolation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_UM(
-            profile,
-            voting_rule,
-            n_seats=n_seats,
-            variant="average",
-            interpolation_type="odds",
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_UM, variant="average", interpolation_type="odds")
 
 
 def sigma_UM_winner_set_worst_case_asin() -> MetricFn:
-    """Wrap sigma_UM_winner_set with worst-case ASIN interpolation."""
+    """Wrap sigma_UM_winner_set with worst-case ASIN interpolation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_UM_winner_set(
-            profile,
-            voting_rule,
-            n_seats=n_seats,
-            variant="worst_case",
-            interpolation_type="asin",
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_UM_winner_set, variant="worst_case", interpolation_type="asin")
 
 
 def sigma_UM_winner_set_average_asin() -> MetricFn:
-    """Wrap sigma_UM_winner_set with average-case ASIN interpolation."""
+    """Wrap sigma_UM_winner_set with average-case ASIN interpolation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_UM_winner_set(
-            profile,
-            voting_rule,
-            n_seats=n_seats,
-            variant="average",
-            interpolation_type="asin",
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_UM_winner_set, variant="average", interpolation_type="asin")
 
 
 def sigma_UM_winner_set_worst_case_odds() -> MetricFn:
-    """Wrap sigma_UM_winner_set with worst-case odds interpolation."""
+    """Wrap sigma_UM_winner_set with worst-case odds interpolation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_UM_winner_set(
-            profile,
-            voting_rule,
-            n_seats=n_seats,
-            variant="worst_case",
-            interpolation_type="odds",
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_UM_winner_set, variant="worst_case", interpolation_type="odds")
 
 
 def sigma_UM_winner_set_average_odds() -> MetricFn:
-    """Wrap sigma_UM_winner_set with average-case odds interpolation."""
+    """Wrap sigma_UM_winner_set with average-case odds interpolation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_UM_winner_set(
-            profile,
-            voting_rule,
-            n_seats=n_seats,
-            variant="average",
-            interpolation_type="odds",
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_UM_winner_set, variant="average", interpolation_type="odds")
 
 
 # =================================================================
 
 
 def sigma_IIA_worst_case() -> MetricFn:
-    """Wrap sigma_IIA with worst-case aggregation."""
+    """Wrap sigma_IIA with worst-case aggregation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_IIA(profile, voting_rule, n_seats=n_seats, variant="worst_case")
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_IIA, variant="worst_case")
 
 
 def sigma_IIA_average() -> MetricFn:
-    """Wrap sigma_IIA with average-case aggregation."""
+    """Wrap sigma_IIA with average-case aggregation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_IIA(profile, voting_rule, n_seats=n_seats, variant="average")
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_IIA, variant="average")
 
 
 def sigma_IIA_all_subset_worst_case() -> MetricFn:
-    """Wrap sigma_IIA_all_subset with worst-case aggregation."""
+    """Wrap sigma_IIA_all_subset with worst-case aggregation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_IIA_all_subset(profile, voting_rule, n_seats=n_seats, variant="worst_case")
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_IIA_all_subset, variant="worst_case")
 
 
 def sigma_IIA_all_subset_average() -> MetricFn:
-    """Wrap sigma_IIA_all_subset with average-case aggregation."""
+    """Wrap sigma_IIA_all_subset with average-case aggregation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_IIA_all_subset(profile, voting_rule, n_seats=n_seats, variant="average")
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_IIA_all_subset, variant="average")
 
 
 def sigma_IIA_winner_set_worst_case() -> MetricFn:
-    """Wrap sigma_IIA_winner_set with worst-case aggregation."""
+    """Wrap sigma_IIA_winner_set with worst-case aggregation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_IIA_winner_set(profile, voting_rule, n_seats=n_seats, variant="worst_case")
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_IIA_winner_set, variant="worst_case")
 
 
 def sigma_IIA_winner_set_average() -> MetricFn:
-    """Wrap sigma_IIA_winner_set with average-case aggregation."""
+    """Wrap sigma_IIA_winner_set with average-case aggregation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_IIA_winner_set(profile, voting_rule, n_seats=n_seats, variant="average")
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_IIA_winner_set, variant="average")
 
 
 def sigma_IIA_winner_set_all_subset_worst_case() -> MetricFn:
-    """Wrap sigma_IIA_winner_set_all_subset with worst-case aggregation."""
+    """Wrap sigma_IIA_winner_set_all_subset with worst-case aggregation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_IIA_winner_set_all_subset(
-            profile, voting_rule, n_seats=n_seats, variant="worst_case"
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_IIA_winner_set_all_subset, variant="worst_case")
 
 
 def sigma_IIA_winner_set_all_subset_average() -> MetricFn:
-    """Wrap sigma_IIA_winner_set_all_subset with average-case aggregation."""
+    """Wrap sigma_IIA_winner_set_all_subset with average-case aggregation.
 
-    def wrapper(profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int) -> float:
-        return sigma_IIA_winner_set_all_subset(
-            profile, voting_rule, n_seats=n_seats, variant="average"
-        )
-
-    return wrapper
+    Returns:
+        MetricFn: Callable accepting profile, voting_rule, and n_seats with this configuration.
+    """
+    return partial(sigma_IIA_winner_set_all_subset, variant="average")
 
 
 def main() -> None:
+    """Save primary Scottish metrics by rule and tiebreak, skipping existing output files.
+
+    Raises:
+        ValueError: No Scottish election CSVs match the supported candidate counts.
+    """
     output_folder = Path(f"{STATS_OUTPUT}/scottish_stats/").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
@@ -346,41 +310,17 @@ def main() -> None:
 
     metric_function_dict = {
         "sigma_UM_worst_case_asin": sigma_UM_worst_case_asin(),
-        "sigma_UM_average_asin": sigma_UM_average_asin(),
-        "sigma_UM_worst_case_odds": sigma_UM_worst_case_odds(),
-        "sigma_UM_average_odds": sigma_UM_average_odds(),
         "sigma_UM_winner_set_worst_case_asin": sigma_UM_winner_set_worst_case_asin(),
-        "sigma_UM_winner_set_average_asin": sigma_UM_winner_set_average_asin(),
-        "sigma_UM_winner_set_worst_case_odds": sigma_UM_winner_set_worst_case_odds(),
-        "sigma_UM_winner_set_average_odds": sigma_UM_winner_set_average_odds(),
-        "sigma_IIA_worst_case": sigma_IIA_worst_case(),
         "sigma_IIA_average": sigma_IIA_average(),
-        "sigma_IIA_all_subset_worst_case": sigma_IIA_all_subset_worst_case(),
-        "sigma_IIA_all_subset_average": sigma_IIA_all_subset_average(),
-        "sigma_IIA_winner_set_worst_case": sigma_IIA_winner_set_worst_case(),
         "sigma_IIA_winner_set_average": sigma_IIA_winner_set_average(),
-        "sigma_IIA_winner_set_all_subset_worst_case": sigma_IIA_winner_set_all_subset_worst_case(),
-        "sigma_IIA_winner_set_all_subset_average": sigma_IIA_winner_set_all_subset_average(),
-    }
-    metric_function_dict = {
-        name: metric_function_dict[name]
-        for name in (
-            "sigma_UM_worst_case_asin",
-            "sigma_UM_winner_set_worst_case_asin",
-            "sigma_IIA_average",
-            "sigma_IIA_winner_set_average",
-        )
     }
     all_election_types = RULE_ORDER
     tiebreak_types = ["lex", "random"]
+
     if not all_files:
         raise ValueError(f"No Scottish election CSVs found under {DATA_DIR / 'scot-elex'}")
-    all_files.sort()
-    file_to_column_data_dict = {}
 
-    for f in all_files[:]:
-        file_name = str(Path(f).stem)
-        file_to_column_data_dict[file_name] = dict()
+    all_files.sort()
 
     for metric, election_name, tiebreak in product(
         metric_function_dict.keys(), all_election_types, tiebreak_types
@@ -409,6 +349,7 @@ def main() -> None:
 
         cand_counts = set(x[0] for x in results)
         output_dict = {n_cands: {} for n_cands in cand_counts}
+
         for n_cands, file_name, value in results:
             output_dict[n_cands][file_name] = value
 

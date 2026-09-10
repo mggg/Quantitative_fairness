@@ -14,6 +14,8 @@ from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from pipelines.scottish.plots._data import load_outputs_by_election_type
+
 from voting_metrics_main_code.constants import RULE_ORDER
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT, STATS_OUTPUT
 
@@ -36,8 +38,8 @@ def construct_df_scottish(
     """Construct a DataFrame for a metric at a fixed candidate count.
 
     Args:
-        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested mapping of rule to candidate count to metric values.
+        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested mapping of
+            rule to candidate count to metric values.
         n_cands (int): Number of candidates to extract.
         metric (str): Metric key to select.
 
@@ -45,6 +47,7 @@ def construct_df_scottish(
         pd.DataFrame: A transposed DataFrame with rules as columns.
     """
     df_data = []
+
     for _, data in data_dictionary.items():
         df_data.append(data[str(n_cands)][metric])
 
@@ -64,19 +67,21 @@ def build_plot_for_metric_scottish(
 
     Args:
         metric (str): Metric key to plot.
-        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested mapping of rule to candidate count to metric values.
+        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested mapping of
+            rule to candidate count to metric values.
         ordered_rules (Sequence[str]): Ordered list of rules (for stable plotting).
         n_cand_list (Sequence[int]): Candidate counts to include.
         ax (Axes): Matplotlib axes to draw into.
-        y_label (str): Label for the y-axis.
-        use_one (bool): Whether to plot only the Borda rule.
+        y_label (str, optional): Label for the y-axis. Defaults to ''.
+        use_one (bool, optional): Whether to plot only the Borda rule. Defaults to False.
     """
     df_list = []
+
     for n_cands in n_cand_list:
         df = construct_df_scottish(ordered_outputs, n_cands, metric)
         df = df.melt(var_name="rule", value_name="value")
         df["n_cands"] = n_cands
+
         df_list.append(df)
 
     if use_one:
@@ -98,6 +103,7 @@ def build_plot_for_metric_scottish(
 
     ax.set_ylabel(y_label, fontsize=16)
     ax.set_ylim(-0.1, 1.1)
+
     if not use_one:
         ax.legend(title="Voting rule", bbox_to_anchor=(1, 0.5), loc="center left")
 
@@ -105,12 +111,25 @@ def build_plot_for_metric_scottish(
 def export_aggregate_tables(
     stat_file_base_dir: str, ordered_rules, n_cand_list, variant: str, tiebreak: str
 ) -> None:
+    """Export aggregate Scottish statistics ordered by rule and candidate count.
+
+    Args:
+        stat_file_base_dir (str): Base directory containing the metric JSON files.
+        ordered_rules (Sequence[str]): Voting rules in the order to load or display.
+        n_cand_list (Sequence[int]): Candidate counts to include, in display order.
+        variant (str): Variant token used in the output filename; input files are not filtered by
+            it.
+        tiebreak (str): Tiebreak token used in the output filename; input files are not filtered by
+            it.
+    """
     all_stats_files = glob(f"{stat_file_base_dir}/*stats.json")
 
     stats_by_type = {}
+
     for stats_file in all_stats_files:
         with open(stats_file, "r") as f:
             stats = json.load(f)
+
         election_type = stats_file.split("/")[-1].split("_")[0]
         stats_by_type[election_type] = stats
 
@@ -129,6 +148,7 @@ def export_aggregate_tables(
     )
 
     (STATS_OUTPUT / "scottish_stats").mkdir(parents=True, exist_ok=True)
+
     df.to_csv(f"{STATS_OUTPUT}/scottish_stats/scottish_stats_{variant}_{tiebreak}.csv")
 
 
@@ -140,12 +160,13 @@ def main(
     tiebreak: str,
     n_cand_list: Sequence[int] = list(range(6, 10)),
 ) -> None:
-    """Run the Scottish boxplot pipeline for a variant/tiebreak.
+    """Save Scottish metric boxplots and export aggregate statistics for the selected labels.
 
     Args:
         variant (str): Metric variant to plot (e.g., average or worst_case).
         tiebreak (str): Tiebreak rule to plot (e.g., lex or random).
-        n_cand_list (Sequence[int]): Candidate counts to include.
+        n_cand_list (Sequence[int], optional): Candidate counts to include. Defaults to
+            list(range(6, 10)).
     """
     ordered_rules = RULE_ORDER
 
@@ -158,58 +179,9 @@ def main(
     # Make the scottish boxplots
     # ==========================
 
-    all_output_files = glob(f"{STATS_INPUT}/scottish_stats_newr_but_still_old/*output.json")
-
-    outputs_by_election_type = {}
-    for output_file in all_output_files:
-        with open(output_file, "r") as f:
-            output = json.load(f)
-        election_type = output_file.split("/")[-1].split("_")[0]
-        output_dict = {
-            n_cands: {
-                metric: list(file_values_dict.values())
-                for metric, file_values_dict in metric_values_dict.items()
-            }
-            for n_cands, metric_values_dict in output.items()
-        }
-        outputs_by_election_type[election_type] = output_dict
-
-    election_type_to_metric_to_cand_count = {}
-    n_cand_set = set()
-
-    for voting_rule in ordered_rules:
-        all_output_files = glob(
-            f"{STATS_INPUT}/scottish_stats/*{variant}*/{voting_rule}/*{tiebreak}_output.json"
-        )
-        metric_to_values = {}
-        for output_file in all_output_files:
-            with open(output_file, "r") as f:
-                output = json.load(f)
-            splits = output_file.split("/")[-1].split("__")
-            metric = splits[0].removeprefix("METRIC_")
-            election_type = splits[1].removeprefix("ELECTION_TYPE_").split("_")[0]
-            metric_to_values[f"{metric}_{tiebreak}"] = {
-                k: list(v.values()) for k, v in output.items()
-            }
-            n_cand_set.update(set(output.keys()))
-
-        if election_type not in election_type_to_metric_to_cand_count:
-            election_type_to_metric_to_cand_count[election_type] = {}
-        election_type_to_metric_to_cand_count[election_type] |= metric_to_values
-
-    outputs_by_election_type = {}
-    for (
-        election_type,
-        metric_to_cand_count,
-    ) in election_type_to_metric_to_cand_count.items():
-        if election_type not in outputs_by_election_type:
-            outputs_by_election_type[election_type] = {}
-        for metric, cand_count_to_values in metric_to_cand_count.items():
-            for n_cands, value_list in cand_count_to_values.items():
-                if n_cands not in outputs_by_election_type[election_type]:
-                    outputs_by_election_type[election_type][n_cands] = {}
-                outputs_by_election_type[election_type][n_cands][metric] = value_list
-                # print(f"setting {election_type} {n_cands} {metric}")
+    outputs_by_election_type = load_outputs_by_election_type(
+        STATS_INPUT / "scottish_stats", ordered_rules, variants=(variant,), tiebreaks=(tiebreak,)
+    )
 
     metric_label_pairs = [
         (f"sigma_UM_{variant}_odds_{tiebreak}", "$\\sigma_{UM}$ ranking ODDS"),
@@ -245,6 +217,7 @@ def main(
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
 
     ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
+
     for i, (metric, label) in enumerate(metric_label_pairs):
         build_plot_for_metric_scottish(
             metric,

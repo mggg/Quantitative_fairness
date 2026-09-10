@@ -18,19 +18,50 @@ from voting_metrics_main_code.fairness_metric import (
 from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, seed_task
 from voting_metrics_main_code.voting_rules import (
     AllowedRule,
-    ElectionConstructor,
     build_voting_rule,
 )
 
 
+def score_profile(
+    profile: RankProfile,
+    election_name: AllowedRule,
+    metric_functions: dict[str, Callable[..., float]],
+    district: str,
+) -> dict[str, list[float]]:
+    """Compute the four primary metrics for one profile with independent metric seeds.
+
+    Args:
+        profile (RankProfile): Cleaned election profile.
+        election_name (AllowedRule): Voting rule to evaluate.
+        metric_functions (dict[str, Callable[..., float]]): Metrics in evaluation order.
+        district (str): District token included in the random seed.
+
+    Returns:
+        dict[str, list[float]]: Voter count and metric scores as singleton lists for JSON export.
+    """
+    voting_rule = build_voting_rule(len(profile.candidates), election_name)
+    statistics = {
+        "n_voters": [int(profile.df["Weight"].sum())],
+        "sigma_UM": [],
+        "sigma_IIA": [],
+        "sigma_UM_winner_set": [],
+        "sigma_IIA_winner_set": [],
+    }
+
+    for metric_name, metric_function in metric_functions.items():
+        seed_task("portland", district, election_name, metric_name)
+        score = float(metric_function(profile, voting_rule, n_seats=3))
+
+        statistics[metric_name].append(score)
+
+    return statistics
+
+
 def main() -> None:
+    """Save four primary metric scores for each Portland district and voting rule."""
     output_folder = Path(f"{STATS_OUTPUT}/portland_stats/").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
     output_folder_base = str(output_folder)
-
-    base_data_dir = str(DATA_DIR)
-
-    n_seats = 3
 
     districts = ["D1", "D2", "D3", "D4"]
     metric_function_dict: dict[str, Callable[..., float]] = {
@@ -49,42 +80,19 @@ def main() -> None:
     ]
 
     for election_name in all_election_types:
-        portland_election_stats = {
-            district: {
-                "n_voters": [],
-                "sigma_UM": [],
-                "sigma_IIA": [],
-                "sigma_UM_winner_set": [],
-                "sigma_IIA_winner_set": [],
-            }
-            for district in districts
-        }
+        portland_election_stats = {}
 
         for district in districts:
             print(f"Processing {election_name} for {district}")
-            clean_profile = RankProfile.from_csv(
-                f"{base_data_dir}/Portland_{district}_cleaned_votekit.csv"
-            )
-            voting_rule: ElectionConstructor = build_voting_rule(
-                len(clean_profile.candidates), election_name
-            )
-            portland_election_stats[district]["n_voters"].append(
-                int(clean_profile.df["Weight"].sum())
+            profile = RankProfile.from_csv(DATA_DIR / f"Portland_{district}_cleaned_votekit.csv")
+            statistics = score_profile(
+                cast(RankProfile, profile), election_name, metric_function_dict, district
             )
 
-            for metric_name, metric_function in metric_function_dict.items():
-                seed_task("portland", district, election_name, metric_name)
-                portland_election_stats[district][metric_name].append(
-                    float(
-                        metric_function(
-                            cast(RankProfile, clean_profile),
-                            voting_rule,
-                            n_seats=n_seats,
-                        )
-                    )
-                )
+            portland_election_stats[district] = statistics
 
         output_file = f"{output_folder_base}/{election_name}_output.json"
+
         with open(output_file, "w") as f:
             json.dump(portland_election_stats, f, indent=4)
 

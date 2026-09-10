@@ -4,6 +4,7 @@ import json
 import sys
 from fractions import Fraction
 from pathlib import Path
+from typing import NamedTuple, Sequence
 
 import click
 import matplotlib.pyplot as plt
@@ -13,17 +14,27 @@ from matplotlib.patches import Patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER
+from voting_metrics_main_code.constants import MetricVariant, NON_RANDOM_RULE_ORDER
 from voting_metrics_main_code.replication import PLOTS_DIR, STATS_INPUT
 
 
 def load_file(file_path):
+    """Load a metric JSON array, printing an error and returning an empty list on failure.
+
+    Args:
+        file_path (str | Path): Path to a JSON array of metric scores.
+
+    Returns:
+        list[float]: Loaded scores, or an empty list if opening or decoding the file fails.
+    """
     try:
         with open(file_path, "r") as f:
             data = json.load(f)
+
         return data
     except Exception as e:
         print(f"Error loading {file_path}: {e}")
+
     return []
 
 
@@ -38,6 +49,23 @@ def create_ordered_dict_for_metric_and_alpha(
     tiebreak,
     interpolation_type,
 ):
+    """Load scores for one metric and alpha, preserving rule and candidate-count order.
+
+    Args:
+        metric_base_name (str): Metric identifier used in the statistics directory and filenames.
+        alpha (float): Dirichlet concentration parameter shared by the candidates.
+        ordered_rules (Sequence[str]): Voting rules in the order to load or display.
+        ordered_n_cands (Sequence[int]): Candidate counts in display order.
+        stat_file_base_dir (str): Base directory containing the metric JSON files.
+        n_seats (int): Number of seats to elect.
+        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+        interpolation_type (str): UM interpolation token; use the string 'None' for IIA metrics.
+
+    Returns:
+        dict[str, dict[int, list[float]]]: Scores keyed by rule and candidate count. Failed file
+            loads contribute empty lists.
+    """
     return {
         rule: {
             n_cands: load_file(
@@ -71,6 +99,23 @@ def build_plot_for_metric_and_alpha(
     tiebreak,
     interpolation_type,
 ):
+    """Draw one metric-and-alpha boxplot panel across candidate counts and voting rules.
+
+    Args:
+        metric_base_name (str): Metric identifier used in the statistics directory and filenames.
+        alpha (float): Dirichlet concentration parameter shared by the candidates.
+        ordered_rules (Sequence[str]): Voting rules in the order to load or display.
+        ordered_n_cands (Sequence[int]): Candidate counts in display order.
+        rule_color_map (Mapping[str, str | tuple[float, float, float]]): Mapping from voting rule
+            names to color strings or RGB tuples.
+        ax (Axes): Matplotlib axes to draw into.
+        y_label (str): Label for the y-axis.
+        stat_file_base_dir (str): Base directory containing the metric JSON files.
+        n_seats (int): Number of seats to elect.
+        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+        interpolation_type (str): UM interpolation token; use the string 'None' for IIA metrics.
+    """
     ordered_outputs = create_ordered_dict_for_metric_and_alpha(
         metric_base_name,
         alpha,
@@ -84,11 +129,13 @@ def build_plot_for_metric_and_alpha(
     )
 
     df_list = []
+
     for n_cands in ordered_n_cands:
         df_data = [ordered_outputs[rule][n_cands] for rule in ordered_rules]
         df = pd.DataFrame(df_data, index=ordered_outputs.keys()).T
         df = df.melt(var_name="rule", value_name="value")
         df["n_cands"] = n_cands
+
         df_list.append(df)
 
     long = pd.concat(df_list, ignore_index=True)
@@ -113,91 +160,106 @@ def build_plot_for_metric_and_alpha(
     )
 
 
-def plot_average_iia_panel(n_seats: int, variant: str, tiebreak: str) -> None:
-    stat_file_base_dir = str(Path(f"{STATS_INPUT}/bt_profile_stats/{n_seats}_seats").resolve())
+class MetricPanel(NamedTuple):
+    """A metric selection and its display label for one row of alpha plots."""
 
-    all_rules = NON_RANDOM_RULE_ORDER
-    cand_counts = list(range(6, 10))
-    alpha_values = [1 / 3, 1 / 2, 1, 2, 3]
+    metric: str
+    variant: MetricVariant
+    interpolation: str
+    label: str
 
-    metric_label_pairs = [
-        (
-            f"sigma_UM_worst_case_asin_{tiebreak}",
-            "sigma_UM",
-            "worst_case",
-            "asin",
-            "$\\sigma_{UM}$ ranking ASIN",
+
+def iia_comparison_panels(ranking_variant: MetricVariant) -> list[MetricPanel]:
+    """Select worst-case UM and IIA comparisons, varying only the ranking IIA aggregation.
+
+    Args:
+        ranking_variant (MetricVariant): Aggregation for ranking IIA; other IIA rows use average.
+
+    Returns:
+        list[MetricPanel]: Five metric rows in display order.
+    """
+    return [
+        MetricPanel("sigma_UM", "worst_case", "asin", "$\\sigma_{UM}$ ranking ASIN"),
+        MetricPanel(
+            "sigma_UM_winner_set", "worst_case", "asin", "$\\sigma_{UM}$ winner-set ranking ASIN"
         ),
-        (
-            f"sigma_UM_winner_set_worst_case_asin_{tiebreak}",
-            "sigma_UM_winner_set",
-            "worst_case",
-            "asin",
-            "$\\sigma_{UM}$ winner-set ranking ASIN",
-        ),
-        (
-            f"sigma_IIA_average_{tiebreak}",
-            "sigma_IIA",
-            "average",
-            "None",
-            "$\\sigma_{IIA}$ ranking",
-        ),
-        (
-            f"sigma_IIA_all_subset_average_{tiebreak}",
-            "sigma_IIA_all_subset",
-            "average",
-            "None",
-            "$\\sigma_{IIA}$ subset",
-        ),
-        (
-            f"sigma_IIA_winner_set_average_{tiebreak}",
-            "sigma_IIA_winner_set",
-            "average",
-            "None",
-            "$\\sigma_{IIA}$ winner-set",
-        ),
+        MetricPanel("sigma_IIA", ranking_variant, "None", "$\\sigma_{IIA}$ ranking"),
+        MetricPanel("sigma_IIA_all_subset", "average", "None", "$\\sigma_{IIA}$ subset"),
+        MetricPanel("sigma_IIA_winner_set", "average", "None", "$\\sigma_{IIA}$ winner-set"),
     ]
-    scale = 1
-    fig, ax = plt.subplots(
-        len(metric_label_pairs),
+
+
+def variant_comparison_panels(variant: MetricVariant) -> list[MetricPanel]:
+    """Select all metric and interpolation comparisons for a single aggregation variant.
+
+    Args:
+        variant (MetricVariant): Aggregation applied to every metric row.
+
+    Returns:
+        list[MetricPanel]: Seven metric rows in display order.
+    """
+    return [
+        MetricPanel("sigma_UM", variant, "odds", "$\\sigma_{UM}$ ranking ODDS"),
+        MetricPanel("sigma_UM", variant, "asin", "$\\sigma_{UM}$ ranking ASIN"),
+        MetricPanel(
+            "sigma_UM_winner_set", variant, "odds", "$\\sigma_{UM}$ winner-set ranking ODDS"
+        ),
+        MetricPanel(
+            "sigma_UM_winner_set", variant, "asin", "$\\sigma_{UM}$ winner-set ranking ASIN"
+        ),
+        MetricPanel("sigma_IIA", variant, "None", "$\\sigma_{IIA}$ ranking"),
+        MetricPanel("sigma_IIA_all_subset", variant, "None", "$\\sigma_{IIA}$ subset"),
+        MetricPanel("sigma_IIA_winner_set", variant, "None", "$\\sigma_{IIA}$ winner-set"),
+    ]
+
+
+def save_metric_grid(
+    panels: Sequence[MetricPanel], n_seats: int, tiebreak: str, output_file: Path
+) -> None:
+    """Load and save metric rows across the five alpha values with a shared voting-rule legend.
+
+    Args:
+        panels (Sequence[MetricPanel]): Metric rows in display order.
+        n_seats (int): Seat count encoded in the input paths.
+        tiebreak (str): Tiebreak token used to select statistics.
+        output_file (Path): Destination image path.
+    """
+    alpha_values = (1 / 3, 1 / 2, 1, 2, 3)
+    candidate_counts = range(6, 10)
+    rules = NON_RANDOM_RULE_ORDER
+    statistics_dir = str((STATS_INPUT / "bt_profile_stats" / f"{n_seats}_seats").resolve())
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+
+    figure, axes = plt.subplots(
+        len(panels),
         len(alpha_values),
-        figsize=(7 * len(alpha_values) * scale, 5 * scale * len(metric_label_pairs)),
+        squeeze=False,
+        figsize=(7 * len(alpha_values), 5 * len(panels)),
         dpi=300,
         gridspec_kw={"hspace": 0.3},
     )
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
-    palette = sns.color_palette("colorblind", len(all_rules))
-    rule_color_map = dict(zip(all_rules, palette))
-    output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
-    output_folder.mkdir(parents=True, exist_ok=True)
-    output_plot_name = f"{output_folder}/BESTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png"
+    palette = dict(zip(rules, sns.color_palette("colorblind", len(rules))))
 
-    for alpha_idx, alpha in enumerate(alpha_values):
-        for idx, (
-            _,
-            metric_base_name,
-            metric_variant,
-            interpolation_type,
-            y_label,
-        ) in enumerate(metric_label_pairs):
+    for alpha_index, alpha in enumerate(alpha_values):
+        for row, panel in enumerate(panels):
             build_plot_for_metric_and_alpha(
-                metric_base_name,
+                panel.metric,
                 alpha,
-                all_rules,
-                cand_counts,
-                rule_color_map,
-                ax[idx][alpha_idx],
-                y_label=y_label,
-                stat_file_base_dir=stat_file_base_dir,
+                rules,
+                candidate_counts,
+                palette,
+                axes[row, alpha_index],
+                y_label=panel.label,
+                stat_file_base_dir=statistics_dir,
                 n_seats=n_seats,
-                variant=metric_variant,
+                variant=panel.variant,
                 tiebreak=tiebreak,
-                interpolation_type=interpolation_type,
+                interpolation_type=panel.interpolation,
             )
 
-    legend_patches = [Patch(facecolor=rule_color_map[r], label=r) for r in all_rules]
-    fig.legend(
-        handles=legend_patches,
+    figure.legend(
+        handles=[Patch(facecolor=palette[rule], label=rule) for rule in rules],
         title="Voting Rule",
         loc="center left",
         bbox_to_anchor=(0.93, 0.5),
@@ -205,306 +267,73 @@ def plot_average_iia_panel(n_seats: int, variant: str, tiebreak: str) -> None:
         fontsize="large",
         title_fontsize="large",
     )
-    plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
+
+    plt.savefig(output_file, bbox_inches="tight", dpi=300)
+    plt.close(figure)
 
 
-def plot_worst_case_ranking_iia_panel(n_seats: int, variant: str, tiebreak: str) -> None:
-    stat_file_base_dir = str(Path(f"{STATS_INPUT}/bt_profile_stats/{n_seats}_seats").resolve())
+def plot_average_iia_panel(n_seats: int, tiebreak: str) -> None:
+    """Save a panel grid comparing worst-case ASIN UM with average IIA across alpha values.
 
-    all_rules = NON_RANDOM_RULE_ORDER
-    cand_counts = list(range(6, 10))
-    alpha_values = [1 / 3, 1 / 2, 1, 2, 3]
-
-    metric_label_pairs = [
-        (
-            f"sigma_UM_worst_case_asin_{tiebreak}",
-            "sigma_UM",
-            "worst_case",
-            "asin",
-            "$\\sigma_{UM}$ ranking ASIN",
-        ),
-        (
-            f"sigma_UM_winner_set_worst_case_asin_{tiebreak}",
-            "sigma_UM_winner_set",
-            "worst_case",
-            "asin",
-            "$\\sigma_{UM}$ winner-set ranking ASIN",
-        ),
-        (
-            f"sigma_IIA_average_{tiebreak}",
-            "sigma_IIA",
-            "worst_case",
-            "None",
-            "$\\sigma_{IIA}$ ranking",
-        ),
-        (
-            f"sigma_IIA_all_subset_average_{tiebreak}",
-            "sigma_IIA_all_subset",
-            "average",
-            "None",
-            "$\\sigma_{IIA}$ subset",
-        ),
-        (
-            f"sigma_IIA_winner_set_average_{tiebreak}",
-            "sigma_IIA_winner_set",
-            "average",
-            "None",
-            "$\\sigma_{IIA}$ winner-set",
-        ),
-    ]
-    scale = 1
-    fig, ax = plt.subplots(
-        len(metric_label_pairs),
-        len(alpha_values),
-        figsize=(7 * len(alpha_values) * scale, 5 * scale * len(metric_label_pairs)),
-        dpi=300,
-        gridspec_kw={"hspace": 0.3},
+    Args:
+        n_seats (int): Number of seats to elect.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+    """
+    output_file = (
+        PLOTS_DIR / "simulated_BT_plots" / (f"BESTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
     )
+    save_metric_grid(iia_comparison_panels("average"), n_seats, tiebreak, output_file)
+
+
+def plot_worst_case_ranking_iia_panel(n_seats: int, tiebreak: str) -> None:
+    """Save the alpha panel grid with worst-case ranking IIA and average subset/winner-set IIA.
+
+    Args:
+        n_seats (int): Number of seats to elect.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+    """
+    output_file = (
+        PLOTS_DIR / "simulated_BT_plots" / (f"ALTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
+    )
+    save_metric_grid(iia_comparison_panels("worst_case"), n_seats, tiebreak, output_file)
+
+
+def plot_variant_comparison(n_seats: int, variant: MetricVariant, tiebreak: str) -> None:
+    """Save an alpha panel grid comparing UM interpolations and IIA metric families.
+
+    Args:
+        n_seats (int): Number of seats to elect.
+        variant (MetricVariant): Metric aggregation variant.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+    """
+    output_file = (
+        PLOTS_DIR
+        / "simulated_BT_plots"
+        / (f"AGGREGATE__NSEATS_{n_seats}__VARIANT_{variant}__TIEBREAK_{tiebreak}.png")
+    )
+    save_metric_grid(variant_comparison_panels(variant), n_seats, tiebreak, output_file)
+
+
+def plot_individual_metrics(n_seats: int, variant: MetricVariant, tiebreak: str) -> None:
+    """Save a separate alpha panel grid for each metric and interpolation.
+
+    Args:
+        n_seats (int): Number of seats to elect.
+        variant (MetricVariant): Metric aggregation variant.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+    """
     sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
-    palette = sns.color_palette("colorblind", len(all_rules))
-    rule_color_map = dict(zip(all_rules, palette))
-    output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
-    output_folder.mkdir(parents=True, exist_ok=True)
-    output_plot_name = f"{output_folder}/ALTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png"
 
-    for alpha_idx, alpha in enumerate(alpha_values):
-        for idx, (
-            _,
-            metric_base_name,
-            metric_variant,
-            interpolation_type,
-            y_label,
-        ) in enumerate(metric_label_pairs):
-            build_plot_for_metric_and_alpha(
-                metric_base_name,
-                alpha,
-                all_rules,
-                cand_counts,
-                rule_color_map,
-                ax[idx][alpha_idx],
-                y_label=y_label,
-                stat_file_base_dir=stat_file_base_dir,
-                n_seats=n_seats,
-                variant=metric_variant,
-                tiebreak=tiebreak,
-                interpolation_type=interpolation_type,
+    for panel in variant_comparison_panels(variant):
+        output_file = (
+            PLOTS_DIR
+            / "simulated_BT_plots"
+            / (
+                f"METRIC_{panel.metric}__NSEATS_{n_seats}__VARIANT_{variant}"
+                f"__TIEBREAK_{tiebreak}__INTERP_{panel.interpolation}.png"
             )
-
-    legend_patches = [Patch(facecolor=rule_color_map[r], label=r) for r in all_rules]
-    fig.legend(
-        handles=legend_patches,
-        title="Voting Rule",
-        loc="center left",
-        bbox_to_anchor=(0.93, 0.5),
-        frameon=True,
-        fontsize="large",
-        title_fontsize="large",
-    )
-    plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
-
-
-def plot_variant_comparison(n_seats: int, variant: str, tiebreak: str) -> None:
-    stat_file_base_dir = str(Path(f"{STATS_INPUT}/bt_profile_stats/{n_seats}_seats").resolve())
-
-    all_rules = NON_RANDOM_RULE_ORDER
-    cand_counts = list(range(6, 10))
-    alpha_values = [1 / 3, 1 / 2, 1, 2, 3]
-
-    metric_label_pairs = [
-        (
-            f"sigma_UM_{variant}_odds_{tiebreak}",
-            "sigma_UM",
-            "odds",
-            "$\\sigma_{UM}$ ranking ODDS",
-        ),
-        (
-            f"sigma_UM_{variant}_asin_{tiebreak}",
-            "sigma_UM",
-            "asin",
-            "$\\sigma_{UM}$ ranking ASIN",
-        ),
-        (
-            f"sigma_UM_winner_set_{variant}_odds_{tiebreak}",
-            "sigma_UM_winner_set",
-            "odds",
-            "$\\sigma_{UM}$ winner-set ranking ODDS",
-        ),
-        (
-            f"sigma_UM_winner_set_{variant}_asin_{tiebreak}",
-            "sigma_UM_winner_set",
-            "asin",
-            "$\\sigma_{UM}$ winner-set ranking ASIN",
-        ),
-        (
-            f"sigma_IIA_{variant}_{tiebreak}",
-            "sigma_IIA",
-            "None",
-            "$\\sigma_{IIA}$ ranking",
-        ),
-        (
-            f"sigma_IIA_all_subset_{variant}_{tiebreak}",
-            "sigma_IIA_all_subset",
-            "None",
-            "$\\sigma_{IIA}$ subset",
-        ),
-        (
-            f"sigma_IIA_winner_set_{variant}_{tiebreak}",
-            "sigma_IIA_winner_set",
-            "None",
-            "$\\sigma_{IIA}$ winner-set",
-        ),
-    ]
-    scale = 1
-    fig, ax = plt.subplots(
-        len(metric_label_pairs),
-        len(alpha_values),
-        figsize=(7 * len(alpha_values) * scale, 5 * scale * len(metric_label_pairs)),
-        dpi=300,
-        gridspec_kw={"hspace": 0.3},
-    )
-    sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
-    palette = sns.color_palette("colorblind", len(all_rules))
-    rule_color_map = dict(zip(all_rules, palette))
-    output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
-    output_folder.mkdir(parents=True, exist_ok=True)
-    output_plot_name = (
-        f"{output_folder}/AGGREGATE__NSEATS_{n_seats}__VARIANT_{variant}__TIEBREAK_{tiebreak}.png"
-    )
-
-    for alpha_idx, alpha in enumerate(alpha_values):
-        for idx, (_, metric_base_name, interpolation_type, y_label) in enumerate(
-            metric_label_pairs
-        ):
-            build_plot_for_metric_and_alpha(
-                metric_base_name,
-                alpha,
-                all_rules,
-                cand_counts,
-                rule_color_map,
-                ax[idx][alpha_idx],
-                y_label=y_label,
-                stat_file_base_dir=stat_file_base_dir,
-                n_seats=n_seats,
-                variant=variant,
-                tiebreak=tiebreak,
-                interpolation_type=interpolation_type,
-            )
-
-    legend_patches = [Patch(facecolor=rule_color_map[r], label=r) for r in all_rules]
-    fig.legend(
-        handles=legend_patches,
-        title="Voting Rule",
-        loc="center left",
-        bbox_to_anchor=(0.93, 0.5),
-        frameon=True,
-        fontsize="large",
-        title_fontsize="large",
-    )
-    plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
-
-
-def plot_individual_metrics(n_seats: int, variant: str, tiebreak: str) -> None:
-    scale = 1
-    stat_file_base_dir = str(Path(f"{STATS_INPUT}/bt_profile_stats/{n_seats}_seats").resolve())
-
-    all_rules = NON_RANDOM_RULE_ORDER
-    cand_counts = list(range(6, 10))
-    alpha_values = [1 / 3, 1 / 2, 1, 2, 3]
-
-    sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
-    palette = sns.color_palette("colorblind", len(all_rules))
-    rule_color_map = dict(zip(all_rules, palette))
-    output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
-    output_folder.mkdir(parents=True, exist_ok=True)
-
-    metric_label_pairs = [
-        (
-            f"sigma_UM_{variant}_odds_{tiebreak}",
-            "sigma_UM",
-            "odds",
-            "$\\sigma_{UM}$ ranking ODDS",
-        ),
-        (
-            f"sigma_UM_{variant}_asin_{tiebreak}",
-            "sigma_UM",
-            "asin",
-            "$\\sigma_{UM}$ ranking ASIN",
-        ),
-        (
-            f"sigma_UM_winner_set_{variant}_odds_{tiebreak}",
-            "sigma_UM_winner_set",
-            "odds",
-            "$\\sigma_{UM}$ winner-set ranking ODDS",
-        ),
-        (
-            f"sigma_UM_winner_set_{variant}_asin_{tiebreak}",
-            "sigma_UM_winner_set",
-            "asin",
-            "$\\sigma_{UM}$ winner-set ranking ASIN",
-        ),
-        (
-            f"sigma_IIA_{variant}_{tiebreak}",
-            "sigma_IIA",
-            "None",
-            "$\\sigma_{IIA}$ ranking",
-        ),
-        (
-            f"sigma_IIA_all_subset_{variant}_{tiebreak}",
-            "sigma_IIA_all_subset",
-            "None",
-            "$\\sigma_{IIA}$ subset",
-        ),
-        (
-            f"sigma_IIA_winner_set_{variant}_{tiebreak}",
-            "sigma_IIA_winner_set",
-            "None",
-            "$\\sigma_{IIA}$ winner-set",
-        ),
-    ]
-    for idx, (_, metric_base_name, interpolation_type, y_label) in enumerate(metric_label_pairs):
-        output_folder = Path(f"{PLOTS_DIR}/simulated_BT_plots/")
-        output_folder.mkdir(parents=True, exist_ok=True)
-        output_plot_name = (
-            f"{output_folder}/METRIC_{metric_base_name}__NSEATS_{n_seats}__VARIANT_{variant}"
-            f"__TIEBREAK_{tiebreak}__INTERP_{interpolation_type}.png"
         )
-        fig, ax = plt.subplots(
-            1,
-            len(alpha_values),
-            figsize=(7 * len(alpha_values) * scale, 5 * scale),
-            dpi=300,
-            gridspec_kw={"hspace": 0.3},
-        )
-        sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
-        palette = sns.color_palette("colorblind", len(all_rules))
-        rule_color_map = dict(zip(all_rules, palette))
-        for alpha_idx, alpha in enumerate(alpha_values):
-            build_plot_for_metric_and_alpha(
-                metric_base_name,
-                alpha,
-                all_rules,
-                cand_counts,
-                rule_color_map,
-                ax[alpha_idx],
-                y_label=y_label,
-                stat_file_base_dir=stat_file_base_dir,
-                n_seats=n_seats,
-                variant=variant,
-                tiebreak=tiebreak,
-                interpolation_type=interpolation_type,
-            )
-
-        legend_patches = [Patch(facecolor=rule_color_map[r], label=r) for r in all_rules]
-        fig.legend(
-            handles=legend_patches,
-            title="Voting Rule",
-            loc="center left",
-            bbox_to_anchor=(0.93, 0.5),
-            frameon=True,
-            fontsize="large",
-            title_fontsize="large",
-        )
-        plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
+        save_metric_grid([panel], n_seats, tiebreak, output_file)
 
 
 @click.command()
@@ -512,8 +341,15 @@ def plot_individual_metrics(n_seats: int, variant: str, tiebreak: str) -> None:
 @click.option("--variant", type=click.Choice(["worst_case", "average"]))
 @click.option("--tiebreak", type=click.Choice(["lex", "random"]))
 def main(n_seats, variant, tiebreak):
-    plot_average_iia_panel(n_seats, variant, tiebreak)
-    plot_worst_case_ranking_iia_panel(n_seats, variant, tiebreak)
+    """Save combined and individual metric boxplot grids across the single-alpha profile sweep.
+
+    Args:
+        n_seats (int): Number of seats to elect.
+        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+    """
+    plot_average_iia_panel(n_seats, tiebreak)
+    plot_worst_case_ranking_iia_panel(n_seats, tiebreak)
     plot_variant_comparison(n_seats, variant, tiebreak)
     plot_individual_metrics(n_seats, variant, tiebreak)
 

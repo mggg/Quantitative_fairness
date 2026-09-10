@@ -6,7 +6,6 @@ import json
 import os
 import sys
 import warnings
-from functools import partial
 from glob import glob
 from pathlib import Path
 
@@ -17,14 +16,8 @@ from votekit import RankProfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from voting_metrics_main_code.fairness_metric import (
-    sigma_IIA,
-    sigma_IIA_all_subset,
-    sigma_IIA_winner_set,
-    sigma_IIA_winner_set_all_subset,
-    sigma_UM,
-    sigma_UM_winner_set,
-)
+from pipelines.bradley_terry._metrics import configure_metric
+
 from voting_metrics_main_code.replication import STATS_OUTPUT
 from voting_metrics_main_code.voting_rules import build_voting_rule
 
@@ -32,9 +25,24 @@ warnings.filterwarnings("ignore")
 
 
 def run_score(profile_file, metric_function, voting_rule):
+    """Load one profile and evaluate its metric with standard output suppressed.
+
+    Args:
+        profile_file (str | Path): Path to a preference-profile CSV.
+        metric_function (Callable[..., float]): Metric callable with seat count and variants already
+            bound.
+        voting_rule (ElectionConstructor): Voting rule callable passed to the metric.
+
+    Returns:
+        float: Metric score for the loaded profile.
+
+    Raises:
+        FileNotFoundError: The profile CSV does not exist.
+    """
     with contextlib.redirect_stdout(None):
         profile = RankProfile.from_csv(profile_file)
         score = metric_function(profile, voting_rule)
+
     return score
 
 
@@ -89,7 +97,6 @@ def run_score(profile_file, metric_function, voting_rule):
 )
 def main(
     input_folder,
-    # # ELECTION PARAMS
     n_seats,
     metric,
     variant,
@@ -97,7 +104,22 @@ def main(
     election_type,
     tiebreak,
 ):
+    """Collect and save one metric for a two-bloc profile folder.
 
+    Args:
+        input_folder (str | Path): Two-bloc profile directory with encoded candidate and bloc
+            parameters.
+        n_seats (int): Number of seats to elect.
+        metric (str): Metric identifier used in the statistics filenames.
+        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        interpolation_type (str): UM interpolation token; use the string 'None' for IIA metrics.
+        election_type (str): Voting rule name.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+
+    Raises:
+        ValueError: The seat count is below one or a UM interpolation is not 'asin', 'odds', or
+            'linear'.
+    """
     input_folder_full_path = Path(input_folder).resolve()
     base_parent = input_folder_full_path.name
     cand_folder = input_folder_full_path.parent.stem
@@ -113,8 +135,6 @@ def main(
 
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
-
-    # UPDATE PAST THIS
 
     output_folder = Path(f"{STATS_OUTPUT}/bt_2_bloc_profile_stats/{n_seats}_seats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
@@ -147,28 +167,10 @@ def main(
 
     if os.path.exists(output_file):
         print(f"Output file {output_file} already exists. Skipping computation.")
+
         return
 
-    metric_function_dict = {
-        "sigma_UM": partial(
-            sigma_UM,
-            n_seats=n_seats,
-            variant=variant,
-            interpolation_type=interpolation_type,
-        ),
-        "sigma_UM_winner_set": partial(
-            sigma_UM_winner_set,
-            n_seats=n_seats,
-            variant=variant,
-            interpolation_type=interpolation_type,
-        ),
-        "sigma_IIA": partial(sigma_IIA, n_seats=n_seats, variant=variant),
-        "sigma_IIA_all_subset": partial(sigma_IIA_all_subset, n_seats=n_seats, variant=variant),
-        "sigma_IIA_winner_set": partial(sigma_IIA_winner_set, n_seats=n_seats, variant=variant),
-        "sigma_IIA_winner_set_all_subset": partial(
-            sigma_IIA_winner_set_all_subset, n_seats=n_seats, variant=variant
-        ),
-    }
+    metric_function = configure_metric(metric, n_seats, variant, interpolation_type)
 
     all_csv_profiles = sorted(glob(f"{input_folder_full_path}/*.csv"))
 
@@ -180,8 +182,7 @@ def main(
         description=f"Computing scores for metric {metric}", total=len(all_csv_profiles)
     ):
         scores = Parallel(n_jobs=-1)(
-            delayed(run_score)(file, metric_function_dict[metric], voting_rule)
-            for file in all_csv_profiles
+            delayed(run_score)(file, metric_function, voting_rule) for file in all_csv_profiles
         )
 
     with open(output_file, "w") as f:

@@ -27,6 +27,23 @@ plots_dir = PLOTS_DIR / "bt_plots" / "um_vs_iia_plots"
 def load_paired_metrics(
     metric: str, voting_rule: str, iia_variant: str, um_variant: str, tiebreak: str
 ) -> tuple[list[float], list[float]]:
+    """Load IIA scores and their corresponding ASIN UM scores from matching profile settings.
+
+    Args:
+        metric (str): IIA metric identifier; the UM counterpart is derived from its name.
+        voting_rule (str): Voting rule name used to select statistics.
+        iia_variant (str): IIA aggregation variant used to match filenames.
+        um_variant (str): UM aggregation variant used to derive paired filenames.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+
+    Returns:
+        tuple[list[float], list[float]]: IIA scores followed by UM scores. File and observation
+            order are retained; pairing assumes matching files contain profiles in the same order.
+
+    Raises:
+        FileNotFoundError: A matching UM file or selected IIA file does not exist.
+        json.JSONDecodeError: A selected metric file is not valid JSON.
+    """
     iia_file_basename = (
         f"METRIC_{metric}"
         f"__VARIANT_{iia_variant}"
@@ -44,9 +61,11 @@ def load_paired_metrics(
 
     iia_data = []
     um_data = []
+
     for i, iia_file in enumerate(all_files):
         with open(iia_file, "r") as f:
             iia_data.extend(json.load(f))
+
         um_file = (
             str(Path(iia_file).relative_to(BT_STATS_INPUT))
             .replace("METRIC_sigma_IIA", "METRIC_sigma_UM")
@@ -54,6 +73,7 @@ def load_paired_metrics(
             .replace("/sigma_IIA", "/sigma_UM")
             .replace(f"_VARIANT_{iia_variant}", f"_VARIANT_{um_variant}")
         )
+
         with open(BT_STATS_INPUT / um_file, "r") as f_um:
             um_data.extend(json.load(f_um))
 
@@ -61,6 +81,12 @@ def load_paired_metrics(
 
 
 def plot_rule_comparison(metric: str, voting_rule: str) -> None:
+    """Save worst-case UM versus average IIA scores for one rule with lexicographic tiebreaks.
+
+    Args:
+        metric (str): Metric identifier used in the statistics filenames.
+        voting_rule (str): Voting rule name used to select statistics.
+    """
     iia_variant = "average"
     um_variant = "worst_case"
     tiebreak = "lex"
@@ -103,46 +129,18 @@ def plot_rule_comparison(metric: str, voting_rule: str) -> None:
         fontsize=ALT_FONT_SIZES.get(voting_rule, DEFAULT_FONT_SIZE),
     )
 
-    ax.vlines(
-        0.0,
-        -0.05,
-        1.05,
-        color="grey",
-        linestyle="-",
-        linewidth=1,
-        zorder=-1,
-        alpha=0.5,
-    )
-    ax.vlines(
-        1.0,
-        -0.05,
-        1.05,
-        color="grey",
-        linestyle="-",
-        linewidth=1,
-        zorder=-1,
-        alpha=0.5,
-    )
-    ax.hlines(
-        0.0,
-        -0.05,
-        1.05,
-        color="grey",
-        linestyle="-",
-        linewidth=1,
-        zorder=-1,
-        alpha=0.5,
-    )
-    ax.hlines(
-        1.0,
-        -0.05,
-        1.05,
-        color="grey",
-        linestyle="-",
-        linewidth=1,
-        zorder=-1,
-        alpha=0.5,
-    )
+    for draw_line in (ax.vlines, ax.hlines):
+        for boundary in (0.0, 1.0):
+            draw_line(
+                boundary,
+                -0.05,
+                1.05,
+                color="grey",
+                linestyle="-",
+                linewidth=1,
+                zorder=-1,
+                alpha=0.5,
+            )
 
     plt.savefig(plot_name, bbox_inches="tight", dpi=300)
 
@@ -150,7 +148,9 @@ def plot_rule_comparison(metric: str, voting_rule: str) -> None:
 
 
 def main() -> None:
+    """Save the configured BT UM-versus-IIA scatterplots for each voting rule."""
     plots_dir.mkdir(parents=True, exist_ok=True)
+
     for metric in iia_metric_list:
         for voting_rule in [
             "borda",

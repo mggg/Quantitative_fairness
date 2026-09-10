@@ -24,7 +24,18 @@ from voting_metrics_main_code.replication import RESULTS_DIR, check_output_direc
 
 
 def sample_preference_interval(candidates: list[str], alpha: float) -> PreferenceInterval:
-    """Draw a preference interval from the task's seeded NumPy stream."""
+    """Draw a preference interval from the task's seeded NumPy stream.
+
+    Args:
+        candidates (list[str]): Candidate names, in the order used for the Dirichlet draw.
+        alpha (float): Positive Dirichlet concentration parameter for every candidate.
+
+    Returns:
+        PreferenceInterval: Candidate support probabilities from the seeded NumPy stream.
+
+    Raises:
+        ValueError: The Dirichlet concentration parameter is nonpositive.
+    """
     # VoteKit's from_dirichlet creates an unseeded generator on each call.
     return PreferenceInterval(dict(zip(candidates, np.random.dirichlet([alpha] * len(candidates)))))
 
@@ -58,6 +69,11 @@ def generate_and_save_profile(
         bb_alpha (float): Dirichlet alpha for B-on-B preferences.
         idx (int): Sample index for file naming.
         output_base_dir (str): Base directory for profile outputs.
+
+    Raises:
+        FileExistsError: The target CSV already exists and is preserved.
+        ValueError: An output path overlaps protected research files or contains a symlink,
+            or the profile-generation parameters are invalid.
     """
     profile_root = Path(output_base_dir).resolve()
     utility_root = profile_root.parent / "preference_dfs"
@@ -70,9 +86,11 @@ def generate_and_save_profile(
     df_dir = utility_root / relative_folder
     profile_path = check_output_directory(output_dir / f"profile_{idx}.csv")
     utility_path = check_output_directory(df_dir / f"profile_{idx}_utilities.csv")
+
     for path in (profile_path, utility_path):
         if path.exists() or path.is_symlink():
             raise FileExistsError(f"Preserving existing generated data: {path}")
+
     seed_task(
         n_a_cands,
         n_b_cands,
@@ -125,23 +143,54 @@ def generate_and_save_profile(
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     Path(df_dir).mkdir(parents=True, exist_ok=True)
     assert isinstance(prof, RankProfile)
+
     prof.to_csv(profile_path)
+
     config.preference_df.to_csv(utility_path)
 
 
-def main() -> None:
+def parse_arguments() -> argparse.Namespace:
+    """Parse generation options and require fresh, unprotected output directories.
+
+    Returns:
+        argparse.Namespace: Validated options with output_dir resolved to an absolute path.
+
+    Raises:
+        SystemExit: Options are invalid or a profile or utility output directory already exists.
+        ValueError: An output path overlaps protected research files or contains a symlink.
+    """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=RESULTS_DIR / "data/preference_profiles")
     parser.add_argument("--n-voters", type=int, default=15_000)
     parser.add_argument("--n-samples", type=int, default=100)
     parser.add_argument("--n-jobs", type=int, default=1)
     args = parser.parse_args()
+
     if min(args.n_voters, args.n_samples, args.n_jobs) < 1:
         parser.error("Voter, sample, and worker counts must be positive")
+
     profile_root = check_output_directory(args.output_dir)
     utility_root = check_output_directory(profile_root.parent / "preference_dfs")
+
     if profile_root.exists() or utility_root.exists():
         parser.error("Profile or utility directory already exists; choose a new --output-dir")
+
+    args.output_dir = profile_root
+
+    return args
+
+
+def main() -> None:
+    """Generate the configured grid of two-bloc BT profiles in parallel.
+
+    Raises:
+        SystemExit: Command-line parsing fails, a count is nonpositive, or a profile or utility
+            output directory already exists.
+        FileExistsError: A target profile CSV already exists and is preserved.
+        ValueError: An output path overlaps protected research files or contains a symlink.
+    """
+    args = parse_arguments()
+    profile_root = args.output_dir
     n_voters = args.n_voters
     n_samples = args.n_samples
 

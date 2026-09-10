@@ -1,5 +1,4 @@
-"""
-Utilities for vizualizing the boost matrix and partitions of candidates.
+"""Visualize boost matrices and partitions of candidates.
 
 The majority of the content of these functions is copied directly from files in the github
 repository
@@ -30,25 +29,31 @@ def create_modularity_matrix_plot(
     *,
     ax: Axes | None = None,
 ) -> Axes:
-    """A simple function to display the boost matrix
+    """Draw a boost matrix with optional candidate labels and cluster boundaries.
 
     Args:
         M (NDArray): The matrix to display.
-        title (str, optional): The title of the plot. Defaults to None.
-        labels (list[str], optional): Labels for the axes. Defaults to None.
+        title (str | None, optional): The title of the plot. Defaults to None.
+        labels (list[str] | None, optional): Labels for the axes. Defaults to None.
         cmap (str, optional): Colormap to use. Defaults to 'viridis'.
-        boundaries (list[int], optional): Boundaries to draw on the matrix. Defaults to None.
+        boundaries (Sequence[int] | None, optional): Boundaries to draw on the matrix. Defaults to
+            None.
         centered (bool, optional): Whether to center the colormap around zero. Defaults to False.
-        log_scale (bool, optional): Whether to use a symmetric log scale for the colormap.
-            Defaults to False.
-    """
+        log_scale (bool, optional): Use symmetric log scaling when centered is True. Defaults to
+            False.
+        ax (Axes | None, optional): Axes to draw into; None creates a new figure and axes. Defaults
+            to None.
 
+    Returns:
+        Axes: Axes containing the matrix image and an attached figure colorbar.
+    """
     if ax is None:
         _, ax = plt.subplots()
 
     if centered:
         data = np.asarray(M)
         max_abs = np.max(np.abs(data))
+
         if max_abs == 0:
             norm = None
         elif log_scale:
@@ -98,17 +103,18 @@ def show_matrix(
     centered: bool = False,
     log_scale: bool = False,
 ):
-    """A simple function to display the boost matrix
+    """Display a boost matrix with optional candidate labels and cluster boundaries.
 
     Args:
         M (NDArray): The matrix to display.
-        title (str, optional): The title of the plot. Defaults to None.
-        labels (list[str], optional): Labels for the axes. Defaults to None.
+        title (str | None, optional): The title of the plot. Defaults to None.
+        labels (list[str] | None, optional): Labels for the axes. Defaults to None.
         cmap (str, optional): Colormap to use. Defaults to 'viridis'.
-        boundaries (list[int], optional): Boundaries to draw on the matrix. Defaults to None.
+        boundaries (Sequence[int] | None, optional): Boundaries to draw on the matrix. Defaults to
+            None.
         centered (bool, optional): Whether to center the colormap around zero. Defaults to False.
-        log_scale (bool, optional): Whether to use a symmetric log scale for the colormap.
-            Defaults to False.
+        log_scale (bool, optional): Use symmetric log scaling when centered is True. Defaults to
+            False.
     """
     _, ax = plt.subplots()
 
@@ -130,25 +136,41 @@ def backward_convert(array: NDArray, canonical_candidates: list[str]) -> list[li
     """Convert a numpy array back into a partition (list of lists).
 
     Args:
-        array (NDArray): A 1D array of community labels for each candidate, where the value at
-            index j indicates the community assignment of candidate j.)
-        canonical_candidates (list[str]): A list of candidate names corresponding to the indices
-            in `array`.
+        array (NDArray): A 1D array of community labels for each candidate, where the value at index
+            j indicates the community assignment of candidate j.
+        canonical_candidates (list[str]): A list of candidate names corresponding to the indices in
+            `array`.
+
+    Returns:
+        list[list[str]]: Candidate blocks in ascending integer-label order. Missing labels produce
+            empty blocks; candidate order within each block follows canonical_candidates.
     """
     cand_dict = {i: candidate for i, candidate in enumerate(canonical_candidates)}
     partition = []
+
     for i in range(max(array) + 1):
         bloc = [cand_dict[j] for j in range(len(array)) if array[j] == i]
+
         partition.append(bloc)
+
     return partition
 
 
 def _is_partition_blocks(
     partition: Sequence[object],
 ) -> TypeGuard[Sequence[Sequence[str]]]:
-    """Check if the partition is given as a 1D array of labels."""
+    """Check whether the first partition element is a collection of candidate names.
+
+    Args:
+        partition (Sequence[object]): Candidate blocks or a flat sequence of community labels.
+
+    Returns:
+        TypeGuard[Sequence[Sequence[str]]]: True for a nonempty sequence whose first item is a list,
+            tuple, set, or frozenset; later elements and their contents are not checked.
+    """
     if len(partition) == 0:
         return False
+
     return isinstance(partition[0], (list, tuple, set, frozenset))
 
 
@@ -160,7 +182,6 @@ def viz_partition(
     centered: bool = False,
 ):
     """Visualize the boost matrix reordered according to a given partition.
-
 
     Args:
         partition (list[list[str]] | NDArray[np.integer] | Sequence[int]): A partition of
@@ -180,11 +201,15 @@ def viz_partition(
         partish = [list(bloc) for bloc in partition]
     else:
         partish = backward_convert(np.asarray(partition), candidates)
+
     ordering = [c for bloc in partish for c in bloc]
     permutation_list = []
+
     for candidate in candidates:
         permutation_list.append(ordering.index(candidate))
+
     permutation_matrix = np.zeros((len(candidates), len(candidates)))
+
     for i, p in enumerate(permutation_list):
         permutation_matrix[i, p] = 1
 

@@ -1,8 +1,6 @@
 """Create consolidated Scottish boxplots across metrics and rules."""
 
-import json
 import sys
-from glob import glob
 from pathlib import Path
 from typing import Mapping, Sequence
 
@@ -13,6 +11,8 @@ from matplotlib.axes import Axes
 from matplotlib.legend import Legend
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from pipelines.scottish.plots._data import load_outputs_by_election_type
 
 from voting_metrics_main_code.constants import (
     RULE_COLORS as rule_color_map,
@@ -117,8 +117,8 @@ def construct_df_scottish(
     """Construct a DataFrame for a metric at a fixed candidate count.
 
     Args:
-        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested mapping of rule to candidate count to metric values.
+        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested mapping of
+            rule to candidate count to metric values.
         n_cands (int): Number of candidates to extract.
         metric (str): Metric key to select.
 
@@ -126,6 +126,7 @@ def construct_df_scottish(
         pd.DataFrame: A transposed DataFrame with rules as columns.
     """
     df_data = []
+
     for _, data in data_dictionary.items():
         df_data.append(data[str(n_cands)][metric])
 
@@ -145,22 +146,24 @@ def build_plot_for_metric_scottish(
 
     Args:
         metric (str): Metric key to plot.
-        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested mapping of rule to candidate count to metric values.
+        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested mapping of
+            rule to candidate count to metric values.
         n_cand_list (Sequence[int]): Candidate counts to include.
         ax (Axes): Matplotlib axes to draw into.
-        y_label (str): Label for the y-axis.
-        use_one (bool): Whether to plot only the Borda rule.
-        legend (bool): Whether to render a legend.
+        y_label (str, optional): Label for the y-axis. Defaults to ''.
+        use_one (bool, optional): Whether to plot only the Borda rule. Defaults to False.
+        legend (bool, optional): Whether to render a legend. Defaults to True.
 
     Returns:
         Axes: The axes with the plot.
     """
     df_list = []
+
     for n_cands in n_cand_list:
         df = construct_df_scottish(ordered_outputs, n_cands, metric)
         df = df.melt(var_name="rule", value_name="value")
         df["n_cands"] = n_cands
+
         df_list.append(df)
 
     if use_one:
@@ -186,6 +189,7 @@ def build_plot_for_metric_scottish(
     # ax.set_xlabel("Number of candidates", fontsize=16)
     ax.set_xlabel("")
     ax.set_ylabel("")
+
     if not use_one and legend:
         ax.legend(title="Voting rule", bbox_to_anchor=(1, 0.5), loc="center left")
 
@@ -204,9 +208,9 @@ def save_legend_only(
     Args:
         legend (Legend): Matplotlib legend to export.
         filename (str | Path): Path to write the legend image.
-        pad (float): Padding factor for legend bounds.
-        dpi (int): Output DPI.
-        transparent (bool): Whether to use a transparent background.
+        pad (float, optional): Padding factor for legend bounds. Defaults to 1.1.
+        dpi (int, optional): Output DPI. Defaults to 300.
+        transparent (bool, optional): Whether to use a transparent background. Defaults to False.
     """
     fig = legend.axes.figure  # the parent figure
     fig.canvas.draw()  # need a renderer before measuring bbox
@@ -219,52 +223,26 @@ def save_legend_only(
 
 
 def load_boxplot_metrics(ordered_rules: Sequence[str]):
-    election_type_to_metric_to_cand_count = {}
-    n_cand_set = set()
+    """Load average and worst-case Scottish metric arrays with lexicographic tiebreaks.
 
-    tiebreak = "lex"
-    for variant in ["average", "worst_case"]:
-        for voting_rule in ordered_rules:
-            all_output_files = glob(
-                f"{STATS_INPUT}/scottish_stats/*{variant}*/{voting_rule}/*{tiebreak}_output.json"
-            )
-            metric_to_values = {}
-            for output_file in all_output_files:
-                with open(output_file, "r") as f:
-                    output = json.load(f)
-                splits = output_file.split("/")[-1].split("__")
-                metric = splits[0].removeprefix("METRIC_")
-                election_type = splits[1].removeprefix("ELECTION_TYPE_").split("_")[0]
-                metric_to_values[f"{metric}_{tiebreak}"] = {
-                    k: list(v.values()) for k, v in output.items()
-                }
-                n_cand_set.update(set(output.keys()))
+    Args:
+        ordered_rules (Sequence[str]): Voting rules in the order to load or display.
 
-            if election_type not in election_type_to_metric_to_cand_count:
-                election_type_to_metric_to_cand_count[election_type] = {}
-            election_type_to_metric_to_cand_count[election_type] |= metric_to_values
-
-    outputs_by_election_type = {}
-    for (
-        election_type,
-        metric_to_cand_count,
-    ) in election_type_to_metric_to_cand_count.items():
-        if election_type not in outputs_by_election_type:
-            outputs_by_election_type[election_type] = {}
-        for metric, cand_count_to_values in metric_to_cand_count.items():
-            for n_cands, value_list in cand_count_to_values.items():
-                if n_cands not in outputs_by_election_type[election_type]:
-                    outputs_by_election_type[election_type][n_cands] = {}
-                outputs_by_election_type[election_type][n_cands][metric] = value_list
-
-    return outputs_by_election_type
+    Returns:
+        dict[str, dict[str, dict[str, list[float]]]]: Scores keyed by rule, candidate-count string,
+            and metric key including the tiebreak suffix.
+    """
+    return load_outputs_by_election_type(
+        STATS_INPUT / "scottish_stats", ordered_rules, tiebreaks=("lex",)
+    )
 
 
 def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
     """Run the Scottish boxplot pipeline and export plots.
 
     Args:
-        n_cand_list (Sequence[int]): Candidate counts to include.
+        n_cand_list (Sequence[int], optional): Candidate counts to include. Defaults to
+            list(range(6, 10)).
     """
     ordered_rules = RULE_ORDER
 
@@ -313,6 +291,7 @@ def main(n_cand_list: Sequence[int] = list(range(6, 10))) -> None:
             legend=False,
         )
         output_plot_name = f"{output_dir}/scottish_boxplot_{metric}_collected.png"
+
         plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
 
         plt.close()

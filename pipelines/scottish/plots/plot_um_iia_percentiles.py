@@ -12,10 +12,10 @@ from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from pipelines.scottish.plots._data import load_outputs_by_election_type
 from pipelines.scottish.plots.plot_um_iia_scatter import (
     collect_scatter_points,
     get_limited_metric_key_pairs,
-    load_outputs_by_election_type,
     rule_color_map,
 )
 
@@ -50,6 +50,8 @@ def build_limited_line_plot_name(
         variant_um (str): UM variant string used in key suffix.
         variant_iia (str): IIA variant string used in key suffix.
         tiebreak (str): Tiebreak string used in key suffix.
+        percentile (float | None, optional): Upper-tail probability encoded in the filename; None
+            selects the mean filename. Defaults to None.
 
     Returns:
         Path: Full output file path.
@@ -63,6 +65,7 @@ def build_limited_line_plot_name(
         "sigma_UM_winner_set": "sigma_UM",
         "sigma_IIA_winner_set": "sigma_IIA",
     }
+
     return line_dir / (
         f"{percentile_suffix}_line_"
         f"{key_to_title[um_key.removesuffix(f'_{variant_um}_asin_{tiebreak}')]}_vs_"
@@ -79,18 +82,38 @@ def add_percentile_lines(
     iia_key: str,
     percentile: float | None,
 ) -> Axes:
+    """Draw horizontal and vertical metric thresholds and mark their intersection.
+
+    Args:
+        ax (Axes): Matplotlib axes to draw into.
+        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Metric
+            score lists keyed by rule, candidate-count string, and metric key.
+        voting_rule (str): Voting rule name used to select statistics.
+        um_key (str): UM metric key for x-axis values.
+        iia_key (str): IIA metric key for y-axis values.
+        percentile (float | None): Upper-tail probability; use quantile 1 - percentile, or means
+            when None.
+
+    Returns:
+        Axes: Input axes with the rule-colored threshold lines and intersection marker.
+
+    Raises:
+        ValueError: A supplied percentile is outside [0, 1].
+    """
     x_data, y_data = collect_scatter_points(
         outputs_by_election_type=outputs_by_election_type,
         voting_rule=voting_rule,
         um_key=um_key,
         iia_key=iia_key,
     )
+
     if percentile is not None:
         threshold_x = pd.Series(x_data).quantile(1 - percentile)
         threshold_y = pd.Series(y_data).quantile(1 - percentile)
     else:
         threshold_x = pd.Series(x_data).mean()
         threshold_y = pd.Series(y_data).mean()
+
     ax.axvline(
         threshold_x,
         color=rule_color_map[voting_rule],
@@ -115,6 +138,7 @@ def add_percentile_lines(
         markersize=rule_to_dot_size[voting_rule],
         zorder=3,
     )
+
     return ax
 
 
@@ -131,16 +155,17 @@ def run_limited_line_plots(
     """Generate the limited Scottish line plots for all rules.
 
     Args:
-        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested metric values by rule and candidate count.
+        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested
+            metric values by rule and candidate count.
         ordered_rules (Sequence[str]): Rules to include.
         output_dir (Path): Base plot output directory.
-        variant_um (str): UM metric variant.
-        variant_iia (str): IIA metric variant.
-        tiebreak (str): Tiebreak suffix used in metric keys.
-        lineplot_subdir (str): Subdirectory name under ``output_dir``.
-        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None):
-            Optional overlay callback for each plot.
+        variant_um (str, optional): UM metric variant. Defaults to 'worst_case'.
+        variant_iia (str, optional): IIA metric variant. Defaults to 'average'.
+        tiebreak (str, optional): Tiebreak suffix used in metric keys. Defaults to 'lex'.
+        lineplot_subdir (str, optional): Subdirectory name under ``output_dir``. Defaults to
+            'lineplot_by_voting_rule'.
+        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None, optional):
+            Optional overlay callback for each plot. Defaults to None.
     """
     lineplot_dir = output_dir / lineplot_subdir
     lineplot_dir.mkdir(parents=True, exist_ok=True)
@@ -164,6 +189,7 @@ def run_limited_line_plots(
             tiebreak=tiebreak,
             percentile=percentile,
         )
+
         for voting_rule in ordered_rules:
             add_percentile_lines(
                 ax=ax,
@@ -176,46 +202,20 @@ def run_limited_line_plots(
 
         ax.set_xlim(-0.05, 1.05)
         ax.set_ylim(-0.05, 1.05)
-        ax.vlines(
-            0.0,
-            -0.05,
-            1.05,
-            color="grey",
-            linestyle="-",
-            linewidth=1,
-            zorder=-1,
-            alpha=0.5,
-        )
-        ax.vlines(
-            1.0,
-            -0.05,
-            1.05,
-            color="grey",
-            linestyle="-",
-            linewidth=1,
-            zorder=-1,
-            alpha=0.5,
-        )
-        ax.hlines(
-            0.0,
-            -0.05,
-            1.05,
-            color="grey",
-            linestyle="-",
-            linewidth=1,
-            zorder=-1,
-            alpha=0.5,
-        )
-        ax.hlines(
-            1.0,
-            -0.05,
-            1.05,
-            color="grey",
-            linestyle="-",
-            linewidth=1,
-            zorder=-1,
-            alpha=0.5,
-        )
+
+        for draw_line in (ax.vlines, ax.hlines):
+            for boundary in (0.0, 1.0):
+                draw_line(
+                    boundary,
+                    -0.05,
+                    1.05,
+                    color="grey",
+                    linestyle="-",
+                    linewidth=1,
+                    zorder=-1,
+                    alpha=0.5,
+                )
+
         plt.savefig(plot_name, bbox_inches="tight", dpi=300)
         plt.close(fig)
 

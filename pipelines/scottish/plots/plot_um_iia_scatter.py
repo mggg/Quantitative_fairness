@@ -1,8 +1,6 @@
 """Create scatter plots comparing UM and IIA metrics in Scottish data."""
 
-import json
 import sys
-from glob import glob
 from itertools import product
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
@@ -13,6 +11,8 @@ import seaborn as sns
 from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from pipelines.scottish.plots._data import load_outputs_by_election_type
 
 from voting_metrics_main_code.constants import (
     ALT_FONT_SIZES,
@@ -32,8 +32,8 @@ def construct_df_scottish(
     """Construct a DataFrame for a metric at a fixed candidate count.
 
     Args:
-        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested mapping of rule to candidate count to metric values.
+        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested mapping of
+            rule to candidate count to metric values.
         n_cands (int): Number of candidates to extract.
         metric (str): Metric key to select.
 
@@ -41,6 +41,7 @@ def construct_df_scottish(
         pd.DataFrame: A transposed DataFrame with rules as columns.
     """
     df_data = []
+
     for _, data in data_dictionary.items():
         df_data.append(data[str(n_cands)][metric])
 
@@ -60,19 +61,21 @@ def build_plot_for_metric_scottish(
 
     Args:
         metric (str): Metric key to plot.
-        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested mapping of rule to candidate count to metric values.
+        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested mapping of
+            rule to candidate count to metric values.
         ordered_rules (Sequence[str]): Ordered list of rules (for stable plotting).
         n_cand_list (Sequence[int]): Candidate counts to include.
         ax (Axes): Matplotlib axes to draw into.
-        y_label (str): Label for the y-axis.
-        use_one (bool): Whether to plot only the Borda rule.
+        y_label (str, optional): Label for the y-axis. Defaults to ''.
+        use_one (bool, optional): Whether to plot only the Borda rule. Defaults to False.
     """
     df_list = []
+
     for n_cands in n_cand_list:
         df = construct_df_scottish(ordered_outputs, n_cands, metric)
         df = df.melt(var_name="rule", value_name="value")
         df["n_cands"] = n_cands
+
         df_list.append(df)
 
     if use_one:
@@ -93,63 +96,9 @@ def build_plot_for_metric_scottish(
     )
 
     ax.set_ylabel(y_label, fontsize=16)
+
     if not use_one:
         ax.legend(title="Voting rule", bbox_to_anchor=(1, 0.5), loc="center left")
-
-
-def load_outputs_by_election_type(
-    stats_dir: Path,
-    ordered_rules: Sequence[str],
-) -> dict[str, dict[str, dict[str, list[float]]]]:
-    """Load Scottish metric outputs grouped by rule and candidate size.
-
-    Args:
-        stats_dir (Path): Base directory containing Scottish metric JSON outputs.
-        ordered_rules (Sequence[str]): Rules to include.
-
-    Returns:
-        dict[str, dict[str, dict[str, list[float]]]]: Nested mapping:
-            ``rule -> candidate_count -> metric_key -> metric_values``.
-    """
-    election_type_to_metric_to_cand_count: dict[str, dict[str, dict[str, list[float]]]] = {}
-
-    for variant, tiebreak, voting_rule in product(
-        ["average", "worst_case"], ["lex", "random"], ordered_rules
-    ):
-        all_output_files = glob(
-            str(stats_dir / f"*{variant}*" / voting_rule / f"*{tiebreak}_output.json")
-        )
-        metric_to_values: dict[str, dict[str, list[float]]] = {}
-        election_type = voting_rule
-
-        for output_file in all_output_files:
-            with open(output_file, "r") as f:
-                output = json.load(f)
-            splits = output_file.split("/")[-1].split("__")
-            metric = splits[0].removeprefix("METRIC_")
-            election_type = splits[1].removeprefix("ELECTION_TYPE_").split("_")[0]
-            metric_to_values[f"{metric}_{tiebreak}"] = {
-                k: list(v.values()) for k, v in output.items()
-            }
-
-        if election_type not in election_type_to_metric_to_cand_count:
-            election_type_to_metric_to_cand_count[election_type] = {}
-        election_type_to_metric_to_cand_count[election_type] |= metric_to_values
-
-    outputs_by_election_type: dict[str, dict[str, dict[str, list[float]]]] = {}
-    for (
-        election_type,
-        metric_to_cand_count,
-    ) in election_type_to_metric_to_cand_count.items():
-        if election_type not in outputs_by_election_type:
-            outputs_by_election_type[election_type] = {}
-        for metric, cand_count_to_values in metric_to_cand_count.items():
-            for n_cands, value_list in cand_count_to_values.items():
-                if n_cands not in outputs_by_election_type[election_type]:
-                    outputs_by_election_type[election_type][n_cands] = {}
-                outputs_by_election_type[election_type][n_cands][metric] = value_list
-
-    return outputs_by_election_type
 
 
 def get_limited_metric_key_pairs(
@@ -160,9 +109,9 @@ def get_limited_metric_key_pairs(
     """Build limited scatter metric pairs.
 
     Args:
-        variant_um (str): UM metric variant.
-        variant_iia (str): IIA metric variant.
-        tiebreak (str): Tiebreak suffix used in metric keys.
+        variant_um (str, optional): UM metric variant. Defaults to 'worst_case'.
+        variant_iia (str, optional): IIA metric variant. Defaults to 'average'.
+        tiebreak (str, optional): Tiebreak suffix used in metric keys. Defaults to 'lex'.
 
     Returns:
         list[tuple[str, str]]: ``(um_metric_key, iia_metric_key)`` pairs.
@@ -188,8 +137,8 @@ def collect_scatter_points(
     """Collect x/y values for one rule and one UM-vs-IIA metric pair.
 
     Args:
-        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested metric values by rule and candidate count.
+        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested
+            metric values by rule and candidate count.
         voting_rule (str): Rule to extract.
         um_key (str): Metric key for x-axis values.
         iia_key (str): Metric key for y-axis values.
@@ -202,6 +151,7 @@ def collect_scatter_points(
 
     for _, data in outputs_by_election_type[voting_rule].items():
         x_data.extend(data[um_key])
+
         y_data.extend(data[iia_key])
 
     return x_data, y_data
@@ -217,6 +167,7 @@ def draw_limited_scatter_base(
         x_data (list[float]): X values.
         y_data (list[float]): Y values.
         color (str): Point color.
+        voting_rule (str): Voting rule name used to choose tick-label font sizes.
     """
     ax.scatter(x_data, y_data, color=color, s=100, alpha=0.4, edgecolor="none")
     # ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
@@ -287,15 +238,15 @@ def create_limited_scatter_plot(
     """Create and save one limited scatter plot.
 
     Args:
-        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested metric values by rule and candidate count.
+        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested
+            metric values by rule and candidate count.
         voting_rule (str): Rule to plot.
         um_key (str): X-axis metric key.
         iia_key (str): Y-axis metric key.
         output_path (Path): Output image path.
-        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None):
-            Optional overlay callback receiving
-            ``(ax, voting_rule, um_key, iia_key, x_data, y_data)``.
+        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None, optional):
+            Optional overlay callback receiving ``(ax, voting_rule, um_key, iia_key, x_data,
+            y_data)``. Defaults to None.
     """
     sns.set_theme(style="ticks", context="notebook", font="serif", font_scale=1.2)
     fig, ax = plt.subplots(1, 1, figsize=(8, 8))
@@ -312,8 +263,10 @@ def create_limited_scatter_plot(
         color=rule_color_map[voting_rule],
         voting_rule=voting_rule,
     )
+
     if overlay_fn is not None:
         overlay_fn(ax, voting_rule, um_key, iia_key, x_data, y_data)
+
     plt.savefig(output_path, bbox_inches="tight", dpi=300)
     plt.close(fig)
 
@@ -328,11 +281,11 @@ def create_full_scatter_plot(
     output_path: Path,
     plot_title: str,
 ) -> None:
-    """Create and save one full-style scatter plot (legacy reference style).
+    """Create and save a UM-versus-IIA scatterplot with a title and axis labels.
 
     Args:
-        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested metric values by rule and candidate count.
+        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested
+            metric values by rule and candidate count.
         voting_rule (str): Rule to plot.
         um_key (str): X-axis metric key.
         iia_key (str): Y-axis metric key.
@@ -355,6 +308,7 @@ def create_full_scatter_plot(
     ax.set_title(plot_title, fontsize=20)
     ax.set_xlabel(um_label, fontsize=16)
     ax.set_ylabel(iia_label, fontsize=16)
+
     plt.savefig(output_path, bbox_inches="tight", dpi=300)
     plt.close(fig)
 
@@ -364,58 +318,57 @@ def run_full_scatter_plots(
     ordered_rules: Sequence[str],
     output_dir: Path,
 ) -> None:
-    """Legacy exhaustive scatter workflow kept for reference.
+    """Save exhaustive UM-versus-IIA comparisons across variants and tiebreaks.
 
-    This mirrors the previously commented-out section that swept variants and
-    tiebreaks for both ranking and winner-set metric families.
+    Sweep both ranking and winner-set metric families for each voting rule.
 
     Args:
-        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested metric values by rule and candidate count.
+        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested
+            metric values by rule and candidate count.
         ordered_rules (Sequence[str]): Rules to include.
         output_dir (Path): Base plot output directory.
     """
-    for variant1, variant2, tiebreak in product(
+    for variant_um, variant_iia, tiebreak in product(
         ["average", "worst_case"], ["average", "worst_case"], ["lex", "random"]
     ):
         um_ranking = [
-            (f"sigma_UM_{variant1}_odds_{tiebreak}", "$\\sigma_{UM}$ ranking ODDS"),
-            (f"sigma_UM_{variant1}_asin_{tiebreak}", "$\\sigma_{UM}$ ranking ASIN"),
+            (f"sigma_UM_{variant_um}_odds_{tiebreak}", "$\\sigma_{UM}$ ranking ODDS"),
+            (f"sigma_UM_{variant_um}_asin_{tiebreak}", "$\\sigma_{UM}$ ranking ASIN"),
         ]
 
         um_winner_set = [
             (
-                f"sigma_UM_winner_set_{variant1}_odds_{tiebreak}",
+                f"sigma_UM_winner_set_{variant_um}_odds_{tiebreak}",
                 "$\\sigma_{UM}$ winner-set ODDS",
             ),
             (
-                f"sigma_UM_winner_set_{variant1}_asin_{tiebreak}",
+                f"sigma_UM_winner_set_{variant_um}_asin_{tiebreak}",
                 "$\\sigma_{UM}$ winner-set ASIN",
             ),
         ]
 
         iia_ranking = [
-            (f"sigma_IIA_{variant2}_{tiebreak}", "$\\sigma_{IIA}$ ranking single"),
+            (f"sigma_IIA_{variant_iia}_{tiebreak}", "$\\sigma_{IIA}$ ranking single"),
             (
-                f"sigma_IIA_all_subset_{variant2}_{tiebreak}",
+                f"sigma_IIA_all_subset_{variant_iia}_{tiebreak}",
                 "$\\sigma_{IIA}$ ranking all subset",
             ),
         ]
 
         iia_winner_set = [
             (
-                f"sigma_IIA_winner_set_{variant2}_{tiebreak}",
+                f"sigma_IIA_winner_set_{variant_iia}_{tiebreak}",
                 "$\\sigma_{IIA}$ winner-set single",
             ),
             (
-                f"sigma_IIA_winner_set_all_subset_{variant2}_{tiebreak}",
+                f"sigma_IIA_winner_set_all_subset_{variant_iia}_{tiebreak}",
                 "$\\sigma_{IIA}$ winner-set all subset",
             ),
         ]
 
         for voting_rule in ordered_rules:
             for (um_key, um_label), (iia_key, iia_label) in product(um_ranking, iia_ranking):
-                scatter_dir = output_dir / "scatter" / f"um-{variant1}_iia-{variant2}"
+                scatter_dir = output_dir / "scatter" / f"um-{variant_um}_iia-{variant_iia}"
                 scatter_dir.mkdir(parents=True, exist_ok=True)
                 plot_name = scatter_dir / f"{voting_rule}_{um_key}_vs_{iia_key}_scatter.png"
                 create_full_scatter_plot(
@@ -430,7 +383,7 @@ def run_full_scatter_plots(
                 )
 
             for (um_key, um_label), (iia_key, iia_label) in product(um_winner_set, iia_winner_set):
-                scatter_dir = output_dir / "scatter" / f"umws-{variant1}_iiaws-{variant2}"
+                scatter_dir = output_dir / "scatter" / f"umws-{variant_um}_iiaws-{variant_iia}"
                 scatter_dir.mkdir(parents=True, exist_ok=True)
                 plot_name = scatter_dir / f"{voting_rule}_{um_key}_vs_{iia_key}_scatter.png"
                 create_full_scatter_plot(
@@ -458,16 +411,17 @@ def run_limited_scatter_plots(
     """Generate the limited Scottish scatter plots for all rules.
 
     Args:
-        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]):
-            Nested metric values by rule and candidate count.
+        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested
+            metric values by rule and candidate count.
         ordered_rules (Sequence[str]): Rules to include.
         output_dir (Path): Base plot output directory.
-        variant_um (str): UM metric variant.
-        variant_iia (str): IIA metric variant.
-        tiebreak (str): Tiebreak suffix used in metric keys.
-        scatter_subdir (str): Subdirectory name under ``output_dir``.
-        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None):
-            Optional overlay callback for each plot.
+        variant_um (str, optional): UM metric variant. Defaults to 'worst_case'.
+        variant_iia (str, optional): IIA metric variant. Defaults to 'average'.
+        tiebreak (str, optional): Tiebreak suffix used in metric keys. Defaults to 'lex'.
+        scatter_subdir (str, optional): Subdirectory name under ``output_dir``. Defaults to
+            'scatter_by_voting_rule'.
+        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None, optional):
+            Optional overlay callback for each plot. Defaults to None.
     """
     scatter_dir = output_dir / scatter_subdir
     scatter_dir.mkdir(parents=True, exist_ok=True)

@@ -14,6 +14,7 @@ from voting_metrics_main_code.replication import STATS_INPUT, STATS_OUTPUT
 
 
 def main() -> None:
+    """Export primary Scottish metrics to one election-level CSV per voting rule."""
     (STATS_OUTPUT / "scottish_stats").mkdir(parents=True, exist_ok=True)
 
     for voting_rule in RULE_ORDER:
@@ -35,6 +36,7 @@ def main() -> None:
         )
 
         df_list = []
+
         for f in filtered_files[:]:
             metric = Path(f).parents[1].name
 
@@ -42,15 +44,18 @@ def main() -> None:
                 data = json.load(infile)
 
             inner_df_list = []
+
             for n_cands, value_dict in data.items():
                 value_series = pd.Series(value_dict)
                 inner_df = pd.DataFrame()
                 inner_df[metric] = value_series
                 inner_df["n_cands"] = int(n_cands)
                 inner_df = inner_df[["n_cands", metric]]
+
                 inner_df_list.append(inner_df)
 
             df = pd.concat(inner_df_list, axis=0).sort_values("n_cands")
+
             df_list.append(df)
 
         full_df = pd.concat(df_list, axis=1)

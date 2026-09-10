@@ -14,12 +14,13 @@ from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from pipelines.scottish.plots._data import load_outputs_by_election_type
+
 from voting_metrics_main_code.constants import RULE_ORDER
 from pipelines.scottish.plots.plot_um_iia_scatter import (
     build_limited_scatter_plot_name,
     draw_limited_scatter_base,
     get_limited_metric_key_pairs,
-    load_outputs_by_election_type,
     rule_color_map,
     run_limited_scatter_plots,
 )
@@ -28,10 +29,23 @@ from voting_metrics_main_code.replication import PLOTS_DIR, SCOTTISH_BOOTSTRAP_I
 
 
 def _metric_name_from_key(metric_key: str, tiebreak: str) -> str:
-    """Strip tiebreak suffix from a metric key."""
+    """Strip tiebreak suffix from a metric key.
+
+    Args:
+        metric_key (str): Metric key ending in an underscore and the tiebreak token.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+
+    Returns:
+        str: Metric name with exactly the terminal tiebreak suffix removed.
+
+    Raises:
+        ValueError: The metric key does not end with the expected tiebreak suffix.
+    """
     suffix = f"_{tiebreak}"
+
     if not metric_key.endswith(suffix):
         raise ValueError(f"Metric key {metric_key!r} does not end with suffix {suffix!r}.")
+
     return metric_key.removesuffix(suffix)
 
 
@@ -42,15 +56,20 @@ def load_rectangle_lookup(
 ) -> dict[tuple[str, str, str, int | None], tuple[float, float, float, float]]:
     """Load rectangle bounds keyed by rule + metric keys + candidate size.
 
+    Missing rectangle CSVs are reported and skipped.
+
     Args:
         bootstrap_dir (Path): Directory containing bootstrap rectangle CSV files.
         metric_pairs (list[tuple[str, str]]): List of ``(um_key, iia_key)`` pairs.
         tiebreak (str): Tiebreak value to filter rows.
 
     Returns:
-        dict[tuple[str, str, str, int | None], tuple[float, float, float, float]]:
-            Mapping from ``(rule, um_key, iia_key, candidate_size)`` to
-            ``(um_L, um_U, iia_L, iia_U)``. Pooled rows use ``candidate_size=None``.
+        dict[tuple[str, str, str, int | None], tuple[float, float, float, float]]: Mapping from
+            ``(rule, um_key, iia_key, candidate_size)`` to ``(um_L, um_U, iia_L, iia_U)``. Pooled
+            rows use ``candidate_size=None``.
+
+    Raises:
+        ValueError: A metric key does not end with the selected tiebreak suffix.
     """
     lookup: dict[tuple[str, str, str, int | None], tuple[float, float, float, float]] = {}
 
@@ -58,16 +77,20 @@ def load_rectangle_lookup(
         metric_um = _metric_name_from_key(um_key, tiebreak=tiebreak)
         metric_iia = _metric_name_from_key(iia_key, tiebreak=tiebreak)
         rectangle_csv = bootstrap_dir / f"bootstrap_rectangles_{metric_iia}_vs_{metric_um}.csv"
+
         if not rectangle_csv.exists():
             print(f"Missing rectangle file, skipping: {rectangle_csv}")
             continue
 
         df = pd.read_csv(rectangle_csv)
         filtered = df[df["tiebreak"] == tiebreak]
+
         for _, row in filtered.iterrows():
             candidate_size = None
+
             if not pd.isna(row["candidate_size"]):
                 candidate_size = int(row["candidate_size"])
+
             lookup[(row["rule"], um_key, iia_key, candidate_size)] = (
                 float(row["um_L"]),
                 float(row["um_U"]),
@@ -78,39 +101,74 @@ def load_rectangle_lookup(
     return lookup
 
 
+def _zoom_limits(
+    values: list[float],
+    lower_hint: float | None = None,
+    upper_hint: float | None = None,
+    min_span: float = 0.08,
+    pad_fraction: float = 0.08,
+) -> tuple[float, float]:
+    """Compute a zoomed axis range around observed values + rectangle hints.
+
+    Args:
+        values (list[float]): Nonempty observed score sequence.
+        lower_hint (float | None, optional): Additional lower bound to include before padding
+            and clipping. Defaults to None.
+        upper_hint (float | None, optional): Additional upper bound to include before padding
+            and clipping. Defaults to None.
+        min_span (float, optional): Minimum axis span before padding and clipping. Defaults to
+            0.08.
+        pad_fraction (float, optional): Fraction of the expanded span to add on each side.
+            Defaults to 0.08.
+
+    Returns:
+        tuple[float, float]: Padded lower and upper axis limits clipped to [-0.05, 1.05].
+
+    Raises:
+        ValueError: The observed score sequence is empty.
+    """
+    arr = np.asarray(values, dtype=float)
+    low = float(arr.min())
+    high = float(arr.max())
+
+    if lower_hint is not None:
+        low = min(low, lower_hint)
+
+    if upper_hint is not None:
+        high = max(high, upper_hint)
+
+    span = high - low
+
+    if span < min_span:
+        center = 0.5 * (low + high)
+        half = 0.5 * min_span
+        low = center - half
+        high = center + half
+
+    pad = pad_fraction * (high - low)
+    low -= pad
+    high += pad
+
+    return max(-0.05, low), min(1.05, high)
+
+
 def make_bootstrap_overlay(
     rectangle_lookup: dict[tuple[str, str, str, int | None], tuple[float, float, float, float]],
     candidate_size: int | None = None,
 ) -> Callable[[Axes, str, str, str, list[float], list[float]], None]:
-    """Create an overlay callback that draws pooled rectangles and means."""
+    """Create a callback that draws selected bootstrap rectangles, means, and zoomed limits.
 
-    def _zoom_limits(
-        values: list[float],
-        lower_hint: float | None = None,
-        upper_hint: float | None = None,
-        min_span: float = 0.08,
-        pad_fraction: float = 0.08,
-    ) -> tuple[float, float]:
-        """Compute a zoomed axis range around observed values + rectangle hints."""
-        arr = np.asarray(values, dtype=float)
-        low = float(arr.min())
-        high = float(arr.max())
-        if lower_hint is not None:
-            low = min(low, lower_hint)
-        if upper_hint is not None:
-            high = max(high, upper_hint)
+    Args:
+        rectangle_lookup (dict[tuple[str, str, str, int | None], tuple[float, float, float, float]]):
+            Bounds (um_L, um_U, iia_L, iia_U) keyed by rule, UM key, IIA key, and candidate size.
+        candidate_size (int | None, optional): Candidate count to select; None selects pooled
+            rectangle rows. Defaults to None.
 
-        span = high - low
-        if span < min_span:
-            center = 0.5 * (low + high)
-            half = 0.5 * min_span
-            low = center - half
-            high = center + half
-
-        pad = pad_fraction * (high - low)
-        low -= pad
-        high += pad
-        return max(-0.05, low), min(1.05, high)
+    Returns:
+        Callable[[Axes, str, str, str, list[float], list[float]], None]: Overlay callback accepting
+            axes, rule, UM key, IIA key, and paired score lists. Missing rectangles still allow mean
+            overlays.
+    """
 
     def overlay(
         ax: Axes,
@@ -120,9 +178,20 @@ def make_bootstrap_overlay(
         x_data: list[float],
         y_data: list[float],
     ) -> None:
+        """Draw the selected rectangle and observed mean, then zoom both axes around them.
+
+        Args:
+            ax (Axes): Matplotlib axes to draw into.
+            voting_rule (str): Voting rule name used to select statistics.
+            um_key (str): UM metric key for x-axis values.
+            iia_key (str): IIA metric key for y-axis values.
+            x_data (list[float]): UM scores for the horizontal axis.
+            y_data (list[float]): IIA scores for the vertical axis.
+        """
         key = (voting_rule, um_key, iia_key, candidate_size)
         rectangle = rectangle_lookup.get(key)
         um_l = um_u = iia_l = iia_u = None
+
         if rectangle is not None:
             um_l, um_u, iia_l, iia_u = rectangle
             ax.add_patch(
@@ -162,12 +231,11 @@ def run_limited_scatter_plots_by_candidate_count_with_bootstrap(
     """Create per-candidate-count limited bootstrap scatterplots.
 
     Args:
-        outputs_by_election_type (dict[str, dict[str, dict[str, list[float]]]]):
-            Nested metric values by rule and candidate count.
+        outputs_by_election_type (dict[str, dict[str, dict[str, list[float]]]]): Nested metric
+            values by rule and candidate count.
         ordered_rules (Sequence[str]): Rules to include.
         output_dir (Path): Base output directory.
-        metric_pairs (list[tuple[str, str]]): Limited metric key pairs as
-            ``(um_key, iia_key)``.
+        metric_pairs (list[tuple[str, str]]): Limited metric key pairs as ``(um_key, iia_key)``.
         variant_um (str): UM variant suffix used for filenames.
         variant_iia (str): IIA variant suffix used for filenames.
         tiebreak (str): Tiebreak suffix used in metric keys.
@@ -183,6 +251,7 @@ def run_limited_scatter_plots_by_candidate_count_with_bootstrap(
 
         for n_cands in sorted(outputs_by_election_type[voting_rule].keys(), key=int):
             per_cand = outputs_by_election_type[voting_rule][n_cands]
+
             for um_key, iia_key in metric_pairs:
                 if um_key not in per_cand or iia_key not in per_cand:
                     continue
@@ -215,6 +284,7 @@ def run_limited_scatter_plots_by_candidate_count_with_bootstrap(
                     voting_rule=voting_rule,
                 )
                 overlay_fn(ax, voting_rule, um_key, iia_key, x_data, y_data)
+
                 plt.savefig(output_path, bbox_inches="tight", dpi=300)
                 plt.close(fig)
 

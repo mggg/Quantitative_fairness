@@ -24,6 +24,14 @@ plots_dir = PLOTS_DIR / "bt_plots" / "um_plots"
 
 
 def plot_um_metric(metric: str, variant: str, tiebreak: str = "lex") -> None:
+    """Save UM means versus standard deviations colored by voting rule.
+
+    Args:
+        metric (str): Metric identifier used in the statistics filenames.
+        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        tiebreak (str, optional): Tiebreak rule token used in the statistics filenames. Defaults to
+            'lex'.
+    """
     plots_dir.mkdir(parents=True, exist_ok=True)
     output_file = plots_dir / f"{metric}__{variant}__mean_vs_std_colored_by_election_type.png"
 
@@ -69,6 +77,7 @@ def plot_um_metric(metric: str, variant: str, tiebreak: str = "lex") -> None:
     ax.set_ylabel("Standard Deviation", fontsize=16)
     ax.set_title(f"{metric} - {variant}", fontsize=16)
     ax.legend()
+
     plt.savefig(
         output_file,
         bbox_inches="tight",
@@ -78,6 +87,7 @@ def plot_um_metric(metric: str, variant: str, tiebreak: str = "lex") -> None:
 
 
 def main() -> None:
+    """Save the configured BT metric comparisons grouped by voting rule."""
     for metric, variant in product(um_metric_list, variant_list):
         plot_um_metric(metric, variant)
 

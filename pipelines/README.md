@@ -35,11 +35,17 @@ not produce. Their CSV stage fails if those inputs are absent. Use `plot_metric_
 `export_metric_tables.py` when working only with primary collector outputs. Bootstrap plotters
 need the interval CSVs produced by `compute_bootstrap_intervals.py`.
 
+The Scottish plotters share [`_data.py`](scottish/plots/_data.py) for loading metric JSONs
+by rule, candidate count, variant, and tiebreak.
+
 ## Bradley–Terry analyses
 
 The top-level BT collector reads the two-bloc folders listed in `config/bt_profiles.txt`.
 `alpha_sweep/` contains the separate experiment with one alpha parameter per profile folder.
 The two layouts are different inputs, even though both have plots involving alpha.
+
+The individual-metric collectors share [`_metrics.py`](bradley_terry/_metrics.py) to bind
+metric parameters. The alpha boxplot script keeps its panel selections and grid renderer together.
 
 | File | Purpose |
 | --- | --- |

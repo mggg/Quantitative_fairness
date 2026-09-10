@@ -14,12 +14,12 @@ from voting_metrics_main_code.replication import PLOTS_DIR, SCOTTISH_BOOTSTRAP_I
 
 
 def plot_rectangles(df: pd.DataFrame, metric: str, rule_color_map: dict[str, str]):
-    """
-    Plot rectangles [um_L, um_U] x [iia_L, iia_U] for each row in df.
+    """Plot rectangles [um_L, um_U] x [iia_L, iia_U] for each row in df.
 
     Args:
         df (pd.DataFrame): DataFrame with columns 'um_L', 'um_U', 'iia_L', 'iia_U', 'rule'.
-        rule_color_map (dict[str,str]): dict mapping rule names to colors.
+        metric (str): Metric label used in the output filename.
+        rule_color_map (dict[str, str]): dict mapping rule names to colors.
     """
     fig, ax = plt.subplots(figsize=(8, 8), dpi=300)
 
@@ -53,11 +53,12 @@ def plot_rectangles(df: pd.DataFrame, metric: str, rule_color_map: dict[str, str
         PLOTS_DIR / "scottish" / "bonferroni_rectangles" / f"{metric}_bonferroni_rectangle_plot.png"
     )
     output_file.parent.mkdir(parents=True, exist_ok=True)
+
     plt.savefig(output_file, bbox_inches="tight", dpi=300)
 
 
 def main() -> None:
-
+    """Save pooled bootstrap rectangle plots for ranking and winner-set metrics."""
     df = pd.read_csv(
         SCOTTISH_BOOTSTRAP_INPUT
         / "bootstrap_rectangles_sigma_IIA_average_vs_sigma_UM_worst_case_asin.csv"

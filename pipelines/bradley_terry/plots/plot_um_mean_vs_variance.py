@@ -35,13 +35,9 @@ metric_to_plot_name = {
 
 
 def main() -> None:
+    """Save BT UM means versus population variances for each metric and interpolation."""
     for metric in um_metric_list:
         plots_dir.mkdir(parents=True, exist_ok=True)
-
-        interpolation_to_points = {
-            interpolation_type: np.array([-1.0, -1.0])
-            for interpolation_type in interpolation_type_list
-        }
 
         for idx, interpolation_type in enumerate(interpolation_type_list):
             output_file = plots_dir / (
@@ -67,8 +63,6 @@ def main() -> None:
 
             data_points = load_metric_summaries(all_files, statistic="var")
 
-            interpolation_to_points[interpolation_type] = np.array(data_points)
-
             fig, ax = plt.subplots(figsize=(20, 20), dpi=300)
             print(f"NUMBER OF POINTS {len(data_points)}")
             data_points = np.array(data_points)
@@ -84,7 +78,6 @@ def main() -> None:
             if len(data_points) > 1:
                 z = np.polyfit(data_points[:, 0], data_points[:, 1], 1)
                 p = np.poly1d(z)
-                # x_line = np.linspace(data_points[:, 0].min(), data_points[:, 0].max(), 100)
                 xmin, xmax = -0.1, 1.1
                 x_line = np.linspace(xmin, xmax, 100)
                 ax.plot(x_line, p(x_line), color="black", linewidth=3, alpha=1.0)
@@ -94,6 +87,7 @@ def main() -> None:
 
             ax.set_yticks([0, 0.05, 0.1, 0.15, 0.2])
             ax.tick_params(axis="both", which="major", labelsize=24)
+
             plt.savefig(
                 output_file,
                 bbox_inches="tight",

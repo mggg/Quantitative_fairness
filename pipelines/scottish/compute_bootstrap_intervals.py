@@ -26,12 +26,20 @@ def sort_candidate_size_keys(size_keys: Iterable[str]) -> list[str]:
         size_keys (Iterable[str]): Candidate-size keys from metric JSON data.
 
     Returns:
-        list[str]: Sorted keys where digit-only values are ordered by integer
-        value and non-numeric keys are ordered lexicographically after numeric
-        keys.
+        list[str]: Sorted keys where digit-only values are ordered by integer value and non-numeric
+            keys are ordered lexicographically after numeric keys.
     """
 
     def _key(value: str) -> tuple[int, int | str]:
+        """Place digit-only candidate counts before other keys, sorting them numerically.
+
+        Args:
+            value (str): Candidate-count key to order.
+
+        Returns:
+            tuple[int, int | str]: Numeric-group marker and integer value, or text-group marker and
+                key.
+        """
         return (0, int(value)) if value.isdigit() else (1, value)
 
     return sorted(size_keys, key=_key)
@@ -44,10 +52,10 @@ def parse_tiebreak_from_filename(filename: str) -> str:
         filename (str): JSON filename following metric naming conventions.
 
     Returns:
-        str: Parsed tiebreak value (for example, ``"lex"``), or ``"unknown"``
-        if parsing fails.
+        str: Parsed tiebreak value (for example, ``"lex"``), or ``"unknown"`` if parsing fails.
     """
     match = TIEBREAK_PATTERN.search(filename)
+
     return match.group(1) if match else "unknown"
 
 
@@ -58,8 +66,8 @@ def load_metric_json(path: Path) -> dict[str, dict[str, float]]:
         path (Path): Absolute path to a metric JSON file.
 
     Returns:
-        dict[str, dict[str, float]]: Nested dictionary keyed by candidate size
-        (``str``) and election id (``str``) with metric values (``float``).
+        dict[str, dict[str, float]]: Nested dictionary keyed by candidate size (``str``) and
+            election id (``str``) with metric values (``float``).
 
     Raises:
         FileNotFoundError: If the JSON file does not exist.
@@ -76,10 +84,10 @@ def extract_metric_values(
     """Extract metric values for one candidate size or pool all sizes.
 
     Args:
-        metric_data (dict[str, dict[str, float]]): Metric values grouped by
-            candidate size and election id.
-        candidate_size (int | None): Specific candidate size to select. If
-            ``None``, values from all candidate sizes are pooled.
+        metric_data (dict[str, dict[str, float]]): Metric values grouped by candidate size and
+            election id.
+        candidate_size (int | None, optional): Specific candidate size to select. If ``None``,
+            values from all candidate sizes are pooled. Defaults to None.
 
     Returns:
         np.ndarray: One-dimensional float array of selected metric values.
@@ -90,20 +98,25 @@ def extract_metric_values(
     """
     if candidate_size is None:
         values: list[float] = []
+
         for size_key in sort_candidate_size_keys(metric_data.keys()):
             values.extend(metric_data[size_key].values())
     else:
         key = str(candidate_size)
+
         if key not in metric_data:
             available = sort_candidate_size_keys(metric_data.keys())
             raise KeyError(
                 f"candidate_size={candidate_size} not found. Available sizes: {available}"
             )
+
         values = list(metric_data[key].values())
 
     output = np.asarray(values, dtype=float)
+
     if output.size == 0:
         raise ValueError("No values available for bootstrap.")
+
     return output
 
 
@@ -117,23 +130,26 @@ def bootstrap_mean_percentile_ci(
 
     Args:
         values (np.ndarray): One-dimensional array of observed sample values.
-        n_resamples (int): Number of bootstrap resamples.
-        alpha (float): Two-sided error rate (for example, ``0.05`` for 95% CI).
-        seed (int): Seed used by NumPy's random generator.
+        n_resamples (int, optional): Number of bootstrap resamples. Defaults to 5000.
+        alpha (float, optional): Two-sided error rate (for example, ``0.05`` for 95% CI). Defaults
+            to 0.05.
+        seed (int, optional): Seed used by NumPy's random generator. Defaults to 0.
 
     Returns:
         tuple[float, float]: Lower and upper CI bounds.
 
     Raises:
-        ValueError: If ``values`` is empty, ``n_resamples < 2``, or ``alpha``
-        is not in ``(0, 1)``.
+        ValueError: If ``values`` is empty, ``n_resamples < 2``, or ``alpha`` is not in ``(0, 1)``.
     """
     x = np.asarray(values, dtype=float)
     n = len(x)
+
     if n == 0:
         raise ValueError("Cannot bootstrap an empty sample.")
+
     if n_resamples < 2:
         raise ValueError("n_resamples must be >= 2.")
+
     if not (0.0 < alpha < 1.0):
         raise ValueError("alpha must be in (0, 1).")
 
@@ -166,34 +182,37 @@ def bootstrap_confidence_rectangle(
     """Compute a Bonferroni-adjusted rectangle for paired IIA/UM means.
 
     Args:
-        iia_data (dict[str, dict[str, float]]): IIA metric data keyed by
-            candidate size and election id.
-        um_data (dict[str, dict[str, float]]): UM metric data keyed by
-            candidate size and election id.
-        candidate_size (int | None): Candidate size filter. If ``None``,
-            all shared sizes are pooled.
-        n_resamples (int): Number of bootstrap resamples.
-        alpha (float): Family-wise error target for the 2D rectangle.
-        seed (int): Random seed for reproducible resampling.
-        return_samples (bool): Include paired observations and resampled means for plotting.
+        iia_data (dict[str, dict[str, float]]): IIA metric data keyed by candidate size and election
+            id.
+        um_data (dict[str, dict[str, float]]): UM metric data keyed by candidate size and election
+            id.
+        candidate_size (int | None, optional): Candidate size filter. If ``None``, all shared sizes
+            are pooled. Defaults to None.
+        n_resamples (int, optional): Number of bootstrap resamples. Defaults to 5000.
+        alpha (float, optional): Family-wise error target for the 2D rectangle. Defaults to 0.05.
+        seed (int, optional): Random seed for reproducible resampling. Defaults to 0.
+        return_samples (bool, optional): Include paired observations and resampled means for
+            plotting. Defaults to False.
 
     Returns:
-        dict[str, Any]: Rectangle output with IIA/UM intervals, pair counts,
-        candidate size, and overlap metadata.
+        dict[str, Any]: Rectangle output with IIA/UM intervals, pair counts, candidate size, and
+            overlap metadata.
 
     Raises:
         ValueError: If no overlapping election ids exist after alignment.
-        KeyError: If ``candidate_size`` is specified but missing in either
-        metric data.
+        KeyError: If ``candidate_size`` is specified but missing in either metric data.
     """
     if candidate_size is None:
         size_keys = sort_candidate_size_keys(set(iia_data.keys()) & set(um_data.keys()))
     else:
         key = str(candidate_size)
+
         if key not in iia_data:
             raise KeyError(f"candidate_size={candidate_size} missing from IIA data.")
+
         if key not in um_data:
             raise KeyError(f"candidate_size={candidate_size} missing from UM data.")
+
         size_keys = [key]
 
     paired_values: list[tuple[float, float]] = []
@@ -215,11 +234,13 @@ def bootstrap_confidence_rectangle(
 
     paired = np.asarray(paired_values, dtype=float)
     n_pairs = len(paired)
+
     if n_pairs == 0:
         raise ValueError("No overlapping election IDs found across selected sizes.")
 
     rng = np.random.default_rng(seed)
     boot = np.empty((n_resamples, 2), dtype=float)
+
     for i in range(n_resamples):
         sample_idx = rng.integers(0, n_pairs, size=n_pairs)
         boot[i, :] = paired[sample_idx, :].mean(axis=0)
@@ -239,8 +260,10 @@ def bootstrap_confidence_rectangle(
         "sizes_used": size_keys,
         "overlap_counts_by_size": overlap_counts,
     }
+
     if return_samples:
         result.update(paired=paired, bootstrap_means=boot)
+
     return result
 
 
@@ -261,14 +284,17 @@ def iter_metric_json_files(
     """
     for election_name in all_election_types:
         rule_dir = stats_dir / metric_name / election_name
+
         if not rule_dir.exists():
             print(f"Skipping missing rule directory: {rule_dir}")
             continue
 
         for json_file in sorted(rule_dir.glob("*.json")):
             tiebreak = parse_tiebreak_from_filename(json_file.name)
+
             if tiebreak == "random":
                 continue
+
             yield election_name, tiebreak, json_file
 
 
@@ -296,8 +322,8 @@ def build_ci_rows_for_file(
         list[dict[str, Any]]: One pooled row and one row per candidate size.
 
     Raises:
-        ValueError: If candidate-size keys are not integer-like or bootstrap
-        inputs are invalid/empty.
+        ValueError: If candidate-size keys are not integer-like or bootstrap inputs are
+            invalid/empty.
     """
     rows: list[dict[str, Any]] = []
 
@@ -308,6 +334,7 @@ def build_ci_rows_for_file(
         alpha=alpha,
         seed=seed,
     )
+
     rows.append(
         {
             "metric": metric_name,
@@ -332,6 +359,7 @@ def build_ci_rows_for_file(
             alpha=alpha,
             seed=seed,
         )
+
         rows.append(
             {
                 "metric": metric_name,
@@ -375,8 +403,8 @@ def build_rectangle_rows_for_file_pair(
         list[dict[str, Any]]: One pooled row and one row per candidate size.
 
     Raises:
-        ValueError: If candidate-size keys are not integer-like, no
-        overlapping election ids are found, or bootstrap inputs are invalid.
+        ValueError: If candidate-size keys are not integer-like, no overlapping election ids are
+            found, or bootstrap inputs are invalid.
     """
     rows: list[dict[str, Any]] = []
     size_keys = sort_candidate_size_keys(set(iia_data.keys()) & set(um_data.keys()))
@@ -389,6 +417,7 @@ def build_rectangle_rows_for_file_pair(
         alpha=alpha,
         seed=seed,
     )
+
     rows.append(
         {
             "metric_iia": rectangle_metric_iia,
@@ -415,6 +444,7 @@ def build_rectangle_rows_for_file_pair(
             alpha=alpha,
             seed=seed,
         )
+
         rows.append(
             {
                 "metric_iia": rectangle_metric_iia,
@@ -470,6 +500,7 @@ def run_bootstrap_ci(
             stats_dir=stats_dir,
         ):
             metric_data = load_metric_json(json_file)
+
             ci_rows.extend(
                 build_ci_rows_for_file(
                     metric_name=metric_for_cis,
@@ -483,11 +514,13 @@ def run_bootstrap_ci(
             )
 
         ci_df = pd.DataFrame(ci_rows)
+
         if ci_df.empty:
             raise ValueError(f"No CI rows generated for {metric_for_cis}.")
 
         ci_df = ci_df.sort_values(["rule", "tiebreak", "candidate_size"], na_position="first")
         ci_output_file = output_folder / f"bootstrap_cis_{metric_for_cis}.csv"
+
         ci_df.to_csv(ci_output_file, index=False)
         print(f"Saved bootstrap CIs: {ci_output_file}")
 
@@ -504,22 +537,20 @@ def run_bootstrap_rectangle(
     """Collect and save bootstrap rectangle CSVs for selected metric pairs.
 
     Args:
-        rectangle_metric_pairs (list[tuple[str, str]]): Pairs of
-            ``(metric_iia, metric_um)`` to process.
+        rectangle_metric_pairs (list[tuple[str, str]]): Pairs of ``(metric_iia, metric_um)`` to
+            process.
         all_election_types (list[str]): Election/rule names to include.
         stats_dir (Path): Base Scottish stats directory.
         n_resamples (int): Number of bootstrap resamples.
         alpha (float): Family-wise error target for each rectangle.
         seed (int): RNG seed.
-        output_folder (Path): Output directory for generated rectangle CSV
-            files.
+        output_folder (Path): Output directory for generated rectangle CSV files.
 
     Returns:
         None: Writes one rectangle CSV per metric pair to ``output_folder``.
 
     Raises:
-        ValueError: If no rectangle rows are generated for a requested metric
-        pair.
+        ValueError: If no rectangle rows are generated for a requested metric pair.
     """
     for rectangle_metric_iia, rectangle_metric_um in rectangle_metric_pairs:
         rectangle_rows: list[dict[str, Any]] = []
@@ -546,6 +577,7 @@ def run_bootstrap_rectangle(
 
             iia_data = load_metric_json(iia_file)
             um_data = load_metric_json(um_file)
+
             rectangle_rows.extend(
                 build_rectangle_rows_for_file_pair(
                     rectangle_metric_iia=rectangle_metric_iia,
@@ -561,6 +593,7 @@ def run_bootstrap_rectangle(
             )
 
         rectangle_df = pd.DataFrame(rectangle_rows)
+
         if rectangle_df.empty:
             raise ValueError(
                 f"No rectangle rows generated for {rectangle_metric_iia} vs {rectangle_metric_um}."
@@ -574,11 +607,18 @@ def run_bootstrap_rectangle(
             output_folder
             / f"bootstrap_rectangles_{rectangle_metric_iia}_vs_{rectangle_metric_um}.csv"
         )
+
         rectangle_df.to_csv(rectangle_output_file, index=False)
         print(f"Saved confidence rectangles: {rectangle_output_file}")
 
 
 def main() -> None:
+    """Save bootstrap intervals and paired confidence rectangles for the primary Scottish metrics.
+
+    Raises:
+        ValueError: A requested metric or metric pair produces no rows, or bootstrap inputs are
+            invalid.
+    """
     # Defaults chosen to match the bootstrap notebook experiments.
     ci_metrics = [
         "sigma_IIA_average",

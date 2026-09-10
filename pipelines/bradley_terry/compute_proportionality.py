@@ -26,7 +26,8 @@ def load_one(path: str) -> tuple[str, PreferenceProfile]:
         path (str): The path to the CSV file.
 
     Returns:
-        tuple[str, PreferenceProfile]: A tuple containing the file path and the loaded PreferenceProfile.
+        tuple[str, PreferenceProfile]: A tuple containing the file path and the loaded
+            PreferenceProfile.
     """
     return path, RankProfile.from_csv(path)
 
@@ -62,6 +63,7 @@ def get_all_profiles(
         )
 
     all_profiles = dict(pairs)
+
     return all_profiles
 
 
@@ -89,7 +91,8 @@ def process_profile(
         profile (PreferenceProfile): The loaded PreferenceProfile.
 
     Returns:
-        dict[str, dict[str, dict[str, float]]]: A dictionary containing processed data for the given file.
+        dict[str, dict[str, dict[str, float]]]: A dictionary containing processed data for the given
+            file.
     """
     profile_path = Path(file)
     relative_profile = profile_path.relative_to(profile_path.parents[2])
@@ -145,6 +148,7 @@ def process_profile(
     expected_b_win_proportion = expected_b_fpv / n_voters
 
     file_to_rule_dict = {}
+
     for voting_rule_name in get_args(AllowedRule):
         rule = build_voting_rule(n_cands=n_cands, voting_rule_name=voting_rule_name)
         winners = rule(profile, m=3).get_elected()
@@ -170,7 +174,7 @@ def process_profile(
 @click.option("--a-coh", type=float, required=True, help="Cohesion of A voters (between 0 and 1)")
 @click.option("--b-coh", type=float, required=True, help="Cohesion of B voters (between 0 and 1)")
 def main(n_a_cand: int, n_b_cand: int, b_prop: float, a_coh: float, b_coh: float) -> None:
-    """Main function to execute the script.
+    """Compute and save expected and observed bloc representation for one BT parameter setting.
 
     Args:
         n_a_cand (int): Number of A candidates.
@@ -187,11 +191,13 @@ def main(n_a_cand: int, n_b_cand: int, b_prop: float, a_coh: float, b_coh: float
         )
 
     total_dictionary: dict[str, dict[str, float]] = {}
+
     for file_dict in all_file_to_rule_dicts:
         total_dictionary.update(file_dict)
 
     out_dir = Path(f"{STATS_OUTPUT}/bt_proportionality")
     out_dir.mkdir(parents=True, exist_ok=True)
+
     with open(
         f"{out_dir}/{n_a_cand:02d}_{n_b_cand:02d}_bprop_"
         f"{b_prop:0.1f}_cohesion_({a_coh:0.2f},{b_coh:0.2f})_results.json",

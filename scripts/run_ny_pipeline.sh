@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
-REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)" || exit
+
 exec uv run --project "$REPO_ROOT" --locked python "$REPO_ROOT/scripts/replicate.py" ny "$@"

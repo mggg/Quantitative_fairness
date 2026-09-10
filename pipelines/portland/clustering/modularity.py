@@ -1,6 +1,4 @@
-"""
-Utilities for computing modularity-like scores from matrices, including handling signed weights
-and different scoring variants.
+"""Compute modularity-like scores from matrices with signed weights and cluster assignments.
 
 The majority of the content of these functions is copied directly from files in the github
 repository
@@ -44,15 +42,19 @@ def boost_modularity_matrix(A: NDArray, assignment_vec: NDArray):
     The diagonal of B is then set to 0, effectively ignoring self-loops in the
     modularity objective.
 
+    Only within-cluster off-diagonal entries are evaluated. Both positive and negative
+    weight totals must be nonzero for those entries to avoid division by zero.
+
     Args:
         A (NDArray): Square adjacency/weight matrix of shape (n, n). Can be weighted and/or
             directed. Values are typically nonnegative for standard modularity.
-        assignment_vec (NDArray): Vector of shape (n,) containing cluster assignments for
-            each node. Nodes in the same cluster are considered together in the modularity
-            calculation. Values should be non-negative integers representing cluster IDs.
+        assignment_vec (NDArray): Vector of shape (n,) containing cluster assignments for each node.
+            Nodes in the same cluster are considered together in the modularity calculation. Values
+            should be non-negative integers representing cluster IDs.
 
     Returns:
-        The modularity matrix B of shape (n, n), same dtype/shape as A.
+        NDArray: Floating-point modularity matrix with shape (n, n). Entries outside clusters and on
+            the diagonal are zero.
     """
     A_pos = np.where(A > 0, A, 0)
     A_neg = np.where(A < 0, -A, 0)
@@ -68,11 +70,11 @@ def boost_modularity_matrix(A: NDArray, assignment_vec: NDArray):
 
     # Apply the delta_ij mask so we only look for things that
     # are in the same cluster
-    assigment_matrix_mask = np.equal.outer(assignment_vec, assignment_vec)
-    assigment_matrix_mask &= ~np.eye(
+    same_cluster_mask = np.equal.outer(assignment_vec, assignment_vec)
+    same_cluster_mask &= ~np.eye(
         len(assignment_vec), dtype=bool
     )  # Remove diagonal elements since we don't allow self loops
-    delta_ij_positions = np.argwhere(assigment_matrix_mask)
+    delta_ij_positions = np.argwhere(same_cluster_mask)
     modularity_matrix = np.zeros_like(A, dtype=float)
 
     for i, j in delta_ij_positions:
@@ -93,40 +95,43 @@ def compute_modularity(A: NDArray, assignment_vec: NDArray):
     Args:
         A (NDArray): Square adjacency/weight matrix of shape (n, n). Can be weighted and/or
             directed. Values are typically nonnegative for standard modularity.
-        assignment_vec (NDArray): Vector of shape (n,) containing cluster assignments for
-            each node. Nodes in the same cluster are considered together in the modularity
-            calculation. Values should be non-negative integers representing cluster IDs.
+        assignment_vec (NDArray): Vector of shape (n,) containing cluster assignments for each node.
+            Nodes in the same cluster are considered together in the modularity calculation. Values
+            should be non-negative integers representing cluster IDs.
 
+    Returns:
+        float: Sum of within-cluster modularity entries divided by total absolute edge weight.
     """
     modularity_matrix = boost_modularity_matrix(A, assignment_vec)
+
     return np.sum(modularity_matrix) / np.sum(np.abs(A))
 
 
 def generate_flip_proposal(mutated_assignment_vec: NDArray, n_clusters: int, rng: random.Random):
     """Generate a new cluster assignment proposal by flipping the cluster assignment of one node.
 
+    At least one cluster must contain more than one node for the selection loop to terminate.
+    The proposed label can equal the original label, leaving the assignment unchanged.
+
     Args:
         mutated_assignment_vec (NDArray): Current cluster assignment vector of shape (n,). This
             vector will be modified in-place to produce the new proposal.
-        n_clusters (int): The total number of clusters. New cluster assignments will be in the
-            range [0, n_clusters - 1].
-        rng (random.Random): A random number generator instance for reproducibility.
+        n_clusters (int): The total number of clusters. New cluster assignments will be in the range
+            [0, n_clusters - 1].
+        rng (random.Random): Generator for the proposed label; node selection uses NumPy’s global
+            RNG.
 
     Returns:
-        The modified cluster assignment vector with one node's cluster assignment flipped to a
-        different cluster. The function ensures that flipping does not reduce the number of
-        clusters by checking that the node being flipped is not the last member of its current
-        cluster.
+        NDArray: The same array, modified in place without removing the last member of a cluster.
     """
     assignment_counts = np.bincount(mutated_assignment_vec, minlength=n_clusters + 1)
-    found_flip = False
-    to_flip = None
-    while not found_flip:
+
+    while True:
         to_flip = np.random.choice(len(mutated_assignment_vec))
         # Make sure we don't reduce the number of clusters by flipping the last member of a
         # cluster to a different cluster
         if assignment_counts[mutated_assignment_vec[to_flip]] > 1:
-            found_flip = True
+            break
 
     mutated_assignment_vec[to_flip] = rng.randint(0, n_clusters - 1)
 
@@ -143,33 +148,38 @@ def run_modularity_maximization_short_bursts(
 ):
     """Run modularity maximization using short bursts of local search.
 
-    This function performs a local search to maximize the modularity score by iteratively. In
-    each burst, it generates a sequence of cluster assignment proposals by flipping the cluster
+    In each burst, it generates a sequence of cluster assignment proposals by flipping the cluster
     assignment of one node at a time. If a proposal has a modularity score that is greater than
     or equal to the best score found so far, it updates the best assignment and modularity score.
 
     Args:
         M (NDArray): Square adjacency/weight matrix of shape (n, n). Can be weighted and/or
             directed. Values are typically nonnegative for standard modularity.
-        initial_assignment_vec (Sequence[int | float]): Initial cluster assignment vector of shape
-            (n,). Values should be non-negative integers representing cluster IDs.
-        n_clusters (int): The total number of clusters. Cluster assignments should be in the
-            range [0, n_clusters - 1].
+        initial_assignment_vec (NDArray): Initial cluster assignment vector of shape (n,). Values
+            should be non-negative integers representing cluster IDs.
+        n_clusters (int): The total number of clusters. Cluster assignments should be in the range
+            [0, n_clusters - 1].
         burst_length (int): The number of local search steps to perform in each burst.
         n_bursts (int): The total number of bursts to perform.
         rng (random.Random): A random number generator instance for reproducibility.
+
+    Returns:
+        tuple[NDArray, float]: Best assignment found and its modularity score.
     """
     assignment_vec = initial_assignment_vec.copy()
 
     best_modularity = compute_modularity(M, assignment_vec)
     best_assignment_vec = assignment_vec.copy()
+
     for _ in range(n_bursts):
         current_burst_assignment = best_assignment_vec.copy()
+
         for _ in range(burst_length):
             current_burst_assignment = generate_flip_proposal(
                 current_burst_assignment, n_clusters, rng
             )
             new_modularity = compute_modularity(M, current_burst_assignment)
+
             if new_modularity >= best_modularity:
                 best_assignment_vec = current_burst_assignment.copy()
                 best_modularity = compute_modularity(M, best_assignment_vec)

@@ -17,8 +17,8 @@ uv run --locked python scripts/smoke_test.py
 
 Environment synchronization installs the locked dependencies without modifying data. NY and Portland
 cleaned inputs are tracked; optional Scottish and BT retrieval commands are in the guide. BT inputs
-use Git LFS.
-New results go to `results/generated/`. Existing data and historical results remain in place.
+use Git LFS. New results go to `results/generated/`. Existing data and historical results remain
+in place.
 
 ## Reproducibility
 

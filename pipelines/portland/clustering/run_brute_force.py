@@ -1,6 +1,6 @@
-"""
-Run brute-force optimization of the modularity-like score for clustering candidates, to check
-how well the heuristic optimization does.
+"""Find exhaustive modularity optima for Portland candidate clusters.
+
+Compare these optima with the assignments found by heuristic optimization.
 """
 
 import sys
@@ -24,10 +24,18 @@ from voting_metrics_main_code.replication import DATA_DIR
 def load_and_project(profile_number: int):
     """Load in the profile and project it to the viable candidates.
 
+    Candidates with mentions below the three-seat STV threshold are removed.
+    Nonfinite boost entries are replaced using NumPy’s nan_to_num defaults.
+
     Args:
         profile_number (int): The number of the profile to load and project.
-    """
 
+    Returns:
+        tuple[RankProfile, np.ndarray]: Projected profile and boost matrix in its candidate order.
+
+    Raises:
+        FileNotFoundError: The requested Portland profile CSV does not exist.
+    """
     profile = RankProfile.from_csv(f"{DATA_DIR}/Portland_D{profile_number}_cleaned_votekit.csv")
     candidates = list(profile.candidates)
 
@@ -44,8 +52,9 @@ def load_and_project(profile_number: int):
 
 
 class PartitionAssignments:
-    """Generate all length-n_cands vectors of labels 0..k_parts-1, with options to exclude trivial
-    vectors and require all parts used.
+    """Iterate over candidate assignments with optional trivial-vector and required-parts filters.
+
+    Assignments have n_cands entries with labels from 0 through k_parts - 1.
     """
 
     def __init__(
@@ -61,12 +70,17 @@ class PartitionAssignments:
         Args:
             n_cands (int): The number of candidates (length of vectors).
             k_parts (int): The number of parts (labels 0..k-1).
-            exclude_trivial (bool): If True, skip vectors where all entries are the same.
-            require_all_parts_used (bool): If True, only yield vectors that use all k parts at
-                least once.
+            exclude_trivial (bool, optional): If True, skip vectors where all entries are the same.
+                Defaults to True.
+            require_all_parts_used (bool, optional): If True, only yield vectors that use all k
+                parts at least once. Defaults to True.
+
+        Raises:
+            ValueError: n_cands is below one or k_parts is below two.
         """
         if n_cands <= 0:
             raise ValueError("n_cands must be >= 1")
+
         if k_parts <= 1:
             raise ValueError("k_parts must be >= 2")
 
@@ -79,6 +93,11 @@ class PartitionAssignments:
         self.current = 0
 
     def __iter__(self):
+        """Return this stateful iterator without resetting its current position.
+
+        Returns:
+            PartitionAssignments: This iterator at its current position.
+        """
         return self
 
     def _to_base_k_vec(self, x: int):
@@ -89,62 +108,92 @@ class PartitionAssignments:
 
         Args:
             x (int): The integer to convert, in the range [0, k_parts**n_cands).
+
+        Returns:
+            list[int]: Base-k digits in most-significant-first order, padded to n_cands entries.
         """
         vec = [0] * self.n_cands
         k = self.k_parts
+
         for i in range(self.n_cands - 1, -1, -1):
             x, r = divmod(x, k)
             vec[i] = r
+
         return vec
 
     def _accept(self, vec: list[int]):
-        """Check if the vector vec should be accepted based on the exclude_trivial and
-        require_all_parts_used options.
+        """Check an assignment against the trivial-vector and required-parts filters.
 
         Args:
-            vec (List[int]): The vector to check, should be of length n_cands with entries in
-            0..k_parts-1.
+            vec (list[int]): The vector to check, should be of length n_cands with entries in
+                0..k_parts-1.
+
+        Returns:
+            bool: Whether the assignment satisfies both configured filtering rules.
         """
         if self.exclude_trivial:
             # skip constant vectors like [0,0,0] or [2,2,2]
             if all(v == vec[0] for v in vec):
                 return False
+
         if self.require_all_parts_used:
             # ensure every label 0..k-1 appears at least once
             if len(set(vec)) < self.k_parts:
                 return False
+
         return True
 
     def __next__(self):
+        """Advance to the next assignment satisfying the configured filtering rules.
+
+        Returns:
+            list[int]: Next accepted candidate-label vector in base-k counting order.
+
+        Raises:
+            StopIteration: All k_parts**n_cands assignments have been considered.
+        """
         while self.current < self.max_val:
             vec = self._to_base_k_vec(self.current)
             self.current += 1
+
             if self._accept(vec):
                 return vec
+
         raise StopIteration
 
     def __len__(self):
+        """Count all accepted assignments, including any already consumed.
+
+        Returns:
+            int: Total assignments satisfying the configured filtering rules.
+        """
         k, n = self.k_parts, self.n_cands
 
         if self.require_all_parts_used:
             # number of surjections onto k labeled parts:
             # sum_{i=0..k} (-1)^i * C(k,i) * (k-i)^n
             total = 0
+
             for i in range(0, k + 1):
                 total += ((-1) ** i) * comb(k, i) * ((k - i) ** n)
+
             return total
         else:
             total = k**n
+
             if self.exclude_trivial:
                 total -= k
+
             return total
 
 
 def main() -> None:
+    """Print exhaustive best modularity assignments for Portland districts and two to four parts."""
     for n_parts in range(2, 5):
         print("=" * 50)
         print(f"  {n_parts} PARTS  ".center(50, "="))
         print("=" * 50)
+
         for i in range(1, 5):
             print(f"Loading profile {i}...", end="\r")
             profile, boost = load_and_project(i)
@@ -152,18 +201,23 @@ def main() -> None:
 
             max_score = float("-inf")
             best_vec = None
+
             for vec in PartitionAssignments(len(cands), n_parts):
                 modularity = compute_modularity(boost, vec)
+
                 if modularity > max_score:
                     max_score = modularity
                     best_vec = vec
+
             print("Best vec:", best_vec)
             print("Max score:", max_score)
+
             for j in range(n_parts):
                 print(
                     f"Candidate Group {j}:",
                     np.array(cands)[np.array(best_vec) == j].tolist(),
                 )
+
             print("-------------------")
 
 
