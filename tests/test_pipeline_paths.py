@@ -101,6 +101,11 @@ def test_standalone_defaults_and_explicit_inputs(tmp_path, monkeypatch):
         tmp_path / "new-results/stats/scottish_stats/bootstrap"
     )
 
+    monkeypatch.delenv("QF_RESULTS_DIR")
+    paths = runpy.run_path(ROOT / "voting_metrics_main_code/replication.py")
+    assert paths["STATS_OUTPUT"] == ROOT / "stats"
+    assert paths["PLOTS_DIR"] == ROOT / "plots"
+
 
 @pytest.mark.parametrize("mode", ["all", "figures"])
 @pytest.mark.parametrize("dataset", ["ny", "portland", "scottish", "bt"])

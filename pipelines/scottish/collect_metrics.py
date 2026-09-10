@@ -25,7 +25,13 @@ from voting_metrics_main_code.fairness_metric import (
     sigma_UM,
     sigma_UM_winner_set,
 )
-from voting_metrics_main_code.replication import DATA_DIR, N_JOBS, STATS_OUTPUT, seed_task
+from voting_metrics_main_code.replication import (
+    DATA_DIR,
+    N_JOBS,
+    STATS_OUTPUT,
+    new_data_file,
+    seed_task,
+)
 from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 
@@ -332,8 +338,8 @@ def main() -> None:
             / f"METRIC_{metric}__ELECTION_TYPE_{election_name}__TIEBREAK_{tiebreak}_output.json"
         )
 
-        if output_file.exists():
-            print(f"Skipping {output_file}, already exists.")
+        if output_file.exists() or output_file.is_symlink():
+            print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
             continue
 
         with joblib_progress(
@@ -357,7 +363,7 @@ def main() -> None:
         for n_cands, file_name, value in results:
             output_dict[n_cands][file_name] = value
 
-        with open(output_file, "w") as f:
+        with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:
             json.dump(output_dict, f, indent=4)
 
 

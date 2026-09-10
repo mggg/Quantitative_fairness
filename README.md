@@ -17,8 +17,10 @@ uv run --locked python scripts/smoke_test.py
 
 Environment synchronization installs the locked dependencies without modifying data. NY and Portland
 cleaned inputs are tracked; optional Scottish and BT retrieval commands are in the guide. BT inputs
-use Git LFS. New results go to `results/generated/`. Existing data and historical results remain
-in place.
+use Git LFS. The runners write under `results/generated/`; standalone collectors and plotters
+default to `stats/` and `plots/`. Preference profiles, preference interval dataframes, and saved
+metric scores or election results are never replaced. Move those files manually to recompute them.
+Figures and other derived outputs are overwritten by default.
 
 ## Reproducibility
 
@@ -38,7 +40,7 @@ calculations may still differ from the historical runs. See the replication guid
 | `config/`                           | Experiment selections, including the BT profile folders            |
 | `tests/`                            | Maintained behavior and replication checks                         |
 | `data/`                             | Preserved inputs; optional large downloads                         |
-| `stats/`, `plots/`                  | Preserved historical results, pending publication designation      |
+| `stats/`, `plots/`                  | Saved statistics and regenerable figures                           |
 | `results/generated/`                | Ignored outputs of new runs                                        |
 | `docs/`                             | Replication inventory, provenance, and baseline                    |
 | `archive/`                          | Preserved superseded source snapshots                              |

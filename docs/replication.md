@@ -96,16 +96,22 @@ particular redistribution license.
 ./scripts/run_bt_pipeline.sh --n-jobs 4
 ```
 
-New artifacts go to `results/generated/`, with `stats/`, `plots/`, and `tables/` beneath it.
-Existing top-level `data/`, `stats/`, and `plots/` remain intact. Output-directory validation rejects
-paths overlapping the preserved research directories, including resolved symlink targets. Existing
-symlinks nested anywhere in a selected output tree are rejected, even if their targets are benign.
+The runners write under `results/generated/`, with `stats/`, `plots/`, and `tables/` beneath it.
+Standalone collectors and plotters default to the repository's `stats/` and `plots/` directories.
+Protection applies to individual data files, not whole directory trees: preference profiles,
+preference interval dataframes, metric scores, and election results are never replaced. Move an
+existing file manually in your file explorer or terminal before recomputing it. There is no force
+or overwrite option for these files. Completed data is published only if the destination remains
+absent; failed writes leave no partial result at the destination.
+
+Figures, exported tables, bootstrap summaries, and generated settings files overwrite by default.
+Importing the shared path module does not scan or validate output directories.
 The maintained entry points live under `scripts/`. Redundant root runners have been removed;
 the original research runners are preserved in `archive/pre_cleanup/`.
 
 Use `--mode stats` to compute without plotting, `--mode figures` to use existing statistics, and
 `--output-dir /path/to/new-results` for a separate run. Repeated runs may replace generated tables
-and plots. BT and Scottish collectors skip existing metric outputs. Use a new output directory
+and plots. All collectors skip existing result files before computation. Use a new output directory
 when changing inputs, code, seeds, or experiment definitions; existing historical outputs have no
 complete execution provenance. Run manifests record the seed, interpreter, lock checksum and,
 for BT, settings checksum. They are not certificates of provenance for old results.
@@ -130,8 +136,8 @@ not produce: `plot_boxplots_and_tables.py` and the CSV stage of
 missing aggregate inputs. Use `plot_metric_boxplots.py` and `export_metric_tables.py` for
 the current layout; the maintained Scottish runner already uses the latter for tables.
 
-Standalone plotting scripts read the preserved `stats/` tree by default and write under
-`results/generated/plots/`. Select different inputs explicitly with `QF_STATS_DIR` (the parent
+Standalone plotting scripts read the `stats/` tree by default and overwrite figures under
+`plots/`. Select different inputs explicitly with `QF_STATS_DIR` (the parent
 of the dataset statistics directories) or `QF_BT_STATS_DIR` (the exact BT primary-metric tree).
 `QF_RESULTS_DIR` changes the output root without changing the input selection. The maintained
 runner selects its generated statistics explicitly in `--mode all`; `--mode figures` defaults
@@ -154,7 +160,8 @@ bootstrap directory independently. Without `QF_BOOTSTRAP_DIR`, bootstrap plots r
 `scottish_stats/bootstrap/` beneath `QF_STATS_DIR` (or the preserved `stats/` default).
 
 ```sh
-uv run --locked python pipelines/scottish/compute_bootstrap_intervals.py
+QF_RESULTS_DIR=results/generated \
+  uv run --locked python pipelines/scottish/compute_bootstrap_intervals.py
 QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
   uv run --locked python pipelines/scottish/plots/plot_um_iia_bootstrap.py
 QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
@@ -162,7 +169,7 @@ QF_BOOTSTRAP_DIR=results/generated/stats/scottish_stats/bootstrap \
 ```
 
 `config/bt_profiles.txt` retains the original selection and order with repository-relative paths.
-Generate a new selection without overwriting the old file:
+Generate a selection at a separate path to keep the old settings file:
 
 ```sh
 uv run --locked python scripts/generate_settings.py --output config/new-bt-profiles.txt
@@ -170,8 +177,9 @@ uv run --locked python scripts/generate_settings.py --output config/new-bt-profi
   --output-dir results/new-run
 ```
 
-To create a new synthetic sample, run the generator with a new output location. It refuses existing
-profile or utility directories and never replaces the archived data:
+To create a new synthetic sample, run the generator with a new output location. Existing directories
+are allowed, but an existing profile or preference interval CSV must be moved manually before that
+sample can be regenerated:
 
 ```sh
 QF_SEED=0 uv run --locked python pipelines/bradley_terry/generate_profiles.py \

@@ -15,7 +15,7 @@ from votekit.ballot_generator import BlocSlateConfig
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT
+from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, new_data_file
 from voting_metrics_main_code.voting_rules import AllowedRule, build_voting_rule
 
 
@@ -187,6 +187,19 @@ def main(n_a_cand: int, n_b_cand: int, b_prop: float, a_coh: float, b_coh: float
         a_coh (float): Cohesion of A voters.
         b_coh (float): Cohesion of B voters.
     """
+    output_file = (
+        STATS_OUTPUT
+        / "bt_proportionality"
+        / (
+            f"{n_a_cand:02d}_{n_b_cand:02d}_bprop_"
+            f"{b_prop:0.1f}_cohesion_({a_coh:0.2f},{b_coh:0.2f})_results.json"
+        )
+    )
+
+    if output_file.exists() or output_file.is_symlink():
+        print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
+        return
+
     all_profiles = get_all_profiles(n_a_cand, n_b_cand, b_prop, a_coh, b_coh)
 
     with joblib_progress(total=len(all_profiles)):
@@ -202,14 +215,7 @@ def main(n_a_cand: int, n_b_cand: int, b_prop: float, a_coh: float, b_coh: float
     for file_dict in all_file_to_rule_dicts:
         total_dictionary.update(file_dict)
 
-    out_dir = Path(f"{STATS_OUTPUT}/bt_proportionality")
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    with open(
-        f"{out_dir}/{n_a_cand:02d}_{n_b_cand:02d}_bprop_"
-        f"{b_prop:0.1f}_cohesion_({a_coh:0.2f},{b_coh:0.2f})_results.json",
-        "w",
-    ) as f:
+    with new_data_file(output_file) as temporary_file, temporary_file.open("w") as f:
         json.dump(total_dictionary, f, indent=4)
 
 

@@ -4,6 +4,7 @@ import runpy
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 from click.testing import CliRunner
 from votekit import RankBallot as Ballot
 from votekit import RankProfile as PreferenceProfile
@@ -130,10 +131,14 @@ def test_random_iia_fast_paths_are_profile_based_and_deterministic_when_seeded()
     assert random_candidate_order(second) == first_order
 
 
-def test_write_scores_is_atomic(tmp_path):
+def test_write_scores_publishes_complete_results_without_replacing_them(tmp_path):
     output_file = tmp_path / "scores.json"
 
     MODULE["write_scores"](output_file, [0.2, 0.8])
 
     assert json.loads(output_file.read_text()) == [0.2, 0.8]
-    assert not output_file.with_suffix(".json.tmp").exists()
+    with pytest.raises(FileExistsError, match="manually"):
+        MODULE["write_scores"](output_file, [0.9])
+
+    assert json.loads(output_file.read_text()) == [0.2, 0.8]
+    assert list(tmp_path.iterdir()) == [output_file]

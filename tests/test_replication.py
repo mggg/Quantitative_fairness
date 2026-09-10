@@ -11,33 +11,60 @@ import tarfile
 import pytest
 from votekit import RankBallot, RankProfile
 
-from voting_metrics_main_code.replication import ROOT, check_output_directory
+from voting_metrics_main_code.replication import ROOT, new_data_file
 
 
-def test_output_paths_cannot_overlap_preserved_files(tmp_path):
-    for name in ("data", "stats", "plots", "paper", "dev_files", "notebooks", "other_files"):
-        with pytest.raises(ValueError):
-            check_output_directory(ROOT / name / "new-output")
-    with pytest.raises(ValueError):
-        check_output_directory(ROOT)
-    alias = tmp_path / "alias"
-    alias.symlink_to(ROOT / "stats", target_is_directory=True)
-    with pytest.raises(ValueError):
-        check_output_directory(alias / "new-output")
-    assert check_output_directory(tmp_path / "new") == tmp_path / "new"
+@pytest.mark.parametrize("destination_kind", ["file", "symlink", "dangling_symlink"])
+def test_data_files_require_manual_removal_before_replacement(tmp_path, destination_kind):
+    original = tmp_path / "original.json"
+    original.write_text("preserved")
+    destination = original
+    if destination_kind != "file":
+        destination = tmp_path / "result.json"
+        destination.symlink_to(
+            original if destination_kind == "symlink" else tmp_path / "missing.json"
+        )
+
+    with pytest.raises(FileExistsError, match="manually"):
+        with new_data_file(destination) as temporary:
+            temporary.write_text("replacement")
+
+    assert original.read_text() == "preserved"
+    assert not (tmp_path / "missing.json").exists()
 
 
-@pytest.mark.parametrize("directory_link", [True, False])
-def test_nested_output_symlinks_are_rejected(tmp_path, directory_link):
-    output = tmp_path / "output"
-    nested = output / "stats/ny_stats"
-    nested.mkdir(parents=True)
-    target = (
-        ROOT / "stats/ny_stats" if directory_link else ROOT / "data/NY_mayor_cleaned_votekit.csv"
-    )
-    (nested / "alias").symlink_to(target, target_is_directory=directory_link)
-    with pytest.raises(ValueError, match="symlink"):
-        check_output_directory(output)
+def test_data_publication_preserves_a_result_created_during_computation(tmp_path):
+    destination = tmp_path / "result.json"
+    with pytest.raises(FileExistsError, match="manually"):
+        with new_data_file(destination) as temporary:
+            temporary.write_text("this run")
+            destination.write_text("concurrent run")
+
+    assert destination.read_text() == "concurrent run"
+    assert list(tmp_path.iterdir()) == [destination]
+
+
+def test_failed_data_writes_leave_no_partial_result(tmp_path):
+    destination = tmp_path / "result.json"
+    with pytest.raises(RuntimeError):
+        with new_data_file(destination) as temporary:
+            temporary.write_text("incomplete")
+            raise RuntimeError("calculation failed")
+
+    assert not list(tmp_path.iterdir())
+
+
+def test_path_imports_allow_existing_output_trees_without_scanning(tmp_path, monkeypatch):
+    output = tmp_path / "plots"
+    output.mkdir()
+    (output / "alias").symlink_to(ROOT / "data", target_is_directory=True)
+    monkeypatch.setenv("QF_RESULTS_DIR", str(output))
+    monkeypatch.setattr(os, "walk", lambda *args, **kwargs: pytest.fail("Unexpected tree scan"))
+
+    paths = runpy.run_path(ROOT / "voting_metrics_main_code/replication.py")
+
+    assert paths["PLOTS_DIR"] == output / "plots"
+    assert list(output.iterdir()) == [output / "alias"]
 
 
 def test_archive_extraction_preserves_existing_data_and_rejects_bad_paths(tmp_path):
@@ -153,6 +180,28 @@ def test_generated_profiles_and_utilities_are_seeded_and_never_replaced(tmp_path
     with pytest.raises(FileExistsError):
         generate(*arguments, str(first / "preference_profiles"))
     assert expected == {p.relative_to(first): p.read_bytes() for p in first.rglob("*.csv")}
+
+
+def test_preference_intervals_are_preserved_when_the_profile_has_been_moved(tmp_path):
+    generate = runpy.run_path(ROOT / "pipelines/bradley_terry/generate_profiles.py")[
+        "generate_and_save_profile"
+    ]
+    arguments = (2, 2, 40, 0.5, 0.7, 0.7, 1, 1, 1, 1)
+    profiles = tmp_path / "preference_profiles"
+    generate(*arguments, 0, str(profiles))
+    profile = next(profiles.rglob("*.csv"))
+    interval = next((tmp_path / "preference_dfs").rglob("*.csv"))
+    contents = interval.read_bytes()
+    profile.rename(tmp_path / "moved-profile.csv")
+
+    with pytest.raises(FileExistsError, match="manually"):
+        generate(*arguments, 0, str(profiles))
+
+    assert not profile.exists()
+    assert interval.read_bytes() == contents
+
+    generate(*arguments, 1, str(profiles))
+    assert len(list((tmp_path / "preference_dfs").rglob("*.csv"))) == 2
 
 
 def test_consolidated_metrics_match_both_deterministic_baselines(monkeypatch):

@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from pipelines.bradley_terry._metrics import configure_metric
 
-from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT
+from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, new_data_file
 from voting_metrics_main_code.voting_rules import build_voting_rule
 
 warnings.filterwarnings("ignore")
@@ -151,6 +151,18 @@ def main(
     metric_function = configure_metric(metric, n_seats, variant, interpolation_type)
 
     alpha = alpha_dict[alpha_value]
+    output_folder = f"{output_folder_base}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/"
+    os.makedirs(output_folder, exist_ok=True)
+    output_file = (
+        f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}"
+        f"__ALPHA_{alpha:.2f}__TYPE_{election_type}__VARIANT_{variant}"
+        f"__TIEBREAK_{tiebreak}__INTERP_{interpolation_type}.json"
+    )
+
+    if Path(output_file).exists() or Path(output_file).is_symlink():
+        print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
+        return
+
     all_csv_profiles = sorted(glob(f"{profile_folder_base}/{n_cands:02d}/alpha_{alpha:.2f}/*.csv"))
     voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
 
@@ -169,15 +181,7 @@ def main(
             delayed(run_score)(file, metric_function, voting_rule) for file in all_csv_profiles
         )
 
-    output_folder = f"{output_folder_base}/{metric}/{n_cands:02d}/alpha_{alpha:.2f}/"
-    os.makedirs(output_folder, exist_ok=True)
-    output_file = (
-        f"{output_folder}/METRIC_{metric}__SEATS_{n_seats}__NCANDS_{n_cands}"
-        f"__ALPHA_{alpha:.2f}__TYPE_{election_type}__VARIANT_{variant}"
-        f"__TIEBREAK_{tiebreak}__INTERP_{interpolation_type}.json"
-    )
-
-    with open(output_file, "w") as f:
+    with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:
         json.dump(scores, f)
 
 

@@ -28,3 +28,4 @@ paper
 /results/generated/
 .ruff_cache/
 .waterfall_cache/
+/.boost_cache

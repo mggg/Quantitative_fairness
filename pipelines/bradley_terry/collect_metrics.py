@@ -3,7 +3,6 @@
 import ast
 import contextlib
 import json
-import os
 import sys
 import warnings
 from functools import partial
@@ -26,7 +25,7 @@ from voting_metrics_main_code.fairness_metric import (  # noqa: E402
     sigma_UM,
     sigma_UM_winner_set,
 )
-from voting_metrics_main_code.replication import STATS_OUTPUT, seed_task
+from voting_metrics_main_code.replication import STATS_OUTPUT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import build_voting_rule  # noqa: E402
 
 warnings.filterwarnings("ignore")
@@ -169,22 +168,18 @@ def run_profile_batch(
 
 
 def write_scores(output_file, scores):
-    """Write scores as JSON, replacing the destination after the temporary file is complete.
+    """Publish completed JSON scores without replacing an existing result.
 
     Args:
         output_file (Path): Destination file path.
         scores (list[float]): Completed metric scores in profile CSV order.
 
     Raises:
-        OSError: The output directory or temporary file cannot be written or replaced.
+        FileExistsError: The result file exists and must be moved manually before recomputing.
+        OSError: The output directory or temporary file cannot be written or published.
     """
-    output_file.parent.mkdir(parents=True, exist_ok=True)
-    temporary_file = output_file.with_suffix(".json.tmp")
-
-    with temporary_file.open("w") as file:
+    with new_data_file(output_file) as temporary_file, temporary_file.open("w") as file:
         json.dump(scores, file)
-
-    os.replace(temporary_file, output_file)
 
 
 def load_profile_folders(settings_file: Path) -> list[Path]:
@@ -255,7 +250,7 @@ def prepare_tasks(input_folders, n_seats, election_type, tiebreak, profile_batch
         metric_jobs = []
 
         for metric_function, variant, interpolation_type, output_file in folder_jobs:
-            if output_file.exists():
+            if output_file.exists() or output_file.is_symlink():
                 skipped += 1
                 continue
 
@@ -350,7 +345,9 @@ def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_
     )
 
     if skipped:
-        click.echo(f"Skipping {skipped} completed folder/metric outputs.")
+        click.echo(
+            f"Skipping {skipped} completed folder/metric outputs. Move them manually to recompute."
+        )
 
     if not outputs:
         click.echo("All outputs already exist.")

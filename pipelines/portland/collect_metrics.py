@@ -15,7 +15,7 @@ from voting_metrics_main_code.fairness_metric import (
     sigma_UM,
     sigma_UM_winner_set,
 )
-from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, seed_task
+from voting_metrics_main_code.replication import DATA_DIR, STATS_OUTPUT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import (
     AllowedRule,
     build_voting_rule,
@@ -80,6 +80,12 @@ def main() -> None:
     ]
 
     for election_name in all_election_types:
+        output_file = Path(output_folder_base) / f"{election_name}_output.json"
+
+        if output_file.exists() or output_file.is_symlink():
+            print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
+            continue
+
         portland_election_stats = {}
 
         for district in districts:
@@ -91,9 +97,7 @@ def main() -> None:
 
             portland_election_stats[district] = statistics
 
-        output_file = f"{output_folder_base}/{election_name}_output.json"
-
-        with open(output_file, "w") as f:
+        with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:
             json.dump(portland_election_stats, f, indent=4)
 
 

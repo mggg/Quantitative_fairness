@@ -10,7 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--profile-root", type=Path, default=ROOT / "data/preference_profiles")
     parser.add_argument(
-        "--output", type=Path, required=True, help="New settings file; never overwritten"
+        "--output", type=Path, required=True, help="Settings file to write or replace"
     )
     args = parser.parse_args()
     folders = sorted(
@@ -20,7 +20,7 @@ def main():
     )
     if not folders:
         parser.error(f"No profile folders under {args.profile_root}")
-    with args.output.open("x") as handle:
+    with args.output.open("w") as handle:
         for folder in folders:
             handle.write(
                 str(folder.relative_to(ROOT) if folder.is_relative_to(ROOT) else folder) + "\n"

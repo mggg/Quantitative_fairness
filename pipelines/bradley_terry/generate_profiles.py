@@ -20,7 +20,7 @@ from voting_metrics_main_code.constants import (
     BT_CANDIDATE_COMBINATIONS,
     BT_COHESION_COMBINATIONS,
 )
-from voting_metrics_main_code.replication import RESULTS_DIR, check_output_directory, seed_task
+from voting_metrics_main_code.replication import RESULTS_DIR, new_data_file, seed_task
 
 
 def sample_preference_interval(candidates: list[str], alpha: float) -> PreferenceInterval:
@@ -72,8 +72,7 @@ def generate_and_save_profile(
 
     Raises:
         FileExistsError: The target CSV already exists and is preserved.
-        ValueError: An output path overlaps protected research files or contains a symlink,
-            or the profile-generation parameters are invalid.
+        ValueError: The profile-generation parameters are invalid.
     """
     profile_root = Path(output_base_dir).resolve()
     utility_root = profile_root.parent / "preference_dfs"
@@ -84,12 +83,14 @@ def generate_and_save_profile(
     )
     output_dir = profile_root / relative_folder
     df_dir = utility_root / relative_folder
-    profile_path = check_output_directory(output_dir / f"profile_{idx}.csv")
-    utility_path = check_output_directory(df_dir / f"profile_{idx}_utilities.csv")
+    profile_path = output_dir / f"profile_{idx}.csv"
+    utility_path = df_dir / f"profile_{idx}_utilities.csv"
 
     for path in (profile_path, utility_path):
         if path.exists() or path.is_symlink():
-            raise FileExistsError(f"Preserving existing generated data: {path}")
+            raise FileExistsError(
+                f"Move the existing data file manually before recomputing: {path}"
+            )
 
     seed_task(
         n_a_cands,
@@ -144,20 +145,19 @@ def generate_and_save_profile(
     Path(df_dir).mkdir(parents=True, exist_ok=True)
     assert isinstance(prof, RankProfile)
 
-    prof.to_csv(profile_path)
-
-    config.preference_df.to_csv(utility_path)
+    with new_data_file(profile_path) as profile_file, new_data_file(utility_path) as utility_file:
+        prof.to_csv(profile_file)
+        config.preference_df.to_csv(utility_file)
 
 
 def parse_arguments() -> argparse.Namespace:
-    """Parse generation options and require fresh, unprotected output directories.
+    """Parse generation options and resolve the profile output directory.
 
     Returns:
         argparse.Namespace: Validated options with output_dir resolved to an absolute path.
 
     Raises:
-        SystemExit: Options are invalid or a profile or utility output directory already exists.
-        ValueError: An output path overlaps protected research files or contains a symlink.
+        SystemExit: Voter, sample, or worker counts are nonpositive.
     """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=RESULTS_DIR / "data/preference_profiles")
@@ -169,13 +169,7 @@ def parse_arguments() -> argparse.Namespace:
     if min(args.n_voters, args.n_samples, args.n_jobs) < 1:
         parser.error("Voter, sample, and worker counts must be positive")
 
-    profile_root = check_output_directory(args.output_dir)
-    utility_root = check_output_directory(profile_root.parent / "preference_dfs")
-
-    if profile_root.exists() or utility_root.exists():
-        parser.error("Profile or utility directory already exists; choose a new --output-dir")
-
-    args.output_dir = profile_root
+    args.output_dir = args.output_dir.resolve()
 
     return args
 
@@ -184,10 +178,9 @@ def main() -> None:
     """Generate the configured grid of two-bloc BT profiles in parallel.
 
     Raises:
-        SystemExit: Command-line parsing fails, a count is nonpositive, or a profile or utility
-            output directory already exists.
-        FileExistsError: A target profile CSV already exists and is preserved.
-        ValueError: An output path overlaps protected research files or contains a symlink.
+        SystemExit: Command-line parsing fails or a count is nonpositive.
+        FileExistsError: A target profile or preference interval CSV already exists.
+        ValueError: The profile-generation parameters are invalid.
     """
     args = parse_arguments()
     profile_root = args.output_dir

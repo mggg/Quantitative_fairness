@@ -16,7 +16,7 @@ from votekit.matrices import boost_matrix
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from voting_metrics_main_code.replication import DATA_DIR, PLOTS_DIR, ROOT, check_output_directory
+from voting_metrics_main_code.replication import DATA_DIR, PLOTS_DIR, ROOT
 
 CACHE_DIR = ROOT / ".boost_cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -47,6 +47,7 @@ def plot_boost(
     profile: RankProfile | None = None,
     matrix: NDArray | None = None,
     limit: float = 0.21,
+    matrix_savepath: Path | None = None,
 ) -> tuple[Figure, NDArray]:
     """Keep the full electorate, ordering focus candidates by the notebook's two slates.
 
@@ -57,6 +58,8 @@ def plot_boost(
         matrix (NDArray | None, optional): Precomputed boosts in flattened slate order.
             Provide this or profile. Defaults to None.
         limit (float, optional): Positive magnitude of the symmetric color scale. Defaults to 0.21.
+        matrix_savepath (Path | None, optional): Cache destination for a computed boost matrix;
+            an existing cache may be replaced. Defaults to None.
 
     Returns:
         tuple[Figure, NDArray]: Heatmap figure and boost matrix in flattened slate order.
@@ -80,6 +83,8 @@ def plot_boost(
             raise ValueError(f"Focus candidates missing from the profile: {sorted(missing)}")
 
         matrix = boost_matrix(profile, candidates=candidates)
+        if matrix_savepath is not None:
+            np.save(matrix_savepath, matrix)
 
     elif matrix is not None and (
         len(candidates) != matrix.shape[1] or len(candidates) != matrix.shape[0]
@@ -157,10 +162,8 @@ def main() -> None:
     """Save focus-candidate heatmaps for the selected Portland districts and a shared colorbar.
 
     Raises:
-        SystemExit: Command-line parsing fails, the limit is invalid, or data and output paths
-            overlap.
-        ValueError: The output path overlaps protected research files or contains a symlink,
-            or a focus candidate is absent from a selected profile.
+        SystemExit: Command-line parsing fails or the limit is invalid.
+        ValueError: A focus candidate is absent from a selected profile.
         FileNotFoundError: A selected district profile CSV does not exist.
     """
     parser = argparse.ArgumentParser(description=__doc__)
@@ -173,21 +176,32 @@ def main() -> None:
     if not np.isfinite(args.limit) or args.limit <= 0:
         parser.error("--limit must be finite and positive")
 
-    output = check_output_directory(args.output_dir)
+    output = args.output_dir.resolve()
     data = args.data_dir.resolve()
-
-    if output == data or data in output.parents or output in data.parents:
-        parser.error("Output directory overlaps input data")
 
     output.mkdir(parents=True, exist_ok=True)
     districts = FOCUS_CANDIDATES if args.district == "all" else [args.district]
 
     for district in districts:
-        profile = cast(
-            RankProfile, RankProfile.from_csv(data / f"Portland_{district}_cleaned_votekit.csv")
-        )
-        fig, _ = plot_boost(FOCUS_CANDIDATES[district], profile=profile, limit=args.limit)
+        matrix_savepath = Path(CACHE_DIR / f"boost_matrix_Portland_{district}_boost.npy")
+        if matrix_savepath.exists():
+            print(f"Loading cached boost matrix for {district} from {matrix_savepath}")
+            matrix = np.load(matrix_savepath)
+            fig, _ = plot_boost(FOCUS_CANDIDATES[district], matrix=matrix, limit=args.limit)
+        else:
+            profile = cast(
+                RankProfile, RankProfile.from_csv(data / f"Portland_{district}_cleaned_votekit.csv")
+            )
+            fig, _ = plot_boost(
+                FOCUS_CANDIDATES[district],
+                profile=profile,
+                limit=args.limit,
+                matrix_savepath=matrix_savepath,
+            )
 
+        print(
+            f"Saving boost matrix heatmap for {district} to {output / f'boost_matrix_{district}.png'}"
+        )
         fig.savefig(output / f"boost_matrix_{district}.png", dpi=300, bbox_inches="tight")
         plt.close(fig)
 

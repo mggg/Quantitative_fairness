@@ -99,7 +99,11 @@ QF_BT_STATS_DIR=stats/bt_2_bloc_profile_stats_final_experiment \
   uv run --locked python pipelines/bradley_terry/plots/plot_um_iia_scatter.py
 ```
 
-Standalone scripts read preserved statistics by default and write under `results/generated/`.
+Standalone collectors and plotters default to `stats/` and `plots/`, respectively. Collectors skip
+existing result files; move them manually before recomputing. Profile generation likewise refuses
+to replace either a profile or its preference interval dataframe. Figures, exported tables, and
+bootstrap summaries may overwrite existing derived files.
+
 Use `QF_STATS_DIR`, `QF_BT_STATS_DIR`, and `QF_BOOTSTRAP_DIR` to select inputs and `QF_RESULTS_DIR`
 to choose a separate output tree. Script moves do not change the figure filenames or result
 directory layouts. Importing pipeline modules does not run their analyses; execute a script or

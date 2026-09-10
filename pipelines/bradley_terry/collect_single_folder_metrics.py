@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from pipelines.bradley_terry._metrics import configure_metric
 
-from voting_metrics_main_code.replication import STATS_OUTPUT
+from voting_metrics_main_code.replication import STATS_OUTPUT, new_data_file
 from voting_metrics_main_code.voting_rules import build_voting_rule
 
 warnings.filterwarnings("ignore")
@@ -165,8 +165,8 @@ def main(
     os.makedirs(output_folder, exist_ok=True)
     output_file = f"{output_folder}/{file_basename}.json"
 
-    if os.path.exists(output_file):
-        print(f"Output file {output_file} already exists. Skipping computation.")
+    if Path(output_file).exists() or Path(output_file).is_symlink():
+        print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
 
         return
 
@@ -185,7 +185,7 @@ def main(
             delayed(run_score)(file, metric_function, voting_rule) for file in all_csv_profiles
         )
 
-    with open(output_file, "w") as f:
+    with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:
         json.dump(scores, f)
 
 

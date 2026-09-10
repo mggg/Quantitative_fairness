@@ -1,4 +1,4 @@
-"""Run the maintained analyses without writing into the historical result trees."""
+"""Run maintained analyses, preserving computed results and refreshing derived outputs."""
 
 import argparse
 import hashlib
@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from voting_metrics_main_code.constants import RULE_ORDER  # noqa: E402
-from voting_metrics_main_code.replication import DATA_DIR, check_output_directory  # noqa: E402
+from voting_metrics_main_code.replication import DATA_DIR  # noqa: E402
 
 
 def parse_arguments() -> tuple[argparse.ArgumentParser, argparse.Namespace]:
@@ -38,7 +38,7 @@ def parse_arguments() -> tuple[argparse.ArgumentParser, argparse.Namespace]:
 
 def main() -> None:
     parser, args = parse_arguments()
-    output = check_output_directory(args.output_dir)
+    output = args.output_dir.resolve()
     stats = (
         args.stats_dir or (ROOT / "stats" if args.mode == "figures" else output / "stats")
     ).resolve()

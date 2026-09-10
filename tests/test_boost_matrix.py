@@ -25,6 +25,12 @@ def test_boost_cli_loads_ranked_profile_and_saves_both_figures(tmp_path, monkeyp
     data.mkdir()
     profile.to_csv(data / "Portland_D3_cleaned_votekit.csv")
     output = tmp_path / "figures"
+    output.mkdir()
+    for name in ("boost_matrix_D3.png", "boost_matrix_colorbar.png"):
+        (output / name).write_text("old figure")
+    cache = tmp_path / "cache"
+    cache.mkdir()
+    monkeypatch.setattr(plot_boost_matrix, "CACHE_DIR", cache)
     monkeypatch.setattr(
         sys,
         "argv",
