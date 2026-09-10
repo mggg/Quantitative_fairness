@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.typing import NDArray
 import seaborn as sns
+from matplotlib.axes import Axes
 from matplotlib.colors import TwoSlopeNorm
 from matplotlib.figure import Figure
 from votekit import RankProfile
@@ -42,7 +43,74 @@ FOCUS_CANDIDATES = {
 }
 
 
-FONTSIZES = {"D1": (14, 18), "D2": (14, 18), "D3": (14, 18), "D4": (14, 18)}
+# Row-label and column-label sizes, in points.
+FONTSIZES = {"D1": (18, 18), "D2": (14, 18), "D3": (20, 20), "D4": (14, 18)}
+
+
+def set_candidate_labels(ax: Axes, slates: Sequence[Sequence[str]], district: str) -> None:
+    """Apply the district's candidate labels and typography to heatmap axes.
+
+    Args:
+        ax (Axes): Axes with one unit per candidate on each dimension.
+        slates (Sequence[Sequence[str]]): Ordered candidate groups.
+        district (str): District whose row and column font sizes to use.
+    """
+    candidates = [candidate for slate in slates for candidate in slate]
+    positions = np.arange(len(candidates)) + 0.5
+    ax.set_xticks(positions, labels=[" ".join(name.split()[1:]) for name in candidates])
+    ax.set_yticks(positions, labels=candidates, verticalalignment="center")
+    ax.set_xlim(0, len(candidates))
+    ax.set_ylim(len(candidates), 0)
+    ax.tick_params(length=0, pad=8)
+    ax.xaxis.set_ticks_position("top")
+    row_fontsize, column_fontsize = FONTSIZES[district]
+
+    for labels, fontsize, rotation in (
+        (ax.get_yticklabels(), row_fontsize, 0),
+        (ax.get_xticklabels(), column_fontsize, 45),
+    ):
+        for index, label in enumerate(labels):
+            label.set_color("#c35c1e" if index < len(slates[0]) else "#2A6FA1")
+            label.set_fontweight("bold")
+            label.set_fontsize(fontsize)
+            label.set_rotation(rotation)
+
+    for label in ax.get_xticklabels():
+        label.set_horizontalalignment("left")
+
+
+def fit_heatmap_canvas(
+    fig: Figure, ax: Axes, slates: Sequence[Sequence[str]], district: str
+) -> None:
+    """Fit shared district-label margins around an 8-inch heatmap without scaling it.
+
+    Args:
+        fig (Figure): Heatmap figure to resize.
+        ax (Axes): Heatmap axes to position within the resized canvas.
+        slates (Sequence[Sequence[str]]): Candidate groups used in this figure.
+        district (str): District represented by this figure.
+    """
+    heatmap_size = 8.0
+    margins = np.zeros(4)
+    measurement = plt.figure(figsize=(heatmap_size, heatmap_size), dpi=fig.dpi, layout="none")
+
+    try:
+        labels_ax = measurement.add_axes((0, 0, 1, 1))
+        for label_district, label_slates in {**FOCUS_CANDIDATES, district: slates}.items():
+            set_candidate_labels(labels_ax, label_slates, label_district)
+            measurement.draw_without_rendering()
+            bounds = measurement.get_tightbbox()
+            margins = np.maximum(
+                margins,
+                [-bounds.x0, -bounds.y0, bounds.x1 - heatmap_size, bounds.y1 - heatmap_size],
+            )
+    finally:
+        plt.close(measurement)
+
+    left, bottom, right, top = margins + 0.1
+    width, height = heatmap_size + left + right, heatmap_size + bottom + top
+    fig.set_size_inches(width, height)
+    ax.set_position((left / width, bottom / height, heatmap_size / width, heatmap_size / height))
 
 
 def plot_boost(
@@ -55,8 +123,13 @@ def plot_boost(
 ) -> tuple[Figure, NDArray]:
     """Keep the full electorate, ordering focus candidates by the notebook's two slates.
 
+    The heatmap occupies an 8-inch square. Shared margins accommodate all districts' labels
+    at their configured font sizes, plus 0.1 inch of outer padding. Save the full canvas to
+    preserve the same margins and physical scale across districts.
+
     Args:
         slates (Sequence[Sequence[str]]): Two ordered groups of focus candidate names.
+        district (str): Portland district identifier.
         profile (RankProfile | None, optional): Ranked-ballot profile used to compute boosts.
             Provide this or matrix. Defaults to None.
         matrix (NDArray | None, optional): Precomputed boosts in flattened slate order.
@@ -117,7 +190,8 @@ def plot_boost(
 
     # candidates = list(map(first_initial_last, candidates))
 
-    fig, ax = plt.subplots(figsize=(10, 10))
+    fig = plt.figure(figsize=(8, 8), dpi=300, layout="none")
+    ax = fig.add_axes((0, 0, 1, 1))
     ax = sns.heatmap(
         matrix,
         ax=ax,
@@ -128,12 +202,10 @@ def plot_boost(
         cbar=False,
         square=True,
         linewidths=1,
-        xticklabels=[" ".join(candidate.split()[1:]) for candidate in candidates],
-        yticklabels=candidates,
+        xticklabels=False,
+        yticklabels=False,
     )
-    ax.tick_params(length=0, pad=8)
     ax.set_facecolor("white")
-    ax.xaxis.set_ticks_position("top")
 
     for spine in ax.spines.values():
         spine.set_visible(True)
@@ -144,25 +216,8 @@ def plot_boost(
     ax.axvline(len(slates[0]), color=separator_color, linewidth=sep_width)
     ax.axhline(len(slates[0]), color=separator_color, linewidth=sep_width)
 
-    slate_1_color = "#c35c1e"
-    slate_2_color = "#2A6FA1"
-
-    for index, label in enumerate(ax.get_yticklabels()):
-        label.set_color(slate_1_color if index < len(slates[0]) else slate_2_color)
-        label.set_fontweight("bold")
-        label.set_fontsize(14)
-
-    for index, label in enumerate(ax.get_xticklabels()):
-        label.set_color(slate_1_color if index < len(slates[0]) else slate_2_color)
-        label.set_fontweight("bold")
-        label.set_fontsize(18)
-
-    for label in ax.get_xticklabels():
-        label.set_rotation(45)
-        label.set_horizontalalignment("left")
-
-    for label in ax.get_yticklabels():
-        label.set_rotation(0)
+    set_candidate_labels(ax, slates, district)
+    fit_heatmap_canvas(fig, ax, slates, district)
 
     return fig, matrix
 
@@ -242,7 +297,7 @@ def main() -> None:
         print(
             f"Saving boost matrix heatmap for {district} to {output / f'boost_matrix_{district}.png'}"
         )
-        fig.savefig(output / f"boost_matrix_{district}.png", dpi=300, bbox_inches="tight")
+        fig.savefig(output / f"boost_matrix_{district}.png", dpi=300, bbox_inches=fig.bbox_inches)
         plt.close(fig)
 
     fig = plot_colorbar(args.limit)
