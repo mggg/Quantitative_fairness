@@ -132,7 +132,7 @@ def build_plot_for_metric_and_alpha(
 
     for n_cands in ordered_n_cands:
         df_data = [ordered_outputs[rule][n_cands] for rule in ordered_rules]
-        df = pd.DataFrame(df_data, index=ordered_outputs.keys()).T
+        df = pd.DataFrame(df_data, index=list(ordered_outputs)).T
         df = df.melt(var_name="rule", value_name="value")
         df["n_cands"] = n_cands
 
@@ -150,7 +150,8 @@ def build_plot_for_metric_and_alpha(
         ax=ax,
         legend=False,
         fliersize=1,
-        whis=[1, 99],
+        # Seaborn accepts percentile pairs; its stub only declares a float.
+        whis=[1, 99],  # type: ignore[arg-type]
     )
 
     ax.set_ylabel(y_label)

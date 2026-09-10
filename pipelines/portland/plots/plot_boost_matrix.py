@@ -81,10 +81,6 @@ def plot_boost(
 
         matrix = boost_matrix(profile, candidates=candidates)
 
-        # Some local VoteKit versions also return conditional and unconditional probabilities.
-        if isinstance(matrix, tuple):
-            matrix = matrix[0]
-
     elif matrix is not None and (
         len(candidates) != matrix.shape[1] or len(candidates) != matrix.shape[0]
     ):

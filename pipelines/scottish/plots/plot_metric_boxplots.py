@@ -130,7 +130,7 @@ def construct_df_scottish(
     for _, data in data_dictionary.items():
         df_data.append(data[str(n_cands)][metric])
 
-    return pd.DataFrame(df_data, index=data_dictionary.keys()).T  # ty: ignore
+    return pd.DataFrame(df_data, index=list(data_dictionary)).T
 
 
 def build_plot_for_metric_scottish(
@@ -180,7 +180,8 @@ def build_plot_for_metric_scottish(
         dodge=True,
         ax=ax,
         legend=legend,
-        whis=[1, 99],  # use 1st and 99th percentiles # type: ignore
+        # Seaborn accepts percentile pairs; its stub only declares a float.
+        whis=[1, 99],  # type: ignore[arg-type]
         saturation=1,
     )
 
@@ -211,15 +212,22 @@ def save_legend_only(
         pad (float, optional): Padding factor for legend bounds. Defaults to 1.1.
         dpi (int, optional): Output DPI. Defaults to 300.
         transparent (bool, optional): Whether to use a transparent background. Defaults to False.
+
+    Raises:
+        ValueError: The legend is not attached to a figure.
     """
-    fig = legend.axes.figure  # the parent figure
+    fig = legend.get_figure(root=True)
+
+    if fig is None:
+        raise ValueError("The legend must be attached to a figure before saving.")
+
     fig.canvas.draw()  # need a renderer before measuring bbox
 
     # legend bbox in display coords → inches
     bbox = legend.get_window_extent().expanded(pad, pad)
     bbox_inches = bbox.transformed(fig.dpi_scale_trans.inverted())
 
-    fig.savefig(filename, dpi=dpi, bbox_inches=bbox_inches, transparent=transparent)  # ty: ignore
+    fig.savefig(filename, dpi=dpi, bbox_inches=bbox_inches, transparent=transparent)
 
 
 def load_boxplot_metrics(ordered_rules: Sequence[str]):

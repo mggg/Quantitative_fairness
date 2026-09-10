@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
+from matplotlib.patches import Rectangle
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
@@ -195,7 +196,7 @@ def make_bootstrap_overlay(
         if rectangle is not None:
             um_l, um_u, iia_l, iia_u = rectangle
             ax.add_patch(
-                plt.Rectangle(
+                Rectangle(
                     (um_l, iia_l),
                     um_u - um_l,
                     iia_u - iia_l,
@@ -249,7 +250,7 @@ def run_limited_scatter_plots_by_candidate_count_with_bootstrap(
         if voting_rule not in outputs_by_election_type:
             continue
 
-        for n_cands in sorted(outputs_by_election_type[voting_rule].keys(), key=int):
+        for n_cands in sorted(outputs_by_election_type[voting_rule], key=lambda count: int(count)):
             per_cand = outputs_by_election_type[voting_rule][n_cands]
 
             for um_key, iia_key in metric_pairs:

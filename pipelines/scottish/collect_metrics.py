@@ -16,7 +16,7 @@ from votekit.cvr_loaders import load_scottish
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from voting_metrics_main_code.constants import RULE_ORDER
+from voting_metrics_main_code.constants import AllowedRule, RULE_ORDER
 from voting_metrics_main_code.fairness_metric import (
     sigma_IIA,
     sigma_IIA_all_subset,
@@ -74,7 +74,7 @@ def run_score(
 
 def compute_results_single_file(
     f: str | Path,
-    election_name: str,
+    election_name: AllowedRule,
     metric_function_dict: Mapping[str, MetricFn],
     tiebreak: str,
 ) -> dict[str, dict[str, dict[str, float]]]:
@@ -82,7 +82,7 @@ def compute_results_single_file(
 
     Args:
         f (str | Path): Path to the election file.
-        election_name (str): Voting rule name.
+        election_name (AllowedRule): Voting rule name.
         metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
         tiebreak (str): Tiebreak rule name.
 
@@ -96,7 +96,7 @@ def compute_results_single_file(
     profile, seats = output[:2]
 
     n_cands = str(f).split("/")[-2].split("_")[0]
-    voting_rule = build_voting_rule(int(n_cands), election_name, tiebreak=tiebreak)  # ty: ignore
+    voting_rule = build_voting_rule(int(n_cands), election_name, tiebreak=tiebreak)
 
     output_dict = {f"{metric_name}_{tiebreak}": {} for metric_name in metric_function_dict.keys()}
 
@@ -110,7 +110,7 @@ def compute_results_single_file(
 
 def compute_results_single_file_and_metric(
     f: str | Path,
-    election_name: str,
+    election_name: AllowedRule,
     metric_function_dict: Mapping[str, MetricFn],
     metric_name: str,
     tiebreak: str,
@@ -119,7 +119,7 @@ def compute_results_single_file_and_metric(
 
     Args:
         f (str | Path): Path to the election file.
-        election_name (str): Voting rule name.
+        election_name (AllowedRule): Voting rule name.
         metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
         metric_name (str): Metric key to compute.
         tiebreak (str): Tiebreak rule name.
@@ -134,7 +134,7 @@ def compute_results_single_file_and_metric(
     profile, seats = output[:2]
 
     n_cands = str(f).split("/")[-2].split("_")[0]
-    voting_rule = build_voting_rule(int(n_cands), election_name, tiebreak=tiebreak)  # type: ignore
+    voting_rule = build_voting_rule(int(n_cands), election_name, tiebreak=tiebreak)
 
     return (
         n_cands,
@@ -340,11 +340,15 @@ def main() -> None:
             total=len(all_files),
             description=f"Collecting stats for {metric}, {election_name}, {tiebreak}",
         ):
-            results = Parallel(n_jobs=N_JOBS)(
-                delayed(compute_results_single_file_and_metric)(
-                    f, election_name, metric_function_dict, metric, tiebreak
-                )
-                for f in all_files
+            # Joblib does not retain the worker's tuple type in its return annotation.
+            results = cast(
+                list[tuple[str, str, float]],
+                Parallel(n_jobs=N_JOBS)(
+                    delayed(compute_results_single_file_and_metric)(
+                        f, election_name, metric_function_dict, metric, tiebreak
+                    )
+                    for f in all_files
+                ),
             )
 
         cand_counts = set(x[0] for x in results)

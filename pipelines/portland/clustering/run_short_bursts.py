@@ -4,8 +4,10 @@ import argparse
 import random
 import sys
 from pathlib import Path
+from typing import cast
 
 import numpy as np
+from numpy.typing import NDArray
 from votekit import RankProfile
 from votekit.cleaning import remove_and_condense_rank_profile
 from votekit.elections import FastSTV
@@ -23,7 +25,7 @@ from pipelines.portland.clustering.partition_visualization import viz_partition 
 from voting_metrics_main_code.replication import DATA_DIR
 
 
-def load_and_project(profile_number: int):
+def load_and_project(profile_number: int) -> tuple[RankProfile, NDArray]:
     """Load in the profile and project it to the viable candidates.
 
     Candidates with mentions below the three-seat STV threshold are removed.
@@ -33,21 +35,25 @@ def load_and_project(profile_number: int):
         profile_number (int): The number of the profile to load and project.
 
     Returns:
-        tuple[RankProfile, np.ndarray]: Projected profile and boost matrix in its candidate order.
+        tuple[RankProfile, NDArray]: Projected profile and boost matrix in its candidate order.
 
     Raises:
         FileNotFoundError: The requested Portland profile CSV does not exist.
     """
-    profile = RankProfile.from_csv(f"{DATA_DIR}/Portland_D{profile_number}_cleaned_votekit.csv")
+    profile = cast(
+        RankProfile,
+        RankProfile.from_csv(f"{DATA_DIR}/Portland_D{profile_number}_cleaned_votekit.csv"),
+    )
     candidates = list(profile.candidates)
 
-    elec = FastSTV(profile, m=3)  # ty: ignore
-    mentions_dict = mentions(profile)  # ty: ignore
+    elec = FastSTV(profile, m=3)
+    mentions_dict = mentions(profile)
 
     non_viable_cands = [cand for cand in candidates if mentions_dict[cand] < elec.threshold]
 
-    projected_profile = remove_and_condense_rank_profile(non_viable_cands, profile)  # ty: ignore
+    projected_profile = remove_and_condense_rank_profile(non_viable_cands, profile)
     projected_boost = boost_matrix(projected_profile, candidates=list(projected_profile.candidates))
+
     projected_boost = np.nan_to_num(projected_boost)
 
     return projected_profile, projected_boost
@@ -59,7 +65,7 @@ def run_short_burst_for_portland_profile_i(
     burst_length: int = 5,
     n_bursts: int = 200,
     rng_seed: int = 42,
-):
+) -> tuple[NDArray, float, NDArray, list[str]]:
     """Run the short burst algorithm on the given Portland profile.
 
     Args:
@@ -71,9 +77,9 @@ def run_short_burst_for_portland_profile_i(
             seeded here. Defaults to 42.
 
     Returns:
-        tuple[np.ndarray, float, np.ndarray, list[str]] | tuple[list[int], float]: Normally the best
-            assignment, score, boost matrix, and candidate names. When the candidate count equals
-            the cluster count, only the trivial assignment and score are returned.
+        tuple[NDArray, float, NDArray, list[str]]: Best assignment, score, boost matrix, and
+            candidate names. When candidate and cluster counts match, each candidate has its
+            own cluster.
 
     Raises:
         ValueError: The projected profile has fewer candidates than requested clusters.
@@ -95,7 +101,10 @@ def run_short_burst_for_portland_profile_i(
             f" Returning trivial assignment."
         )
 
-        return list(range(n_clusters)), compute_modularity(boost_matrix, np.arange(n_clusters))
+        assignment = np.arange(n_clusters)
+        score = compute_modularity(boost_matrix, assignment)
+
+        return assignment, score, boost_matrix, cands
 
     assignment_vec = np.random.randint(0, n_clusters - 1, size=len(cands))
 

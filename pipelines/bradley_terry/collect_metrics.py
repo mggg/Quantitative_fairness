@@ -9,7 +9,7 @@ import warnings
 from functools import partial
 from itertools import batched
 from pathlib import Path
-from typing import TypedDict
+from typing import Iterator, TypeAlias, TypedDict, cast
 
 import click
 from joblib import Parallel, delayed
@@ -42,6 +42,9 @@ RANDOM_METRICS = {
     sigma_IIA: sigma_IIA_random,
     sigma_IIA_winner_set: sigma_IIA_winner_set_random,
 }
+
+# Joblib must serialize this annotation when the collector runs as a standalone script.
+BatchScores: TypeAlias = tuple[tuple[int, tuple[tuple[int, float], ...]], ...]
 
 
 class OutputProgress(TypedDict):
@@ -112,7 +115,7 @@ def run_profile_batch(
     election_type,
     tiebreak,
     metric_jobs,
-):
+) -> BatchScores:
     """Score a batch of profiles with a separate deterministic seed for each metric.
 
     Args:
@@ -125,7 +128,7 @@ def run_profile_batch(
             ID, metric callable, variant, and interpolation token.
 
     Returns:
-        tuple: Results grouped by output ID as (output_id, ((profile_index, score), ...)). Each
+        BatchScores: Results grouped by output ID as (output_id, ((profile_index, score), ...)). Each
             group retains the input batch order.
 
     Raises:
@@ -354,11 +357,16 @@ def main(settings_file, n_seats, election_type, tiebreak, n_jobs, profile_batch_
 
         return
 
-    results = Parallel(
-        n_jobs=n_jobs,
-        batch_size=1,
-        return_as="generator_unordered",
-    )(delayed(run_profile_batch)(*task) for task in tasks)
+    # Joblib does not retain the worker result type in its return annotation.
+    results = cast(
+        Iterator[BatchScores],
+        Parallel(
+            n_jobs=n_jobs,
+            # Joblib accepts integer batch sizes despite its inferred string parameter type.
+            batch_size=1,  # pyright: ignore[reportArgumentType]
+            return_as="generator_unordered",
+        )(delayed(run_profile_batch)(*task) for task in tasks),
+    )
 
     with (
         tqdm(total=len(tasks), desc="Profile batches", unit="batch") as batch_progress,

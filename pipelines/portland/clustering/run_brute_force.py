@@ -6,8 +6,10 @@ Compare these optima with the assignments found by heuristic optimization.
 import sys
 from math import comb
 from pathlib import Path
+from typing import cast
 
 import numpy as np
+from numpy.typing import NDArray
 from votekit import RankProfile
 from votekit.cleaning import remove_and_condense_rank_profile
 from votekit.elections import FastSTV
@@ -21,7 +23,7 @@ from pipelines.portland.clustering.modularity import compute_modularity  # noqa:
 from voting_metrics_main_code.replication import DATA_DIR
 
 
-def load_and_project(profile_number: int):
+def load_and_project(profile_number: int) -> tuple[RankProfile, NDArray]:
     """Load in the profile and project it to the viable candidates.
 
     Candidates with mentions below the three-seat STV threshold are removed.
@@ -31,21 +33,25 @@ def load_and_project(profile_number: int):
         profile_number (int): The number of the profile to load and project.
 
     Returns:
-        tuple[RankProfile, np.ndarray]: Projected profile and boost matrix in its candidate order.
+        tuple[RankProfile, NDArray]: Projected profile and boost matrix in its candidate order.
 
     Raises:
         FileNotFoundError: The requested Portland profile CSV does not exist.
     """
-    profile = RankProfile.from_csv(f"{DATA_DIR}/Portland_D{profile_number}_cleaned_votekit.csv")
+    profile = cast(
+        RankProfile,
+        RankProfile.from_csv(f"{DATA_DIR}/Portland_D{profile_number}_cleaned_votekit.csv"),
+    )
     candidates = list(profile.candidates)
 
-    elec = FastSTV(profile, m=3)  # ty: ignore
-    mentions_dict = mentions(profile)  # ty: ignore
+    elec = FastSTV(profile, m=3)
+    mentions_dict = mentions(profile)
 
     non_viable_cands = [cand for cand in candidates if mentions_dict[cand] < elec.threshold]
 
-    projected_profile = remove_and_condense_rank_profile(non_viable_cands, profile)  # ty: ignore
+    projected_profile = remove_and_condense_rank_profile(non_viable_cands, profile)
     projected_boost = boost_matrix(projected_profile, candidates=list(projected_profile.candidates))
+
     projected_boost = np.nan_to_num(projected_boost)
 
     return projected_profile, projected_boost
@@ -203,7 +209,7 @@ def main() -> None:
             best_vec = None
 
             for vec in PartitionAssignments(len(cands), n_parts):
-                modularity = compute_modularity(boost, vec)
+                modularity = compute_modularity(boost, np.asarray(vec))
 
                 if modularity > max_score:
                     max_score = modularity

@@ -11,7 +11,7 @@ from pathlib import Path
 import click
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
-from votekit import PreferenceProfile
+from votekit import RankProfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
@@ -39,7 +39,7 @@ def run_score(profile_file, metric_function, voting_rule):
         FileNotFoundError: The profile CSV does not exist.
     """
     with contextlib.redirect_stdout(None):
-        profile = PreferenceProfile.from_csv(profile_file)
+        profile = RankProfile.from_csv(profile_file)
         score = metric_function(profile, voting_rule)
 
     return score

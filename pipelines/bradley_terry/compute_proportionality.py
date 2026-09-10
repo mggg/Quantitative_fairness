@@ -4,7 +4,7 @@ import json
 import sys
 from glob import glob
 from pathlib import Path
-from typing import get_args
+from typing import cast, get_args
 
 import click
 import pandas as pd
@@ -58,8 +58,12 @@ def get_all_profiles(
     profile_files = sorted(glob(search_string))
 
     with joblib_progress(total=len(profile_files)):
-        pairs = Parallel(n_jobs=-1, prefer="processes", batch_size="auto")(
-            delayed(load_one)(p) for p in profile_files
+        # Joblib's default list result contains exactly the worker return values.
+        pairs = cast(
+            list[tuple[str, PreferenceProfile]],
+            Parallel(n_jobs=-1, prefer="processes", batch_size="auto")(
+                delayed(load_one)(p) for p in profile_files
+            ),
         )
 
     all_profiles = dict(pairs)
@@ -186,11 +190,14 @@ def main(n_a_cand: int, n_b_cand: int, b_prop: float, a_coh: float, b_coh: float
     all_profiles = get_all_profiles(n_a_cand, n_b_cand, b_prop, a_coh, b_coh)
 
     with joblib_progress(total=len(all_profiles)):
-        all_file_to_rule_dicts = Parallel(n_jobs=-1, prefer="processes", batch_size="auto")(
-            delayed(process_profile)(file, profile) for file, profile in all_profiles.items()
+        all_file_to_rule_dicts = cast(
+            list[dict[str, dict[str, dict[str, float]]]],
+            Parallel(n_jobs=-1, prefer="processes", batch_size="auto")(
+                delayed(process_profile)(file, profile) for file, profile in all_profiles.items()
+            ),
         )
 
-    total_dictionary: dict[str, dict[str, float]] = {}
+    total_dictionary: dict[str, dict[str, dict[str, float]]] = {}
 
     for file_dict in all_file_to_rule_dicts:
         total_dictionary.update(file_dict)

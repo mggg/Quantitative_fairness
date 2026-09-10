@@ -4,7 +4,7 @@ import json
 import sys
 from glob import glob
 from pathlib import Path
-from typing import Mapping, Sequence
+from typing import Mapping, Sequence, cast
 
 import click
 import matplotlib.pyplot as plt
@@ -51,7 +51,7 @@ def construct_df_scottish(
     for _, data in data_dictionary.items():
         df_data.append(data[str(n_cands)][metric])
 
-    return pd.DataFrame(df_data, index=data_dictionary.keys()).T  # ty: ignore
+    return pd.DataFrame(df_data, index=list(data_dictionary)).T
 
 
 def build_plot_for_metric_scottish(
@@ -98,7 +98,8 @@ def build_plot_for_metric_scottish(
         dodge=True,
         ax=ax,
         legend=not use_one,  # don't show legend if only one rule
-        whis=[1, 99],  # use 1st and 99th percentiles # ty: ignore
+        # Seaborn accepts percentile pairs; its stub only declares a float.
+        whis=[1, 99],  # type: ignore[arg-type]
     )
 
     ax.set_ylabel(y_label, fontsize=16)
@@ -138,7 +139,8 @@ def export_aggregate_tables(
         names=["rule", "n_cands"],  # names for the new index levels
     )
 
-    df.index = df.index.set_levels(df.index.levels[1].astype(int), level="n_cands")
+    index = cast(pd.MultiIndex, df.index)
+    df.index = index.set_levels(index.levels[1].astype(int), level="n_cands")
 
     df = df.reindex(
         pd.MultiIndex.from_product(
