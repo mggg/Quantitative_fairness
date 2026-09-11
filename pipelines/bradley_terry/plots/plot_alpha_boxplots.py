@@ -1,9 +1,8 @@
-"""Plot metric boxplots by alpha and candidate count from historical BT statistics."""
+"""Plot raw BT score distributions pooled by alpha tuple and total candidate count."""
 
 import json
 import sys
 from collections.abc import Mapping
-from fractions import Fraction
 from pathlib import Path
 from typing import NamedTuple, Sequence
 
@@ -16,86 +15,81 @@ from matplotlib.patches import Patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER, MetricVariant
+from pipelines.bradley_terry.pool_alpha_metrics import AlphaScoreGroup, grouped_scores_path
+from voting_metrics_main_code.constants import (
+    BT_ALPHA_COMBINATIONS,
+    BT_CANDIDATE_COMBINATIONS,
+    COMPARISON_RULE_ORDER,
+    MetricVariant,
+)
 from voting_metrics_main_code.replication import ROOT
 
 
-def load_file(file_path: str | Path) -> list[float]:
-    """Load a metric JSON array, printing an error and returning an empty list on failure.
-
-    Args:
-        file_path (str | Path): Path to a JSON array of metric scores.
-
-    Returns:
-        list[float]: Loaded scores, or an empty list if opening or decoding the file fails.
-    """
-    try:
-        with open(file_path, "r") as f:
-            data = json.load(f)
-
-        return data
-    except Exception as e:
-        print(f"Error loading {file_path}: {e}")
-
-    return []
-
-
-def create_ordered_dict_for_metric_and_alpha(
+def load_alpha_samples(
     metric_base_name: str,
-    alpha: float,
+    alpha: tuple[float, float, float, float],
     ordered_rules: Sequence[str],
     ordered_n_cands: Sequence[int],
-    stat_file_base_dir: str,
+    grouped_stats_root: Path,
     n_seats: int,
     variant: str,
     tiebreak: str,
     interpolation_type: str,
 ) -> dict[str, dict[int, list[float]]]:
-    """Load scores for one metric and alpha, preserving rule and candidate-count order.
+    """Load pooled raw scores for one full alpha tuple, in rule and candidate-count order.
 
     Args:
-        metric_base_name (str): Metric identifier used in the statistics directory and filenames.
-        alpha (float): Dirichlet concentration parameter shared by the candidates.
-        ordered_rules (Sequence[str]): Voting rules in the order to load or display.
-        ordered_n_cands (Sequence[int]): Candidate counts in display order.
-        stat_file_base_dir (str): Base directory containing the metric JSON files.
-        n_seats (int): Number of seats to elect.
-        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
-        tiebreak (str): Tiebreak rule token used in the statistics filenames.
-        interpolation_type (str): UM interpolation token; use the string 'None' for IIA metrics.
+        metric_base_name (str): Metric identifier.
+        alpha (tuple[float, float, float, float]): Four Dirichlet parameters in experiment order.
+        ordered_rules (Sequence[str]): Voting rules in display order.
+        ordered_n_cands (Sequence[int]): Total candidate counts in display order.
+        grouped_stats_root (Path): Exact directory produced by pool_alpha_metrics.py.
+        n_seats (int): Number of elected seats.
+        variant (str): Metric aggregation variant.
+        tiebreak (str): Tie-breaking method.
+        interpolation_type (str): UM interpolation or 'None' for IIA.
 
     Returns:
-        dict[str, dict[int, list[float]]]: Scores keyed by rule and candidate count. Failed file
-            loads contribute empty lists.
+        dict[str, dict[int, list[float]]]: Raw scores keyed by rule and total candidate count.
+
+    Raises:
+        FileNotFoundError: Pooled scores have not been generated for this selection.
+        ValueError: A requested group is missing, duplicated, or empty.
     """
-    return {
-        rule: {
-            n_cands: load_file(
-                str(
-                    Path(
-                        f"{stat_file_base_dir}/{metric_base_name}/{n_cands:02d}"
-                        f"/alpha_{alpha:.2f}/METRIC_{metric_base_name}__SEATS_{n_seats}"
-                        f"__NCANDS_{n_cands}__ALPHA_{alpha:.2f}__TYPE_{rule}"
-                        f"__VARIANT_{variant}__TIEBREAK_{tiebreak}"
-                        f"__INTERP_{interpolation_type}.json"
-                    ).resolve()
-                )
+    path = grouped_scores_path(
+        grouped_stats_root, metric_base_name, variant, interpolation_type, n_seats, tiebreak
+    )
+    with path.open() as source:
+        groups: list[AlphaScoreGroup] = json.load(source)
+
+    samples: dict[str, dict[int, list[float]]] = {rule: {} for rule in ordered_rules}
+    for group in groups:
+        if tuple(group["alpha"]) != alpha or group["rule"] not in samples:
+            continue
+
+        rule, n_cands = group["rule"], group["n_cands"]
+        if n_cands in samples[rule] or not group["scores"]:
+            raise ValueError(
+                f"Duplicate or empty alpha group in {path}: {alpha}, {rule}, {n_cands}"
             )
-            for n_cands in ordered_n_cands
-        }
-        for rule in ordered_rules
-    }
+        samples[rule][n_cands] = group["scores"]
+
+    for rule in ordered_rules:
+        if any(n_cands not in samples[rule] for n_cands in ordered_n_cands):
+            raise ValueError(f"Missing alpha group in {path}: {alpha}, {rule}")
+
+    return samples
 
 
 def build_plot_for_metric_and_alpha(
     metric_base_name: str,
-    alpha: float,
+    alpha: tuple[float, float, float, float],
     ordered_rules: Sequence[str],
     ordered_n_cands: Sequence[int],
     rule_color_map: Mapping[str, str | tuple[float, float, float]],
     ax: Axes,
     y_label: str,
-    stat_file_base_dir: str,
+    grouped_stats_root: Path,
     n_seats: int,
     variant: str,
     tiebreak: str,
@@ -105,25 +99,25 @@ def build_plot_for_metric_and_alpha(
 
     Args:
         metric_base_name (str): Metric identifier used in the statistics directory and filenames.
-        alpha (float): Dirichlet concentration parameter shared by the candidates.
+        alpha (tuple[float, float, float, float]): Dirichlet parameters in experiment order.
         ordered_rules (Sequence[str]): Voting rules in the order to load or display.
         ordered_n_cands (Sequence[int]): Candidate counts in display order.
         rule_color_map (Mapping[str, str | tuple[float, float, float]]): Mapping from voting rule
             names to color strings or RGB tuples.
         ax (Axes): Matplotlib axes to draw into.
         y_label (str): Label for the y-axis.
-        stat_file_base_dir (str): Base directory containing the metric JSON files.
+        grouped_stats_root (Path): Exact directory produced by pool_alpha_metrics.py.
         n_seats (int): Number of seats to elect.
         variant (str): Metric aggregation variant, 'average' or 'worst_case'.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
         interpolation_type (str): UM interpolation token; use the string 'None' for IIA metrics.
     """
-    ordered_outputs = create_ordered_dict_for_metric_and_alpha(
+    ordered_outputs = load_alpha_samples(
         metric_base_name,
         alpha,
         ordered_rules,
         ordered_n_cands,
-        stat_file_base_dir,
+        grouped_stats_root,
         n_seats,
         variant,
         tiebreak,
@@ -156,11 +150,10 @@ def build_plot_for_metric_and_alpha(
         whis=[1, 99],  # type: ignore[arg-type]
     )
 
-    ax.set_ylabel(y_label)
+    ax.set_xlabel("Total candidates")
+    ax.set_ylabel(f"{y_label}\n{variant.replace('_', ' ')}")
     ax.set_ylim(-0.05, 1.05)
-    ax.set_title(
-        f"Metric: {y_label}, $\\alpha$={Fraction(alpha).limit_denominator()} Seats: {n_seats}"
-    )
+    ax.set_title(f"$\\alpha$={alpha}\n{n_seats} seats", fontsize=12)
 
 
 class MetricPanel(NamedTuple):
@@ -179,7 +172,7 @@ def iia_comparison_panels(ranking_variant: MetricVariant) -> list[MetricPanel]:
         ranking_variant (MetricVariant): Aggregation for ranking IIA; other IIA rows use average.
 
     Returns:
-        list[MetricPanel]: Five metric rows in display order.
+        list[MetricPanel]: Four metric rows in display order.
     """
     return [
         MetricPanel("sigma_UM", "worst_case", "asin", "$\\sigma_{UM}$ ranking ASIN"),
@@ -187,7 +180,6 @@ def iia_comparison_panels(ranking_variant: MetricVariant) -> list[MetricPanel]:
             "sigma_UM_winner_set", "worst_case", "asin", "$\\sigma_{UM}$ winner-set ranking ASIN"
         ),
         MetricPanel("sigma_IIA", ranking_variant, "None", "$\\sigma_{IIA}$ ranking"),
-        MetricPanel("sigma_IIA_all_subset", "average", "None", "$\\sigma_{IIA}$ subset"),
         MetricPanel("sigma_IIA_winner_set", "average", "None", "$\\sigma_{IIA}$ winner-set"),
     ]
 
@@ -199,7 +191,7 @@ def variant_comparison_panels(variant: MetricVariant) -> list[MetricPanel]:
         variant (MetricVariant): Aggregation applied to every metric row.
 
     Returns:
-        list[MetricPanel]: Seven metric rows in display order.
+        list[MetricPanel]: Six metric rows in display order.
     """
     return [
         MetricPanel("sigma_UM", variant, "odds", "$\\sigma_{UM}$ ranking ODDS"),
@@ -211,7 +203,6 @@ def variant_comparison_panels(variant: MetricVariant) -> list[MetricPanel]:
             "sigma_UM_winner_set", variant, "asin", "$\\sigma_{UM}$ winner-set ranking ASIN"
         ),
         MetricPanel("sigma_IIA", variant, "None", "$\\sigma_{IIA}$ ranking"),
-        MetricPanel("sigma_IIA_all_subset", variant, "None", "$\\sigma_{IIA}$ subset"),
         MetricPanel("sigma_IIA_winner_set", variant, "None", "$\\sigma_{IIA}$ winner-set"),
     ]
 
@@ -224,7 +215,7 @@ def save_metric_grid(
     *,
     stats_root: Path,
 ) -> None:
-    """Load and save metric rows across the five alpha values with a shared voting-rule legend.
+    """Load and save metric rows across the configured alpha tuples with a shared voting-rule legend.
 
     Args:
         stats_root (Path): Parent of the dataset statistics directories.
@@ -233,21 +224,21 @@ def save_metric_grid(
         tiebreak (str): Tiebreak token used to select statistics.
         output_file (Path): Destination image path.
     """
-    alpha_values = (1 / 3, 1 / 2, 1, 2, 3)
-    candidate_counts = range(6, 10)
-    rules = NON_RANDOM_RULE_ORDER
-    statistics_dir = str((stats_root / "bt_profile_stats" / f"{n_seats}_seats").resolve())
+    alpha_values = BT_ALPHA_COMBINATIONS
+    candidate_counts = sorted({sum(split) for split in BT_CANDIDATE_COMBINATIONS})
+    rules = COMPARISON_RULE_ORDER
+    statistics_dir = stats_root / "bt_alpha_grouped"
     output_file.parent.mkdir(parents=True, exist_ok=True)
 
+    sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
     figure, axes = plt.subplots(
         len(panels),
         len(alpha_values),
         squeeze=False,
-        figsize=(7 * len(alpha_values), 5 * len(panels)),
+        figsize=(5 * len(alpha_values), 4 * len(panels)),
         dpi=300,
-        gridspec_kw={"hspace": 0.3},
+        layout="constrained",
     )
-    sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
     palette = dict(zip(rules, sns.color_palette("colorblind", len(rules))))
 
     for alpha_index, alpha in enumerate(alpha_values):
@@ -260,7 +251,7 @@ def save_metric_grid(
                 palette,
                 axes[row, alpha_index],
                 y_label=panel.label,
-                stat_file_base_dir=statistics_dir,
+                grouped_stats_root=statistics_dir,
                 n_seats=n_seats,
                 variant=panel.variant,
                 tiebreak=tiebreak,
@@ -270,8 +261,7 @@ def save_metric_grid(
     figure.legend(
         handles=[Patch(facecolor=palette[rule], label=rule) for rule in rules],
         title="Voting Rule",
-        loc="center left",
-        bbox_to_anchor=(0.93, 0.5),
+        loc="outside right center",
         frameon=True,
         fontsize="large",
         title_fontsize="large",
@@ -295,8 +285,9 @@ def plot_average_iia_panel(
     output_file = (
         output_root
         / "plots"
-        / "simulated_BT_plots"
-        / (f"BESTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
+        / "bt_plots"
+        / "alpha_boxplots"
+        / (f"um_worst_case_iia_average__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
     )
     save_metric_grid(
         iia_comparison_panels("average"), n_seats, tiebreak, output_file, stats_root=stats_root
@@ -306,7 +297,7 @@ def plot_average_iia_panel(
 def plot_worst_case_ranking_iia_panel(
     n_seats: int, tiebreak: str, *, stats_root: Path, output_root: Path
 ) -> None:
-    """Save the alpha panel grid with worst-case ranking IIA and average subset/winner-set IIA.
+    """Save the alpha panel grid with worst-case ranking IIA and average winner-set IIA.
 
     Args:
         stats_root (Path): Parent of the dataset statistics directories.
@@ -317,8 +308,9 @@ def plot_worst_case_ranking_iia_panel(
     output_file = (
         output_root
         / "plots"
-        / "simulated_BT_plots"
-        / (f"ALTMERGE__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
+        / "bt_plots"
+        / "alpha_boxplots"
+        / (f"um_worst_case_iia_ranking_worst_case__NSEATS_{n_seats}__TIEBREAK_{tiebreak}.png")
     )
     save_metric_grid(
         iia_comparison_panels("worst_case"), n_seats, tiebreak, output_file, stats_root=stats_root
@@ -345,8 +337,9 @@ def plot_variant_comparison(
     output_file = (
         output_root
         / "plots"
-        / "simulated_BT_plots"
-        / (f"AGGREGATE__NSEATS_{n_seats}__VARIANT_{variant}__TIEBREAK_{tiebreak}.png")
+        / "bt_plots"
+        / "alpha_boxplots"
+        / (f"metric_comparison__NSEATS_{n_seats}__VARIANT_{variant}__TIEBREAK_{tiebreak}.png")
     )
     save_metric_grid(
         variant_comparison_panels(variant), n_seats, tiebreak, output_file, stats_root=stats_root
@@ -376,7 +369,8 @@ def plot_individual_metrics(
         output_file = (
             output_root
             / "plots"
-            / "simulated_BT_plots"
+            / "bt_plots"
+            / "alpha_boxplots"
             / (
                 f"METRIC_{panel.metric}__NSEATS_{n_seats}__VARIANT_{variant}"
                 f"__TIEBREAK_{tiebreak}__INTERP_{panel.interpolation}.png"
@@ -386,9 +380,14 @@ def plot_individual_metrics(
 
 
 @click.command()
-@click.option("--n-seats", type=int, default=1, help="Number of seats")
-@click.option("--variant", type=click.Choice(["worst_case", "average"]))
-@click.option("--tiebreak", type=click.Choice(["lex", "random"]))
+@click.option("--n-seats", type=int, default=3, show_default=True, help="Number of seats")
+@click.option(
+    "--variant",
+    type=click.Choice(["worst_case", "average"]),
+    default="worst_case",
+    show_default=True,
+)
+@click.option("--tiebreak", type=click.Choice(["lex", "random"]), default="lex", show_default=True)
 @click.option(
     "--stats-dir",
     "stats_root",
@@ -413,7 +412,7 @@ def main(
     stats_root: Path | None = None,
     output_root: Path = ROOT,
 ) -> None:
-    """Save combined and individual metric boxplot grids across the single-alpha profile sweep.
+    """Save combined and individual metric boxplot grids from pooled two-bloc BT scores.
 
     Args:
         stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
@@ -429,6 +428,7 @@ def main(
     print(f"Statistics: {stats_root}")
     print(f"Output root: {output_root}")
     print(f"Seats: {n_seats}")
+    print("Subset IIA is excluded: no saved two-bloc scores are available for that metric.")
 
     plot_average_iia_panel(n_seats, tiebreak, stats_root=stats_root, output_root=output_root)
     plot_worst_case_ranking_iia_panel(

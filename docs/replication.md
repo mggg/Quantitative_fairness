@@ -141,7 +141,31 @@ Those utilities are not in the tracked profile archive. The collector exposes th
 bloc proportion, and cohesion in `--help`; its output feeds `plot_proportionality_waterfall.py`.
 Broad BT sensitivity plots require more metric variants than the primary recipe computes.
 `collect_single_folder_metrics.py` exposes the individual metric and variant choices.
-The separate `alpha_sweep/` experiment uses candidate-count/alpha folders rather than two-bloc folders.
+Alpha boxplots use pooled copies of the saved two-bloc scores:
+
+```sh
+uv run --locked python pipelines/bradley_terry/pool_alpha_metrics.py
+uv run --locked python pipelines/bradley_terry/plots/plot_alpha_boxplots.py --variant worst_case
+uv run --locked python pipelines/bradley_terry/plots/plot_alpha_boxplots.py --variant average
+```
+
+Pooling writes twelve JSON files under `stats/bt_alpha_grouped/3_seats/`. Each file fixes the metric,
+variant, interpolation, and tie-breaking method. Its groups retain the full four-component alpha
+setting, total candidate count (8 or 10), and rule (Borda, STV, or plurality). Within a group, scores
+are concatenated across the three candidate splits, five bloc proportions, and four cohesion
+settings. With the supplied results, each group has 6,000 raw profile scores from 60 source files;
+no means are substituted for observations. Each group lists its source paths relative to the BT
+statistics root. Incomplete grids, empty arrays, and unequal profile counts raise an error.
+
+The figures go to `plots/bt_plots/alpha_boxplots/`. These are distributions over the available
+experiment grid, not estimates of alpha effects with all other parameters fixed. The three rules
+have scores for every included metric configuration. Subset IIA is excluded because those scores
+are absent. The old scalar-alpha grid (including 1/3 and 3, with 6–9 candidates) is not recreated.
+
+For a separate run, pass `--bt-stats-dir stats/bt_2_bloc_profile_stats --output-dir results/alpha`
+to pooling and `--output-dir results/alpha` to plotting. Both commands default to three seats and
+lexicographic tie-breaking. Pooled score files are preserved on repeat runs; move them manually to
+rebuild them. Figures overwrite by default. The original BT scores are only read.
 
 The Scottish `plot_boxplots_and_tables.py` and the CSV stage of
 `plot_boxplots_by_variant_and_tiebreak.py` require aggregate `*stats.json` inputs that the primary
@@ -219,5 +243,6 @@ Runtime `QF_*` environment overrides have been replaced by explicit CLI options.
 above to translate old commands. `--output-dir` now means the run root in every analysis, including
 boost plotting and profile generation; it is not the exact figure or profile directory.
 The default recipe output root is now the repository, matching standalone scripts.
-`collect_metrics_borda_tiebreak.py` has been consolidated into `alpha_sweep/collect_metrics.py`,
-which accepts `--tiebreak borda` for the substantive voting rules.
+The former `alpha_sweep/plot_metric_boxplots.py` is now `plots/plot_alpha_boxplots.py` and reads
+pooled two-bloc scores. The single-alpha collector is preserved as source text under
+`archive/single_alpha/`; it required profile folders that are not supplied.

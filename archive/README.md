@@ -12,3 +12,7 @@ older VoteKit API; the maintained tests and BT batch tests are under `tests/`.
 
 Existing notebooks, `dev_files/`, `paper/`, inputs, statistics, and plots remain in their original
 locations. The ignored directories may contain unique research work and are not expendable.
+
+`single_alpha/collect_metrics.py.txt` preserves the collector for scalar-alpha profile folders.
+Those inputs are not supplied. Maintained alpha boxplots instead pool the saved two-bloc results
+using `pipelines/bradley_terry/pool_alpha_metrics.py`.

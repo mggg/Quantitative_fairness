@@ -41,8 +41,8 @@ by rule, candidate count, variant, and tiebreak.
 ## Bradley–Terry analyses
 
 The top-level BT collector reads the two-bloc folders listed in `config/bt_profiles.txt`.
-`alpha_sweep/` contains the separate experiment with one alpha parameter per profile folder.
-The two layouts are different inputs, even though both have plots involving alpha.
+`pool_alpha_metrics.py` pools those saved scores by full alpha tuple and total candidate count;
+`plots/plot_alpha_boxplots.py` renders the pooled distributions. Neither step reruns elections.
 
 The individual-metric collectors share [`_metrics.py`](bradley_terry/_metrics.py) to bind
 metric parameters. The alpha boxplot script keeps its panel selections and grid renderer together.
@@ -64,8 +64,8 @@ metric parameters. The alpha boxplot script keeps its panel selections and grid 
 | [`plot_mean_vs_standard_deviation.py`](bradley_terry/plots/plot_mean_vs_standard_deviation.py) | Metric and interpolation comparisons |
 | [`plot_um_mean_vs_variance.py`](bradley_terry/plots/plot_um_mean_vs_variance.py) | UM mean versus variance, split by interpolation |
 | [`plot_proportionality_waterfall.py`](bradley_terry/plots/plot_proportionality_waterfall.py) | Representation shortfalls from proportionality JSONs |
-| [`alpha_sweep/collect_metrics.py`](bradley_terry/alpha_sweep/collect_metrics.py) | Compute a selected metric from candidate-count/alpha folders |
-| [`alpha_sweep/plot_metric_boxplots.py`](bradley_terry/alpha_sweep/plot_metric_boxplots.py) | Boxplots from `bt_profile_stats`, selected by seats, variant, and tie-breaking |
+| [`pool_alpha_metrics.py`](bradley_terry/pool_alpha_metrics.py) | Pool saved BT scores into `stats/bt_alpha_grouped`, retaining source filenames |
+| [`plot_alpha_boxplots.py`](bradley_terry/plots/plot_alpha_boxplots.py) | Alpha-tuple panels with total candidate count on the x-axis and voting rule as hue |
 
 BT plotting helpers are [`_metrics.py`](bradley_terry/plots/_metrics.py),
 [`_palettes.py`](bradley_terry/plots/_palettes.py), and
@@ -95,7 +95,7 @@ From the repository root:
 uv run --locked python pipelines/scottish/plots/plot_um_iia_scatter.py
 uv run --locked python pipelines/portland/plots/plot_boost_matrix.py --district all
 uv run --locked python pipelines/bradley_terry/plots/plot_um_iia_scatter.py \
-  --bt-stats-dir stats/bt_2_bloc_profile_stats_final_experiment
+  --bt-stats-dir stats/bt_2_bloc_profile_stats
 ```
 
 Standalone collectors and plotters default to `stats/` and `plots/`, respectively. Collectors skip
@@ -111,7 +111,7 @@ analyses. The [replication guide](../docs/replication.md) contains ordered comma
 for the primary recipes and additional analyses. `replicate.py --dry-run` prints its full recipe.
 
 BT plotters expose `--n-seats` and share a selector in `_data.py` that reports the requested
-experiment and matched files. The single alpha-sweep collector also accepts `--tiebreak borda`.
+experiment and matched files.
 Boost plotting reads the requested CSV by default; `--cache-dir` enables content-matched caching.
 
 The BT runner was renamed from `run_2_bloc_BT_pipeline.sh` to `run_bt_pipeline.sh`. The primary

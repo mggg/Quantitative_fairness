@@ -10,7 +10,6 @@ from matplotlib.figure import Figure, SubFigure
 from votekit import RankBallot, RankProfile
 
 from pipelines.bradley_terry import collect_single_folder_metrics
-from pipelines.bradley_terry.alpha_sweep import collect_metrics
 from pipelines.portland.clustering import run_brute_force, run_short_bursts
 from pipelines.scottish.plots.plot_metric_boxplots import save_legend_only
 
@@ -26,9 +25,8 @@ def ranked_profile() -> RankProfile:
     )
 
 
-@pytest.mark.parametrize("collector", [collect_metrics, collect_single_folder_metrics])
-def test_alpha_collector_loads_ranked_csv(
-    collector: ModuleType, ranked_profile: RankProfile, tmp_path: Path
+def test_single_folder_collector_loads_ranked_csv(
+    ranked_profile: RankProfile, tmp_path: Path
 ) -> None:
     path = tmp_path / "profile.csv"
     ranked_profile.to_csv(path)
@@ -39,7 +37,7 @@ def test_alpha_collector_loads_ranked_csv(
         assert rule == "selected rule"
         return profile.total_ballot_wt
 
-    assert collector.run_score(path, metric, "selected rule") == 5
+    assert collect_single_folder_metrics.run_score(path, metric, "selected rule") == 5
 
 
 def test_short_burst_trivial_partition_returns_complete_result(
