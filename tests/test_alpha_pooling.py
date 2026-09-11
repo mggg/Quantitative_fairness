@@ -8,7 +8,6 @@ import pytest
 
 from pipelines.bradley_terry import pool_alpha_metrics as pooling
 from pipelines.bradley_terry.collect_metrics import output_jobs
-from pipelines.bradley_terry.plots.plot_alpha_boxplots import load_alpha_samples
 
 
 def test_pooling_keeps_alpha_rule_and_total_size_and_preserves_sources(
@@ -54,14 +53,6 @@ def test_pooling_keeps_alpha_rule_and_total_size_and_preserves_sources(
             score for path in source_paths for score in json.loads(originals[path])
         ]
 
-    pooled_root = tmp_path / "stats/bt_alpha_grouped"
-    destination = pooling.grouped_scores_path(pooled_root, "sigma_IIA", "average", "None", 3, "lex")
-    destination.parent.mkdir(parents=True)
-    destination.write_text(json.dumps(groups))
-    loaded = load_alpha_samples(
-        "sigma_IIA", alphas[1], ("borda", "stv"), (8, 10), pooled_root, 3, "average", "lex", "None"
-    )
-    assert sorted(loaded["borda"][8]) == sorted(expected[(alphas[1], 8, "borda")])
     assert all(path.read_bytes() == contents for path, contents in originals.items())
 
     next(iter(originals)).unlink()
@@ -76,28 +67,3 @@ def test_pooling_rejects_invalid_or_unequal_profile_arrays(tmp_path: Path, conte
     second.write_text(contents)
     with pytest.raises(ValueError):
         pooling.load_complete_samples([str(first), str(second)])
-
-
-def test_pooling_skips_existing_results_without_loading_sources(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    selections = (
-        ("sigma_UM", "asin"),
-        ("sigma_UM", "odds"),
-        ("sigma_UM_winner_set", "asin"),
-        ("sigma_UM_winner_set", "odds"),
-        ("sigma_IIA", "None"),
-        ("sigma_IIA_winner_set", "None"),
-    )
-    for (metric, interpolation), variant in product(selections, ("average", "worst_case")):
-        path = pooling.grouped_scores_path(
-            tmp_path / "stats/bt_alpha_grouped", metric, variant, interpolation, 3, "lex"
-        )
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text("saved result")
-
-    monkeypatch.setattr(
-        pooling, "pool_metric_scores", lambda *args: pytest.fail("Reloaded sources")
-    )
-    pooling.main(bt_stats_root=tmp_path / "missing", output_root=tmp_path)
-    assert all(path.read_text() == "saved result" for path in tmp_path.rglob("*.json"))

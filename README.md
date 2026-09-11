@@ -15,6 +15,11 @@ uv run --locked python scripts/smoke_test.py
 ./scripts/run_ny_pipeline.sh
 ```
 
+The test suite checks metric values, numerical summaries, seeded reproducibility, and protection
+against overwriting saved data. The separate smoke example runs a tiny election through CSV loading,
+metric computation, and JSON export in a temporary directory. Neither command needs the research
+datasets.
+
 Environment synchronization installs the locked dependencies without modifying data. NY and Portland
 cleaned inputs are tracked; optional Scottish and BT retrieval commands are in the guide. BT inputs
 use Git LFS. Runners and standalone analyses default to the repository run root, writing to `stats/` and
@@ -38,7 +43,7 @@ calculations may still differ from the historical runs. See the replication guid
 | [`pipelines/`](pipelines/README.md) | Dataset collectors, plotters, and analysis index                   |
 | `scripts/`                          | Maintained replication runners, input retrieval, and smoke example |
 | `config/`                           | Experiment selections, including the BT profile folders            |
-| `tests/`                            | Maintained behavior and replication checks                         |
+| `tests/`                            | Scientific correctness and data-preservation checks                         |
 | `data/`                             | Preserved inputs; optional large downloads                         |
 | `stats/`, `plots/`                  | Saved statistics and regenerable figures                           |
 | `results/generated/`                | Optional ignored output root                                        |

@@ -9,15 +9,15 @@ paths, and the dataset runner prints every command before executing it.
 The publication reference tree and exact figure/table numbers still need author designation.
 Directories containing `final` in their names are not automatically publication references.
 
-| Artifact | Computation | Inputs | Output beneath the run root |
-| --- | --- | --- | --- |
-| NY metrics and table | `pipelines/new_york/collect_metrics.py`, `scripts/export_tables.py ny` | Cleaned NY CSV | `stats/ny_stats/`, `tables/ny.csv` |
-| Portland metrics and table | `pipelines/portland/collect_metrics.py`, `scripts/export_tables.py portland` | Four cleaned district CSVs | `stats/portland_stats/`, `tables/portland.csv` |
-| Portland boost matrices | `pipelines/portland/plots/plot_boost_matrix.py --district all` | Cleaned district CSVs | `plots/portland/boost_matrix/` |
-| Scottish metrics | `pipelines/scottish/collect_metrics.py` | Pinned `scot-elex` CSVs | `stats/scottish_stats/` |
-| Scottish primary figures and tables | `pipelines/scottish/plots/plot_um_iia_scatter.py`, `pipelines/scottish/export_metric_tables.py` | Scottish metric JSONs | `plots/scottish/`, `stats/scottish_stats/*limited.csv` |
-| BT metrics | `pipelines/bradley_terry/collect_metrics.py` | Profile folders in a settings file | `stats/bt_2_bloc_profile_stats/` |
-| BT primary figures | `plot_um_iia_scatter.py`, `plot_candidate_count_boxplots.py`, `plot_bloc_proportion_boxplots.py` under `pipelines/bradley_terry/plots/` | Matching BT metric JSONs | `plots/bt_plots/` |
+| Artifact                            | Computation                                                                                                                             | Inputs                             | Output beneath the run root                            |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------ |
+| NY metrics and table                | `pipelines/new_york/collect_metrics.py`, `scripts/export_tables.py ny`                                                                  | Cleaned NY CSV                     | `stats/ny_stats/`, `tables/ny.csv`                     |
+| Portland metrics and table          | `pipelines/portland/collect_metrics.py`, `scripts/export_tables.py portland`                                                            | Four cleaned district CSVs         | `stats/portland_stats/`, `tables/portland.csv`         |
+| Portland boost matrices             | `pipelines/portland/plots/plot_boost_matrix.py --district all`                                                                          | Cleaned district CSVs              | `plots/portland/boost_matrix/`                         |
+| Scottish metrics                    | `pipelines/scottish/collect_metrics.py`                                                                                                 | Pinned `scot-elex` CSVs            | `stats/scottish_stats/`                                |
+| Scottish primary figures and tables | `pipelines/scottish/plots/plot_um_iia_scatter.py`, `pipelines/scottish/export_metric_tables.py`                                         | Scottish metric JSONs              | `plots/scottish/`, `stats/scottish_stats/*limited.csv` |
+| BT metrics                          | `pipelines/bradley_terry/collect_metrics.py`                                                                                            | Profile folders in a settings file | `stats/bt_2_bloc_profile_stats/`                       |
+| BT primary figures                  | `plot_um_iia_scatter.py`, `plot_candidate_count_boxplots.py`, `plot_bloc_proportion_boxplots.py` under `pipelines/bradley_terry/plots/` | Matching BT metric JSONs           | `plots/bt_plots/`                                      |
 
 The primary recipes compute worst-case UM with arcsin interpolation and average single-candidate
 IIA, for rankings and winner sets. NY elects one candidate, Portland three, and Scotland uses the
@@ -56,15 +56,15 @@ directories directly with `Path` joins, such as `ROOT / "data"` or
 they do not choose a separate default input or output tree. When calling a helper from Python,
 pass its required path arguments. The command-line defaults and options are unchanged.
 
-| Option | Meaning | Default |
-| --- | --- | --- |
-| `--data-dir` | Directory containing cleaned inputs and downloaded input trees | Repository `data/` |
-| `--output-dir` | Run root for new outputs | Repository root |
-| `--stats-dir` | Parent of dataset statistics directories | `<output-dir>/stats/` |
-| `--bt-stats-dir` | Exact two-bloc BT result tree, containing seat-count directories | `<output-dir>/stats/bt_2_bloc_profile_stats/` |
-| `--bootstrap-dir` | Exact directory of Scottish bootstrap interval CSVs | Selected statistics root's `scottish_stats/bootstrap/` |
-| `--seed` | Base seed for collection or generation | `0` |
-| `--n-jobs` | Parallel workers in workflows that support parallelism | `1` |
+| Option            | Meaning                                                          | Default                                                |
+| ----------------- | ---------------------------------------------------------------- | ------------------------------------------------------ |
+| `--data-dir`      | Directory containing cleaned inputs and downloaded input trees   | Repository `data/`                                     |
+| `--output-dir`    | Run root for new outputs                                         | Repository root                                        |
+| `--stats-dir`     | Parent of dataset statistics directories                         | `<output-dir>/stats/`                                  |
+| `--bt-stats-dir`  | Exact two-bloc BT result tree, containing seat-count directories | `<output-dir>/stats/bt_2_bloc_profile_stats/`          |
+| `--bootstrap-dir` | Exact directory of Scottish bootstrap interval CSVs              | Selected statistics root's `scottish_stats/bootstrap/` |
+| `--seed`          | Base seed for collection or generation                           | `0`                                                    |
+| `--n-jobs`        | Parallel workers in workflows that support parallelism           | `1`                                                    |
 
 Only relevant options appear in each workflow's help. The runner derives its default BT tree
 from the selected `--stats-dir`; bootstrap-only plotters derive their default interval directory

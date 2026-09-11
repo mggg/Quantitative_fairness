@@ -1,3 +1,5 @@
+"""Tests to make sure that sigma_UM, sigma_IIA, and their winner set variants are working as expected."""
+
 # ruff: noqa: E402
 import sys
 from pathlib import Path
