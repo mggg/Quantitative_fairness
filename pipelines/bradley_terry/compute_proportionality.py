@@ -10,7 +10,7 @@ import click
 import pandas as pd
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
-from votekit import PreferenceProfile, RankProfile
+from votekit import RankProfile
 from votekit.ballot_generator import BlocSlateConfig
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
@@ -19,17 +19,17 @@ from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import AllowedRule, build_voting_rule
 
 
-def load_one(path: str) -> tuple[str, PreferenceProfile]:
+def load_one(path: str) -> tuple[str, RankProfile]:
     """Load a preference profile from a CSV file.
 
     Args:
         path (str): The path to the CSV file.
 
     Returns:
-        tuple[str, PreferenceProfile]: A tuple containing the file path and the loaded
-            PreferenceProfile.
+        tuple[str, RankProfile]: A tuple containing the file path and the loaded
+            RankProfile.
     """
-    return path, RankProfile.from_csv(path)
+    return path, cast(RankProfile, RankProfile.from_csv(path))
 
 
 def get_all_profiles(
@@ -41,7 +41,7 @@ def get_all_profiles(
     *,
     data_root: Path,
     n_jobs: int = 1,
-) -> dict[str, PreferenceProfile]:
+) -> dict[str, RankProfile]:
     """Get all preference profiles based on given parameters.
 
     Args:
@@ -53,7 +53,7 @@ def get_all_profiles(
         b_coh (float): Cohesion of B voters.
 
     Returns:
-        dict[str, PreferenceProfile]: A dictionary mapping file paths to PreferenceProfiles.
+        dict[str, RankProfile]: A dictionary mapping file paths to RankProfiles.
     """
     search_string = (
         f"{escape(str(data_root))}/preference_profiles/{n_a_cand:02d}_{n_b_cand:02d}/"
@@ -64,7 +64,7 @@ def get_all_profiles(
     with joblib_progress(total=len(profile_files)):
         # Joblib's default list result contains exactly the worker return values.
         pairs = cast(
-            list[tuple[str, PreferenceProfile]],
+            list[tuple[str, RankProfile]],
             Parallel(n_jobs=n_jobs, prefer="processes", batch_size="auto")(
                 delayed(load_one)(p) for p in profile_files
             ),
@@ -90,13 +90,13 @@ def frsp(r: int, s: int, rho: float) -> float:
 
 
 def process_profile(
-    file: str, profile: PreferenceProfile, *, seed: int = 0
+    file: str, profile: RankProfile, *, seed: int = 0
 ) -> dict[str, dict[str, dict[str, float]]]:
     """Process a preference profile and calculate various metrics.
 
     Args:
         file (str): The path to the preference profile file.
-        profile (PreferenceProfile): The loaded PreferenceProfile.
+        profile (RankProfile): The loaded RankProfile.
 
     Returns:
         dict[str, dict[str, dict[str, float]]]: A dictionary containing processed data for the given

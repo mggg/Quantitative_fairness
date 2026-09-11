@@ -1,6 +1,8 @@
+"""Construct the voting rules used by the replication metrics."""
+
 import random
 from collections.abc import Iterable
-from typing import Any, Callable, TypeAlias
+from typing import Any, Protocol
 
 from votekit.elections import STV, Borda, Plurality, RankedPairs
 from votekit.elections.election_state import ElectionState
@@ -10,11 +12,36 @@ from votekit.pref_profile import RankProfile
 
 from voting_metrics_main_code.constants import AllowedRule
 
-ElectionConstructor: TypeAlias = Callable[..., Election]
+
+class ElectionConstructor(Protocol):
+    """Common constructor arguments used when scoring an election."""
+
+    def __call__(self, profile: RankProfile, *, m: int = 1) -> Election:
+        """Run an election on a ranked profile for the requested number of seats.
+
+        Args:
+            profile (RankProfile): Ballots and candidates for the election.
+            m (int, optional): Number of seats to elect. Defaults to 1.
+
+        Returns:
+            Election: Completed election exposing its ranking and elected candidates.
+        """
+        ...
 
 
 def random_candidate_order(profile: RankProfile, excluded: Iterable[str] = ()) -> list[str]:
-    """Randomly order the profile's cast candidates, followed by its uncast candidates."""
+    """Shuffle cast and uncast candidates separately, placing cast candidates first.
+
+    Both groups start in sorted order, so a seeded Python random state determines the result
+    independently of set iteration order. Exclusions are applied before shuffling.
+
+    Args:
+        profile (RankProfile): Profile supplying candidate names and the subset receiving votes.
+        excluded (Iterable[str], optional): Candidates omitted from both groups. Defaults to ().
+
+    Returns:
+        list[str]: All nonexcluded candidates, with each appearing once.
+    """
     excluded = set(excluded)
     cast_cands = sorted(cand for cand in profile.candidates_cast if cand not in excluded)
     uncast_cands = sorted(set(profile.candidates) - set(profile.candidates_cast) - excluded)
@@ -24,13 +51,19 @@ def random_candidate_order(profile: RankProfile, excluded: Iterable[str] = ()) -
 
 
 class ElectRandom(RankingElection):
-    """
-    Randomly ranks all of the candidates that received votes and then elects the top m candidates.
+    """Elect a random subset of cast candidates and rank the remaining candidates.
+
+    Rankings place cast candidates before uncast candidates, with each group shuffled separately.
+    Construction runs the single-round election using Python's random state.
 
     Args:
-        profile (RankProfile): Profile to conduct election on.
-        tiebreak (str, optional): Included for API compatibility; not used. Defaults to "random".
-        m (int, optional): Number of seats to elect. Defaults to 1.
+        profile (RankProfile): Profile supplying candidate names and cast candidates.
+        tiebreak (str, optional): Stored for API compatibility; does not affect the draw.
+            Defaults to 'random'.
+        m (int, optional): Number of cast candidates to elect. Defaults to 1.
+
+    Raises:
+        ValueError: m is nonpositive or exceeds the number of cast candidates.
     """
 
     def __init__(
@@ -39,6 +72,16 @@ class ElectRandom(RankingElection):
         tiebreak: str = "random",
         m: int = 1,
     ) -> None:
+        """Run a one-round random election for the requested seat count.
+
+        Args:
+            profile (RankProfile): Profile supplying candidate names and cast candidates.
+            tiebreak (str, optional): Stored but unused compatibility setting. Defaults to 'random'.
+            m (int, optional): Number of cast candidates to elect. Defaults to 1.
+
+        Raises:
+            ValueError: m is nonpositive or exceeds the number of cast candidates.
+        """
         if m <= 0:
             raise ValueError("m must be strictly positive")
         if len(profile.candidates_cast) < m:
@@ -55,11 +98,10 @@ class ElectRandom(RankingElection):
         )
 
     def _is_finished(self) -> bool:
-        """
-        Check if the election is finished.
+        """Check whether the election state contains the requested number of winners.
 
         Returns:
-            bool: True if the required number of candidates have been elected.
+            bool: True when exactly m candidates have been elected.
         """
         # single round election
         elected_cands = [c for s in self.get_elected() for c in s]
@@ -74,18 +116,16 @@ class ElectRandom(RankingElection):
         prev_state: ElectionState,
         store_states: bool = False,
     ) -> RankProfile:
-        """
-        Run one step of an election from the given profile and previous state. Since this is
-        a single-round election, this will complete the election and return the final profile.
+        """Draw one random ranking and optionally append its election state.
 
         Args:
-            profile (RankProfile): Profile of ballots.
-            prev_state (ElectionState): The previous ElectionState.
-            store_states (bool, optional): Included for compatibility with the base class but not
-                used in this election type.
+            profile (RankProfile): Ballots and candidates used for this round's draw.
+            prev_state (ElectionState): Previous state, supplying the round number.
+            store_states (bool, optional): Append the elected and remaining candidates to
+                election_states when True. Defaults to False.
 
         Returns:
-            RankProfile: The profile of ballots after the round is completed.
+            RankProfile: The unchanged input profile; ballots are not removed or reweighted.
         """
         ordered_candidates = random_candidate_order(profile)
 
@@ -107,22 +147,31 @@ class ElectRandom(RankingElection):
 def build_voting_rule(
     n_cands: int, voting_rule_name: AllowedRule, tiebreak: str = "lex"
 ) -> ElectionConstructor:
-    """
-    Build a voting rule constructor based on a name and candidate count.
+    """Bind a voting rule's tie-breaking strategy and, for approval, its score vector.
+
+    Approval rules use Borda with one point for each approved position and zero for later ones.
+    The returned factory forwards arguments to the selected VoteKit rule; metrics use its common
+    profile and m arguments. Election construction and validation happen when the factory is called.
 
     Args:
-        n_cands (int): Number of candidates.
-        voting_rule_name (AllowedRule): Name of the voting rule to build.
-        tiebreak (str, optional): Tiebreak strategy passed to the rule. Defaults to "lex".
+        n_cands (int): Candidate count used to size approval score vectors.
+        voting_rule_name (AllowedRule): Supported rule name.
+        tiebreak (str, optional): Strategy bound into the selected rule; ignored by ElectRandom.
+            Defaults to 'lex'.
 
     Returns:
-        ElectionConstructor: A callable that constructs the requested election rule.
+        ElectionConstructor: Callable running an election with the configured rule settings.
+
+    Raises:
+        ValueError: The rule name is unsupported or an approval rule requests more approved
+            positions than n_cands.
     """
 
     match voting_rule_name:
         case "borda":
 
             def factory(*args: Any, **kwargs: Any) -> Election:
+                """Run Borda with the bound tie-breaking setting."""
                 return Borda(*args, tiebreak=tiebreak, **kwargs)
 
         case "3-approval":
@@ -131,6 +180,7 @@ def build_voting_rule(
             sv = [1] * 3 + [0] * (n_cands - 3)
 
             def factory(*args: Any, **kwargs: Any) -> Election:
+                """Run Borda with the bound approval scores and tie-breaking strategy."""
                 return Borda(*args, tiebreak=tiebreak, score_vector=sv, **kwargs)
 
         case "2-approval":
@@ -139,26 +189,31 @@ def build_voting_rule(
             sv = [1] * 2 + [0] * (n_cands - 2)
 
             def factory(*args: Any, **kwargs: Any) -> Election:
+                """Run Borda with the bound approval scores and tie-breaking strategy."""
                 return Borda(*args, tiebreak=tiebreak, score_vector=sv, **kwargs)
 
         case "plurality":
 
             def factory(*args: Any, **kwargs: Any) -> Election:
+                """Run Plurality with the bound tie-breaking setting."""
                 return Plurality(*args, tiebreak=tiebreak, **kwargs)
 
         case "stv":
 
             def factory(*args: Any, **kwargs: Any) -> Election:
+                """Run STV with the bound tie-breaking setting."""
                 return STV(*args, tiebreak=tiebreak, **kwargs)
 
         case "ranked-pairs":
 
             def factory(*args: Any, **kwargs: Any) -> Election:
+                """Run RankedPairs with the bound tie-breaking setting."""
                 return RankedPairs(*args, tiebreak=tiebreak, **kwargs)
 
         case "random":
 
             def factory(*args: Any, **kwargs: Any) -> Election:
+                """Run ElectRandom with the bound tie-breaking setting."""
                 return ElectRandom(*args, tiebreak=tiebreak, **kwargs)
 
         case _:

@@ -1,9 +1,15 @@
-from collections.abc import Iterable
+"""Compute unanimity and independence scores for rankings and winner sets.
+
+Ranking metrics retain the historical ``sigma`` names in code; the manuscript denotes them
+by rho. Functions suffixed ``_winner_set`` score elected candidates rather than full rankings.
+"""
+
+from collections.abc import Callable, Hashable, Iterable, Sequence
 from itertools import combinations, product
 from math import asin, comb, pi, sqrt
-from typing import Any, Callable, Sequence
 
 import numpy as np
+from numpy.typing import NDArray
 from votekit import RankProfile
 from votekit.cleaning import remove_and_condense_rank_profile
 
@@ -11,16 +17,22 @@ from voting_metrics_main_code.constants import InterpolationType, MetricVariant
 from voting_metrics_main_code.voting_rules import ElectionConstructor, random_candidate_order
 
 
-def kendall_tau_distance(list1: Sequence[Any], list2: Sequence[Any]) -> int:
-    """
-    Compute Kendall Tau distance between two rankings (lists).
+def kendall_tau_distance(list1: Sequence[Hashable], list2: Sequence[Hashable]) -> int:
+    """Count pairwise order disagreements between two untied rankings.
+
+    The rankings must contain the same distinct, hashable candidates. Singleton frozensets from
+    VoteKit rankings are valid candidate values.
 
     Args:
-        list1 (Sequence[Any]): First ranking (ordered list of candidates).
-        list2 (Sequence[Any]): Second ranking (ordered list of candidates).
+        list1 (Sequence[Hashable]): First candidate ordering.
+        list2 (Sequence[Hashable]): Second ordering of the same candidates.
 
     Returns:
-        int: Kendall Tau distance (number of pairwise disagreements).
+        int: Number of candidate pairs whose relative order differs.
+
+    Raises:
+        AssertionError: The rankings have different lengths.
+        KeyError: A candidate in the first ranking is absent from the second.
     """
     list1 = list(list1)
     list2 = list(list2)
@@ -47,42 +59,43 @@ def kendall_tau_distance(list1: Sequence[Any], list2: Sequence[Any]) -> int:
 
 
 def __unpack_ranking_with_lexicographic_tiebreak(
-    ranking: Sequence[frozenset],
-) -> tuple[frozenset, ...]:
-    """
-    A utility function that unpacks a ranking returned by votekit (which may contain ties) into a
-    list of individual candidates.  Any ties are resolved in lexicographic order.
+    ranking: Sequence[frozenset[str]],
+) -> tuple[frozenset[str], ...]:
+    """Break each tied rank into lexicographically ordered singleton candidate sets.
 
     Args:
-        ranking (Sequence[frozenset]): Ranking possibly containing tied candidate sets.
+        ranking (Sequence[frozenset[str]]): Ordered candidate sets, with ties within each set.
 
     Returns:
-        tuple[frozenset, ...]: Ranking with ties broken into singleton sets.
+        tuple[frozenset[str], ...]: Untied ranking preserving the order between the original ranks.
     """
     return tuple([frozenset({cand}) for c_set in ranking for cand in sorted(c_set)])
 
 
 def determine_weighted_ranking_vector_XAB(
-    ranking_array: np.ndarray, weight_vector: np.ndarray, a: Any, b: Any
-) -> np.ndarray:
-    """
-    For each voter (row) this will return
-        1   if a appears strictly before b,
-        0.5 if a and b are both absent   (a_pos == b_pos == ∞),
-        0.5 if a and b share the same position,
-        0   otherwise,
-    and finally multiplies by the per-row weights.
+    ranking_array: NDArray[np.object_],
+    weight_vector: NDArray[np.float64],
+    a: frozenset[str],
+    b: frozenset[str],
+) -> NDArray[np.float64]:
+    """Weight each ballot's support for placing candidate a ahead of candidate b.
+
+    A row contributes its full weight if a appears first, half its weight if both candidates are
+    absent or occupy the same position, and zero otherwise. Comparisons match complete ranking
+    cells: a tied set containing a candidate does not equal that candidate's singleton set.
 
     Args:
-        ranking_array (np.ndarray): Array of shape (n_voters, n_candidates) with
-            the ranking of each voter for each candidate.
-        weight_vector (np.ndarray): Array of shape (n_voters,) with the per-voter
-            weights.
-        a (Any): Candidate a. Normally a singleton frozenset.
-        b (Any): Candidate b. Normally a singleton frozenset.
+        ranking_array (NDArray[np.object_]): Ranking cells of shape (n_ballots, n_positions),
+            ordered from first to last preference. At least one position is required.
+        weight_vector (NDArray[np.float64]): Nonnegative ballot weights of shape (n_ballots,).
+        a (frozenset[str]): Singleton set containing the first candidate.
+        b (frozenset[str]): Singleton set containing the second candidate.
 
     Returns:
-        np.ndarray: A vector of shape (n_voters,) with the weighted rankings.
+        NDArray[np.float64]: Weighted pairwise support of shape (n_ballots,).
+
+    Raises:
+        ValueError: There are no ranking positions or array shapes cannot be broadcast together.
     """
     # element‑wise boolean masks
     is_a = ranking_array == a
@@ -102,16 +115,15 @@ def determine_weighted_ranking_vector_XAB(
 
 
 def number_of_voters(profile: RankProfile, *args: object, **kwargs: object) -> float:
-    """
-    Compute the total number of voters as the sum of ballot weights.
+    """Sum ballot weights, including fractional weights, in a ranked profile.
 
     Args:
-        profile (RankProfile): Preference profile containing a "Weight" column.
-        *args (object): Unused.
-        **kwargs (object): Unused.
+        profile (RankProfile): Preference profile containing a Weight column.
+        *args (object): Ignored positional arguments for the metric-call interface.
+        **kwargs (object): Ignored keyword arguments for the metric-call interface.
 
     Returns:
-        float: Total number of voters (sum of weights).
+        float: Total ballot weight.
     """
     del args, kwargs  # unused
     return float(profile.df["Weight"].sum())
@@ -123,18 +135,56 @@ def number_of_voters(profile: RankProfile, *args: object, **kwargs: object) -> f
 
 
 def __asin_interpolation(misalignment: float) -> float:
+    """Apply the arcsine UM transformation, saturating at one for support of at least 0.5.
+
+    Args:
+        misalignment (float): Nonnegative pairwise support value before interpolation.
+
+    Returns:
+        float: Interpolated score in [0, 1].
+
+    Raises:
+        ValueError: The support value is negative and has no real square root.
+    """
     return float((2 / pi) * asin(sqrt(2 * misalignment)) if misalignment < 1 / 2 else 1)
 
 
 def __odds_interpolation(misalignment: float) -> float:
+    """Apply the odds UM transformation, saturating at one for support of at least 0.5.
+
+    Args:
+        misalignment (float): Nonnegative pairwise support value before interpolation.
+
+    Returns:
+        float: Interpolated score in [0, 1].
+    """
     return float(misalignment / (1 - misalignment) if misalignment < 1 / 2 else 1)
 
 
 def __linear_interpolation(misalignment: float) -> float:
+    """Apply the linear UM transformation, saturating at one for support of at least 0.5.
+
+    Args:
+        misalignment (float): Nonnegative pairwise support value before interpolation.
+
+    Returns:
+        float: Interpolated score in [0, 1].
+    """
     return float(2 * misalignment if misalignment < 1 / 2 else 1)
 
 
 def _interpolation_function(interpolation_type: InterpolationType) -> Callable[[float], float]:
+    """Select the scalar transformation used for a UM pairwise support value.
+
+    Args:
+        interpolation_type (InterpolationType): One of 'asin', 'odds', or 'linear'.
+
+    Returns:
+        Callable[[float], float]: Transformation saturating at one for support of at least 0.5.
+
+    Raises:
+        ValueError: The interpolation name is unsupported.
+    """
     match interpolation_type:
         case "linear":
             return __linear_interpolation
@@ -157,19 +207,31 @@ def sigma_UM(
     variant: MetricVariant = "worst_case",
     interpolation_type: InterpolationType = "asin",
 ) -> float:
-    """
-    Computes the extended Unanimity Majoritarian (UM) score, which we call sigma_UM here.
-    See https://arxiv.org/pdf/2506.12961 for details.
+    """Compute UM support for every ordered candidate pair in the election ranking.
+
+    Lexicographically resolve tied ranks before comparing each higher-ranked candidate with
+    each lower-ranked candidate. The average variant averages interpolated
+    pairwise support; worst_case interpolates the minimum support.
+    See https://arxiv.org/pdf/2506.12961 for the metric definition.
 
     Args:
-        profile (RankProfile): The preference profile to score.
-        voting_rule (ElectionConstructor): The voting rule constructor to apply.
-        n_seats (int): Number of seats to elect.
-        variant (str, optional): "average" or "worst_case". Defaults to "worst_case".
-        interpolation_type (str, optional): "asin", "odds", or "linear". Defaults to "asin".
+        profile (RankProfile): Ranked ballots with positive total weight and at least two
+            candidates.
+        voting_rule (ElectionConstructor): Constructor accepting profile and m and returning
+            an election ranking.
+        n_seats (int): Number of seats; must be supported by the voting rule.
+        variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'worst_case'.
+        interpolation_type (InterpolationType, optional): 'asin', 'odds', or 'linear'.
+            Defaults to 'asin'.
 
     Returns:
-        float: The sigma_UM score which is a value between 0 and 1.
+        float: UM score in [0, 1]; one means every tested pair has normalized support
+            of at least 0.5.
+
+    Raises:
+        ValueError: The variant or interpolation is unsupported, the profile has no positive
+            ranking length, or the voting rule rejects the election parameters.
+        ZeroDivisionError: The election ranking contains fewer than two candidates.
     """
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
@@ -212,19 +274,31 @@ def sigma_UM_winner_set(
     variant: MetricVariant = "worst_case",
     interpolation_type: InterpolationType = "asin",
 ) -> float:
-    """
-    Computes the extended Unanimity Majoritarian (UM) score with respect to the winner set.
-    See https://arxiv.org/pdf/2506.12961 for details.
+    """Compute UM support for every elected-versus-unelected candidate pair.
+
+    The winner set is the first n_seats candidates after lexicographic resolution of tied
+    ranks. Compare each winner with each loser. The average variant averages interpolated
+    pairwise support; worst_case interpolates the minimum support.
+    See https://arxiv.org/pdf/2506.12961 for the metric definition.
 
     Args:
-        profile (RankProfile): The preference profile to score.
-        voting_rule (ElectionConstructor): The voting rule constructor to apply.
-        n_seats (int): Number of seats to elect.
-        variant (str, optional): "average" or "worst_case". Defaults to "worst_case".
-        interpolation_type (str, optional): "asin", "odds", or "linear". Defaults to "asin".
+        profile (RankProfile): Ranked ballots with positive total weight and at least two
+            candidates.
+        voting_rule (ElectionConstructor): Constructor accepting profile and m and returning
+            an election ranking.
+        n_seats (int): Number of seats; must leave at least one winner and one loser.
+        variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'worst_case'.
+        interpolation_type (InterpolationType, optional): 'asin', 'odds', or 'linear'.
+            Defaults to 'asin'.
 
     Returns:
-        float: The sigma_UM score which is a value between 0 and 1.
+        float: UM score in [0, 1]; one means every tested pair has normalized support
+            of at least 0.5.
+
+    Raises:
+        ValueError: The variant or interpolation is unsupported, the profile has no positive
+            ranking length, or the voting rule rejects the election parameters.
+        ZeroDivisionError: The elected or unelected candidate group is empty.
     """
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
@@ -275,19 +349,28 @@ def sigma_IIA(
     *,
     variant: MetricVariant = "average",
 ) -> float:
-    """
-    Computes the extended Independence of Irrelevant Alternatives (IIA) score,
-    which we call sigma_IIA here.
-    See https://arxiv.org/pdf/2506.12961 for details.
+    """Compute ranking IIA under single-candidate removals.
+
+    Remove each candidate in turn and compare the new election ranking with the original ranking
+    restricted to the remaining candidates. Normalize Kendall distance by the number of remaining
+    candidate pairs, then average over removals or take the largest distance for worst_case.
+    Tied ranks are resolved lexicographically. See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (RankProfile): The preference profile to score.
-        voting_rule (ElectionConstructor): The voting rule constructor to apply.
-        n_seats (int): Number of seats to elect.
-        variant (str, optional): "average" or "worst_case". Defaults to "average".
+        profile (RankProfile): Ranked profile with at least three candidates.
+        voting_rule (ElectionConstructor): Election constructor usable on the original and reduced
+            profiles, accepting profile and m.
+        n_seats (int): Number of seats, retained for each reduced election.
+        variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
 
     Returns:
-        float: The sigma_IIA score which is a value between 0 and 1.
+        float: One minus the aggregated normalized distance, in [0, 1]; one means no ranking change.
+
+    Raises:
+        ValueError: The variant is unsupported or a voting rule rejects a reduced election.
+        AssertionError: Original and recomputed restricted rankings have different lengths.
+        KeyError: A recomputed ranking omits a candidate from the original restricted ranking.
+        ZeroDivisionError: Too few candidates remain to normalize a pairwise distance.
     """
 
     if variant not in ("average", "worst_case"):
@@ -332,19 +415,29 @@ def sigma_IIA_all_subset(
     *,
     variant: MetricVariant = "average",
 ) -> float:
-    """
-    Computes the extended Independence of Irrelevant Alternatives (IIA) score,
-    which we call sigma_IIA here.
-    See https://arxiv.org/pdf/2506.12961 for details.
+    """Compute ranking IIA under all nontrivial subset removals.
+
+    Remove each nonempty candidate subset that leaves at least two candidates, and compare the
+    new ranking with the original ranking restricted to those candidates. Reduce the seat count
+    to the number of remaining candidates when necessary. Average normalized Kendall distances
+    equally across the tested subsets, or use the largest distance for worst_case.
+    Tied ranks are resolved lexicographically. See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (RankProfile): The preference profile to score.
-        voting_rule (ElectionConstructor): The voting rule constructor to apply.
-        n_seats (int): Number of seats to elect.
-        variant (str, optional): "average" or "worst_case". Defaults to "average".
+        profile (RankProfile): Ranked profile with at least three candidates.
+        voting_rule (ElectionConstructor): Election constructor usable on the original and reduced
+            profiles, accepting profile and m.
+        n_seats (int): Number of seats before capping for each reduced profile.
+        variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
 
     Returns:
-        float: The sigma_IIA score which is a value between 0 and 1.
+        float: One minus the aggregated normalized distance, in [0, 1]; one means no ranking change.
+
+    Raises:
+        ValueError: The variant is unsupported or a voting rule rejects a reduced election.
+        AssertionError: Original and recomputed restricted rankings have different lengths.
+        KeyError: A recomputed ranking omits a candidate from the original restricted ranking.
+        ZeroDivisionError: Too few candidates remain to normalize the average over subsets.
     """
 
     if variant not in ("average", "worst_case"):
@@ -404,19 +497,25 @@ def sigma_IIA_winner_set(
     *,
     variant: MetricVariant = "average",
 ) -> float:
-    """
-    Computes the extended Independence of Irrelevant Alternatives (IIA) score
-    with respect to the winner set.
+    """Compute winner-set IIA under single-candidate removals.
+
+    Remove candidates one at a time, excluding removal of the sole winner in a single-seat election.
+    Reduce the seat count by the number of removed winners. Each comparison measures the fraction
+    of available seats filled by retained original winners; aggregate by mean or minimum.
     See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (RankProfile): The preference profile to score.
-        voting_rule (ElectionConstructor): The voting rule constructor to apply.
-        n_seats (int): Number of seats to elect.
-        variant (str, optional): "average" or "worst_case". Defaults to "average".
+        profile (RankProfile): Ranked profile on which to compare elected candidate sets.
+        voting_rule (ElectionConstructor): Constructor accepting profile and m for each election.
+        n_seats (int): Positive number of seats, at most the original candidate count.
+        variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
 
     Returns:
-        float: The sigma_IIA score which is a value between 0 and 1.
+        float: Winner retention in [0, 1]. Returns one when all candidates are elected or when
+            a two-candidate election fills one seat.
+
+    Raises:
+        ValueError: The variant or seat count is unsupported, or a voting rule rejects an election.
     """
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
@@ -479,19 +578,26 @@ def sigma_IIA_winner_set_all_subset(
     *,
     variant: MetricVariant = "average",
 ) -> float:
-    """
-    Computes the extended Independence of Irrelevant Alternatives (IIA) score
-    with respect to the winner set.
+    """Compute winner-set IIA under candidate-subset removals.
+
+    Consider nonempty removal subsets except those containing every original winner and the subset
+    containing exactly all original losers.
+    Reduce the seat count by the number of removed winners. Each comparison measures the fraction
+    of available seats filled by retained original winners; aggregate by mean or minimum.
     See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
-        profile (RankProfile): The preference profile to score.
-        voting_rule (ElectionConstructor): The voting rule constructor to apply.
-        n_seats (int): Number of seats to elect.
-        variant (str, optional): "average" or "worst_case". Defaults to "average".
+        profile (RankProfile): Ranked profile on which to compare elected candidate sets.
+        voting_rule (ElectionConstructor): Constructor accepting profile and m for each election.
+        n_seats (int): Positive number of seats, at most the original candidate count.
+        variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
 
     Returns:
-        float: The sigma_IIA score which is a value between 0 and 1.
+        float: Winner retention in [0, 1]. Returns one when all candidates are elected or when
+            a two-candidate election fills one seat.
+
+    Raises:
+        ValueError: The variant or seat count is unsupported, or a voting rule rejects an election.
     """
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
@@ -558,7 +664,24 @@ def sigma_IIA_winner_set_all_subset(
 
 def __random_profile_ranking(
     profile: RankProfile, n_seats: int, excluded: Iterable[str] = ()
-) -> tuple[frozenset, ...]:
+) -> tuple[frozenset[str], ...]:
+    """Draw a random candidate ranking after excluding the supplied candidates.
+
+    Candidates receiving votes precede uncast candidates, with each group shuffled separately
+    using Python's random state. The requested seat count is validated against the remaining
+    cast candidates, but the returned ranking includes all remaining candidates.
+
+    Args:
+        profile (RankProfile): Profile supplying cast and uncast candidate names.
+        n_seats (int): Positive number of seats to fill with cast candidates.
+        excluded (Iterable[str], optional): Candidates omitted from the ranking. Defaults to ().
+
+    Returns:
+        tuple[frozenset[str], ...]: Ordered singleton candidate sets.
+
+    Raises:
+        ValueError: The seat count is nonpositive or exceeds the remaining cast candidates.
+    """
     excluded = set(excluded)
     remaining_cast = [
         candidate for candidate in profile.candidates_cast if candidate not in excluded
@@ -577,7 +700,24 @@ def sigma_IIA_random(
     *,
     variant: MetricVariant = "average",
 ) -> float:
-    """Compute sigma_IIA for a random election directly from the profile candidates."""
+    """Compute single-removal ranking IIA using independent random candidate orderings.
+
+    Draw the original and reduced rankings directly, with cast candidates before uncast candidates.
+    This avoids constructing election states and uses Python's random state.
+
+    Args:
+        profile (RankProfile): Ranked profile with at least three candidates.
+        voting_rule (ElectionConstructor): Ignored; retained for the common metric-call interface.
+        n_seats (int): Positive seat count supported by the cast candidates after every removal.
+        variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
+
+    Returns:
+        float: One minus the mean or largest normalized Kendall distance, in [0, 1].
+
+    Raises:
+        ValueError: The variant is unsupported or a random election cannot fill the requested seats.
+        ZeroDivisionError: Fewer than two candidates remain for a normalized distance.
+    """
     del voting_rule
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
@@ -611,7 +751,24 @@ def sigma_IIA_winner_set_random(
     *,
     variant: MetricVariant = "average",
 ) -> float:
-    """Compute winner-set sigma_IIA for a random election from the profile candidates."""
+    """Compute single-removal winner-set IIA from independent random candidate orderings.
+
+    Skip removal of a sole winner and reduce the seat count when an original winner is removed.
+    Cast candidates precede uncast candidates in each draw, using Python's random state.
+
+    Args:
+        profile (RankProfile): Ranked profile supplying candidates for each random election.
+        voting_rule (ElectionConstructor): Ignored; retained for the common metric-call interface.
+        n_seats (int): Positive number of seats, supported by the remaining cast candidates.
+        variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
+
+    Returns:
+        float: Mean or minimum fraction of available seats retaining original winners. Returns one
+            when all candidates are elected or a two-candidate election fills one seat.
+
+    Raises:
+        ValueError: The variant is unsupported or a random election cannot fill the requested seats.
+    """
     del voting_rule
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")

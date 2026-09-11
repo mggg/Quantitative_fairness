@@ -17,6 +17,9 @@ ROOT = Path(__file__).resolve().parents[1]
 def new_data_file(path: Path) -> Generator[Path, None, None]:
     """Publish a completed data file without replacing an existing destination.
 
+    Write to the yielded temporary path. Successful exit publishes it with a hard link that
+    also refuses destinations created concurrently. An exception discards the temporary file.
+
     Args:
         path (Path): Destination for a profile, preference interval dataframe, or result file.
 
@@ -47,6 +50,9 @@ def new_data_file(path: Path) -> Generator[Path, None, None]:
 
 def seed_task(*identity: object, seed: int = 0) -> None:
     """Seed each task independently of worker count, scheduling, and resume order.
+
+    Updates Python's random state and NumPy's legacy random state. It does not seed separate
+    numpy.random.Generator instances. Task identifiers need stable repr values across runs.
 
     Args:
         *identity (object): Stable identifiers for the experiment and individual task.
