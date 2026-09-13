@@ -1,8 +1,6 @@
 """Run the primary dataset recipes; use --dry-run to inspect their commands."""
 
 import argparse
-import hashlib
-import json
 import os
 import shlex
 import subprocess
@@ -140,32 +138,10 @@ def recipe_commands(args: argparse.Namespace) -> list[list[str]]:
     return commands
 
 
-def record_run(args: argparse.Namespace) -> None:
-    """Record computation settings and reject reuse of a run root with different settings."""
-    manifest = {
-        "dataset": args.dataset,
-        "seed": args.seed,
-        "python": sys.version,
-        "lock_sha256": hashlib.sha256((ROOT / "uv.lock").read_bytes()).hexdigest(),
-        "settings_sha256": hashlib.sha256(args.settings_file.read_bytes()).hexdigest()
-        if args.dataset == "bt"
-        else None,
-        "data_dir": str(args.data_dir),
-        "n_seats": args.n_seats if args.dataset == "bt" else None,
-    }
-    record = args.output_dir / f"{args.dataset}-run.json"
-    if record.exists() and json.loads(record.read_text()) != manifest:
-        raise ValueError(f"Run settings differ from {record}; choose a new --output-dir")
-    record.parent.mkdir(parents=True, exist_ok=True)
-    record.write_text(json.dumps(manifest, indent=2) + "\n")
-
-
 def main() -> None:
     """Print and execute the chosen dataset recipe with identical explicit arguments."""
     args = parse_arguments()
     commands = recipe_commands(args)
-    if not args.dry_run and args.mode != "figures":
-        record_run(args)
 
     for command in commands:
         print(

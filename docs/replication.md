@@ -92,10 +92,9 @@ never replaced. Move an existing file manually before recomputing it; there is n
 Collectors skip completed results before doing expensive work. The shared writer publishes only
 complete files and refuses a destination created concurrently by another process.
 
-Figures, exported tables, bootstrap summaries, and settings files overwrite by default. Recipe
-manifests record execution settings and reject changes within an existing run root. Existing
-historical results do not have complete execution provenance, and skipping a result does not
-validate it against the current experiment.
+Figures, exported tables, bootstrap summaries, and settings files overwrite by default.
+Existing historical results do not have complete execution provenance, and skipping a result
+does not validate it against the current experiment.
 
 ## Dataset recipes and individual commands
 
