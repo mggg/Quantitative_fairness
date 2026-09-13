@@ -10,7 +10,7 @@ import seaborn as sns
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from pipelines.bradley_terry.plots._data import find_metric_files, paired_metric_file
+from pipelines.bradley_terry.plots._data import find_metric_files, resolve_paired_metric_file
 from pipelines.bradley_terry.plots._metrics import (
     iia_metric_list,
 )
@@ -68,7 +68,7 @@ def load_paired_metrics(
 
     um_metric = {"sigma_IIA": "sigma_UM", "sigma_IIA_winner_set": "sigma_UM_winner_set"}[metric]
     for iia_file in all_files:
-        um_file = paired_metric_file(Path(iia_file), um_metric, um_variant, "asin")
+        um_file = resolve_paired_metric_file(Path(iia_file), um_metric, um_variant, "asin")
         with open(iia_file) as source, um_file.open() as companion:
             iia_scores = json.load(source)
             um_scores = json.load(companion)

@@ -4,12 +4,12 @@ import ast
 import contextlib
 import json
 import sys
-import warnings
-from collections.abc import Callable, Sequence
-from functools import partial
+from collections.abc import Sequence
+from dataclasses import dataclass
 from itertools import batched
 from pathlib import Path
-from typing import Iterator, TypeAlias, TypedDict, cast
+from types import FunctionType
+from typing import Iterator, NamedTuple, cast
 
 import click
 from joblib import Parallel, delayed
@@ -18,44 +18,45 @@ from votekit import RankProfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from pipelines.bradley_terry._metrics import IIAMetric, MetricSpec, UMMetric, configure_metric
 from voting_metrics_main_code.constants import AllowedRule
-from voting_metrics_main_code.fairness_metric import (  # noqa: E402
-    sigma_IIA,
-    sigma_IIA_random,
-    sigma_IIA_winner_set,
-    sigma_IIA_winner_set_random,
-    sigma_UM,
-    sigma_UM_winner_set,
-)
 from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
-from voting_metrics_main_code.voting_rules import build_voting_rule  # noqa: E402
+from voting_metrics_main_code.voting_rules import build_voting_rule
 
-warnings.filterwarnings("ignore")
-
-RUNS = (
-    ("sigma_UM", sigma_UM, "worst_case", "asin"),
-    ("sigma_UM_winner_set", sigma_UM_winner_set, "worst_case", "asin"),
-    ("sigma_IIA", sigma_IIA, "average", "None"),
-    ("sigma_IIA_winner_set", sigma_IIA_winner_set, "average", "None"),
+PRIMARY_METRICS: tuple[MetricSpec, ...] = (
+    UMMetric("sigma_UM", "worst_case", "asin"),
+    UMMetric("sigma_UM_winner_set", "worst_case", "asin"),
+    IIAMetric("sigma_IIA", "average"),
+    IIAMetric("sigma_IIA_winner_set", "average"),
 )
-RANDOM_METRICS = {
-    sigma_IIA: sigma_IIA_random,
-    sigma_IIA_winner_set: sigma_IIA_winner_set_random,
-}
-
-ProfileBatchTask: TypeAlias = tuple[
-    tuple[tuple[int, Path], ...],
-    int,
-    int,
-    AllowedRule,
-    str,
-    tuple[tuple[int, Callable[..., float], str, str], ...],
-]
-# Joblib must serialize this annotation when the collector runs as a standalone script.
-BatchScores: TypeAlias = tuple[tuple[int, tuple[tuple[int, float], ...]], ...]
 
 
-class OutputProgress(TypedDict):
+class MetricOutput(NamedTuple):
+    spec: MetricSpec
+    path: Path
+
+
+class MetricJob(NamedTuple):
+    output_id: int
+    spec: MetricSpec
+
+
+class ProfileBatchTask(NamedTuple):
+    profiles: tuple[tuple[int, Path], ...]
+    n_cands: int
+    n_seats: int
+    election_type: AllowedRule
+    tiebreak: str
+    metrics: tuple[MetricJob, ...]
+
+
+class OutputBatchScores(NamedTuple):
+    output_id: int
+    scores: tuple[tuple[int, float], ...]
+
+
+@dataclass
+class OutputProgress:
     """Scores retain CSV order while parallel batches complete out of order."""
 
     output_file: Path
@@ -64,14 +65,21 @@ class OutputProgress(TypedDict):
     label: str
 
 
-def output_jobs(
+@dataclass
+class CollectionPlan:
+    tasks: list[ProfileBatchTask]
+    outputs: dict[int, OutputProgress]
+    skipped: int
+
+
+def build_output_jobs(
     input_folder: str | Path,
     n_seats: int,
     election_type: AllowedRule,
     tiebreak: str,
     *,
     output_root: Path,
-) -> tuple[int, list[tuple[Callable[..., float], str, str, Path]]]:
+) -> tuple[int, list[MetricOutput]]:
     """Build metric jobs and output paths from a two-bloc profile directory name.
 
     Args:
@@ -83,8 +91,8 @@ def output_jobs(
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
 
     Returns:
-        tuple[int, list[tuple[Callable[..., float], str, str, Path]]]: Total candidate count and
-            jobs containing the metric callable, variant, interpolation token, and output path.
+        tuple[int, list[MetricOutput]]: Total candidate count and
+            jobs containing a metric specification and output path.
 
     Raises:
         ValueError: Encoded candidate counts or bloc parameters cannot be parsed or unpacked.
@@ -104,10 +112,12 @@ def output_jobs(
 
     jobs = []
 
-    for metric, metric_function, variant, interpolation_type in RUNS:
+    for spec in PRIMARY_METRICS:
+        metric = spec.name
+        interpolation_type = spec.interpolation if isinstance(spec, UMMetric) else "None"
         basename = (
             f"METRIC_{metric}"
-            f"__VARIANT_{variant}"
+            f"__VARIANT_{spec.variant}"
             f"__INTERP_{interpolation_type}"
             f"__NCANDS_({n_a_cands:02d}_{n_b_cands:02d})"
             f"__SEATS_{n_seats}"
@@ -119,55 +129,31 @@ def output_jobs(
         )
         output_file = output_root / metric / f"{n_cands:02d}" / election_type / basename
 
-        jobs.append((metric_function, variant, interpolation_type, output_file))
+        jobs.append(MetricOutput(spec, output_file))
 
     return n_cands, jobs
 
 
-def run_profile_batch(
-    profile_batch: Sequence[tuple[int, Path]],
-    n_cands: int,
-    n_seats: int,
-    election_type: AllowedRule,
-    tiebreak: str,
-    metric_jobs: Sequence[tuple[int, Callable[..., float], str, str]],
-    *,
-    seed: int = 0,
-) -> BatchScores:
-    """Score a batch of profiles with a separate deterministic seed for each metric.
+def run_profile_batch(task: ProfileBatchTask, *, seed: int = 0) -> tuple[OutputBatchScores, ...]:
+    """Score profiles with independent metric seeds, retaining their original CSV indices.
 
-    Args:
-        seed (int, optional): Base seed for independent task streams. Defaults to 0.
-        profile_batch (Sequence[tuple[int, Path]]): Pairs of CSV-order index and profile path.
-        n_cands (int): Number of candidates.
-        n_seats (int): Number of seats to elect.
-        election_type (AllowedRule): Voting rule name.
-        tiebreak (str): Tiebreak rule token used in the statistics filenames.
-        metric_jobs (Sequence[tuple[int, Callable[..., float], str, str]]): Jobs containing output
-            ID, metric callable, variant, and interpolation token.
-
-    Returns:
-        BatchScores: Results grouped by output ID as (output_id, ((profile_index, score), ...)). Each
-            group retains the input batch order.
-
-    Raises:
-        FileNotFoundError: A profile CSV does not exist.
+    Task seeds depend on experiment settings and profile identity, not output IDs, worker count,
+    or scheduling. The result groups indexed scores by output ID for ordered publication.
     """
     with contextlib.redirect_stdout(None):
-        voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
-        metrics = []
-        scores = {}
+        voting_rule = build_voting_rule(task.n_cands, task.election_type, tiebreak=task.tiebreak)
+        metrics = [
+            (
+                job.output_id,
+                configure_metric(
+                    job.spec, task.n_seats, random_rule=task.election_type == "random"
+                ),
+            )
+            for job in task.metrics
+        ]
+        scores: dict[int, list[tuple[int, float]]] = {output_id: [] for output_id, _ in metrics}
 
-        for output_id, metric_function, variant, interpolation_type in metric_jobs:
-            metric = partial(metric_function, n_seats=n_seats, variant=variant)
-
-            if interpolation_type != "None":
-                metric = partial(metric, interpolation_type=interpolation_type)
-
-            metrics.append((output_id, metric))
-            scores[output_id] = []
-
-        for index, path in profile_batch:
+        for index, path in task.profiles:
             profile = RankProfile.from_csv(path)
 
             for output_id, metric in metrics:
@@ -175,17 +161,18 @@ def run_profile_batch(
                     path.parent.parent.name,
                     path.parent.name,
                     path.name,
-                    election_type,
-                    tiebreak,
-                    n_seats,
-                    metric.func.__name__,
+                    task.election_type,
+                    task.tiebreak,
+                    task.n_seats,
+                    cast(FunctionType, metric.func).__name__,
                     metric.keywords,
                     seed=seed,
                 )
-
                 scores[output_id].append((index, metric(profile, voting_rule)))
 
-    return tuple((output_id, tuple(values)) for output_id, values in scores.items())
+    return tuple(
+        OutputBatchScores(output_id, tuple(values)) for output_id, values in scores.items()
+    )
 
 
 def write_scores(output_file: Path, scores: list[float]) -> None:
@@ -239,7 +226,7 @@ def load_profile_folders(settings_file: Path) -> list[Path]:
     return input_folders
 
 
-def prepare_tasks(
+def plan_collection(
     input_folders: Sequence[Path],
     n_seats: int,
     election_type: AllowedRule,
@@ -247,77 +234,99 @@ def prepare_tasks(
     profile_batch_size: int,
     *,
     output_root: Path,
-) -> tuple[list[ProfileBatchTask], dict[int, OutputProgress], int, int]:
-    """Build pending batch tasks and output progress, skipping existing result files.
+) -> CollectionPlan:
+    """Inspect inputs and plan pending batches without writing results.
 
-    Empty profile folders produce empty JSON arrays immediately.
-
-    Args:
-        output_root (Path): Run root containing stats, plots, and tables.
-        input_folders (Sequence[Path]): Profile directories to process, in task preparation order.
-        n_seats (int): Number of seats to elect.
-        election_type (AllowedRule): Voting rule name.
-        tiebreak (str): Tiebreak rule token used in the statistics filenames.
-        profile_batch_size (int): Maximum number of profiles per parallel task; must be positive.
-
-    Returns:
-        tuple[list[ProfileBatchTask], dict[int, OutputProgress], int, int]: Tasks accepted by
-            run_profile_batch, progress keyed by output ID, skipped file count, and written file
-            count.
-
-    Raises:
-        ValueError: The batch size is below one or encoded profile parameters are invalid.
+    Existing outputs are skipped. Empty folders retain an empty output to publish during execution.
+    Profile indices follow sorted CSV paths, regardless of batching or resume order.
     """
+    if profile_batch_size < 1:
+        raise ValueError("profile_batch_size must be positive")
+
     tasks = []
     outputs: dict[int, OutputProgress] = {}
     skipped = 0
-    written = 0
 
-    for folder in tqdm(input_folders, desc="Preparing folders", unit="folder"):
-        n_cands, folder_jobs = output_jobs(
+    for folder in input_folders:
+        n_cands, folder_jobs = build_output_jobs(
             folder, n_seats, election_type, tiebreak, output_root=output_root
         )
-        profile_files = sorted(Path(folder).resolve().glob("*.csv"))
+        profile_files = sorted(folder.resolve().glob("*.csv"))
         profile_batches = list(batched(enumerate(profile_files), profile_batch_size))
         metric_jobs = []
 
-        for metric_function, variant, interpolation_type, output_file in folder_jobs:
-            if output_file.exists() or output_file.is_symlink():
+        for job in folder_jobs:
+            if job.path.exists() or job.path.is_symlink():
                 skipped += 1
                 continue
 
             output_id = len(outputs)
-            outputs[output_id] = {
-                "output_file": output_file,
-                "scores": [None] * len(profile_files),
-                "remaining_batches": len(profile_batches),
-                "label": f"{output_file.parents[2].name}: {Path(folder).name}",
-            }
-
-            if not profile_batches:
-                write_scores(output_file, [])
-                written += 1
-                continue
-
-            if election_type == "random":
-                metric_function = RANDOM_METRICS.get(metric_function, metric_function)
-
-            metric_jobs.append((output_id, metric_function, variant, interpolation_type))
-
-        tasks.extend(
-            (
-                profile_batch,
-                n_cands,
-                n_seats,
-                election_type,
-                tiebreak,
-                tuple(metric_jobs),
+            outputs[output_id] = OutputProgress(
+                output_file=job.path,
+                scores=[None] * len(profile_files),
+                remaining_batches=len(profile_batches),
+                label=f"{job.path.parents[2].name}: {folder.name}",
             )
-            for profile_batch in profile_batches
-            if metric_jobs
-        )
+            metric_jobs.append(MetricJob(output_id, job.spec))
 
-    return tasks, outputs, skipped, written
+        if metric_jobs:
+            tasks.extend(
+                ProfileBatchTask(
+                    batch, n_cands, n_seats, election_type, tiebreak, tuple(metric_jobs)
+                )
+                for batch in profile_batches
+            )
+
+    return CollectionPlan(tasks, outputs, skipped)
+
+
+def publish_completed_scores(output: OutputProgress) -> None:
+    """Publish only after every batch and every CSV slot has been filled."""
+    if output.remaining_batches or any(score is None for score in output.scores):
+        raise ValueError(f"Incomplete scores for {output.output_file}")
+
+    write_scores(output.output_file, [score for score in output.scores if score is not None])
+
+
+def execute_collection(plan: CollectionPlan, *, n_jobs: int, seed: int) -> int:
+    """Execute batches and publish each complete output in original profile order."""
+    written = 0
+    for output in plan.outputs.values():
+        if not output.remaining_batches:
+            publish_completed_scores(output)
+            written += 1
+
+    # Joblib does not retain the worker result type in its return annotation.
+    results = cast(
+        Iterator[tuple[OutputBatchScores, ...]],
+        Parallel(n_jobs=n_jobs, batch_size=1, return_as="generator_unordered")(
+            delayed(run_profile_batch)(task, seed=seed) for task in plan.tasks
+        ),
+    )
+    with (
+        tqdm(total=len(plan.tasks), desc="Profile batches", unit="batch") as batch_progress,
+        tqdm(
+            total=len(plan.outputs), initial=written, desc="Folder/metric outputs", unit="output"
+        ) as output_progress,
+    ):
+        for batch_results in results:
+            batch_progress.update()
+
+            for result in batch_results:
+                output = plan.outputs[result.output_id]
+                for index, score in result.scores:
+                    output.scores[index] = score
+
+                output.remaining_batches -= 1
+                if output.remaining_batches:
+                    continue
+
+                publish_completed_scores(output)
+                written += 1
+                output_progress.set_postfix_str(output.label, refresh=False)
+                output_progress.update()
+
+    return written
 
 
 @click.command()
@@ -409,61 +418,20 @@ def main(
     print(f"Seats: {n_seats}")
 
     input_folders = load_profile_folders(settings_file)
-    tasks, outputs, skipped, written = prepare_tasks(
+    plan = plan_collection(
         input_folders, n_seats, election_type, tiebreak, profile_batch_size, output_root=output_root
     )
 
-    if skipped:
+    if plan.skipped:
         click.echo(
-            f"Skipping {skipped} completed folder/metric outputs. Move them manually to recompute."
+            f"Skipping {plan.skipped} completed folder/metric outputs. Move them manually to recompute."
         )
 
-    if not outputs:
+    if not plan.outputs:
         click.echo("All outputs already exist.")
-
         return
 
-    # Joblib does not retain the worker result type in its return annotation.
-    results = cast(
-        Iterator[BatchScores],
-        Parallel(
-            n_jobs=n_jobs,
-            # Joblib accepts integer batch sizes despite its inferred string parameter type.
-            batch_size=1,  # pyright: ignore[reportArgumentType]
-            return_as="generator_unordered",
-        )(delayed(run_profile_batch)(*task, seed=seed) for task in tasks),
-    )
-
-    with (
-        tqdm(total=len(tasks), desc="Profile batches", unit="batch") as batch_progress,
-        tqdm(
-            total=len(outputs),
-            initial=written,
-            desc="Folder/metric outputs",
-            unit="output",
-        ) as output_progress,
-    ):
-        for batch_results in results:
-            batch_progress.update()
-
-            for output_id, batch_scores in batch_results:
-                output = outputs[output_id]
-
-                for index, score in batch_scores:
-                    output["scores"][index] = score
-
-                output["remaining_batches"] -= 1
-
-                if output["remaining_batches"]:
-                    continue
-
-                # Every CSV slot has a score once all batches have finished.
-                write_scores(output["output_file"], cast(list[float], output["scores"]))
-                written += 1
-                output_progress.set_postfix_str(output["label"], refresh=False)
-
-                output_progress.update()
-
+    written = execute_collection(plan, n_jobs=n_jobs, seed=seed)
     click.echo(f"Wrote {written} output files.")
 
 

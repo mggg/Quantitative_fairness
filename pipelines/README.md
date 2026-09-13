@@ -14,7 +14,8 @@ retained analyses; the runners execute only the primary subset indicated here.
 
 The Portland runner also generates boost matrices. NY and Portland export tables through [`export_tables.py`](../scripts/export_tables.py).
 The Scottish runner renders UM–IIA scatterplots and exports metric tables. The BT runner renders
-UM–IIA scatterplots plus candidate-count and bloc-proportion boxplots.
+UM–IIA scatterplots. Supplementary BT boxplots and sweeps are indexed in the
+[archive guide](../archive/pipelines/bradley_terry/README.md).
 
 ## Scottish analyses
 
@@ -42,10 +43,11 @@ by rule, candidate count, variant, and tiebreak.
 
 The top-level BT collector reads the two-bloc folders listed in `config/bt_profiles.txt`.
 `pool_alpha_metrics.py` pools those saved scores by full alpha tuple and total candidate count;
-`plots/plot_alpha_boxplots.py` renders the pooled distributions. Neither step reruns elections.
+the [archived alpha plotter](../archive/pipelines/bradley_terry/plots/plot_alpha_boxplots.py)
+renders the pooled distributions. Neither step reruns elections.
 
 The individual-metric collectors share [`_metrics.py`](bradley_terry/_metrics.py) to bind
-metric parameters. The alpha boxplot script keeps its panel selections and grid renderer together.
+metric parameters. Metric settings distinguish UM interpolation from IIA aggregation.
 
 | File                                                                                           | Purpose                                                                            |
 | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -53,26 +55,15 @@ metric parameters. The alpha boxplot script keeps its panel selections and grid 
 | [`collect_single_folder_metrics.py`](bradley_terry/collect_single_folder_metrics.py)           | Compute one selected metric for a two-bloc folder using `--input-folder`           |
 | [`compute_proportionality.py`](bradley_terry/compute_proportionality.py)                       | Compute representation diagnostics using profiles and their utility files          |
 | [`plot_um_iia_scatter.py`](bradley_terry/plots/plot_um_iia_scatter.py)                         | UM–IIA comparisons; used by the runner                                             |
-| [`plot_candidate_count_boxplots.py`](bradley_terry/plots/plot_candidate_count_boxplots.py)     | Metric distributions across candidate counts; used by the runner                   |
-| [`plot_bloc_proportion_boxplots.py`](bradley_terry/plots/plot_bloc_proportion_boxplots.py)     | Metric distributions across bloc proportions; used by the runner                   |
-| [`plot_alpha_sweep.py`](bradley_terry/plots/plot_alpha_sweep.py)                               | Mean versus standard deviation, colored by the two-bloc alpha combinations         |
-| [`plot_cohesion_sweep.py`](bradley_terry/plots/plot_cohesion_sweep.py)                         | Mean versus standard deviation, colored by cohesion                                |
-| [`plot_candidate_count_sweep.py`](bradley_terry/plots/plot_candidate_count_sweep.py)           | Mean versus standard deviation, colored by candidate counts                        |
-| [`plot_bloc_proportion_sweep.py`](bradley_terry/plots/plot_bloc_proportion_sweep.py)           | Mean versus standard deviation, colored by bloc proportion                         |
-| [`plot_iia_by_rule.py`](bradley_terry/plots/plot_iia_by_rule.py)                               | IIA mean versus standard deviation, colored by voting rule                         |
-| [`plot_um_by_rule.py`](bradley_terry/plots/plot_um_by_rule.py)                                 | UM mean versus standard deviation, colored by voting rule                          |
-| [`plot_mean_vs_standard_deviation.py`](bradley_terry/plots/plot_mean_vs_standard_deviation.py) | Metric and interpolation comparisons                                               |
 | [`plot_um_mean_vs_variance.py`](bradley_terry/plots/plot_um_mean_vs_variance.py)               | UM mean versus variance, split by interpolation                                    |
 | [`plot_proportionality_waterfall.py`](bradley_terry/plots/plot_proportionality_waterfall.py)   | Representation shortfalls from proportionality JSONs                               |
 | [`pool_alpha_metrics.py`](bradley_terry/pool_alpha_metrics.py)                                 | Pool saved BT scores into `stats/bt_alpha_grouped`, retaining source filenames     |
-| [`plot_alpha_boxplots.py`](bradley_terry/plots/plot_alpha_boxplots.py)                         | Alpha-tuple panels with total candidate count on the x-axis and voting rule as hue |
 
 BT plotting helpers are [`_metrics.py`](bradley_terry/plots/_metrics.py),
 [`_palettes.py`](bradley_terry/plots/_palettes.py), and
 [`_data.py`](bradley_terry/plots/_data.py), which loads arrays and summary points in file order.
-They are imported by plotters and are not
-standalone commands. The broad sweeps require more metric variants than the primary runner
-computes. See the [replication guide](../docs/replication.md) for input layouts and limitations.
+They are imported by plotters and are not standalone commands. Archived broad sweeps require
+more metric variants than the primary runner computes. See the [replication guide](../docs/replication.md) for input layouts and limitations.
 
 ## Portland and cross-dataset analyses
 
@@ -84,6 +75,10 @@ computes. See the [replication guide](../docs/replication.md) for input layouts 
 | [`modularity.py`](portland/clustering/modularity.py)                             | Shared clustering scores and search functions                                             |
 | [`partition_visualization.py`](portland/clustering/partition_visualization.py)   | Plotting helpers for candidate partitions                                                 |
 | [`plot_m_statistic_histograms.py`](cross_dataset/plot_m_statistic_histograms.py) | BT and Scottish histogram functions; direct execution renders BT at B-bloc proportion 0.7 |
+
+The clustering workflows share [`load_profile.py`](portland/clustering/load_profile.py) for profile
+loading and viable-candidate projection. Short-burst search and restart verification are separate
+operations; the CLI runs both.
 
 The Portland runner executes clustering only with `--diagnostics`. These searches can be expensive.
 

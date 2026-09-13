@@ -124,7 +124,7 @@ def find_metric_files(
     return paths
 
 
-def paired_metric_file(path: Path, metric: str, variant: str, interpolation: str) -> Path:
+def resolve_paired_metric_file(path: Path, metric: str, variant: str, interpolation: str) -> Path:
     """Locate another metric for the same BT experiment without changing the input root.
 
     Args:

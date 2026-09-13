@@ -4,18 +4,15 @@ import argparse
 import random
 import sys
 from pathlib import Path
-from typing import cast
+from typing import NamedTuple
 
 import numpy as np
 from numpy.typing import NDArray
-from votekit import RankProfile
-from votekit.cleaning import remove_and_condense_rank_profile
-from votekit.elections import FastSTV
-from votekit.matrices import boost_matrix
-from votekit.utils import mentions
+from tqdm.auto import tqdm
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from pipelines.portland.clustering.load_profile import load_projected_profile
 from pipelines.portland.clustering.modularity import (  # noqa: E402
     compute_modularity,
     run_modularity_maximization_short_bursts,
@@ -24,42 +21,14 @@ from pipelines.portland.clustering.partition_visualization import viz_partition 
 from voting_metrics_main_code.replication import ROOT
 
 
-def load_and_project(profile_number: int, *, data_root: Path) -> tuple[RankProfile, NDArray]:
-    """Load in the profile and project it to the viable candidates.
-
-    Candidates with mentions below the three-seat STV threshold are removed.
-    Nonfinite boost entries are replaced using NumPy’s nan_to_num defaults.
-
-    Args:
-        data_root (Path): Directory containing election inputs.
-        profile_number (int): The number of the profile to load and project.
-
-    Returns:
-        tuple[RankProfile, NDArray]: Projected profile and boost matrix in its candidate order.
-
-    Raises:
-        FileNotFoundError: The requested Portland profile CSV does not exist.
-    """
-    profile = cast(
-        RankProfile,
-        RankProfile.from_csv(f"{data_root}/Portland_D{profile_number}_cleaned_votekit.csv"),
-    )
-    candidates = list(profile.candidates)
-
-    elec = FastSTV(profile, m=3)
-    mentions_dict = mentions(profile)
-
-    non_viable_cands = [cand for cand in candidates if mentions_dict[cand] < elec.threshold]
-
-    projected_profile = remove_and_condense_rank_profile(non_viable_cands, profile)
-    projected_boost = boost_matrix(projected_profile, candidates=list(projected_profile.candidates))
-
-    projected_boost = np.nan_to_num(projected_boost)
-
-    return projected_profile, projected_boost
+class ClusteringResult(NamedTuple):
+    assignment: NDArray
+    score: float
+    boost: NDArray
+    candidates: list[str]
 
 
-def run_short_burst_for_portland_profile_i(
+def run_portland_short_bursts(
     profile_number: int,
     n_clusters: int = 2,
     burst_length: int = 5,
@@ -67,7 +36,7 @@ def run_short_burst_for_portland_profile_i(
     rng_seed: int = 42,
     *,
     data_root: Path,
-) -> tuple[NDArray, float, NDArray, list[str]]:
+) -> ClusteringResult:
     """Run the short burst algorithm on the given Portland profile.
 
     Args:
@@ -76,21 +45,21 @@ def run_short_burst_for_portland_profile_i(
         n_clusters (int, optional): The number of clusters to use. Defaults to 2.
         burst_length (int, optional): The length of each burst. Defaults to 5.
         n_bursts (int, optional): The number of bursts to run. Defaults to 200.
-        rng_seed (int, optional): Seed for the label-choice RNG; NumPy candidate draws are not
-            seeded here. Defaults to 42.
+        rng_seed (int, optional): Seed for initialization and all search proposals. Defaults to 42.
 
     Returns:
-        tuple[NDArray, float, NDArray, list[str]]: Best assignment, score, boost matrix, and
+        ClusteringResult: Best assignment, score, boost matrix, and
             candidate names. When candidate and cluster counts match, each candidate has its
             own cluster.
 
     Raises:
         ValueError: The projected profile has fewer candidates than requested clusters.
-        Exception: A verification trial changes the modularity score or finds an assignment
-                different from the best assignment and its binary-label complement.
     """
+    if n_clusters < 1:
+        raise ValueError("n_clusters must be positive")
+
     rng = random.Random(rng_seed)
-    profile, boost_matrix = load_and_project(profile_number, data_root=data_root)
+    profile, boost = load_projected_profile(profile_number, data_root=data_root)
     cands = list(profile.candidates)
 
     if len(cands) < n_clusters:
@@ -105,18 +74,15 @@ def run_short_burst_for_portland_profile_i(
         )
 
         assignment = np.arange(n_clusters)
-        score = compute_modularity(boost_matrix, assignment)
+        score = compute_modularity(boost, assignment)
 
-        return assignment, score, boost_matrix, cands
+        return ClusteringResult(assignment, score, boost, cands)
 
-    assignment_vec = np.random.randint(0, n_clusters - 1, size=len(cands))
-
-    # Just make sure that each cluster has at least one member to start with
-    for i in range(n_clusters):
-        assignment_vec[i] = i
+    assignment_vec = np.array(rng.choices(range(n_clusters), k=len(cands)))
+    assignment_vec[:n_clusters] = np.arange(n_clusters)  # Keep every cluster populated.
 
     best_assignment_vec, best_modularity = run_modularity_maximization_short_bursts(
-        boost_matrix,
+        boost,
         assignment_vec,
         n_clusters=n_clusters,
         burst_length=burst_length,
@@ -124,46 +90,30 @@ def run_short_burst_for_portland_profile_i(
         rng=rng,
     )
 
-    from tqdm.auto import tqdm
+    return ClusteringResult(best_assignment_vec, best_modularity, boost, cands)
 
+
+def verify_clustering_stability(
+    result: ClusteringResult, *, n_clusters: int, burst_length: int, n_bursts: int
+) -> None:
+    """Require 1,000 restart trials to retain the score and partition up to label permutation.
+
+    This is an empirical stability diagnostic, not a proof of global optimality.
+    """
+    expected_partition = np.equal.outer(result.assignment, result.assignment)
     for trial in tqdm(range(1000)):
-        fresh_rng = random.Random(trial)
-        new_assignment_vec, new_modularity = run_modularity_maximization_short_bursts(
-            boost_matrix,
-            best_assignment_vec,
+        assignment, score = run_modularity_maximization_short_bursts(
+            result.boost,
+            result.assignment,
             n_clusters=n_clusters,
             burst_length=burst_length,
             n_bursts=n_bursts,
-            rng=fresh_rng,
+            rng=random.Random(trial),
         )
-
-        if new_modularity != best_modularity:
-            print(f"SEED {trial}:")
-            print(f"Improved modularity from {best_modularity} to {new_modularity}")
-            raise Exception("Modularity improved after 1000 bursts, which shouldn't happen.")
-
-        if np.any(new_assignment_vec != best_assignment_vec) and np.any(
-            new_assignment_vec != 1 - best_assignment_vec
-        ):
-            print(f"SEED {trial}:")
-            print("Found a different assignment with the same modularity, which shouldn't happen.")
-            print(f"new {new_assignment_vec}")
-            print(f"old {best_assignment_vec}")
-            raise Exception(
-                "Found a different assignment with the same modularity, which shouldn't happen."
-            )
-
-    candidates = list(profile.candidates)
-
-    for i in range(n_clusters):
-        cluster_cands = [
-            candidates[j] for j in range(len(candidates)) if best_assignment_vec[j] == i
-        ]
-        print(f"Cluster {i}: {cluster_cands}")
-
-    print(f"Best modularity: {best_modularity}")
-
-    return best_assignment_vec, best_modularity, boost_matrix, cands
+        if score != result.score:
+            raise RuntimeError(f"Seed {trial} changed modularity from {result.score} to {score}")
+        if not np.array_equal(np.equal.outer(assignment, assignment), expected_partition):
+            raise RuntimeError(f"Seed {trial} found a different partition with the same modularity")
 
 
 def main(show_viz: bool = False, *, data_root: Path = ROOT / "data") -> None:
@@ -172,21 +122,21 @@ def main(show_viz: bool = False, *, data_root: Path = ROOT / "data") -> None:
     Args:
         data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
     """
-    # for profile_number in range(1, 5):
-    for profile_number in [3]:
-        tag_string = f"== PROFILE {profile_number} =="
-        print("=" * len(tag_string))
-        print(tag_string)
-        print("=" * len(tag_string))
-        print(f"Loading profile {profile_number}...", end="\r")
-        best_vec, _, boost_mat, cand_list = run_short_burst_for_portland_profile_i(
-            profile_number, data_root=data_root
-        )
+    result = run_portland_short_bursts(3, data_root=data_root)
+    if len(result.candidates) > 2:
+        verify_clustering_stability(result, n_clusters=2, burst_length=5, n_bursts=200)
 
-        print()
+    for cluster in range(2):
+        candidates = [
+            candidate
+            for candidate, label in zip(result.candidates, result.assignment)
+            if label == cluster
+        ]
+        print(f"Cluster {cluster}: {candidates}")
+    print(f"Best modularity: {result.score}")
 
-        if show_viz:
-            viz_partition(best_vec, boost_mat, cand_list, centered=True)
+    if show_viz:
+        viz_partition(result.assignment, result.boost, result.candidates, centered=True)
 
 
 if __name__ == "__main__":

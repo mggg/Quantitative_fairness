@@ -115,3 +115,16 @@ def test_bt_random_results_do_not_depend_on_worker_count_or_resume(tmp_path: Pat
     regenerated = tmp_path / "parallel" / next(iter(parallel))
     regenerated.unlink()
     assert run(tmp_path / "parallel", 2) == serial
+
+
+def test_importing_collectors_does_not_suppress_process_warnings() -> None:
+    import importlib
+    import warnings
+
+    from pipelines.bradley_terry import collect_metrics, collect_single_folder_metrics
+
+    with warnings.catch_warnings():
+        filters = warnings.filters.copy()
+        importlib.reload(collect_metrics)
+        importlib.reload(collect_single_folder_metrics)
+        assert warnings.filters == filters

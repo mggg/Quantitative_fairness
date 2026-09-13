@@ -3,11 +3,8 @@
 import ast
 import contextlib
 import json
-import os
 import sys
-import warnings
 from collections.abc import Callable
-from glob import escape, glob
 from pathlib import Path
 
 import click
@@ -17,12 +14,10 @@ from votekit import RankProfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from pipelines.bradley_terry._metrics import configure_metric
+from pipelines.bradley_terry._metrics import configure_metric, parse_metric_spec
 from voting_metrics_main_code.constants import AllowedRule, MetricVariant
 from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
-
-warnings.filterwarnings("ignore")
 
 
 def run_score(
@@ -56,6 +51,55 @@ def run_score(
         score = metric_function(profile, voting_rule)
 
     return score
+
+
+def build_output_path(
+    input_folder: str | Path,
+    n_seats: int,
+    metric: str,
+    variant: MetricVariant,
+    interpolation_type: str,
+    election_type: AllowedRule,
+    tiebreak: str,
+    output_root: Path,
+) -> tuple[int, Path]:
+    """Parse a BT profile folder and build its historical metric output path without writing."""
+    input_folder_full_path = Path(input_folder).resolve()
+    base_parent = input_folder_full_path.name
+    cand_folder = input_folder_full_path.parent.stem
+
+    base_parts = base_parent.split("__")
+    cand_parts = cand_folder.split("_")
+
+    b_proportion = float(base_parts[0].split("_")[-1])
+    aa_alpha, ab_alpha, ba_alpha, bb_alpha = ast.literal_eval(base_parts[1].split("_")[-1])
+    a_cohesion, b_cohesion = ast.literal_eval(base_parts[2].split("_")[-1])
+    n_a_cands = int(cand_parts[0])
+    n_b_cands = int(cand_parts[1])
+
+    n_cands = n_a_cands + n_b_cands
+
+    output_folder = (
+        output_root
+        / "stats/bt_2_bloc_profile_stats"
+        / f"{n_seats}_seats"
+        / metric
+        / f"{n_cands:02d}"
+        / election_type
+    )
+    file_basename = (
+        f"METRIC_{metric}"
+        f"__VARIANT_{variant}"
+        f"__INTERP_{interpolation_type}"
+        f"__NCANDS_({n_a_cands:02d}_{n_b_cands:02d})"
+        f"__SEATS_{n_seats}"
+        f"__BPROP_{b_proportion:0.1f}"
+        f"__ALPHA_({aa_alpha:0.2f},{ab_alpha:0.2f},{ba_alpha:0.2f},{bb_alpha:0.2f})"
+        f"__COHESION_({a_cohesion:0.2f},{b_cohesion:0.2f})"
+        f"__TYPE_{election_type}"
+        f"__TIEBREAK_{tiebreak}"
+    )
+    return n_cands, output_folder / f"{file_basename}.json"
 
 
 @click.command()
@@ -154,59 +198,27 @@ def main(
     print(f"Output root: {output_root}")
     print(f"Seats: {n_seats}")
 
-    input_folder_full_path = Path(input_folder).resolve()
-    base_parent = input_folder_full_path.name
-    cand_folder = input_folder_full_path.parent.stem
-
-    base_parts = base_parent.split("__")
-    cand_parts = cand_folder.split("_")
-
-    b_proportion = float(base_parts[0].split("_")[-1])
-    aa_alpha, ab_alpha, ba_alpha, bb_alpha = ast.literal_eval(base_parts[1].split("_")[-1])
-    a_cohesion, b_cohesion = ast.literal_eval(base_parts[2].split("_")[-1])
-    n_a_cands = int(cand_parts[0])
-    n_b_cands = int(cand_parts[1])
-
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
-
-    output_folder = (output_root / "stats/bt_2_bloc_profile_stats" / f"{n_seats}_seats").resolve()
-    output_folder.mkdir(parents=True, exist_ok=True)
-    output_folder_base = str(output_folder)
-
-    if "UM" in metric:
-        if interpolation_type not in ["asin", "odds", "linear"]:
-            raise ValueError(
-                f"Invalid interpolation type {interpolation_type} for metric {metric}. Must"
-                f" be 'asin' or 'odds'."
-            )
-
-    n_cands = n_a_cands + n_b_cands
-
-    output_folder = f"{output_folder_base}/{metric}/{n_cands:02d}/{election_type}/"
-    file_basename = (
-        f"METRIC_{metric}"
-        f"__VARIANT_{variant}"
-        f"__INTERP_{interpolation_type}"
-        f"__NCANDS_({n_a_cands:02d}_{n_b_cands:02d})"
-        f"__SEATS_{n_seats}"
-        f"__BPROP_{b_proportion:0.1f}"
-        f"__ALPHA_({aa_alpha:0.2f},{ab_alpha:0.2f},{ba_alpha:0.2f},{bb_alpha:0.2f})"
-        f"__COHESION_({a_cohesion:0.2f},{b_cohesion:0.2f})"
-        f"__TYPE_{election_type}"
-        f"__TIEBREAK_{tiebreak}"
+    spec = parse_metric_spec(metric, variant, interpolation_type)
+    n_cands, output_file = build_output_path(
+        input_folder,
+        n_seats,
+        metric,
+        variant,
+        interpolation_type,
+        election_type,
+        tiebreak,
+        output_root,
     )
-    os.makedirs(output_folder, exist_ok=True)
-    output_file = f"{output_folder}/{file_basename}.json"
-
-    if Path(output_file).exists() or Path(output_file).is_symlink():
+    if output_file.exists() or output_file.is_symlink():
         print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
 
         return
 
-    metric_function = configure_metric(metric, n_seats, variant, interpolation_type)
+    metric_function = configure_metric(spec, n_seats)
 
-    all_csv_profiles = sorted(glob(f"{escape(str(input_folder_full_path))}/*.csv"))
+    all_csv_profiles = sorted(Path(input_folder).resolve().glob("*.csv"))
 
     voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
 
@@ -220,7 +232,7 @@ def main(
             for file in all_csv_profiles
         )
 
-    with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:
+    with new_data_file(output_file) as temporary, temporary.open("w") as f:
         json.dump(scores, f)
 
 

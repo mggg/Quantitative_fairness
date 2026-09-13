@@ -17,7 +17,7 @@ Directories containing `final` in their names are not automatically publication 
 | Scottish metrics                    | `pipelines/scottish/collect_metrics.py`                                                                                                 | Pinned `scot-elex` CSVs            | `stats/scottish_stats/`                                |
 | Scottish primary figures and tables | `pipelines/scottish/plots/plot_um_iia_scatter.py`, `pipelines/scottish/export_metric_tables.py`                                         | Scottish metric JSONs              | `plots/scottish/`, `stats/scottish_stats/*limited.csv` |
 | BT metrics                          | `pipelines/bradley_terry/collect_metrics.py`                                                                                            | Profile folders in a settings file | `stats/bt_2_bloc_profile_stats/`                       |
-| BT primary figures                  | `plot_um_iia_scatter.py`, `plot_candidate_count_boxplots.py`, `plot_bloc_proportion_boxplots.py` under `pipelines/bradley_terry/plots/` | Matching BT metric JSONs           | `plots/bt_plots/`                                      |
+| BT primary figures                  | `pipelines/bradley_terry/plots/plot_um_iia_scatter.py` | Matching BT metric JSONs           | `plots/bt_plots/`                                      |
 
 The primary recipes compute worst-case UM with arcsin interpolation and average single-candidate
 IIA, for rankings and winner sets. NY elects one candidate, Portland three, and Scotland uses the
@@ -138,14 +138,15 @@ on the overlay plotter when combining preserved primary scores with new interval
 BT proportionality requires matching `preference_dfs` utility files alongside `preference_profiles`.
 Those utilities are not in the tracked profile archive. The collector exposes the candidate counts,
 bloc proportion, and cohesion in `--help`; its output feeds `plot_proportionality_waterfall.py`.
-Broad BT sensitivity plots require more metric variants than the primary recipe computes.
+The [archived BT sensitivity plots](../archive/pipelines/bradley_terry/README.md) require more
+metric variants than the primary recipe computes.
 `collect_single_folder_metrics.py` exposes the individual metric and variant choices.
 Alpha boxplots use pooled copies of the saved two-bloc scores:
 
 ```sh
 uv run --locked python pipelines/bradley_terry/pool_alpha_metrics.py
-uv run --locked python pipelines/bradley_terry/plots/plot_alpha_boxplots.py --variant worst_case
-uv run --locked python pipelines/bradley_terry/plots/plot_alpha_boxplots.py --variant average
+uv run --locked python archive/pipelines/bradley_terry/plots/plot_alpha_boxplots.py --variant worst_case
+uv run --locked python archive/pipelines/bradley_terry/plots/plot_alpha_boxplots.py --variant average
 ```
 
 Pooling writes twelve JSON files under `stats/bt_alpha_grouped/3_seats/`. Each file fixes the metric,
@@ -156,13 +157,13 @@ settings. With the supplied results, each group has 6,000 raw profile scores fro
 no means are substituted for observations. Each group lists its source paths relative to the BT
 statistics root. Incomplete grids, empty arrays, and unequal profile counts raise an error.
 
-The figures go to `plots/bt_plots/alpha_boxplots/`. These are distributions over the available
+The archived plotter defaults to `archive/plots/bt_plots/alpha_boxplots/`. These are distributions over the available
 experiment grid, not estimates of alpha effects with all other parameters fixed. The three rules
 have scores for every included metric configuration. Subset IIA is excluded because those scores
 are absent. The old scalar-alpha grid (including 1/3 and 3, with 6–9 candidates) is not recreated.
 
 For a separate run, pass `--bt-stats-dir stats/bt_2_bloc_profile_stats --output-dir results/alpha`
-to pooling and `--output-dir results/alpha` to plotting. Both commands default to three seats and
+to pooling and `--stats-dir results/alpha/stats --output-dir results/alpha` to plotting. Both commands default to three seats and
 lexicographic tie-breaking. Pooled score files are preserved on repeat runs; move them manually to
 rebuild them. Figures overwrite by default. The original BT scores are only read.
 
@@ -172,6 +173,10 @@ collector does not produce. Use `plot_metric_boxplots.py` and `export_metric_tab
 collector outputs. These alternative plots remain independently runnable for artifact selection.
 
 Portland clustering is available separately, or through the Portland recipe's `--diagnostics`.
+Short-burst initialization and proposals use one local seeded random stream. This makes the search
+repeatable independently of NumPy's global random state, but changes draws from older versions that
+mixed two random streams. The CLI separately runs 1,000 restart trials to check that the score and
+partition remain stable up to cluster-label permutation; this is not a proof of global optimality.
 It can be expensive. Boost plotting computes from the selected CSV by default. To speed repeated
 font/layout adjustments, pass `--cache-dir results/boost-cache`. Cache keys include the CSV contents,
 ordered focus candidates, and VoteKit version. A missing input is an error even if a cache exists.
@@ -242,6 +247,6 @@ Runtime `QF_*` environment overrides have been replaced by explicit CLI options.
 above to translate old commands. `--output-dir` now means the run root in every analysis, including
 boost plotting and profile generation; it is not the exact figure or profile directory.
 The default recipe output root is now the repository, matching standalone scripts.
-The former `alpha_sweep/plot_metric_boxplots.py` is now `plots/plot_alpha_boxplots.py` and reads
-pooled two-bloc scores. The single-alpha collector is preserved as source text under
+The former `alpha_sweep/plot_metric_boxplots.py` is preserved as
+`archive/pipelines/bradley_terry/plots/plot_alpha_boxplots.py` and reads pooled two-bloc scores. The single-alpha collector is preserved as source text under
 `archive/single_alpha/`; it required profile folders that are not supplied.

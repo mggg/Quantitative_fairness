@@ -40,6 +40,60 @@ def sample_preference_interval(candidates: list[str], alpha: float) -> Preferenc
     return PreferenceInterval(dict(zip(candidates, np.random.dirichlet([alpha] * len(candidates)))))
 
 
+def sample_profile_config(
+    n_a_cands: int,
+    n_b_cands: int,
+    n_voters: int,
+    b_proportion: float,
+    a_cohesion: float,
+    b_cohesion: float,
+    aa_alpha: float,
+    ab_alpha: float,
+    ba_alpha: float,
+    bb_alpha: float,
+) -> BlocSlateConfig:
+    """Build a two-bloc configuration by sampling its four preference intervals.
+
+    Draw intervals in A-on-A, A-on-B, B-on-A, B-on-B order from the task's seeded stream.
+    The configuration validates candidate counts, voter counts, and bloc parameters.
+    """
+    slate_to_candidates = {
+        "bloc_1": [f"A{i + 1}" for i in range(n_a_cands)],
+        "bloc_2": [f"B{i + 1}" for i in range(n_b_cands)],
+    }
+    return BlocSlateConfig(
+        n_voters=n_voters,
+        slate_to_candidates=slate_to_candidates,
+        cohesion_mapping={
+            "bloc_1": {"bloc_1": a_cohesion, "bloc_2": 1 - a_cohesion},
+            "bloc_2": {"bloc_1": 1 - b_cohesion, "bloc_2": b_cohesion},
+        },
+        bloc_proportions={"bloc_1": 1 - b_proportion, "bloc_2": b_proportion},
+        preference_mapping={
+            "bloc_1": {
+                "bloc_1": sample_preference_interval(
+                    candidates=slate_to_candidates["bloc_1"],
+                    alpha=aa_alpha,
+                ),
+                "bloc_2": sample_preference_interval(
+                    candidates=slate_to_candidates["bloc_2"],
+                    alpha=ab_alpha,
+                ),
+            },
+            "bloc_2": {
+                "bloc_1": sample_preference_interval(
+                    candidates=slate_to_candidates["bloc_1"],
+                    alpha=ba_alpha,
+                ),
+                "bloc_2": sample_preference_interval(
+                    candidates=slate_to_candidates["bloc_2"],
+                    alpha=bb_alpha,
+                ),
+            },
+        },
+    )
+
+
 def generate_and_save_profile(
     n_a_cands: int,
     n_b_cands: int,
@@ -113,48 +167,23 @@ def generate_and_save_profile(
         idx,
         seed=seed,
     )
-    slate_to_candidates = {
-        "bloc_1": [f"A{i + 1}" for i in range(n_a_cands)],
-        "bloc_2": [f"B{i + 1}" for i in range(n_b_cands)],
-    }
-    config = BlocSlateConfig(
+    config = sample_profile_config(
+        n_a_cands=n_a_cands,
+        n_b_cands=n_b_cands,
         n_voters=n_voters,
-        slate_to_candidates=slate_to_candidates,
-        cohesion_mapping={
-            "bloc_1": {"bloc_1": a_cohesion, "bloc_2": 1 - a_cohesion},
-            "bloc_2": {"bloc_1": 1 - b_cohesion, "bloc_2": b_cohesion},
-        },
-        bloc_proportions={"bloc_1": 1 - b_proportion, "bloc_2": b_proportion},
-        preference_mapping={
-            "bloc_1": {
-                "bloc_1": sample_preference_interval(
-                    candidates=slate_to_candidates["bloc_1"],
-                    alpha=aa_alpha,
-                ),
-                "bloc_2": sample_preference_interval(
-                    candidates=slate_to_candidates["bloc_2"],
-                    alpha=ab_alpha,
-                ),
-            },
-            "bloc_2": {
-                "bloc_1": sample_preference_interval(
-                    candidates=slate_to_candidates["bloc_1"],
-                    alpha=ba_alpha,
-                ),
-                "bloc_2": sample_preference_interval(
-                    candidates=slate_to_candidates["bloc_2"],
-                    alpha=bb_alpha,
-                ),
-            },
-        },
+        b_proportion=b_proportion,
+        a_cohesion=a_cohesion,
+        b_cohesion=b_cohesion,
+        aa_alpha=aa_alpha,
+        ab_alpha=ab_alpha,
+        ba_alpha=ba_alpha,
+        bb_alpha=bb_alpha,
     )
-    prof = bg.slate_bt_profile_generator(config)
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
-    Path(df_dir).mkdir(parents=True, exist_ok=True)
-    assert isinstance(prof, RankProfile)
+    profile = bg.slate_bt_profile_generator(config)
+    assert isinstance(profile, RankProfile)
 
     with new_data_file(profile_path) as profile_file, new_data_file(utility_path) as utility_file:
-        prof.to_csv(profile_file)
+        profile.to_csv(profile_file)
         config.preference_df.to_csv(utility_file)
 
 

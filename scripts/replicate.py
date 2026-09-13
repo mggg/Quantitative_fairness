@@ -61,7 +61,7 @@ def parse_arguments() -> argparse.Namespace:
     return args
 
 
-def recipe_commands(args: argparse.Namespace) -> list[list[str]]:
+def build_recipe_commands(args: argparse.Namespace) -> list[list[str]]:
     """List the primary computation and presentation commands in execution order.
 
     Args:
@@ -105,17 +105,7 @@ def recipe_commands(args: argparse.Namespace) -> list[list[str]]:
 
     if args.mode != "stats":
         if args.dataset == "bt":
-            commands.extend(
-                [
-                    f"pipelines/bradley_terry/plots/{plot}.py",
-                    *bt_figures,
-                ]
-                for plot in (
-                    "plot_um_iia_scatter",
-                    "plot_candidate_count_boxplots",
-                    "plot_bloc_proportion_boxplots",
-                )
-            )
+            commands.append(["pipelines/bradley_terry/plots/plot_um_iia_scatter.py", *bt_figures])
         elif args.dataset == "scottish":
             commands.append(["pipelines/scottish/plots/plot_um_iia_scatter.py", *figures])
             commands.append(["pipelines/scottish/export_metric_tables.py", *figures])
@@ -141,7 +131,7 @@ def recipe_commands(args: argparse.Namespace) -> list[list[str]]:
 def main() -> None:
     """Print and execute the chosen dataset recipe with identical explicit arguments."""
     args = parse_arguments()
-    commands = recipe_commands(args)
+    commands = build_recipe_commands(args)
 
     for command in commands:
         print(

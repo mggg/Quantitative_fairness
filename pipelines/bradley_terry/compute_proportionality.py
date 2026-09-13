@@ -19,7 +19,7 @@ from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import AllowedRule, build_voting_rule
 
 
-def load_one(path: str) -> tuple[str, RankProfile]:
+def load_profile(path: str) -> tuple[str, RankProfile]:
     """Load a preference profile from a CSV file.
 
     Args:
@@ -32,7 +32,7 @@ def load_one(path: str) -> tuple[str, RankProfile]:
     return path, cast(RankProfile, RankProfile.from_csv(path))
 
 
-def get_all_profiles(
+def load_profiles(
     n_a_cand: int,
     n_b_cand: int,
     b_prop: float,
@@ -42,7 +42,7 @@ def get_all_profiles(
     data_root: Path,
     n_jobs: int = 1,
 ) -> dict[str, RankProfile]:
-    """Get all preference profiles based on given parameters.
+    """Load the profiles matching the selected candidate counts and bloc parameters.
 
     Args:
         data_root (Path): Directory containing election inputs.
@@ -66,7 +66,7 @@ def get_all_profiles(
         pairs = cast(
             list[tuple[str, RankProfile]],
             Parallel(n_jobs=n_jobs, prefer="processes", batch_size="auto")(
-                delayed(load_one)(p) for p in profile_files
+                delayed(load_profile)(p) for p in profile_files
             ),
         )
 
@@ -75,7 +75,7 @@ def get_all_profiles(
     return all_profiles
 
 
-def frsp(r: int, s: int, rho: float) -> float:
+def compute_slate_first_probability(r: int, s: int, rho: float) -> float:
     """Calculate the probability of one slate putting another slate first.
 
     Args:
@@ -89,21 +89,8 @@ def frsp(r: int, s: int, rho: float) -> float:
     return 1 - (1 - rho**s) / (1 - rho ** (r + s))
 
 
-def process_profile(
-    file: str, profile: RankProfile, *, seed: int = 0
-) -> dict[str, dict[str, dict[str, float]]]:
-    """Process a preference profile and calculate various metrics.
-
-    Args:
-        file (str): The path to the preference profile file.
-        profile (RankProfile): The loaded RankProfile.
-
-    Returns:
-        dict[str, dict[str, dict[str, float]]]: A dictionary containing processed data for the given
-            file.
-    """
-    seed_task(Path(file).parent.parent.name, Path(file).parent.name, Path(file).name, seed=seed)
-    profile_path = Path(file)
+def load_profile_config(profile_path: Path) -> BlocSlateConfig:
+    """Load and validate the utility table and two-bloc parameters paired with a profile."""
     relative_profile = profile_path.relative_to(profile_path.parents[2])
     utility_file = (
         profile_path.parents[3]
@@ -111,26 +98,18 @@ def process_profile(
         / relative_profile.with_name(f"{profile_path.stem}_utilities.csv")
     )
     utility_df = pd.read_csv(utility_file, index_col=0)
-    ranking_df = pd.read_csv(file, skiprows=list(range(8)))
+    ranking_df = pd.read_csv(profile_path, skiprows=list(range(8)))
 
     a_cohesion, b_cohesion = list(
         map(float, profile_path.parent.name.split("_COHESION_(")[1].split(")")[0].split(","))
     )
     b_proportion = float(profile_path.parent.name.split("b_proportion_")[1].split("__")[0])
 
-    counts = {"A": 0, "B": 0}
-    slate_to_candidates: dict[str, list[str]] = {"bloc_1": [], "bloc_2": []}
-
     n_a_candidates, n_b_candidates = list(map(int, profile_path.parent.parent.name.split("_")))
-    n_cands = n_a_candidates + n_b_candidates
     slate_to_candidates = {
         "bloc_1": [f"A{i}" for i in range(1, n_a_candidates + 1)],
         "bloc_2": [f"B{j}" for j in range(1, n_b_candidates + 1)],
     }
-
-    for _, fpv, weight in ranking_df[["Ranking_1", "Weight"]].itertuples():
-        cand = fpv[2:4]
-        counts[cand[0]] += int(weight)
 
     n_voters = int(ranking_df["Weight"].sum())
 
@@ -145,30 +124,58 @@ def process_profile(
         preference_mapping=utility_df,
     )
     config.normalize_preference_intervals()
+    return config
+
+
+def compute_expected_b_proportion(config: BlocSlateConfig) -> float:
+    """Compute expected B representation, retaining integer truncation of the B voter count."""
+    n_voters = config.n_voters
+    b_proportion = config.bloc_proportions["bloc_2"]
+    a_cohesion = float(cast(float, config.cohesion_df.loc["bloc_1", "bloc_1"]))
+    b_cohesion = float(cast(float, config.cohesion_df.loc["bloc_2", "bloc_2"]))
     n_b_voters = int(b_proportion * n_voters)
     n_a_voters = n_voters - n_b_voters
-    n_a_candidates = len(slate_to_candidates["bloc_1"])
-    n_b_candidates = len(slate_to_candidates["bloc_2"])
+    n_a_candidates = len(config.slate_to_candidates["bloc_1"])
+    n_b_candidates = len(config.slate_to_candidates["bloc_2"])
 
-    prob_b_puts_b_first = frsp(n_b_candidates, n_a_candidates, b_cohesion / (1 - b_cohesion))
-    prob_a_puts_a_first = frsp(n_a_candidates, n_b_candidates, a_cohesion / (1 - a_cohesion))
+    prob_b_puts_b_first = compute_slate_first_probability(
+        n_b_candidates, n_a_candidates, b_cohesion / (1 - b_cohesion)
+    )
+    prob_a_puts_a_first = compute_slate_first_probability(
+        n_a_candidates, n_b_candidates, a_cohesion / (1 - a_cohesion)
+    )
 
     expected_b_fpv = n_b_voters * prob_b_puts_b_first + n_a_voters * (1 - prob_a_puts_a_first)
-    expected_b_win_proportion = expected_b_fpv / n_voters
+    return expected_b_fpv / n_voters
 
-    file_to_rule_dict = {}
+
+def collect_profile_proportionality(
+    file: str, profile: RankProfile, *, seed: int = 0
+) -> dict[str, dict[str, dict[str, float]]]:
+    """Load paired utilities and compare expected B representation with each rule's winners.
+
+    Returns the historical file-to-rule mapping for JSON export. Each profile receives an
+    independent seed before evaluating rules in the shared rule order.
+    """
+    profile_path = Path(file)
+    seed_task(
+        profile_path.parent.parent.name, profile_path.parent.name, profile_path.name, seed=seed
+    )
+    config = load_profile_config(profile_path)
+    expected_b_proportion = compute_expected_b_proportion(config)
+    n_cands = sum(len(candidates) for candidates in config.slate_to_candidates.values())
+    rule_scores = {}
 
     for voting_rule_name in get_args(AllowedRule):
         rule = build_voting_rule(n_cands=n_cands, voting_rule_name=voting_rule_name)
         winners = rule(profile, m=3).get_elected()
         b_winners = [c for c in winners if next(iter(c)).startswith("B")]
-        b_win_proportion = len(b_winners) / len(winners)
-        file_to_rule_dict[voting_rule_name] = {
-            "expected_proportion": expected_b_win_proportion,
-            "observed_proportion": b_win_proportion,
+        rule_scores[voting_rule_name] = {
+            "expected_proportion": expected_b_proportion,
+            "observed_proportion": len(b_winners) / len(winners),
         }
 
-    return {file: file_to_rule_dict}
+    return {file: rule_scores}
 
 
 @click.command()
@@ -245,7 +252,7 @@ def main(
         print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
         return
 
-    all_profiles = get_all_profiles(
+    all_profiles = load_profiles(
         n_a_cand, n_b_cand, b_prop, a_coh, b_coh, data_root=data_root, n_jobs=n_jobs
     )
 
@@ -253,7 +260,7 @@ def main(
         all_file_to_rule_dicts = cast(
             list[dict[str, dict[str, dict[str, float]]]],
             Parallel(n_jobs=n_jobs, prefer="processes", batch_size="auto")(
-                delayed(process_profile)(file, profile, seed=seed)
+                delayed(collect_profile_proportionality)(file, profile, seed=seed)
                 for file, profile in all_profiles.items()
             ),
         )

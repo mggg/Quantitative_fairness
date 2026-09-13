@@ -2,7 +2,8 @@
 
 import random
 from collections.abc import Iterable
-from typing import Any, Protocol
+from functools import partial
+from typing import Protocol
 
 from votekit.elections import STV, Borda, Plurality, RankedPairs
 from votekit.elections.election_state import ElectionState
@@ -89,7 +90,6 @@ class ElectRandom(RankingElection):
 
         self.m = m
 
-        # Not used
         self.tiebreak = tiebreak
 
         super().__init__(
@@ -103,12 +103,9 @@ class ElectRandom(RankingElection):
         Returns:
             bool: True when exactly m candidates have been elected.
         """
-        # single round election
         elected_cands = [c for s in self.get_elected() for c in s]
 
-        if len(elected_cands) == self.m:
-            return True
-        return False
+        return len(elected_cands) == self.m
 
     def _run_step(
         self,
@@ -167,56 +164,22 @@ def build_voting_rule(
             positions than n_cands.
     """
 
-    match voting_rule_name:
-        case "borda":
+    if voting_rule_name in ("2-approval", "3-approval"):
+        approval_count = 2 if voting_rule_name == "2-approval" else 3
+        if n_cands < approval_count:
+            raise ValueError(f"{voting_rule_name} requires at least {approval_count} candidates.")
 
-            def factory(*args: Any, **kwargs: Any) -> Election:
-                """Run Borda with the bound tie-breaking setting."""
-                return Borda(*args, tiebreak=tiebreak, **kwargs)
+        score_vector = [1] * approval_count + [0] * (n_cands - approval_count)
+        return partial(Borda, tiebreak=tiebreak, score_vector=score_vector)
 
-        case "3-approval":
-            if n_cands < 3:
-                raise ValueError("3-approval requires at least 3 candidates.")
-            sv = [1] * 3 + [0] * (n_cands - 3)
+    rule_types = {
+        "borda": Borda,
+        "plurality": Plurality,
+        "stv": STV,
+        "ranked-pairs": RankedPairs,
+        "random": ElectRandom,
+    }
+    if voting_rule_name not in rule_types:
+        raise ValueError(f"Voting rule {voting_rule_name!r} not recognized.")
 
-            def factory(*args: Any, **kwargs: Any) -> Election:
-                """Run Borda with the bound approval scores and tie-breaking strategy."""
-                return Borda(*args, tiebreak=tiebreak, score_vector=sv, **kwargs)
-
-        case "2-approval":
-            if n_cands < 2:
-                raise ValueError("2-approval requires at least 2 candidates.")
-            sv = [1] * 2 + [0] * (n_cands - 2)
-
-            def factory(*args: Any, **kwargs: Any) -> Election:
-                """Run Borda with the bound approval scores and tie-breaking strategy."""
-                return Borda(*args, tiebreak=tiebreak, score_vector=sv, **kwargs)
-
-        case "plurality":
-
-            def factory(*args: Any, **kwargs: Any) -> Election:
-                """Run Plurality with the bound tie-breaking setting."""
-                return Plurality(*args, tiebreak=tiebreak, **kwargs)
-
-        case "stv":
-
-            def factory(*args: Any, **kwargs: Any) -> Election:
-                """Run STV with the bound tie-breaking setting."""
-                return STV(*args, tiebreak=tiebreak, **kwargs)
-
-        case "ranked-pairs":
-
-            def factory(*args: Any, **kwargs: Any) -> Election:
-                """Run RankedPairs with the bound tie-breaking setting."""
-                return RankedPairs(*args, tiebreak=tiebreak, **kwargs)
-
-        case "random":
-
-            def factory(*args: Any, **kwargs: Any) -> Election:
-                """Run ElectRandom with the bound tie-breaking setting."""
-                return ElectRandom(*args, tiebreak=tiebreak, **kwargs)
-
-        case _:
-            raise ValueError(f"Voting rule {voting_rule_name!r} not recognized.")
-
-    return factory
+    return partial(rule_types[voting_rule_name], tiebreak=tiebreak)

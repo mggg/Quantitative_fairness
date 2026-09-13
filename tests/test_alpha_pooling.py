@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 from pipelines.bradley_terry import pool_alpha_metrics as pooling
-from pipelines.bradley_terry.collect_metrics import output_jobs
+from pipelines.bradley_terry.collect_metrics import build_output_jobs
 
 
 def test_pooling_keeps_alpha_rule_and_total_size_and_preserves_sources(
@@ -30,8 +30,8 @@ def test_pooling_keeps_alpha_rule_and_total_size_and_preserves_sources(
             / f"{split[0]:02d}_{split[1]:02d}"
             / (f"b_proportion_{proportion}__ALPHA_({alpha_token})__COHESION_(0.70,0.90)")
         )
-        _, jobs = output_jobs(folder, 3, rule, "lex", output_root=tmp_path)
-        path = next(path for _, _, _, path in jobs if path.name.startswith("METRIC_sigma_IIA__"))
+        _, jobs = build_output_jobs(folder, 3, rule, "lex", output_root=tmp_path)
+        path = next(job.path for job in jobs if job.spec.name == "sigma_IIA")
         path.parent.mkdir(parents=True, exist_ok=True)
         scores = [proportion, split[0] / 10]
         path.write_text(json.dumps(scores))

@@ -69,47 +69,6 @@ colors = [
     "#DCE775",
 ]
 
-# rule_color_map = {
-#     "borda": "#00B8D4",
-#     "3-approval": "#00cd99",
-#     "2-approval": "#b3de69",
-#     "plurality": "#e31a1c",
-#     "stv": "#fdbf6f",
-#     "ranked-pairs": "#FF80AB",
-#     "random": "#b2bac7",
-# }
-
-
-# \definecolor{applegreen}{rgb}{0.55, 0.71, 0.0} #"#8cb500"
-# \definecolor{alizarin}{rgb}{0.82, 0.1, 0.26} #"#d11942"
-# \definecolor{slategray}{rgb}{0.44, 0.5, 0.56} #"#707f8e"
-# \definecolor{amber}{rgb}{1.0, 0.75, 0.0} #"#ffbf00"
-# \definecolor{mikadoyellow}{rgb}{1.0, 0.77, 0.05} #"#ffc40c"
-# \definecolor{cadmiumgreen}{rgb}{0.0, 0.42, 0.24} #"#006b3d"
-# \definecolor{forestgreen}{rgb}{0.13, 0.55, 0.13} #"#218c21"
-# \definecolor{lust}{rgb}{0.9, 0.13, 0.13} #"#e52121"
-# \definecolor{denim}{rgb}{0.08, 0.38, 0.74} #"#1460bc"
-# \definecolor{purpleheart}{rgb}{0.41, 0.21, 0.61} #"#68359b"
-# \definecolor{cherryblossompink}{rgb}{1.0, 0.72, 0.77} #"#ffb7c4"
-# \definecolor{darktangerine}{rgb}{1.0, 0.66, 0.07} #"#ffa811"
-# \definecolor{bananayellow}{rgb}{1.0, 0.88, 0.21} #"#ffe035"
-# \definecolor{lightblue}{rgb}{0.55,0.82,0.77} #"#8cd1c4"
-
-# "#8cb500"
-# "#d11942"
-# "#707f8e"
-# "#ffbf00"
-# "#ffc40c"
-# "#006b3d"
-# "#218c21"
-# "#e52121"
-# "#1460bc"
-# "#68359b"
-# "#ffb7c4"
-# "#ffa811"
-# "#ffe035"
-# "#8cd1c4
-
 
 def construct_df_scottish(
     data_dictionary: Mapping[str, Mapping[str, Mapping[str, list[float]]]],

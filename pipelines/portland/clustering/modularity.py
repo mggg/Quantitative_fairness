@@ -113,7 +113,7 @@ def generate_flip_proposal(
 ) -> NDArray:
     """Generate a new cluster assignment proposal by flipping the cluster assignment of one node.
 
-    At least one cluster must contain more than one node for the selection loop to terminate.
+    At least one cluster must contain more than one node; otherwise ValueError is raised.
     The proposed label can equal the original label, leaving the assignment unchanged.
 
     Args:
@@ -121,16 +121,17 @@ def generate_flip_proposal(
             vector will be modified in-place to produce the new proposal.
         n_clusters (int): The total number of clusters. New cluster assignments will be in the range
             [0, n_clusters - 1].
-        rng (random.Random): Generator for the proposed label; node selection uses NumPy’s global
-            RNG.
+        rng (random.Random): Generator for both node selection and the proposed label.
 
     Returns:
         NDArray: The same array, modified in place without removing the last member of a cluster.
     """
-    assignment_counts = np.bincount(mutated_assignment_vec, minlength=n_clusters + 1)
+    assignment_counts = np.bincount(mutated_assignment_vec, minlength=n_clusters)
+    if not np.any(assignment_counts > 1):
+        raise ValueError("At least one cluster must have more than one candidate")
 
     while True:
-        to_flip = np.random.choice(len(mutated_assignment_vec))
+        to_flip = rng.randrange(len(mutated_assignment_vec))
         # Make sure we don't reduce the number of clusters by flipping the last member of a
         # cluster to a different cluster
         if assignment_counts[mutated_assignment_vec[to_flip]] > 1:
@@ -185,6 +186,6 @@ def run_modularity_maximization_short_bursts(
 
             if new_modularity >= best_modularity:
                 best_assignment_vec = current_burst_assignment.copy()
-                best_modularity = compute_modularity(M, best_assignment_vec)
+                best_modularity = new_modularity
 
     return best_assignment_vec, best_modularity

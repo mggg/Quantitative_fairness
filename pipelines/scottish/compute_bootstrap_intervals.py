@@ -6,8 +6,9 @@ import argparse
 import json
 import re
 import sys
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Iterable, TypeAlias
 
 import numpy as np
 import pandas as pd
@@ -16,6 +17,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from voting_metrics_main_code.constants import RULE_ORDER
 from voting_metrics_main_code.replication import ROOT
+
+TableRow: TypeAlias = dict[str, str | int | float]
 
 TIEBREAK_PATTERN = re.compile(r"__TIEBREAK_([^_]+)_output\.json$")
 
@@ -171,6 +174,65 @@ def bootstrap_mean_percentile_ci(
     return float(boot_sorted[low_idx]), float(boot_sorted[high_idx])
 
 
+@dataclass(frozen=True)
+class BootstrapSamples:
+    """Observed IIA/UM pairs and resampled means use the same two-column order."""
+
+    paired: np.ndarray
+    bootstrap_means: np.ndarray
+
+
+@dataclass(frozen=True)
+class ConfidenceRectangle:
+    iia_lower: float
+    iia_upper: float
+    um_lower: float
+    um_upper: float
+    n_pairs: int
+    candidate_size: int | None
+    overlap_counts: dict[str, int]
+    samples: BootstrapSamples | None = None
+
+
+def align_metric_pairs(
+    iia_data: dict[str, dict[str, float]],
+    um_data: dict[str, dict[str, float]],
+    candidate_size: int | None,
+) -> tuple[np.ndarray, dict[str, int]]:
+    """Align observations by candidate count and election ID in deterministic order.
+
+    Only shared elections contribute; overlap counts include selected sizes with no shared IDs.
+    A requested size must exist in both metrics, and at least one pair must remain.
+    """
+    if candidate_size is None:
+        size_keys = sort_candidate_size_keys(set(iia_data) & set(um_data))
+    else:
+        key = str(candidate_size)
+        if key not in iia_data:
+            raise KeyError(f"candidate_size={candidate_size} missing from IIA data.")
+        if key not in um_data:
+            raise KeyError(f"candidate_size={candidate_size} missing from UM data.")
+        size_keys = [key]
+
+    paired_values = []
+    overlap_counts = {}
+    for size_key in size_keys:
+        iia_by_election = iia_data[size_key]
+        um_by_election = um_data[size_key]
+        common_ids = sorted(set(iia_by_election) & set(um_by_election))
+        overlap_counts[size_key] = len(common_ids)
+
+        paired_values.extend(
+            (float(iia_by_election[election_id]), float(um_by_election[election_id]))
+            for election_id in common_ids
+        )
+
+    if not paired_values:
+        raise ValueError("No overlapping election IDs found across selected sizes.")
+
+    return np.asarray(paired_values, dtype=float), overlap_counts
+
+
 def bootstrap_confidence_rectangle(
     iia_data: dict[str, dict[str, float]],
     um_data: dict[str, dict[str, float]],
@@ -179,7 +241,7 @@ def bootstrap_confidence_rectangle(
     alpha: float = 0.05,
     seed: int = 0,
     return_samples: bool = False,
-) -> dict[str, Any]:
+) -> ConfidenceRectangle:
     """Compute a Bonferroni-adjusted rectangle for paired IIA/UM means.
 
     Args:
@@ -196,48 +258,21 @@ def bootstrap_confidence_rectangle(
             plotting. Defaults to False.
 
     Returns:
-        dict[str, Any]: Rectangle output with IIA/UM intervals, pair counts, candidate size, and
+        ConfidenceRectangle: IIA/UM intervals, pair counts, candidate size, and
             overlap metadata.
 
     Raises:
-        ValueError: If no overlapping election ids exist after alignment.
+        ValueError: No overlapping election IDs remain, n_resamples is below two, or alpha is
+            outside (0, 1).
         KeyError: If ``candidate_size`` is specified but missing in either metric data.
     """
-    if candidate_size is None:
-        size_keys = sort_candidate_size_keys(set(iia_data.keys()) & set(um_data.keys()))
-    else:
-        key = str(candidate_size)
+    if n_resamples < 2:
+        raise ValueError("n_resamples must be >= 2.")
+    if not 0 < alpha < 1:
+        raise ValueError("alpha must be in (0, 1).")
 
-        if key not in iia_data:
-            raise KeyError(f"candidate_size={candidate_size} missing from IIA data.")
-
-        if key not in um_data:
-            raise KeyError(f"candidate_size={candidate_size} missing from UM data.")
-
-        size_keys = [key]
-
-    paired_values: list[tuple[float, float]] = []
-    overlap_counts: dict[str, int] = {}
-
-    for size_key in size_keys:
-        iia_by_election = iia_data[size_key]
-        um_by_election = um_data[size_key]
-        common_ids = set(iia_by_election.keys()) & set(um_by_election.keys())
-        overlap_counts[size_key] = len(common_ids)
-
-        for election_id in sorted(common_ids):
-            paired_values.append(
-                (
-                    float(iia_by_election[election_id]),
-                    float(um_by_election[election_id]),
-                )
-            )
-
-    paired = np.asarray(paired_values, dtype=float)
+    paired, overlap_counts = align_metric_pairs(iia_data, um_data, candidate_size)
     n_pairs = len(paired)
-
-    if n_pairs == 0:
-        raise ValueError("No overlapping election IDs found across selected sizes.")
 
     rng = np.random.default_rng(seed)
     boot = np.empty((n_resamples, 2), dtype=float)
@@ -251,21 +286,16 @@ def bootstrap_confidence_rectangle(
     iia_lower, um_lower = np.quantile(boot, q_lo, axis=0)
     iia_upper, um_upper = np.quantile(boot, q_hi, axis=0)
 
-    result = {
-        "iia_L": float(iia_lower),
-        "iia_U": float(iia_upper),
-        "um_L": float(um_lower),
-        "um_U": float(um_upper),
-        "n_pairs": int(n_pairs),
-        "candidate_size": candidate_size,
-        "sizes_used": size_keys,
-        "overlap_counts_by_size": overlap_counts,
-    }
-
-    if return_samples:
-        result.update(paired=paired, bootstrap_means=boot)
-
-    return result
+    return ConfidenceRectangle(
+        iia_lower=float(iia_lower),
+        iia_upper=float(iia_upper),
+        um_lower=float(um_lower),
+        um_upper=float(um_upper),
+        n_pairs=n_pairs,
+        candidate_size=candidate_size,
+        overlap_counts=overlap_counts,
+        samples=BootstrapSamples(paired, boot) if return_samples else None,
+    )
 
 
 def iter_metric_json_files(
@@ -307,7 +337,7 @@ def build_ci_rows_for_file(
     n_resamples: int,
     alpha: float,
     seed: int,
-) -> list[dict[str, Any]]:
+) -> list[TableRow]:
     """Build pooled and per-size CI rows for a single metric JSON.
 
     Args:
@@ -320,56 +350,28 @@ def build_ci_rows_for_file(
         seed (int): RNG seed.
 
     Returns:
-        list[dict[str, Any]]: One pooled row and one row per candidate size.
+        list[TableRow]: One pooled row and one row per candidate size.
 
     Raises:
         ValueError: If candidate-size keys are not integer-like or bootstrap inputs are
             invalid/empty.
     """
-    rows: list[dict[str, Any]] = []
+    rows: list[TableRow] = []
 
-    pooled_values = extract_metric_values(metric_data, candidate_size=None)
-    pooled_l, pooled_u = bootstrap_mean_percentile_ci(
-        values=pooled_values,
-        n_resamples=n_resamples,
-        alpha=alpha,
-        seed=seed,
-    )
-
-    rows.append(
-        {
-            "metric": metric_name,
-            "rule": election_name,
-            "tiebreak": tiebreak,
-            "candidate_size": np.nan,
-            "L": pooled_l,
-            "U": pooled_u,
-            "n_observations": int(pooled_values.size),
-        }
-    )
-
-    for size_key in sort_candidate_size_keys(metric_data.keys()):
-        candidate_size = int(size_key)
-        per_size_values = extract_metric_values(
-            metric_data=metric_data,
-            candidate_size=candidate_size,
-        )
-        l_bound, u_bound = bootstrap_mean_percentile_ci(
-            values=per_size_values,
-            n_resamples=n_resamples,
-            alpha=alpha,
-            seed=seed,
-        )
+    sizes = sort_candidate_size_keys(metric_data)
+    for candidate_size in (None, *(int(key) for key in sizes)):
+        values = extract_metric_values(metric_data, candidate_size=candidate_size)
+        lower, upper = bootstrap_mean_percentile_ci(values, n_resamples, alpha, seed)
 
         rows.append(
             {
                 "metric": metric_name,
                 "rule": election_name,
                 "tiebreak": tiebreak,
-                "candidate_size": candidate_size,
-                "L": l_bound,
-                "U": u_bound,
-                "n_observations": int(per_size_values.size),
+                "candidate_size": np.nan if candidate_size is None else candidate_size,
+                "L": lower,
+                "U": upper,
+                "n_observations": int(values.size),
             }
         )
 
@@ -386,7 +388,7 @@ def build_rectangle_rows_for_file_pair(
     n_resamples: int,
     alpha: float,
     seed: int,
-) -> list[dict[str, Any]]:
+) -> list[TableRow]:
     """Build pooled and per-size rectangle rows for one IIA/UM file pair.
 
     Args:
@@ -401,65 +403,38 @@ def build_rectangle_rows_for_file_pair(
         seed (int): RNG seed.
 
     Returns:
-        list[dict[str, Any]]: One pooled row and one row per candidate size.
+        list[TableRow]: One pooled row and one row per candidate size.
 
     Raises:
         ValueError: If candidate-size keys are not integer-like, no overlapping election ids are
             found, or bootstrap inputs are invalid.
     """
-    rows: list[dict[str, Any]] = []
+    rows: list[TableRow] = []
     size_keys = sort_candidate_size_keys(set(iia_data.keys()) & set(um_data.keys()))
 
-    pooled_rectangle_data = bootstrap_confidence_rectangle(
-        iia_data=iia_data,
-        um_data=um_data,
-        candidate_size=None,
-        n_resamples=n_resamples,
-        alpha=alpha,
-        seed=seed,
-    )
-
-    rows.append(
-        {
-            "metric_iia": rectangle_metric_iia,
-            "metric_um": rectangle_metric_um,
-            "rule": election_name,
-            "tiebreak": tiebreak,
-            "candidate_size": np.nan,
-            "iia_L": pooled_rectangle_data["iia_L"],
-            "iia_U": pooled_rectangle_data["iia_U"],
-            "um_L": pooled_rectangle_data["um_L"],
-            "um_U": pooled_rectangle_data["um_U"],
-            "n_pairs": pooled_rectangle_data["n_pairs"],
-            "sizes_used": json.dumps(pooled_rectangle_data["sizes_used"]),
-            "overlap_counts_by_size": json.dumps(pooled_rectangle_data["overlap_counts_by_size"]),
-        }
-    )
-
-    for size_key in size_keys:
-        rectangle_data = bootstrap_confidence_rectangle(
+    for candidate_size in (None, *(int(key) for key in size_keys)):
+        rectangle = bootstrap_confidence_rectangle(
             iia_data=iia_data,
             um_data=um_data,
-            candidate_size=int(size_key),
+            candidate_size=candidate_size,
             n_resamples=n_resamples,
             alpha=alpha,
             seed=seed,
         )
-
         rows.append(
             {
                 "metric_iia": rectangle_metric_iia,
                 "metric_um": rectangle_metric_um,
                 "rule": election_name,
                 "tiebreak": tiebreak,
-                "candidate_size": int(size_key),
-                "iia_L": rectangle_data["iia_L"],
-                "iia_U": rectangle_data["iia_U"],
-                "um_L": rectangle_data["um_L"],
-                "um_U": rectangle_data["um_U"],
-                "n_pairs": rectangle_data["n_pairs"],
-                "sizes_used": json.dumps(rectangle_data["sizes_used"]),
-                "overlap_counts_by_size": json.dumps(rectangle_data["overlap_counts_by_size"]),
+                "candidate_size": np.nan if candidate_size is None else candidate_size,
+                "iia_L": rectangle.iia_lower,
+                "iia_U": rectangle.iia_upper,
+                "um_L": rectangle.um_lower,
+                "um_U": rectangle.um_upper,
+                "n_pairs": rectangle.n_pairs,
+                "sizes_used": json.dumps(list(rectangle.overlap_counts)),
+                "overlap_counts_by_size": json.dumps(rectangle.overlap_counts),
             }
         )
 
@@ -493,7 +468,7 @@ def run_bootstrap_ci(
         ValueError: If no CI rows are generated for a requested metric.
     """
     for metric_for_cis in ci_metrics:
-        ci_rows: list[dict[str, Any]] = []
+        ci_rows: list[TableRow] = []
 
         for election_name, tiebreak, json_file in iter_metric_json_files(
             metric_name=metric_for_cis,
@@ -554,7 +529,7 @@ def run_bootstrap_rectangle(
         ValueError: If no rectangle rows are generated for a requested metric pair.
     """
     for rectangle_metric_iia, rectangle_metric_um in rectangle_metric_pairs:
-        rectangle_rows: list[dict[str, Any]] = []
+        rectangle_rows: list[TableRow] = []
 
         for election_name, tiebreak, iia_file in iter_metric_json_files(
             metric_name=rectangle_metric_iia,
@@ -662,9 +637,6 @@ def main(
     output_folder = output_root / "stats" / "scottish_stats" / "bootstrap"
     output_folder.mkdir(parents=True, exist_ok=True)
 
-    # =============================
-    # Bootstrap confidence intervals
-    # =============================
     run_bootstrap_ci(
         ci_metrics=ci_metrics,
         all_election_types=all_election_types,
@@ -674,10 +646,6 @@ def main(
         seed=seed,
         output_folder=output_folder,
     )
-
-    # ===========================
-    # Bootstrap rectangle bounds
-    # ===========================
 
     run_bootstrap_rectangle(
         rectangle_metric_pairs=rectangle_metric_pairs,

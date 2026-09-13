@@ -17,7 +17,7 @@ pipeline index.
 | [`run_ny_pipeline.sh`](run_ny_pipeline.sh)             | Compute New York mayoral metrics and export the summary table.                                                  |
 | [`run_portland_pipeline.sh`](run_portland_pipeline.sh) | Compute district metrics, export the summary table, and render boost matrices.                                  |
 | [`run_scottish_pipeline.sh`](run_scottish_pipeline.sh) | Compute Scottish metrics, render UM–IIA scatterplots, and export metric tables.                                 |
-| [`run_bt_pipeline.sh`](run_bt_pipeline.sh)             | Compute two-bloc BT metrics, render UM–IIA scatterplots, and make candidate-count and bloc-proportion boxplots. |
+| [`run_bt_pipeline.sh`](run_bt_pipeline.sh)             | Compute two-bloc BT metrics and render UM–IIA scatterplots. |
 
 [`replicate.py`](replicate.py) defines these workflows, prints their commands, and runs them in
 order. Call it directly with `ny`, `portland`, `scottish`, or `bt`, or use the corresponding shell
