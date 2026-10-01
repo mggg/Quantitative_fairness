@@ -70,6 +70,9 @@ def profile_settings() -> list[str]:
 def load_proportionality_statistics(*, stats_root: Path) -> pd.DataFrame:
     """Load proportionality JSONs into one row per profile and voting rule.
 
+    Args:
+        stats_root (Path): Parent of the dataset statistics directories.
+
     Returns:
         pd.DataFrame: Columns file, method, expected_proportion, and observed_proportion. The file
             column contains the candidate-count and bloc-setting directory suffix.
@@ -77,9 +80,6 @@ def load_proportionality_statistics(*, stats_root: Path) -> pd.DataFrame:
     Raises:
         FileNotFoundError: No proportionality JSON files exist in the configured input directory.
         json.JSONDecodeError: A proportionality input file is not valid JSON.
-
-    Args:
-        stats_root (Path): Parent of the dataset statistics directories.
     """
     all_files = glob(f"{escape(str(stats_root))}/bt_proportionality/*.json")
 
@@ -246,14 +246,14 @@ def plot_rule_waterfall(
 def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
     """Load proportionality statistics and save a waterfall for each configured voting rule.
 
-    Raises:
-        FileNotFoundError: No proportionality JSON files exist in the configured input directory.
-
     Args:
         stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
-            the selected run root.
+            the selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
+
+    Raises:
+        FileNotFoundError: No proportionality JSON files exist in the configured input directory.
     """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()

@@ -34,11 +34,11 @@ def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats
     """Save BT UM means versus population variances for each metric and interpolation.
 
     Args:
-        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
         bt_stats_root (Path | None, optional): Exact two-bloc BT statistics tree. None uses the
-            selected run root.
+            selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
     """
     output_root = output_root.resolve()
     bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()

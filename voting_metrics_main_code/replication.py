@@ -55,8 +55,8 @@ def seed_task(*identity: object, seed: int = 0) -> None:
     numpy.random.Generator instances. Task identifiers need stable repr values across runs.
 
     Args:
-        *identity (object): Stable identifiers for the experiment and individual task.
         seed (int, optional): Base seed supplied by the workflow. Defaults to 0.
+        *identity (object): Stable identifiers for the experiment and individual task.
     """
     key = repr((seed, identity)).encode()
     seed = int.from_bytes(hashlib.sha256(key).digest()[:4], "big")

@@ -217,12 +217,12 @@ def sigma_UM(
     Args:
         profile (RankProfile): Ranked ballots with positive total weight and at least two
             candidates.
-        voting_rule (ElectionConstructor): Constructor accepting profile and m and returning
-            an election ranking.
+        voting_rule (ElectionConstructor): Constructor accepting profile and m and returning an
+            election ranking.
         n_seats (int): Number of seats; must be supported by the voting rule.
         variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'worst_case'.
-        interpolation_type (InterpolationType, optional): 'asin', 'odds', or 'linear'.
-            Defaults to 'asin'.
+        interpolation_type (InterpolationType, optional): 'asin', 'odds', or 'linear'. Defaults to
+            'asin'.
 
     Returns:
         float: UM score in [0, 1]; one means every tested pair has normalized support
@@ -284,12 +284,12 @@ def sigma_UM_winner_set(
     Args:
         profile (RankProfile): Ranked ballots with positive total weight and at least two
             candidates.
-        voting_rule (ElectionConstructor): Constructor accepting profile and m and returning
-            an election ranking.
+        voting_rule (ElectionConstructor): Constructor accepting profile and m and returning an
+            election ranking.
         n_seats (int): Number of seats; must leave at least one winner and one loser.
         variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'worst_case'.
-        interpolation_type (InterpolationType, optional): 'asin', 'odds', or 'linear'.
-            Defaults to 'asin'.
+        interpolation_type (InterpolationType, optional): 'asin', 'odds', or 'linear'. Defaults to
+            'asin'.
 
     Returns:
         float: UM score in [0, 1]; one means every tested pair has normalized support

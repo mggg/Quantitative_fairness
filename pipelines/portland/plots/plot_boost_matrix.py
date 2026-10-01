@@ -130,11 +130,11 @@ def plot_boost(
         district (str): Portland district identifier.
         profile (RankProfile | None, optional): Ranked-ballot profile used to compute boosts.
             Provide this or matrix. Defaults to None.
-        matrix (NDArray | None, optional): Precomputed boosts in flattened slate order.
-            Provide this or profile. Defaults to None.
+        matrix (NDArray | None, optional): Precomputed boosts in flattened slate order. Provide this
+            or profile. Defaults to None.
         limit (float, optional): Positive magnitude of the symmetric color scale. Defaults to 0.21.
-        matrix_savepath (Path | None, optional): Cache destination for a computed boost matrix;
-            an existing cache may be replaced. Defaults to None.
+        matrix_savepath (Path | None, optional): Cache destination for a computed boost matrix; an
+            existing cache may be replaced. Defaults to None.
 
     Returns:
         tuple[Figure, NDArray]: Heatmap figure and boost matrix in flattened slate order.

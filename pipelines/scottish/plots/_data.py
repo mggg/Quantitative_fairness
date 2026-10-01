@@ -19,9 +19,10 @@ def load_outputs_by_election_type(
     Args:
         stats_dir (Path): Base directory containing Scottish metric JSON outputs.
         ordered_rules (Sequence[str]): Rules to include.
-        variants (Sequence[str], optional): Aggregations to load in order. Defaults to
-            ('average', 'worst_case').
-        tiebreaks (Sequence[str], optional): Tiebreaks to load in order. Defaults to ('lex', 'random').
+        variants (Sequence[str], optional): Aggregations to load in order. Defaults to ('average',
+            'worst_case').
+        tiebreaks (Sequence[str], optional): Tiebreaks to load in order. Defaults to ('lex',
+            'random').
 
     Returns:
         dict[str, dict[str, dict[str, list[float]]]]: Nested mapping: ``rule -> candidate_count ->

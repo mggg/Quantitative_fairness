@@ -13,6 +13,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:
+    """Verify the primary BT collector on a temporary unanimous-election profile.
+
+    Raises:
+        subprocess.CalledProcessError: The collector subprocess fails.
+        AssertionError: The collector does not produce four metric outputs with scores of one.
+        OSError: Temporary inputs or outputs cannot be written or read.
+    """
     with tempfile.TemporaryDirectory(prefix="qf-smoke-") as temporary:
         work = Path(temporary)
         folder = (

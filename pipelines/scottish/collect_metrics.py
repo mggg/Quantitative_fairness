@@ -82,11 +82,11 @@ def compute_results_single_file(
     """Compute all metrics for a single Scottish election file.
 
     Args:
-        seed (int, optional): Base seed for independent task streams. Defaults to 0.
         f (str | Path): Path to the election file.
         election_name (AllowedRule): Voting rule name.
         metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
         tiebreak (str): Tiebreak rule name.
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
 
     Returns:
         dict[str, dict[str, dict[str, float]]]: Nested dict of candidate counts to metric values.
@@ -122,12 +122,12 @@ def compute_results_single_file_and_metric(
     """Compute a single metric for one election file.
 
     Args:
-        seed (int, optional): Base seed for independent task streams. Defaults to 0.
         f (str | Path): Path to the election file.
         election_name (AllowedRule): Voting rule name.
         metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
         metric_name (str): Metric key to compute.
         tiebreak (str): Tiebreak rule name.
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
 
     Returns:
         tuple[str, str, float]: Candidate count, file stem, and metric value.
@@ -156,15 +156,15 @@ def main(
 ) -> None:
     """Save primary Scottish metrics by rule and tiebreak, skipping existing output files.
 
-    Raises:
-        ValueError: No Scottish election CSVs match the supported candidate counts.
-
     Args:
         data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
         seed (int, optional): Base seed for independent task streams. Defaults to 0.
         n_jobs (int, optional): Number of parallel workers. Defaults to 1.
+
+    Raises:
+        ValueError: No Scottish election CSVs match the supported candidate counts.
     """
     output_root = output_root.resolve()
     data_root = data_root.resolve()

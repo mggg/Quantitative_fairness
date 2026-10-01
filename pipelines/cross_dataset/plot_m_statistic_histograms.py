@@ -76,9 +76,9 @@ def make_scottish_M_histogram(rule: str, *, stats_root: Path, output_root: Path)
     """Generate and save an M histogram for the Scottish datasets.
 
     Args:
+        rule (str): Voting rule name used to locate the stats file.
         stats_root (Path): Parent of the dataset statistics directories.
         output_root (Path): Run root containing stats, plots, and tables.
-        rule (str): Voting rule name used to locate the stats file.
     """
     scottish_plots_dir = output_root / "plots" / "scottish" / "M_histograms"
 
@@ -118,12 +118,12 @@ def make_bt_M_histograms(
     """Generate M, ASIN, and odds histograms for BT simulations.
 
     Args:
-        n_seats (int, optional): Seat count of the selected experiment. Defaults to 3.
-        bt_stats_root (Path): Exact two-bloc BT statistics tree.
-        output_root (Path): Run root containing stats, plots, and tables.
         rule (str): Voting rule name used to locate the stats files.
         bprop_values (Sequence[float] | None, optional): B-bloc proportions to plot; None uses
             BT_BLOC_PROPORTIONS. Defaults to None.
+        bt_stats_root (Path): Exact two-bloc BT statistics tree.
+        n_seats (int, optional): Seat count of the selected experiment. Defaults to 3.
+        output_root (Path): Run root containing stats, plots, and tables.
     """
     bt_plots_dir = output_root / "plots" / "bt_plots" / "M_histograms"
 
@@ -185,11 +185,11 @@ def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats
     """Save BT M, ASIN, and odds histograms for B-bloc proportion 0.7 under each nonrandom rule.
 
     Args:
-        n_seats (int, optional): Seat count of the selected experiment. Defaults to 3.
         bt_stats_root (Path | None, optional): Exact two-bloc BT statistics tree. None uses the
-            selected run root.
+            selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
+        n_seats (int, optional): Seat count of the selected experiment. Defaults to 3.
     """
     output_root = output_root.resolve()
     bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()

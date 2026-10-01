@@ -185,8 +185,8 @@ def viz_partition(
     """Visualize the boost matrix reordered according to a given partition.
 
     Args:
-        partition (list[list[str]] | NDArray[np.integer] | Sequence[int]): A partition of
-            candidates into blocks. Can be provided as:
+        partition (list[list[str]] | NDArray[np.integer] | Sequence[int]): A partition of candidates
+            into blocks. Can be provided as:
             - A list of lists of candidate names (explicit blocks).
             - A 1D integer array of community labels (one per candidate).
             - A sequence of integer labels (one per candidate).

@@ -7,6 +7,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:
+    """Write a sorted profile-folder selection using the command-line input and output paths.
+
+    Raises:
+        SystemExit: CLI arguments are invalid or no profile folders match the requested root.
+        OSError: The output settings file cannot be written.
+    """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--profile-root", type=Path, default=ROOT / "data/preference_profiles")
     parser.add_argument(

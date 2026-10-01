@@ -249,9 +249,9 @@ def create_limited_scatter_plot(
         um_key (str): X-axis metric key.
         iia_key (str): Y-axis metric key.
         output_path (Path): Output image path.
-        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None, optional):
-            Optional overlay callback receiving ``(ax, voting_rule, um_key, iia_key, x_data,
-            y_data)``. Defaults to None.
+        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None,
+            optional): Optional overlay callback receiving ``(ax, voting_rule, um_key, iia_key,
+            x_data, y_data)``. Defaults to None.
     """
     sns.set_theme(style="ticks", context="notebook", font="serif", font_scale=1.2)
     fig, ax = plt.subplots(1, 1, figsize=(8, 8))
@@ -425,8 +425,8 @@ def run_limited_scatter_plots(
         tiebreak (str, optional): Tiebreak suffix used in metric keys. Defaults to 'lex'.
         scatter_subdir (str, optional): Subdirectory name under ``output_dir``. Defaults to
             'scatter_by_voting_rule'.
-        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None, optional):
-            Optional overlay callback for each plot. Defaults to None.
+        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None,
+            optional): Optional overlay callback for each plot. Defaults to None.
     """
     scatter_dir = output_dir / scatter_subdir
     scatter_dir.mkdir(parents=True, exist_ok=True)
@@ -462,7 +462,7 @@ def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
 
     Args:
         stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
-            the selected run root.
+            the selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
     """

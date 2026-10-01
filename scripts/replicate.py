@@ -14,7 +14,14 @@ from voting_metrics_main_code.constants import RULE_ORDER  # noqa: E402
 
 
 def parse_arguments() -> argparse.Namespace:
-    """Resolve the recipe's inputs and output root relative to the calling directory."""
+    """Resolve the recipe's inputs and output root relative to the calling directory.
+
+    Returns:
+        argparse.Namespace: Validated recipe options with input and output paths resolved.
+
+    Raises:
+        SystemExit: Arguments are invalid or incompatible with the selected dataset or mode.
+    """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset", choices=("ny", "portland", "scottish", "bt"))
     parser.add_argument(

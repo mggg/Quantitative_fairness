@@ -47,7 +47,19 @@ MetricSpec: TypeAlias = UMMetric | IIAMetric
 
 
 def parse_metric_spec(metric: str, variant: str, interpolation: str) -> MetricSpec:
-    """Validate CLI metric settings; IIA ignores the historical interpolation option."""
+    """Validate CLI metric settings; IIA ignores the historical interpolation option.
+
+    Args:
+        metric (str): UM or IIA metric identifier from the collector CLI.
+        variant (str): Aggregation token, 'average' or 'worst_case'.
+        interpolation (str): UM interpolation token; ignored for IIA metrics.
+
+    Returns:
+        MetricSpec: Validated UM settings with interpolation, or IIA settings without it.
+
+    Raises:
+        ValueError: The metric, aggregation variant, or UM interpolation is unsupported.
+    """
     if variant not in get_args(MetricVariant):
         raise ValueError(f"Unknown metric variant: {variant}")
 
@@ -75,6 +87,15 @@ def configure_metric(
 
     The single-removal random IIA metrics sample rankings directly. Other metrics run the
     supplied election constructor. The returned callable accepts a profile and voting rule.
+
+    Args:
+        spec (MetricSpec): Metric family and its aggregation and interpolation settings.
+        n_seats (int): Number of seats passed to the metric.
+        random_rule (bool, optional): Use direct random-ranking sampling for single-removal IIA.
+            Defaults to False.
+
+    Returns:
+        partial[float]: Configured metric accepting a profile and voting rule.
     """
     if isinstance(spec, UMMetric):
         metric = sigma_UM if spec.name == "sigma_UM" else sigma_UM_winner_set

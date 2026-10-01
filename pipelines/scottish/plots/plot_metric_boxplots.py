@@ -197,8 +197,8 @@ def load_boxplot_metrics(
     """Load average and worst-case Scottish metric arrays with lexicographic tiebreaks.
 
     Args:
-        stats_root (Path): Parent of the dataset statistics directories.
         ordered_rules (Sequence[str]): Voting rules in the order to load or display.
+        stats_root (Path): Parent of the dataset statistics directories.
 
     Returns:
         dict[str, dict[str, dict[str, list[float]]]]: Scores keyed by rule, candidate-count string,
@@ -218,12 +218,12 @@ def main(
     """Run the Scottish boxplot pipeline and export plots.
 
     Args:
-        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
-            the selected run root.
-        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
-            ROOT.
         n_cand_list (Sequence[int], optional): Candidate counts to include. Defaults to
             list(range(6, 10)).
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root. Defaults to None.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
     """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()

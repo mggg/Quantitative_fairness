@@ -30,11 +30,11 @@ def run_score(
     """Load one profile and evaluate its metric with standard output suppressed.
 
     Args:
-        seed (int, optional): Base seed for independent profile streams. Defaults to 0.
         profile_file (str | Path): Path to a preference-profile CSV.
         metric_function (Callable[..., float]): Metric callable with seat count and variants already
             bound.
         voting_rule (ElectionConstructor): Voting rule callable passed to the metric.
+        seed (int, optional): Base seed for independent profile streams. Defaults to 0.
 
     Returns:
         float: Metric score for the loaded profile.
@@ -63,7 +63,26 @@ def build_output_path(
     tiebreak: str,
     output_root: Path,
 ) -> tuple[int, Path]:
-    """Parse a BT profile folder and build its historical metric output path without writing."""
+    """Parse a BT profile folder and build its historical metric output path without writing.
+
+    Args:
+        input_folder (str | Path): Profile directory with encoded candidate and bloc parameters.
+        n_seats (int): Seat count encoded in the statistics path.
+        metric (str): Metric identifier encoded in the directory and filename.
+        variant (MetricVariant): Aggregation variant encoded in the filename.
+        interpolation_type (str): Historical interpolation token, including 'None' for IIA.
+        election_type (AllowedRule): Voting rule encoded in the directory and filename.
+        tiebreak (str): Tie-breaking token encoded in the filename.
+        output_root (Path): Run root containing the statistics tree.
+
+    Returns:
+        tuple[int, Path]: Total candidate count and the corresponding metric output path.
+
+    Raises:
+        ValueError: Encoded candidate counts or bloc parameters cannot be parsed or unpacked.
+        IndexError: The directory name lacks a required parameter segment.
+        SyntaxError: An encoded alpha or cohesion tuple is not a valid Python literal.
+    """
     input_folder_full_path = Path(input_folder).resolve()
     base_parent = input_folder_full_path.name
     cand_folder = input_folder_full_path.parent.stem
@@ -177,10 +196,6 @@ def main(
     """Collect and save one metric for a two-bloc profile folder.
 
     Args:
-        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
-        seed (int, optional): Base seed for independent profile streams. Defaults to 0.
-        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
-            ROOT.
         input_folder (str | Path): Two-bloc profile directory with encoded candidate and bloc
             parameters.
         n_seats (int): Number of seats to elect.
@@ -189,6 +204,10 @@ def main(
         interpolation_type (str): UM interpolation token; use the string 'None' for IIA metrics.
         election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
+        seed (int, optional): Base seed for independent profile streams. Defaults to 0.
 
     Raises:
         ValueError: The seat count is below one or a UM interpolation is not 'asin', 'odds', or

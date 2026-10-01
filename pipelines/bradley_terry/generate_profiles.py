@@ -56,6 +56,24 @@ def sample_profile_config(
 
     Draw intervals in A-on-A, A-on-B, B-on-A, B-on-B order from the task's seeded stream.
     The configuration validates candidate counts, voter counts, and bloc parameters.
+
+    Args:
+        n_a_cands (int): Number of A candidates.
+        n_b_cands (int): Number of B candidates.
+        n_voters (int): Total number of voters to simulate.
+        b_proportion (float): Proportion of B-bloc voters.
+        a_cohesion (float): Cohesion of A-bloc voters.
+        b_cohesion (float): Cohesion of B-bloc voters.
+        aa_alpha (float): Dirichlet alpha for A-on-A preferences.
+        ab_alpha (float): Dirichlet alpha for A-on-B preferences.
+        ba_alpha (float): Dirichlet alpha for B-on-A preferences.
+        bb_alpha (float): Dirichlet alpha for B-on-B preferences.
+
+    Returns:
+        BlocSlateConfig: Two-bloc generation settings with sampled preference intervals.
+
+    Raises:
+        ValueError: A concentration parameter or profile-generation setting is invalid.
     """
     slate_to_candidates = {
         "bloc_1": [f"A{i + 1}" for i in range(n_a_cands)],

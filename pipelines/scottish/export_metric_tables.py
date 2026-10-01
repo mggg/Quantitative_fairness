@@ -19,7 +19,7 @@ def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
 
     Args:
         stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
-            the selected run root.
+            the selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
     """

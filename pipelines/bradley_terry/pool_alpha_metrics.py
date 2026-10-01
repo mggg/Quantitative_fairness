@@ -175,6 +175,7 @@ def main(
 
     Args:
         bt_stats_root (Path | None, optional): Exact source tree. None uses the run root's BT stats.
+            Defaults to None.
         output_root (Path, optional): Run root containing stats and plots. Defaults to ROOT.
         n_seats (int, optional): Number of elected seats. Defaults to 3.
         tiebreak (str, optional): Tie-breaking method. Defaults to 'lex'.

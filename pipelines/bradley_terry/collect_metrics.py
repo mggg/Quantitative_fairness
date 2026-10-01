@@ -83,12 +83,12 @@ def build_output_jobs(
     """Build metric jobs and output paths from a two-bloc profile directory name.
 
     Args:
-        output_root (Path): Run root containing stats, plots, and tables.
         input_folder (str | Path): Two-bloc profile directory with encoded candidate and bloc
             parameters.
         n_seats (int): Number of seats to elect.
         election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
+        output_root (Path): Run root containing stats, plots, and tables.
 
     Returns:
         tuple[int, list[MetricOutput]]: Total candidate count and
@@ -139,6 +139,18 @@ def run_profile_batch(task: ProfileBatchTask, *, seed: int = 0) -> tuple[OutputB
 
     Task seeds depend on experiment settings and profile identity, not output IDs, worker count,
     or scheduling. The result groups indexed scores by output ID for ordered publication.
+
+    Args:
+        task (ProfileBatchTask): Indexed CSV paths, election settings, and metric jobs for one
+            batch.
+        seed (int, optional): Base seed for independent profile and metric streams. Defaults to 0.
+
+    Returns:
+        tuple[OutputBatchScores, ...]: Indexed profile scores grouped by output ID.
+
+    Raises:
+        FileNotFoundError: A profile CSV does not exist.
+        ValueError: A voting rule or metric rejects the profile or election settings.
     """
     with contextlib.redirect_stdout(None):
         voting_rule = build_voting_rule(task.n_cands, task.election_type, tiebreak=task.tiebreak)
@@ -239,6 +251,22 @@ def plan_collection(
 
     Existing outputs are skipped. Empty folders retain an empty output to publish during execution.
     Profile indices follow sorted CSV paths, regardless of batching or resume order.
+
+    Args:
+        input_folders (Sequence[Path]): Profile directories to inspect in preparation order.
+        n_seats (int): Number of seats to elect.
+        election_type (AllowedRule): Voting rule to evaluate.
+        tiebreak (str): Tie-breaking token used in election settings and result filenames.
+        profile_batch_size (int): Maximum number of profiles per task; must be positive.
+        output_root (Path): Run root containing the statistics tree.
+
+    Returns:
+        CollectionPlan: Pending tasks, output progress, and the count of existing results skipped.
+
+    Raises:
+        ValueError: Batch size is nonpositive or encoded profile parameters cannot be parsed.
+        IndexError: A profile directory name lacks a required parameter segment.
+        SyntaxError: An encoded alpha or cohesion tuple is not a valid Python literal.
     """
     if profile_batch_size < 1:
         raise ValueError("profile_batch_size must be positive")
@@ -281,7 +309,16 @@ def plan_collection(
 
 
 def publish_completed_scores(output: OutputProgress) -> None:
-    """Publish only after every batch and every CSV slot has been filled."""
+    """Publish only after every batch and every CSV slot has been filled.
+
+    Args:
+        output (OutputProgress): Destination and ordered scores for one metric output.
+
+    Raises:
+        ValueError: Batches remain unfinished or a profile score is missing.
+        FileExistsError: A result already exists at the destination.
+        OSError: The completed scores cannot be written or published.
+    """
     if output.remaining_batches or any(score is None for score in output.scores):
         raise ValueError(f"Incomplete scores for {output.output_file}")
 
@@ -289,7 +326,21 @@ def publish_completed_scores(output: OutputProgress) -> None:
 
 
 def execute_collection(plan: CollectionPlan, *, n_jobs: int, seed: int) -> int:
-    """Execute batches and publish each complete output in original profile order."""
+    """Execute batches and publish each complete output in original profile order.
+
+    Args:
+        plan (CollectionPlan): Pending tasks and output progress, updated as batches complete.
+        n_jobs (int): Number of parallel workers.
+        seed (int): Base seed for independent profile and metric streams.
+
+    Returns:
+        int: Number of result files published, including outputs for empty profile folders.
+
+    Raises:
+        FileExistsError: A result appears at a destination before publication.
+        ValueError: A profile, election setting, or completed batch result is invalid.
+        OSError: An input cannot be read or an output cannot be written or published.
+    """
     written = 0
     for output in plan.outputs.values():
         if not output.remaining_batches:
@@ -396,15 +447,15 @@ def main(
     """Compute the four primary metrics across the folders in SETTINGS_FILE.
 
     Args:
-        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
-            ROOT.
-        seed (int, optional): Base seed for independent task streams. Defaults to 0.
         settings_file (Path): Text file listing profile directories, one per line.
         n_seats (int): Number of seats to elect.
         election_type (AllowedRule): Voting rule name.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
         n_jobs (int): Number of parallel workers.
         profile_batch_size (int): Maximum number of profiles per parallel task; must be positive.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
 
     Raises:
         click.ClickException: The settings file lists no usable profile folders.

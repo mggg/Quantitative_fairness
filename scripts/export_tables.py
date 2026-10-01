@@ -12,7 +12,19 @@ from voting_metrics_main_code.replication import ROOT
 
 
 def main(dataset: str, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
-    """Export one dataset's scores to a table beneath the selected run root."""
+    """Export one dataset's scores to a table beneath the selected run root.
+
+    Args:
+        dataset (str): Dataset token, 'ny' or 'portland'.
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root's stats directory. Defaults to None.
+        output_root (Path, optional): Run root containing the exported tables. Defaults to ROOT.
+
+    Raises:
+        FileNotFoundError: No election statistics are available for the requested dataset.
+        json.JSONDecodeError: A statistics file is not valid JSON.
+        OSError: An input cannot be read or the table cannot be written.
+    """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()
     print(f"Statistics: {stats_root}; output root: {output_root}")

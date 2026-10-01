@@ -19,8 +19,8 @@ def load_projected_profile(profile_number: int, *, data_root: Path) -> tuple[Ran
     Nonfinite boost entries are replaced using NumPy’s nan_to_num defaults.
 
     Args:
-        data_root (Path): Directory containing election inputs.
         profile_number (int): The number of the profile to load and project.
+        data_root (Path): Directory containing election inputs.
 
     Returns:
         tuple[RankProfile, NDArray]: Projected profile and boost matrix in its candidate order.

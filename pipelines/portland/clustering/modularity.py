@@ -125,6 +125,9 @@ def generate_flip_proposal(
 
     Returns:
         NDArray: The same array, modified in place without removing the last member of a cluster.
+
+    Raises:
+        ValueError: No cluster contains more than one candidate.
     """
     assignment_counts = np.bincount(mutated_assignment_vec, minlength=n_clusters)
     if not np.any(assignment_counts > 1):

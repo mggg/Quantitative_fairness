@@ -20,10 +20,10 @@ def plot_rectangles(
     """Plot rectangles [um_L, um_U] x [iia_L, iia_U] for each row in df.
 
     Args:
-        output_root (Path): Run root containing stats, plots, and tables.
         df (pd.DataFrame): DataFrame with columns 'um_L', 'um_U', 'iia_L', 'iia_U', 'rule'.
         metric (str): Metric label used in the output filename.
         rule_color_map (dict[str, str]): dict mapping rule names to colors.
+        output_root (Path): Run root containing stats, plots, and tables.
     """
     fig, ax = plt.subplots(figsize=(8, 8), dpi=300)
 
@@ -70,7 +70,7 @@ def main(*, bootstrap_root: Path | None = None, output_root: Path = ROOT) -> Non
 
     Args:
         bootstrap_root (Path | None, optional): Directory containing bootstrap interval CSVs. None
-            uses the selected run root.
+            uses the selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
     """

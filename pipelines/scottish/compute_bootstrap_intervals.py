@@ -203,6 +203,19 @@ def align_metric_pairs(
 
     Only shared elections contribute; overlap counts include selected sizes with no shared IDs.
     A requested size must exist in both metrics, and at least one pair must remain.
+
+    Args:
+        iia_data (dict[str, dict[str, float]]): IIA scores keyed by candidate count and election ID.
+        um_data (dict[str, dict[str, float]]): UM scores keyed by candidate count and election ID.
+        candidate_size (int | None): Candidate count to select; None includes all shared counts.
+
+    Returns:
+        tuple[np.ndarray, dict[str, int]]: Two-column IIA/UM observations and shared-election counts
+            for each selected candidate size, both in deterministic order.
+
+    Raises:
+        KeyError: The requested candidate count is absent from either metric.
+        ValueError: No shared elections remain, or a paired score cannot be converted to float.
     """
     if candidate_size is None:
         size_keys = sort_candidate_size_keys(set(iia_data) & set(um_data))
@@ -598,18 +611,18 @@ def main(
 ) -> None:
     """Save bootstrap intervals and paired confidence rectangles for the primary Scottish metrics.
 
+    Args:
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root. Defaults to None.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+        n_resamples (int, optional): Bootstrap resamples. Defaults to 10000.
+        alpha (float, optional): Bootstrap error probability. Defaults to 0.05.
+        seed (int, optional): Base seed for task streams. Defaults to 0.
+
     Raises:
         ValueError: A requested metric or metric pair produces no rows, or bootstrap inputs are
             invalid.
-
-    Args:
-        alpha (float, optional): Bootstrap error probability. Defaults to 0.05.
-        n_resamples (int, optional): Bootstrap resamples. Defaults to 10000.
-        seed (int, optional): Base seed for task streams. Defaults to 0.
-        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
-            the selected run root.
-        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
-            ROOT.
     """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()

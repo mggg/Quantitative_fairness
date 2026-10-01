@@ -33,10 +33,10 @@ def score_profile(
     """Compute the four primary metrics for one profile with independent metric seeds.
 
     Args:
-        seed (int, optional): Base seed for independent task streams. Defaults to 0.
         profile (RankProfile): Cleaned election profile.
         election_name (AllowedRule): Voting rule to evaluate.
         metric_functions (dict[str, Callable[..., float]]): Metrics in evaluation order.
+        seed (int, optional): Base seed for independent task streams. Defaults to 0.
 
     Returns:
         dict[str, list[float]]: Voter count and metric scores as singleton lists for JSON export.

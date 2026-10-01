@@ -44,3 +44,6 @@ pythonpath = ["."]
 [tool.ruff]
 line-length = 100
 extend-exclude = ["archive", "notebooks", "other_files"]
+
+[tool.ruff.lint]
+extend-select = ["D212"]

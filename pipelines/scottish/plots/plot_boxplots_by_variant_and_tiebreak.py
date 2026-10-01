@@ -120,7 +120,6 @@ def export_aggregate_tables(
     """Export aggregate Scottish statistics ordered by rule and candidate count.
 
     Args:
-        output_root (Path): Run root containing stats, plots, and tables.
         stat_file_base_dir (str): Base directory containing the metric JSON files.
         ordered_rules (Sequence[str]): Voting rules in the order to load or display.
         n_cand_list (Sequence[int]): Candidate counts to include, in display order.
@@ -128,6 +127,7 @@ def export_aggregate_tables(
             it.
         tiebreak (str): Tiebreak token used in the output filename; input files are not filtered by
             it.
+        output_root (Path): Run root containing stats, plots, and tables.
     """
     all_stats_files = glob(f"{escape(stat_file_base_dir)}/*stats.json")
 
@@ -190,14 +190,14 @@ def main(
     """Save Scottish metric boxplots and export aggregate statistics for the selected labels.
 
     Args:
-        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
-            the selected run root.
-        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
-            ROOT.
         variant (str): Metric variant to plot (e.g., average or worst_case).
         tiebreak (str): Tiebreak rule to plot (e.g., lex or random).
         n_cand_list (Sequence[int], optional): Candidate counts to include. Defaults to
             list(range(6, 10)).
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root. Defaults to None.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
     """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()

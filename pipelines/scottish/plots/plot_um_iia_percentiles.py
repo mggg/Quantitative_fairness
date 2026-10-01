@@ -164,8 +164,8 @@ def run_limited_line_plots(
         tiebreak (str, optional): Tiebreak suffix used in metric keys. Defaults to 'lex'.
         lineplot_subdir (str, optional): Subdirectory name under ``output_dir``. Defaults to
             'lineplot_by_voting_rule'.
-        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None, optional):
-            Optional overlay callback for each plot. Defaults to None.
+        overlay_fn (Callable[[Axes, str, str, str, list[float], list[float]], None] | None,
+            optional): Optional overlay callback for each plot. Defaults to None.
     """
     lineplot_dir = output_dir / lineplot_subdir
     lineplot_dir.mkdir(parents=True, exist_ok=True)
@@ -225,7 +225,7 @@ def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
 
     Args:
         stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
-            the selected run root.
+            the selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
     """

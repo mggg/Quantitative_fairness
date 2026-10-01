@@ -45,12 +45,13 @@ def load_profiles(
     """Load the profiles matching the selected candidate counts and bloc parameters.
 
     Args:
-        data_root (Path): Directory containing election inputs.
         n_a_cand (int): Number of A candidates.
         n_b_cand (int): Number of B candidates.
         b_prop (float): Proportion of B voters.
         a_coh (float): Cohesion of A voters.
         b_coh (float): Cohesion of B voters.
+        data_root (Path): Directory containing election inputs.
+        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
 
     Returns:
         dict[str, RankProfile]: A dictionary mapping file paths to RankProfiles.
@@ -90,7 +91,19 @@ def compute_slate_first_probability(r: int, s: int, rho: float) -> float:
 
 
 def load_profile_config(profile_path: Path) -> BlocSlateConfig:
-    """Load and validate the utility table and two-bloc parameters paired with a profile."""
+    """Load and validate the utility table and two-bloc parameters paired with a profile.
+
+    Args:
+        profile_path (Path): Profile CSV beneath the two-bloc preference_profiles directory tree.
+
+    Returns:
+        BlocSlateConfig: Voter counts, bloc parameters, and normalized intervals from paired inputs.
+
+    Raises:
+        FileNotFoundError: The profile CSV or its paired utility CSV is missing.
+        ValueError: Encoded parameters or the loaded configuration are invalid.
+        IndexError: The path lacks a required directory or parameter segment.
+    """
     relative_profile = profile_path.relative_to(profile_path.parents[2])
     utility_file = (
         profile_path.parents[3]
@@ -128,7 +141,18 @@ def load_profile_config(profile_path: Path) -> BlocSlateConfig:
 
 
 def compute_expected_b_proportion(config: BlocSlateConfig) -> float:
-    """Compute expected B representation, retaining integer truncation of the B voter count."""
+    """Compute expected B representation, retaining integer truncation of the B voter count.
+
+    Args:
+        config (BlocSlateConfig): Two-bloc configuration with bloc_1 representing A and bloc_2 B.
+
+    Returns:
+        float: Expected fraction of first-place votes for B, used as expected representation.
+
+    Raises:
+        KeyError: A required bloc, slate, or cohesion entry is absent.
+        ZeroDivisionError: A cohesion-derived denominator or total voter count is zero.
+    """
     n_voters = config.n_voters
     b_proportion = config.bloc_proportions["bloc_2"]
     a_cohesion = float(cast(float, config.cohesion_df.loc["bloc_1", "bloc_1"]))
@@ -156,6 +180,20 @@ def collect_profile_proportionality(
 
     Returns the historical file-to-rule mapping for JSON export. Each profile receives an
     independent seed before evaluating rules in the shared rule order.
+
+    Args:
+        file (str): Profile CSV path used to locate paired utilities and identify exported results.
+        profile (RankProfile): Loaded profile for evaluating three-seat elections.
+        seed (int, optional): Base seed for the profile's rule evaluations. Defaults to 0.
+
+    Returns:
+        dict[str, dict[str, dict[str, float]]]: Profile path mapped to each rule's expected and
+            observed B representation.
+
+    Raises:
+        FileNotFoundError: A required profile or utility CSV is missing.
+        ValueError: The configuration or a voting rule rejects the election inputs.
+        ZeroDivisionError: A cohesion-derived denominator, voter count, or winner count is zero.
     """
     profile_path = Path(file)
     seed_task(
@@ -222,16 +260,16 @@ def main(
     """Compute and save expected and observed bloc representation for one BT parameter setting.
 
     Args:
-        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
-        seed (int, optional): Base seed for task streams. Defaults to 0.
-        data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
-        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
-            ROOT.
         n_a_cand (int): Number of A candidates.
         n_b_cand (int): Number of B candidates.
         b_prop (float): Proportion of B voters.
         a_coh (float): Cohesion of A voters.
         b_coh (float): Cohesion of B voters.
+        data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+        n_jobs (int, optional): Number of parallel workers. Defaults to 1.
+        seed (int, optional): Base seed for task streams. Defaults to 0.
     """
     output_root = output_root.resolve()
     data_root = data_root.resolve()

@@ -12,7 +12,19 @@ SCOTTISH_REVISION = "304b0842b54f0fe89441757424106be8a991f57f"
 
 
 def extract_profiles(archive: Path, destination: Path) -> None:
-    """Extract into a temporary sibling and publish only a complete, new directory."""
+    """Extract into a temporary sibling and publish only a complete, new directory.
+
+    Args:
+        archive (Path): Compressed tar archive containing the preference_profiles directory.
+        destination (Path): New directory at which to publish the extracted profiles.
+
+    Raises:
+        FileExistsError: The destination exists before extraction or appears before publication.
+        ValueError: The archive contains unexpected paths or entry types, or contains no profile
+            CSVs.
+        tarfile.TarError: The archive cannot be read or an entry fails the extraction filter.
+        OSError: The archive cannot be opened or its files cannot be extracted or published.
+    """
     if destination.exists() or destination.is_symlink():
         raise FileExistsError(f"Preserving existing directory: {destination}")
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -34,6 +46,14 @@ def extract_profiles(archive: Path, destination: Path) -> None:
 
 
 def main() -> None:
+    """Retrieve the selected dataset using the command-line destination and provenance settings.
+
+    Raises:
+        SystemExit: CLI options, destination selection, or archived-input checks are invalid.
+        FileExistsError: A destination appears before the retrieved data can be published.
+        subprocess.CalledProcessError: Cloning or checking out the Scottish dataset fails.
+        OSError: A required input cannot be read or the retrieved data cannot be written.
+    """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset", choices=("bt", "scottish"))
     parser.add_argument("--destination", type=Path)

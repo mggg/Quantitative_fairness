@@ -112,14 +112,13 @@ def _zoom_limits(
 
     Args:
         values (list[float]): Nonempty observed score sequence.
-        lower_hint (float | None, optional): Additional lower bound to include before padding
-            and clipping. Defaults to None.
-        upper_hint (float | None, optional): Additional upper bound to include before padding
-            and clipping. Defaults to None.
-        min_span (float, optional): Minimum axis span before padding and clipping. Defaults to
-            0.08.
-        pad_fraction (float, optional): Fraction of the expanded span to add on each side.
-            Defaults to 0.08.
+        lower_hint (float | None, optional): Additional lower bound to include before padding and
+            clipping. Defaults to None.
+        upper_hint (float | None, optional): Additional upper bound to include before padding and
+            clipping. Defaults to None.
+        min_span (float, optional): Minimum axis span before padding and clipping. Defaults to 0.08.
+        pad_fraction (float, optional): Fraction of the expanded span to add on each side. Defaults
+            to 0.08.
 
     Returns:
         tuple[float, float]: Padded lower and upper axis limits clipped to [-0.05, 1.05].
@@ -159,8 +158,9 @@ def make_bootstrap_overlay(
     """Create a callback that draws selected bootstrap rectangles, means, and zoomed limits.
 
     Args:
-        rectangle_lookup (dict[tuple[str, str, str, int | None], tuple[float, float, float, float]]):
-            Bounds (um_L, um_U, iia_L, iia_U) keyed by rule, UM key, IIA key, and candidate size.
+        rectangle_lookup (dict[tuple[str, str, str, int | None], tuple[float, float, float,
+            float]]): Bounds (um_L, um_U, iia_L, iia_U) keyed by rule, UM key, IIA key, and
+            candidate size.
         candidate_size (int | None, optional): Candidate count to select; None selects pooled
             rectangle rows. Defaults to None.
 
@@ -239,8 +239,8 @@ def run_limited_scatter_plots_by_candidate_count_with_bootstrap(
         variant_um (str): UM variant suffix used for filenames.
         variant_iia (str): IIA variant suffix used for filenames.
         tiebreak (str): Tiebreak suffix used in metric keys.
-        rectangle_lookup (dict[tuple[str, str, str, int | None], tuple[float, float, float, float]]):
-            Rectangle lookup keyed by ``(rule, um_key, iia_key, candidate_size)``.
+        rectangle_lookup (dict[tuple[str, str, str, int | None], tuple[float, float, float,
+            float]]): Rectangle lookup keyed by ``(rule, um_key, iia_key, candidate_size)``.
     """
     base_dir = output_dir / "scatter_by_voting_rule_with_bootstrap"
     sns.set_theme(style="ticks", context="notebook", font="serif", font_scale=1.2)
@@ -299,9 +299,9 @@ def main(
 
     Args:
         stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
-            the selected run root.
+            the selected run root. Defaults to None.
         bootstrap_root (Path | None, optional): Directory containing bootstrap interval CSVs. None
-            uses the selected run root.
+            uses the selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
     """

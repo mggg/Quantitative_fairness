@@ -37,13 +37,13 @@ def load_paired_metrics(
     """Load IIA scores and their corresponding ASIN UM scores from matching profile settings.
 
     Args:
-        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
-        bt_stats_root (Path): Exact two-bloc BT statistics tree.
         metric (str): IIA metric identifier; the UM counterpart is derived from its name.
         voting_rule (str): Voting rule name used to select statistics.
         iia_variant (str): IIA aggregation variant used to match filenames.
         um_variant (str): UM aggregation variant used to derive paired filenames.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
+        bt_stats_root (Path): Exact two-bloc BT statistics tree.
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
 
     Returns:
         tuple[list[float], list[float]]: IIA scores followed by UM scores. File and observation
@@ -91,11 +91,11 @@ def plot_rule_comparison(
     """Save worst-case UM versus average IIA scores for one rule with lexicographic tiebreaks.
 
     Args:
-        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
-        bt_stats_root (Path): Exact two-bloc BT statistics tree.
-        output_root (Path): Run root containing stats, plots, and tables.
         metric (str): Metric identifier used in the statistics filenames.
         voting_rule (str): Voting rule name used to select statistics.
+        bt_stats_root (Path): Exact two-bloc BT statistics tree.
+        output_root (Path): Run root containing stats, plots, and tables.
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
     """
     plots_dir = output_root / "plots" / "bt_plots" / "um_vs_iia_plots"
 
@@ -171,11 +171,11 @@ def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats
     """Save the configured BT UM-versus-IIA scatterplots for each voting rule.
 
     Args:
-        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
         bt_stats_root (Path | None, optional): Exact two-bloc BT statistics tree. None uses the
-            selected run root.
+            selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
             ROOT.
+        n_seats (int, optional): Seat count in the selected BT experiment. Defaults to 3.
     """
     output_root = output_root.resolve()
     bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()

@@ -40,12 +40,12 @@ def run_portland_short_bursts(
     """Run the short burst algorithm on the given Portland profile.
 
     Args:
-        data_root (Path): Directory containing election inputs.
         profile_number (int): The number of the profile to run the algorithm on.
         n_clusters (int, optional): The number of clusters to use. Defaults to 2.
         burst_length (int, optional): The length of each burst. Defaults to 5.
         n_bursts (int, optional): The number of bursts to run. Defaults to 200.
         rng_seed (int, optional): Seed for initialization and all search proposals. Defaults to 42.
+        data_root (Path): Directory containing election inputs.
 
     Returns:
         ClusteringResult: Best assignment, score, boost matrix, and
@@ -99,6 +99,16 @@ def verify_clustering_stability(
     """Require 1,000 restart trials to retain the score and partition up to label permutation.
 
     This is an empirical stability diagnostic, not a proof of global optimality.
+
+    Args:
+        result (ClusteringResult): Assignment, modularity score, and boost matrix to verify.
+        n_clusters (int): Number of clusters used by each restart trial.
+        burst_length (int): Number of local-search steps per burst.
+        n_bursts (int): Number of bursts per restart trial.
+
+    Raises:
+        RuntimeError: A trial changes the score or partition beyond a cluster-label permutation.
+        ValueError: No cluster has enough candidates to allow a proposal.
     """
     expected_partition = np.equal.outer(result.assignment, result.assignment)
     for trial in tqdm(range(1000)):
@@ -120,6 +130,7 @@ def main(show_viz: bool = False, *, data_root: Path = ROOT / "data") -> None:
     """Run Portland district 3 clustering and optionally display the resulting partition.
 
     Args:
+        show_viz (bool, optional): Display the resulting candidate partition. Defaults to False.
         data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
     """
     result = run_portland_short_bursts(3, data_root=data_root)

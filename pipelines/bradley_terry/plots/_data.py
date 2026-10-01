@@ -88,11 +88,14 @@ def find_metric_files(
         n_seats (int, optional): Seat count. Defaults to 3.
         rule (str | None, optional): Voting rule; None includes all rules. Defaults to None.
         tiebreak (str, optional): Tie-breaking method. Defaults to 'lex'.
-        candidate_counts (tuple[int, int] | None, optional): Bloc sizes; None includes all.
-        bloc_proportion (float | None, optional): B-bloc proportion; None includes all.
-        alpha (tuple[float, float, float, float] | None, optional): Dirichlet parameters;
-            None includes all combinations.
-        cohesion (tuple[float, float] | None, optional): Bloc cohesions; None includes all.
+        candidate_counts (tuple[int, int] | None, optional): Bloc sizes; None includes all. Defaults
+            to None.
+        bloc_proportion (float | None, optional): B-bloc proportion; None includes all. Defaults to
+            None.
+        alpha (tuple[float, float, float, float] | None, optional): Dirichlet parameters; None
+            includes all combinations. Defaults to None.
+        cohesion (tuple[float, float] | None, optional): Bloc cohesions; None includes all. Defaults
+            to None.
 
     Returns:
         list[str]: Matching paths in sorted order. The printed selection identifies their source.
