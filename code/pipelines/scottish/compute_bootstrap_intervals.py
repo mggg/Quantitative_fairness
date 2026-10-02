@@ -626,9 +626,6 @@ def main(
     """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()
-    print(f"Statistics: {stats_root}")
-    print(f"Output root: {output_root}")
-    print(f"Seed: {seed}")
 
     # Defaults chosen to match the bootstrap notebook experiments.
     ci_metrics = [

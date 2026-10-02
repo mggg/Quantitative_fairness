@@ -469,11 +469,6 @@ def main(
     if n_jobs < 1:
         raise ValueError("n_jobs must be positive")
 
-    print(f"Output root: {output_root}")
-    print(f"Seed: {seed}")
-    print(f"Workers: {n_jobs}")
-    print(f"Seats: {n_seats}")
-
     input_folders = load_profile_folders(settings_file)
     plan = plan_collection(
         input_folders, n_seats, election_type, tiebreak, profile_batch_size, output_root=output_root

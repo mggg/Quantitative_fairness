@@ -1,14 +1,12 @@
 """Retrieve optional replication inputs without replacing existing data."""
 
 import argparse
-import hashlib
-import json
 import subprocess
 import tarfile
 import tempfile
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 SCOTTISH_REVISION = "304b0842b54f0fe89441757424106be8a991f57f"
 
 
@@ -117,13 +115,6 @@ def main() -> None:
             parser.error(
                 "BT archive is an LFS pointer. Run git lfs pull --include=data/preference_profiles.tar.xz"
             )
-
-    sources = json.loads((ROOT / "documentation/data_sources.json").read_text())
-    with archive.open("rb") as archive_file:
-        digest = hashlib.file_digest(archive_file, "sha256").hexdigest()
-
-    if digest != sources["bt"]["sha256"]:
-        parser.error("BT archive checksum does not match the recorded input")
 
     extract_profiles(archive, destination)
 

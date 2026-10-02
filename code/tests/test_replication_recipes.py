@@ -36,7 +36,7 @@ def test_shell_runners_resolve_the_project_from_another_directory(
     monkeypatch.setenv("PATH", f"{tmp_path}:/usr/bin:/bin")
 
     result = subprocess.run(
-        ["bash", str(ROOT / f"code/scripts/run_{dataset}_pipeline.sh"), "--dry-run"],
+        ["bash", str(ROOT / f"scripts/run_{dataset}_pipeline.sh"), "--dry-run"],
         cwd=tmp_path,
         capture_output=True,
         text=True,
@@ -49,7 +49,7 @@ def test_shell_runners_resolve_the_project_from_another_directory(
         str(ROOT),
         "--locked",
         "python",
-        str(ROOT / "code/scripts/replicate.py"),
+        str(ROOT / "scripts/replicate.py"),
         dataset,
         "--dry-run",
     ]

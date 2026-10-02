@@ -215,8 +215,6 @@ def main(
             'linear'.
     """
     output_root = output_root.resolve()
-    print(f"Output root: {output_root}")
-    print(f"Seats: {n_seats}")
 
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")

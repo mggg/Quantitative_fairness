@@ -28,15 +28,13 @@ geography = ["geopandas==1.1.4"]
 
 [dependency-groups]
 dev = [
-    "black>=26.1.0",
-    "isort>=7.0.0",
     "ruff>=0.15.0",
     "ty>=0.0.15",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["code/tests"]
-pythonpath = ["code"]
+pythonpath = [".", "code"]
 
 [tool.ruff]
 line-length = 100

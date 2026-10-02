@@ -5,9 +5,9 @@ Compare these optima with the assignments found by heuristic optimization.
 
 import argparse
 import sys
-from math import comb
+from collections.abc import Iterator
+from itertools import product
 from pathlib import Path
-from typing import Self
 
 import numpy as np
 
@@ -18,140 +18,22 @@ from pipelines.portland.clustering.modularity import compute_modularity  # noqa:
 from voting_metrics_main_code.replication import ROOT
 
 
-class PartitionAssignments:
-    """Iterate over candidate assignments with optional trivial-vector and required-parts filters.
+def iter_partition_assignments(n_cands: int, n_parts: int) -> Iterator[tuple[int, ...]]:
+    """Yield candidate assignments using every cluster label, in lexicographic order.
 
-    Assignments have n_cands entries with labels from 0 through k_parts - 1.
+    Raises:
+        ValueError: Candidate count is below one or the number of parts is below two.
     """
+    if n_cands < 1:
+        raise ValueError("n_cands must be >= 1")
+    if n_parts < 2:
+        raise ValueError("n_parts must be >= 2")
 
-    def __init__(
-        self,
-        n_cands: int,
-        k_parts: int,
-        *,
-        exclude_trivial: bool = True,
-        require_all_parts_used: bool = True,
-    ) -> None:
-        """Initialize the generator.
-
-        Args:
-            n_cands (int): The number of candidates (length of vectors).
-            k_parts (int): The number of parts (labels 0..k-1).
-            exclude_trivial (bool, optional): If True, skip vectors where all entries are the same.
-                Defaults to True.
-            require_all_parts_used (bool, optional): If True, only yield vectors that use all k
-                parts at least once. Defaults to True.
-
-        Raises:
-            ValueError: n_cands is below one or k_parts is below two.
-        """
-        if n_cands <= 0:
-            raise ValueError("n_cands must be >= 1")
-
-        if k_parts <= 1:
-            raise ValueError("k_parts must be >= 2")
-
-        self.n_cands = n_cands
-        self.k_parts = k_parts
-        self.exclude_trivial = exclude_trivial
-        self.require_all_parts_used = require_all_parts_used
-
-        self.max_val = k_parts**n_cands  # count of all vectors
-        self.current = 0
-
-    def __iter__(self) -> Self:
-        """Return this stateful iterator without resetting its current position.
-
-        Returns:
-            Self: This iterator at its current position.
-        """
-        return self
-
-    def _to_base_k_vec(self, x: int) -> list[int]:
-        """Convert an integer x to a length-n_cands vector of digits in base k_parts.
-
-        For example, if n_cands=3 and k_parts=2, then x=5 would convert to [1,0,1] since 5 in
-        base 2 is 101.
-
-        Args:
-            x (int): The integer to convert, in the range [0, k_parts**n_cands).
-
-        Returns:
-            list[int]: Base-k digits in most-significant-first order, padded to n_cands entries.
-        """
-        vec = [0] * self.n_cands
-        k = self.k_parts
-
-        for i in range(self.n_cands - 1, -1, -1):
-            x, r = divmod(x, k)
-            vec[i] = r
-
-        return vec
-
-    def _accept(self, vec: list[int]) -> bool:
-        """Check an assignment against the trivial-vector and required-parts filters.
-
-        Args:
-            vec (list[int]): The vector to check, should be of length n_cands with entries in
-                0..k_parts-1.
-
-        Returns:
-            bool: Whether the assignment satisfies both configured filtering rules.
-        """
-        if self.exclude_trivial:
-            # skip constant vectors like [0,0,0] or [2,2,2]
-            if all(v == vec[0] for v in vec):
-                return False
-
-        if self.require_all_parts_used:
-            # ensure every label 0..k-1 appears at least once
-            if len(set(vec)) < self.k_parts:
-                return False
-
-        return True
-
-    def __next__(self) -> list[int]:
-        """Advance to the next assignment satisfying the configured filtering rules.
-
-        Returns:
-            list[int]: Next accepted candidate-label vector in base-k counting order.
-
-        Raises:
-            StopIteration: All k_parts**n_cands assignments have been considered.
-        """
-        while self.current < self.max_val:
-            vec = self._to_base_k_vec(self.current)
-            self.current += 1
-
-            if self._accept(vec):
-                return vec
-
-        raise StopIteration
-
-    def __len__(self) -> int:
-        """Count all accepted assignments, including any already consumed.
-
-        Returns:
-            int: Total assignments satisfying the configured filtering rules.
-        """
-        k, n = self.k_parts, self.n_cands
-
-        if self.require_all_parts_used:
-            # number of surjections onto k labeled parts:
-            # sum_{i=0..k} (-1)^i * C(k,i) * (k-i)^n
-            total = 0
-
-            for i in range(0, k + 1):
-                total += ((-1) ** i) * comb(k, i) * ((k - i) ** n)
-
-            return total
-        else:
-            total = k**n
-
-            if self.exclude_trivial:
-                total -= k
-
-            return total
+    return (
+        assignment
+        for assignment in product(range(n_parts), repeat=n_cands)
+        if len(set(assignment)) == n_parts
+    )
 
 
 def main(*, data_root: Path = ROOT / "data") -> None:
@@ -161,7 +43,6 @@ def main(*, data_root: Path = ROOT / "data") -> None:
         data_root (Path, optional): Directory containing election inputs. Defaults to ROOT / "data".
     """
     data_root = data_root.resolve()
-    print(f"Data: {data_root}")
 
     for n_parts in range(2, 5):
         print("=" * 50)
@@ -176,7 +57,7 @@ def main(*, data_root: Path = ROOT / "data") -> None:
             max_score = float("-inf")
             best_vec = None
 
-            for vec in PartitionAssignments(len(cands), n_parts):
+            for vec in iter_partition_assignments(len(cands), n_parts):
                 modularity = compute_modularity(boost, np.asarray(vec))
 
                 if modularity > max_score:

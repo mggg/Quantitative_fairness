@@ -42,8 +42,8 @@ def create_modularity_matrix_plot(
         centered (bool, optional): Whether to center the colormap around zero. Defaults to False.
         log_scale (bool, optional): Use symmetric log scaling when centered is True. Defaults to
             False.
-        ax (Axes | None, optional): Axes to draw into; None creates a new figure and axes. Defaults
-            to None.
+        ax (Axes | None, optional): Axes to draw into; None creates a new figure and axes.
+            Defaults to None.
 
     Returns:
         Axes: Axes containing the matrix image and an attached figure colorbar.
@@ -137,10 +137,10 @@ def backward_convert(array: NDArray, canonical_candidates: list[str]) -> list[li
     """Convert a numpy array back into a partition (list of lists).
 
     Args:
-        array (NDArray): A 1D array of community labels for each candidate, where the value at index
-            j indicates the community assignment of candidate j.
-        canonical_candidates (list[str]): A list of candidate names corresponding to the indices in
-            `array`.
+        array (NDArray): A 1D array of community labels for each candidate, where the value at
+            index j indicates the community assignment of candidate j.
+        canonical_candidates (list[str]): A list of candidate names corresponding to the indices
+            in `array`.
 
     Returns:
         list[list[str]]: Candidate blocks in ascending integer-label order. Missing labels produce
@@ -166,8 +166,8 @@ def _is_partition_blocks(
         partition (Sequence[object]): Candidate blocks or a flat sequence of community labels.
 
     Returns:
-        TypeGuard[Sequence[Sequence[str]]]: True for a nonempty sequence whose first item is a list,
-            tuple, set, or frozenset; later elements and their contents are not checked.
+        TypeGuard[Sequence[Sequence[str]]]: True for a nonempty sequence whose first item is a
+            list, tuple, set, or frozenset; later elements and their contents are not checked.
     """
     if len(partition) == 0:
         return False
@@ -185,14 +185,14 @@ def viz_partition(
     """Visualize the boost matrix reordered according to a given partition.
 
     Args:
-        partition (list[list[str]] | NDArray[np.integer] | Sequence[int]): A partition of candidates
-            into blocks. Can be provided as:
+        partition (list[list[str]] | NDArray[np.integer] | Sequence[int]): A partition of
+            candidates into blocks. Can be provided as:
             - A list of lists of candidate names (explicit blocks).
             - A 1D integer array of community labels (one per candidate).
             - A sequence of integer labels (one per candidate).
         boost (NDArray): The boost matrix to visualize.
-        candidates (list[str]): The list of candidate names corresponding to the order of the boost
-            matrix.
+        candidates (list[str]): The list of candidate names corresponding to the order of the
+            boost matrix.
         cmap (str, optional): Colormap to use for visualization. Defaults to 'PRGn'.
         centered (bool, optional): Whether to center the colormap around zero. Defaults to False.
     """

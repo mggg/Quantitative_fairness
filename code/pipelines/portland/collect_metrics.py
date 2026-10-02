@@ -72,9 +72,6 @@ def main(*, data_root: Path = ROOT / "data", output_root: Path = ROOT, seed: int
     """
     output_root = output_root.resolve()
     data_root = data_root.resolve()
-    print(f"Data: {data_root}")
-    print(f"Output root: {output_root}")
-    print(f"Seed: {seed}")
 
     output_folder = (output_root / "stats/portland_stats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)

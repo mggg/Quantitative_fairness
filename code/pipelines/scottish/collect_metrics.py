@@ -155,10 +155,6 @@ def main(
     data_root = data_root.resolve()
     if n_jobs < 1:
         raise ValueError("n_jobs must be positive")
-    print(f"Data: {data_root}")
-    print(f"Output root: {output_root}")
-    print(f"Seed: {seed}")
-    print(f"Workers: {n_jobs}")
 
     stats_dir = (output_root / "stats/scottish_stats").resolve()
     stats_dir.mkdir(parents=True, exist_ok=True)

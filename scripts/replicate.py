@@ -7,7 +7,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "code"))
 
 from voting_metrics_main_code.constants import RULE_ORDER  # noqa: E402
 from voting_metrics_main_code.replication import ROOT  # noqa: E402
@@ -118,7 +118,7 @@ def build_recipe_commands(args: argparse.Namespace) -> list[list[str]]:
             commands.append(["code/pipelines/scottish/plots/plot_um_iia_scatter.py", *figures])
             commands.append(["code/pipelines/scottish/export_metric_tables.py", *figures])
         else:
-            commands.append(["code/scripts/export_tables.py", args.dataset, *figures])
+            commands.append(["scripts/export_tables.py", args.dataset, *figures])
             if args.dataset == "portland":
                 commands.append(
                     [

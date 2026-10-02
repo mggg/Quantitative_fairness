@@ -17,7 +17,11 @@ from pipelines.bradley_terry.plots._metrics import (
 )
 from voting_metrics_main_code.replication import ROOT
 
-colors = ["#FB607F", "#A76BCF", "#FB8B24"]
+BRINK_PINK = "#FB607F"
+RICH_LAVENDER = "#A76BCF"
+CADMIUM_ORANGE = "#FB8B24"
+
+colors = [BRINK_PINK, RICH_LAVENDER, CADMIUM_ORANGE]
 
 
 metric_to_plot_name = {
@@ -42,9 +46,6 @@ def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats
     """
     output_root = output_root.resolve()
     bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()
-    print(f"BT statistics: {bt_stats_root}")
-    print(f"Output root: {output_root}")
-    print(f"Seats: {n_seats}")
 
     plots_dir = output_root / "plots" / "bt_plots" / "mean_vs_var"
 

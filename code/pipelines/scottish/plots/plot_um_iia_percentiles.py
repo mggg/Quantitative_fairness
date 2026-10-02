@@ -231,8 +231,6 @@ def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
     """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()
-    print(f"Statistics: {stats_root}")
-    print(f"Output root: {output_root}")
 
     ordered_rules = [
         "3-approval",

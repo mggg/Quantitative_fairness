@@ -273,8 +273,6 @@ def main(
     """
     output_root = output_root.resolve()
     data_root = data_root.resolve()
-    print(f"Data: {data_root}")
-    print(f"Output root: {output_root}")
 
     output_file = (
         output_root

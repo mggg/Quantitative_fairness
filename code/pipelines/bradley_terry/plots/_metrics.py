@@ -1,4 +1,4 @@
-"""Metric lists and variants used across BT plotting scripts."""
+"""Metric and interpolation selections used across BT plotting scripts."""
 
 um_metric_list = [
     "sigma_UM",
@@ -11,15 +11,6 @@ iia_metric_list = [
     "sigma_IIA_winner_set",
     # "sigma_IIA_winner_set_all_subset",
 ]
-
-
-metric_list = um_metric_list + iia_metric_list
-
-variant_list = [
-    "average",
-    "worst_case",
-]
-
 
 interpolation_type_list = [
     "asin",

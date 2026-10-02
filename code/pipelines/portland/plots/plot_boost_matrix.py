@@ -170,24 +170,6 @@ def plot_boost(
 
     assert matrix is not None, "Matrix should be defined at this point"
 
-    def first_initial_last(name: str) -> str:
-        """Convert a candidate name to a first-initial-last format.
-
-        Args:
-            name (str): Candidate name in "First Last" format.
-
-        Returns:
-            str: Candidate name in "F. Last" format.
-        """
-        parts = name.split()
-        if len(parts) < 2:
-            return name
-        first_initial = parts[0][0] + "."
-        last_name = " ".join(parts[1:])
-        return f"{first_initial} {last_name}"
-
-    # candidates = list(map(first_initial_last, candidates))
-
     fig = plt.figure(figsize=(8, 8), dpi=300, layout="none")
     ax = fig.add_axes((0, 0, 1, 1))
     ax = sns.heatmap(

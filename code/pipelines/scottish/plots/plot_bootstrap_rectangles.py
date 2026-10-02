@@ -76,8 +76,6 @@ def main(*, bootstrap_root: Path | None = None, output_root: Path = ROOT) -> Non
     """
     output_root = output_root.resolve()
     bootstrap_root = (bootstrap_root or output_root / "stats/scottish_stats/bootstrap").resolve()
-    print(f"Bootstrap intervals: {bootstrap_root}")
-    print(f"Output root: {output_root}")
 
     df = pd.read_csv(
         bootstrap_root / "bootstrap_rectangles_sigma_IIA_average_vs_sigma_UM_worst_case_asin.csv"

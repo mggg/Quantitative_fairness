@@ -1,20 +1,21 @@
 # Pipeline index
 
-Start with the dataset runners in [`code/scripts/`](../scripts) for the primary replication workflow.
-Within each dataset, `collect_metrics.py` computes statistics, `plots/plot_*.py` renders figures,
-and other filenames describe the computation or export they perform. The tables below list the
-retained analyses; the runners execute only the primary subset indicated here.
+Start with the dataset runners in [`scripts/`](../../scripts) for the primary replication
+workflow. Within each dataset, `collect_metrics.py` computes statistics, `plots/plot_*.py` renders
+figures, and other filenames describe the computation or export they perform. The tables below
+list the retained analyses; the runners execute only the primary subset indicated here.
 
-| Dataset                  | Primary runner                                                    | Collector                                                              |
-| ------------------------ | ----------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| New York                 | [`run_ny_pipeline.sh`](../scripts/run_ny_pipeline.sh)             | [`new_york/collect_metrics.py`](new_york/collect_metrics.py)           |
-| Portland                 | [`run_portland_pipeline.sh`](../scripts/run_portland_pipeline.sh) | [`portland/collect_metrics.py`](portland/collect_metrics.py)           |
-| Scotland                 | [`run_scottish_pipeline.sh`](../scripts/run_scottish_pipeline.sh) | [`scottish/collect_metrics.py`](scottish/collect_metrics.py)           |
-| Bradley–Terry, two blocs | [`run_bt_pipeline.sh`](../scripts/run_bt_pipeline.sh)             | [`bradley_terry/collect_metrics.py`](bradley_terry/collect_metrics.py) |
+| Dataset                  | Primary runner                                                       | Collector                                                              |
+| ------------------------ | -------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| New York                 | [`run_ny_pipeline.sh`](../../scripts/run_ny_pipeline.sh)             | [`new_york/collect_metrics.py`](new_york/collect_metrics.py)           |
+| Portland                 | [`run_portland_pipeline.sh`](../../scripts/run_portland_pipeline.sh) | [`portland/collect_metrics.py`](portland/collect_metrics.py)           |
+| Scotland                 | [`run_scottish_pipeline.sh`](../../scripts/run_scottish_pipeline.sh) | [`scottish/collect_metrics.py`](scottish/collect_metrics.py)           |
+| Bradley–Terry, two blocs | [`run_bt_pipeline.sh`](../../scripts/run_bt_pipeline.sh)             | [`bradley_terry/collect_metrics.py`](bradley_terry/collect_metrics.py) |
 
-The Portland runner also generates boost matrices. NY and Portland export tables through [`export_tables.py`](../scripts/export_tables.py).
-The Scottish runner renders UM–IIA scatterplots and exports metric tables. The BT runner renders
-UM–IIA scatterplots. Supplementary BT boxplots and sweeps are indexed in the
+The Portland runner also generates boost matrices. NY and Portland export tables through
+[`export_tables.py`](../../scripts/export_tables.py). The Scottish runner renders UM–IIA
+scatterplots and exports metric tables. The BT runner renders UM–IIA scatterplots. Supplementary
+BT boxplots and sweeps are indexed in the
 [archive guide](../archive/pipelines/bradley_terry/README.md).
 
 ## Scottish analyses
@@ -36,8 +37,8 @@ not produce. Their CSV stage fails if those inputs are absent. Use `plot_metric_
 `export_metric_tables.py` when working only with primary collector outputs. Bootstrap plotters
 need the interval CSVs produced by `compute_bootstrap_intervals.py`.
 
-The Scottish plotters share [`_data.py`](scottish/plots/_data.py) for loading metric JSONs
-by rule, candidate count, variant, and tiebreak.
+The Scottish plotters share [`_data.py`](scottish/plots/_data.py) for loading metric JSONs by
+rule, candidate count, variant, and tiebreak.
 
 ## Bradley–Terry analyses
 
@@ -46,24 +47,24 @@ The top-level BT collector reads the two-bloc folders listed in `code/config/bt_
 the [archived alpha plotter](../archive/pipelines/bradley_terry/plots/plot_alpha_boxplots.py)
 renders the pooled distributions. Neither step reruns elections.
 
-The individual-metric collectors share [`_metrics.py`](bradley_terry/_metrics.py) to bind
-metric parameters. Metric settings distinguish UM interpolation from IIA aggregation.
+The individual-metric collectors share [`_metrics.py`](bradley_terry/_metrics.py) to bind metric
+parameters. Metric settings distinguish UM interpolation from IIA aggregation.
 
-| File                                                                                           | Purpose                                                                            |
-| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| [`generate_profiles.py`](bradley_terry/generate_profiles.py)                                   | Generate the two-bloc profile grid and matching utilities                          |
-| [`collect_single_folder_metrics.py`](bradley_terry/collect_single_folder_metrics.py)           | Compute one selected metric for a two-bloc folder using `--input-folder`           |
-| [`compute_proportionality.py`](bradley_terry/compute_proportionality.py)                       | Compute representation diagnostics using profiles and their utility files          |
-| [`plot_um_iia_scatter.py`](bradley_terry/plots/plot_um_iia_scatter.py)                         | UM–IIA comparisons; used by the runner                                             |
-| [`plot_um_mean_vs_variance.py`](bradley_terry/plots/plot_um_mean_vs_variance.py)               | UM mean versus variance, split by interpolation                                    |
-| [`plot_proportionality_waterfall.py`](bradley_terry/plots/plot_proportionality_waterfall.py)   | Representation shortfalls from proportionality JSONs                               |
-| [`pool_alpha_metrics.py`](bradley_terry/pool_alpha_metrics.py)                                 | Pool saved BT scores into `stats/bt_alpha_grouped`, retaining source filenames     |
+| File                                                                                         | Purpose                                                                        |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| [`generate_profiles.py`](bradley_terry/generate_profiles.py)                                 | Generate the two-bloc profile grid and matching utilities                      |
+| [`collect_single_folder_metrics.py`](bradley_terry/collect_single_folder_metrics.py)         | Compute one selected metric for a two-bloc folder using `--input-folder`       |
+| [`compute_proportionality.py`](bradley_terry/compute_proportionality.py)                     | Compute representation diagnostics using profiles and their utility files      |
+| [`plot_um_iia_scatter.py`](bradley_terry/plots/plot_um_iia_scatter.py)                       | UM–IIA comparisons; used by the runner                                         |
+| [`plot_um_mean_vs_variance.py`](bradley_terry/plots/plot_um_mean_vs_variance.py)             | UM mean versus variance, split by interpolation                                |
+| [`plot_proportionality_waterfall.py`](bradley_terry/plots/plot_proportionality_waterfall.py) | Representation shortfalls from proportionality JSONs                           |
+| [`pool_alpha_metrics.py`](bradley_terry/pool_alpha_metrics.py)                               | Pool saved BT scores into `stats/bt_alpha_grouped`, retaining source filenames |
 
-BT plotting helpers are [`_metrics.py`](bradley_terry/plots/_metrics.py),
-[`_palettes.py`](bradley_terry/plots/_palettes.py), and
-[`_data.py`](bradley_terry/plots/_data.py), which loads arrays and summary points in file order.
-They are imported by plotters and are not standalone commands. Archived broad sweeps require
-more metric variants than the primary runner computes. See the [replication guide](../../documentation/replication.md) for input layouts and limitations.
+BT plotting helpers are [`_metrics.py`](bradley_terry/plots/_metrics.py), which lists metric
+selections, and [`_data.py`](bradley_terry/plots/_data.py), which loads arrays and summary points
+in file order. They are imported by plotters and are not standalone commands. Archived broad
+sweeps require more metric variants than the primary runner computes. See the
+[replication guide](../../documentation/replication.md) for input layouts and limitations.
 
 ## Portland and cross-dataset analyses
 
@@ -76,11 +77,12 @@ more metric variants than the primary runner computes. See the [replication guid
 | [`partition_visualization.py`](portland/clustering/partition_visualization.py)   | Plotting helpers for candidate partitions                                                 |
 | [`plot_m_statistic_histograms.py`](cross_dataset/plot_m_statistic_histograms.py) | BT and Scottish histogram functions; direct execution renders BT at B-bloc proportion 0.7 |
 
-The clustering workflows share [`load_profile.py`](portland/clustering/load_profile.py) for profile
-loading and viable-candidate projection. Short-burst search and restart verification are separate
-operations; the CLI runs both.
+The clustering workflows share [`load_profile.py`](portland/clustering/load_profile.py) for
+profile loading and viable-candidate projection. Short-burst search and restart verification are
+separate operations; the CLI runs both.
 
-The Portland runner executes clustering only with `--diagnostics`. These searches can be expensive.
+The Portland runner executes clustering only with `--diagnostics`. These searches can be
+expensive.
 
 ## Running an individual plotter
 
@@ -99,16 +101,12 @@ and skips a sample if either its profile or preference interval dataframe exists
 before regenerating that pair. Figures, exported tables, and bootstrap summaries may overwrite
 existing derived files.
 
-Use `--stats-dir`, `--bt-stats-dir`, and `--bootstrap-dir` to select inputs and `--output-dir`
-to choose a run root containing `stats/`, `plots/`, and `tables/`. Inputs default to the selected
-run root's statistics. All executable workflows support `--help`; importing modules does not run
-analyses. The [replication guide](../../documentation/replication.md) contains ordered commands and prerequisites
-for the primary recipes and additional analyses. `replicate.py --dry-run` prints its full recipe.
+Use `--stats-dir`, `--bt-stats-dir`, and `--bootstrap-dir` to select inputs and `--output-dir` to
+choose a run root containing `stats/`, `plots/`, and `tables/`. Inputs default to the selected run
+root's statistics. All executable workflows support `--help`; importing modules does not run
+analyses. The [replication guide](../../documentation/replication.md) contains ordered commands
+and prerequisites for the primary recipes and additional analyses. `replicate.py --dry-run` prints
+its full recipe.
 
-BT plotters expose `--n-seats` and share a selector in `_data.py` that reports the requested
-experiment and matched files.
-Boost plotting reads the requested CSV by default; `--cache-dir` enables content-matched caching.
-
-The BT runner was renamed from `run_2_bloc_BT_pipeline.sh` to `run_bt_pipeline.sh`. The primary
-BT collector is now `bradley_terry/collect_metrics.py`, replacing the `final_set_v2` filename.
-Dataset directories use lowercase names; old `NY/` paths now live under `new_york/`.
+BT plotters expose `--n-seats`. Boost plotting reads the requested CSV by default; `--cache-dir`
+enables content-matched caching.

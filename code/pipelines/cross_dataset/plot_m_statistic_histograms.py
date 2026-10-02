@@ -193,8 +193,6 @@ def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats
     """
     output_root = output_root.resolve()
     bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()
-    print(f"BT statistics: {bt_stats_root}")
-    print(f"Output root: {output_root}")
 
     for rule in rule_color_map:
         # make_scottish_M_histogram(rule)

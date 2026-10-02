@@ -6,7 +6,7 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "code"))
 
 from voting_metrics_main_code.replication import ROOT
 
@@ -27,7 +27,6 @@ def main(dataset: str, stats_root: Path | None = None, output_root: Path = ROOT)
     """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()
-    print(f"Statistics: {stats_root}; output root: {output_root}")
 
     rows = []
     for path in sorted((stats_root / f"{dataset}_stats").glob("*_output.json")):

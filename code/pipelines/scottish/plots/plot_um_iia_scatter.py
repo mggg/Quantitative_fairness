@@ -3,7 +3,6 @@
 import argparse
 import sys
 from collections.abc import Callable, Mapping, Sequence
-from itertools import product
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -23,9 +22,6 @@ from voting_metrics_main_code.constants import (
 )
 from voting_metrics_main_code.constants import (
     RULE_COLORS as rule_color_map,
-)
-from voting_metrics_main_code.constants import (
-    RULE_LABELS as titles,
 )
 from voting_metrics_main_code.replication import ROOT
 
@@ -140,7 +136,7 @@ def draw_limited_scatter_base(
         color (str): Point color.
         voting_rule (str): Voting rule name used to choose tick-label font sizes.
     """
-    ax.scatter(x_data, y_data, color=color, s=100, alpha=0.4, edgecolor="none")
+    ax.scatter(x_data, y_data, color=color, alpha=1.0, edgecolor="none")
     # ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
 
     # ax.set_xlim(-0.05, 1.05)
@@ -242,133 +238,6 @@ def create_limited_scatter_plot(
     plt.close(fig)
 
 
-def create_full_scatter_plot(
-    outputs_by_election_type: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
-    voting_rule: str,
-    um_key: str,
-    iia_key: str,
-    um_label: str,
-    iia_label: str,
-    output_path: Path,
-    plot_title: str,
-) -> None:
-    """Create and save a UM-versus-IIA scatterplot with a title and axis labels.
-
-    Args:
-        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested
-            metric values by rule and candidate count.
-        voting_rule (str): Rule to plot.
-        um_key (str): X-axis metric key.
-        iia_key (str): Y-axis metric key.
-        um_label (str): X-axis label.
-        iia_label (str): Y-axis label.
-        output_path (Path): Output image path.
-        plot_title (str): Plot title text.
-    """
-    sns.set_theme(style="ticks", context="notebook", font="serif", font_scale=1.2)
-    fig, ax = plt.subplots(1, 1, figsize=(8, 8))
-    x_data, y_data = collect_scatter_points(
-        outputs_by_election_type=outputs_by_election_type,
-        voting_rule=voting_rule,
-        um_key=um_key,
-        iia_key=iia_key,
-    )
-    ax.scatter(x_data, y_data, color=rule_color_map[voting_rule])
-    ax.set_xlim(-0.05, 1.05)
-    ax.set_ylim(-0.05, 1.05)
-    ax.set_title(plot_title, fontsize=20)
-    ax.set_xlabel(um_label, fontsize=16)
-    ax.set_ylabel(iia_label, fontsize=16)
-
-    plt.savefig(output_path, bbox_inches="tight", dpi=300)
-    plt.close(fig)
-
-
-def run_full_scatter_plots(
-    outputs_by_election_type: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
-    ordered_rules: Sequence[str],
-    output_dir: Path,
-) -> None:
-    """Save exhaustive UM-versus-IIA comparisons across variants and tiebreaks.
-
-    Sweep both ranking and winner-set metric families for each voting rule.
-
-    Args:
-        outputs_by_election_type (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested
-            metric values by rule and candidate count.
-        ordered_rules (Sequence[str]): Rules to include.
-        output_dir (Path): Base plot output directory.
-    """
-    for variant_um, variant_iia, tiebreak in product(
-        ["average", "worst_case"], ["average", "worst_case"], ["lex", "random"]
-    ):
-        um_ranking = [
-            (f"sigma_UM_{variant_um}_odds_{tiebreak}", "$\\sigma_{UM}$ ranking ODDS"),
-            (f"sigma_UM_{variant_um}_asin_{tiebreak}", "$\\sigma_{UM}$ ranking ASIN"),
-        ]
-
-        um_winner_set = [
-            (
-                f"sigma_UM_winner_set_{variant_um}_odds_{tiebreak}",
-                "$\\sigma_{UM}$ winner-set ODDS",
-            ),
-            (
-                f"sigma_UM_winner_set_{variant_um}_asin_{tiebreak}",
-                "$\\sigma_{UM}$ winner-set ASIN",
-            ),
-        ]
-
-        iia_ranking = [
-            (f"sigma_IIA_{variant_iia}_{tiebreak}", "$\\sigma_{IIA}$ ranking single"),
-            (
-                f"sigma_IIA_all_subset_{variant_iia}_{tiebreak}",
-                "$\\sigma_{IIA}$ ranking all subset",
-            ),
-        ]
-
-        iia_winner_set = [
-            (
-                f"sigma_IIA_winner_set_{variant_iia}_{tiebreak}",
-                "$\\sigma_{IIA}$ winner-set single",
-            ),
-            (
-                f"sigma_IIA_winner_set_all_subset_{variant_iia}_{tiebreak}",
-                "$\\sigma_{IIA}$ winner-set all subset",
-            ),
-        ]
-
-        for voting_rule in ordered_rules:
-            for (um_key, um_label), (iia_key, iia_label) in product(um_ranking, iia_ranking):
-                scatter_dir = output_dir / "scatter" / f"um-{variant_um}_iia-{variant_iia}"
-                scatter_dir.mkdir(parents=True, exist_ok=True)
-                plot_name = scatter_dir / f"{voting_rule}_{um_key}_vs_{iia_key}_scatter.png"
-                create_full_scatter_plot(
-                    outputs_by_election_type=outputs_by_election_type,
-                    voting_rule=voting_rule,
-                    um_key=um_key,
-                    iia_key=iia_key,
-                    um_label=um_label,
-                    iia_label=iia_label,
-                    output_path=plot_name,
-                    plot_title=voting_rule,
-                )
-
-            for (um_key, um_label), (iia_key, iia_label) in product(um_winner_set, iia_winner_set):
-                scatter_dir = output_dir / "scatter" / f"umws-{variant_um}_iiaws-{variant_iia}"
-                scatter_dir.mkdir(parents=True, exist_ok=True)
-                plot_name = scatter_dir / f"{voting_rule}_{um_key}_vs_{iia_key}_scatter.png"
-                create_full_scatter_plot(
-                    outputs_by_election_type=outputs_by_election_type,
-                    voting_rule=voting_rule,
-                    um_key=um_key,
-                    iia_key=iia_key,
-                    um_label=um_label,
-                    iia_label=iia_label,
-                    output_path=plot_name,
-                    plot_title=titles[voting_rule],
-                )
-
-
 def run_limited_scatter_plots(
     outputs_by_election_type: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
     ordered_rules: Sequence[str],
@@ -434,8 +303,6 @@ def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
     """
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()
-    print(f"Statistics: {stats_root}")
-    print(f"Output root: {output_root}")
 
     ordered_rules = RULE_ORDER
     stats_dir = stats_root / "scottish_stats"
@@ -451,13 +318,6 @@ def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
         ordered_rules=ordered_rules,
         output_dir=output_dir,
     )
-
-    # Old exhaustive section kept for reference.
-    # run_full_scatter_plots(
-    #     outputs_by_election_type=outputs_by_election_type,
-    #     ordered_rules=ordered_rules,
-    #     output_dir=output_dir,
-    # )
 
 
 if __name__ == "__main__":

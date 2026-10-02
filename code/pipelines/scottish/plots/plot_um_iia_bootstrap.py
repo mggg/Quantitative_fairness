@@ -308,9 +308,6 @@ def main(
     output_root = output_root.resolve()
     stats_root = (stats_root or output_root / "stats").resolve()
     bootstrap_root = (bootstrap_root or stats_root / "scottish_stats/bootstrap").resolve()
-    print(f"Statistics: {stats_root}")
-    print(f"Bootstrap intervals: {bootstrap_root}")
-    print(f"Output root: {output_root}")
 
     ordered_rules = RULE_ORDER
     variant_um = "worst_case"

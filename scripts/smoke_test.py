@@ -9,7 +9,7 @@ from pathlib import Path
 
 from votekit import RankBallot, RankProfile
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:

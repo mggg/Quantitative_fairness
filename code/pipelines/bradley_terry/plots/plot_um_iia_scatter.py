@@ -128,8 +128,7 @@ def plot_rule_comparison(
         um_data,
         iia_data,
         color=rule_color_map[voting_rule],
-        s=100,
-        alpha=0.3,
+        alpha=1.0,
         edgecolors="none",
     )
 
@@ -179,9 +178,6 @@ def main(*, bt_stats_root: Path | None = None, output_root: Path = ROOT, n_seats
     """
     output_root = output_root.resolve()
     bt_stats_root = (bt_stats_root or output_root / "stats/bt_2_bloc_profile_stats").resolve()
-    print(f"BT statistics: {bt_stats_root}")
-    print(f"Output root: {output_root}")
-    print(f"Seats: {n_seats}")
 
     plots_dir = output_root / "plots" / "bt_plots" / "um_vs_iia_plots"
 
