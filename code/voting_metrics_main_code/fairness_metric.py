@@ -1,7 +1,7 @@
 """Compute unanimity and independence scores for rankings and winner sets.
 
-Ranking metrics retain the historical ``sigma`` names in code; the manuscript denotes them
-by rho. Functions suffixed ``_winner_set`` score elected candidates rather than full rankings.
+The paper denotes ranking metrics by rho and winner-set metrics by sigma. In code, ``sigma_UM``
+and ``sigma_IIA`` score rankings, while functions suffixed ``_winner_set`` score winner sets.
 """
 
 from collections.abc import Callable, Hashable, Iterable, Sequence
@@ -87,7 +87,8 @@ def _resolve_ranking_ties(
         ranking (Sequence[frozenset[str]]): Ordered candidate sets, with ties within each set.
 
     Returns:
-        tuple[frozenset[str], ...]: Untied ranking preserving the order between the original ranks.
+        tuple[frozenset[str], ...]: Untied ranking preserving the order between the original
+            ranks.
     """
     return tuple(frozenset({candidate}) for tied_rank in ranking for candidate in sorted(tied_rank))
 
@@ -120,14 +121,12 @@ def determine_weighted_ranking_vector_XAB(
     is_a = ranking_array == a
     is_b = ranking_array == b
 
-    # first position of a (resp. b) in every row
-    # rows that contain no a (resp. b) are marked with np.inf
+    # first position of a (resp. b) in every row rows that contain no a (resp. b) are marked with
+    # np.inf
     a_pos = np.where(is_a.any(axis=1), is_a.argmax(axis=1), np.inf)
     b_pos = np.where(is_b.any(axis=1), is_b.argmax(axis=1), np.inf)
 
-    # 1  if a before b
-    # 0.5 if same position *or* both absent
-    # 0  otherwise
+    # 1  if a before b 0.5 if same position *or* both absent 0  otherwise
     xab_vector = np.where(a_pos < b_pos, 1.0, np.where(a_pos == b_pos, 0.5, 0.0))
 
     return xab_vector * weight_vector
@@ -254,10 +253,13 @@ def sigma_UM(
 ) -> float:
     """Compute UM support for every ordered candidate pair in the election ranking.
 
-    Lexicographically resolve tied ranks before comparing each higher-ranked candidate with
-    each lower-ranked candidate. The average variant averages interpolated
-    pairwise support; worst_case interpolates the minimum support.
-    See https://arxiv.org/pdf/2506.12961 for the metric definition.
+    This is rho_UM in the paper. The code's sigma_UM name is retained for saved-result
+    compatibility.
+
+    Lexicographically resolve tied ranks before comparing each higher-ranked candidate with each
+    lower-ranked candidate. The average variant averages interpolated pairwise support; worst_case
+    interpolates the minimum support. See https://arxiv.org/pdf/2506.12961 for the metric
+    definition.
 
     Args:
         profile (RankProfile): Ranked ballots with positive total weight and at least two
@@ -270,8 +272,8 @@ def sigma_UM(
             'asin'.
 
     Returns:
-        float: UM score in [0, 1]; one means every tested pair has normalized support
-            of at least 0.5.
+        float: UM score in [0, 1]; one means every tested pair has normalized support of at least
+            0.5.
 
     Raises:
         ValueError: The variant or interpolation is unsupported, the profile has no positive
@@ -314,10 +316,13 @@ def sigma_UM_winner_set(
 ) -> float:
     """Compute UM support for every elected-versus-unelected candidate pair.
 
-    The winner set is the first n_seats candidates after lexicographic resolution of tied
-    ranks. Compare each winner with each loser. The average variant averages interpolated
-    pairwise support; worst_case interpolates the minimum support.
-    See https://arxiv.org/pdf/2506.12961 for the metric definition.
+    This is sigma_UM in the paper; the _winner_set suffix distinguishes it from ranking UM in
+    code.
+
+    The winner set is the first n_seats candidates after lexicographic resolution of tied ranks.
+    Compare each winner with each loser. The average variant averages interpolated pairwise
+    support; worst_case interpolates the minimum support. See https://arxiv.org/pdf/2506.12961 for
+    the metric definition.
 
     Args:
         profile (RankProfile): Ranked ballots with positive total weight and at least two
@@ -330,8 +335,8 @@ def sigma_UM_winner_set(
             'asin'.
 
     Returns:
-        float: UM score in [0, 1]; one means every tested pair has normalized support
-            of at least 0.5.
+        float: UM score in [0, 1]; one means every tested pair has normalized support of at least
+            0.5.
 
     Raises:
         ValueError: The variant or interpolation is unsupported, the profile has no positive
@@ -380,10 +385,13 @@ def sigma_IIA(
 ) -> float:
     """Compute ranking IIA under single-candidate removals.
 
+    This is rho_IIA in the paper. The code's sigma_IIA name is retained for saved-result
+    compatibility.
+
     Remove each candidate in turn and compare the new election ranking with the original ranking
     restricted to the remaining candidates. Normalize Kendall distance by the number of remaining
-    candidate pairs, then average over removals or take the largest distance for worst_case.
-    Tied ranks are resolved lexicographically. See https://arxiv.org/pdf/2506.12961 for details.
+    candidate pairs, then average over removals or take the largest distance for worst_case. Tied
+    ranks are resolved lexicographically. See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
         profile (RankProfile): Ranked profile with at least three candidates.
@@ -393,7 +401,8 @@ def sigma_IIA(
         variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
 
     Returns:
-        float: One minus the aggregated normalized distance, in [0, 1]; one means no ranking change.
+        float: One minus the aggregated normalized distance, in [0, 1]; one means no ranking
+            change.
 
     Raises:
         ValueError: The variant is unsupported or a voting rule rejects a reduced election.
@@ -446,11 +455,11 @@ def sigma_IIA_all_subset(
 ) -> float:
     """Compute ranking IIA under all nontrivial subset removals.
 
-    Remove each nonempty candidate subset that leaves at least two candidates, and compare the
-    new ranking with the original ranking restricted to those candidates. Reduce the seat count
-    to the number of remaining candidates when necessary. Average normalized Kendall distances
-    equally across the tested subsets, or use the largest distance for worst_case.
-    Tied ranks are resolved lexicographically. See https://arxiv.org/pdf/2506.12961 for details.
+    Remove each nonempty candidate subset that leaves at least two candidates, and compare the new
+    ranking with the original ranking restricted to those candidates. Reduce the seat count to the
+    number of remaining candidates when necessary. Average normalized Kendall distances equally
+    across the tested subsets, or use the largest distance for worst_case. Tied ranks are resolved
+    lexicographically. See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
         profile (RankProfile): Ranked profile with at least three candidates.
@@ -460,7 +469,8 @@ def sigma_IIA_all_subset(
         variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
 
     Returns:
-        float: One minus the aggregated normalized distance, in [0, 1]; one means no ranking change.
+        float: One minus the aggregated normalized distance, in [0, 1]; one means no ranking
+            change.
 
     Raises:
         ValueError: The variant is unsupported or a voting rule rejects a reduced election.
@@ -524,9 +534,12 @@ def sigma_IIA_winner_set(
 ) -> float:
     """Compute winner-set IIA under single-candidate removals.
 
-    Remove candidates one at a time, excluding removal of the sole winner in a single-seat election.
-    Reduce the seat count by the number of removed winners. Each comparison measures the fraction
-    of available seats filled by retained original winners; aggregate by mean or minimum.
+    This is sigma_IIA in the paper; the _winner_set suffix distinguishes it from ranking IIA in
+    code.
+
+    Remove candidates one at a time, excluding removal of the sole winner in a single-seat
+    election. Reduce the seat count by the number of removed winners. Each comparison measures the
+    fraction of available seats filled by retained original winners; aggregate by mean or minimum.
     See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
@@ -536,11 +549,12 @@ def sigma_IIA_winner_set(
         variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
 
     Returns:
-        float: Winner retention in [0, 1]. Returns one when all candidates are elected or when
-            a two-candidate election fills one seat.
+        float: Winner retention in [0, 1]. Returns one when all candidates are elected or when a
+            two-candidate election fills one seat.
 
     Raises:
-        ValueError: The variant or seat count is unsupported, or a voting rule rejects an election.
+        ValueError: The variant or seat count is unsupported, or a voting rule rejects an
+            election.
     """
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
@@ -604,10 +618,9 @@ def sigma_IIA_winner_set_all_subset(
     """Compute winner-set IIA under candidate-subset removals.
 
     Consider nonempty removal subsets except those containing every original winner and the subset
-    containing exactly all original losers.
-    Reduce the seat count by the number of removed winners. Each comparison measures the fraction
-    of available seats filled by retained original winners; aggregate by mean or minimum.
-    See https://arxiv.org/pdf/2506.12961 for details.
+    containing exactly all original losers. Reduce the seat count by the number of removed
+    winners. Each comparison measures the fraction of available seats filled by retained original
+    winners; aggregate by mean or minimum. See https://arxiv.org/pdf/2506.12961 for details.
 
     Args:
         profile (RankProfile): Ranked profile on which to compare elected candidate sets.
@@ -616,11 +629,12 @@ def sigma_IIA_winner_set_all_subset(
         variant (MetricVariant, optional): 'average' or 'worst_case'. Defaults to 'average'.
 
     Returns:
-        float: Winner retention in [0, 1]. Returns one when all candidates are elected or when
-            a two-candidate election fills one seat.
+        float: Winner retention in [0, 1]. Returns one when all candidates are elected or when a
+            two-candidate election fills one seat.
 
     Raises:
-        ValueError: The variant or seat count is unsupported, or a voting rule rejects an election.
+        ValueError: The variant or seat count is unsupported, or a voting rule rejects an
+            election.
     """
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
@@ -688,8 +702,8 @@ def _draw_random_profile_ranking(
     """Draw a random candidate ranking after excluding the supplied candidates.
 
     Candidates receiving votes precede uncast candidates, with each group shuffled separately
-    using Python's random state. The requested seat count is validated against the remaining
-    cast candidates, but the returned ranking includes all remaining candidates.
+    using Python's random state. The requested seat count is validated against the remaining cast
+    candidates, but the returned ranking includes all remaining candidates.
 
     Args:
         profile (RankProfile): Profile supplying cast and uncast candidate names.
@@ -722,8 +736,8 @@ def sigma_IIA_random(
 ) -> float:
     """Compute single-removal ranking IIA using independent random candidate orderings.
 
-    Draw the original and reduced rankings directly, with cast candidates before uncast candidates.
-    This avoids constructing election states and uses Python's random state.
+    Draw the original and reduced rankings directly, with cast candidates before uncast
+    candidates. This avoids constructing election states and uses Python's random state.
 
     Args:
         profile (RankProfile): Ranked profile with at least three candidates.
@@ -735,7 +749,8 @@ def sigma_IIA_random(
         float: One minus the mean or largest normalized Kendall distance, in [0, 1].
 
     Raises:
-        ValueError: The variant is unsupported or a random election cannot fill the requested seats.
+        ValueError: The variant is unsupported or a random election cannot fill the requested
+            seats.
         ZeroDivisionError: Fewer than two candidates remain for a normalized distance.
     """
     del voting_rule
@@ -788,7 +803,8 @@ def sigma_IIA_winner_set_random(
             when all candidates are elected or a two-candidate election fills one seat.
 
     Raises:
-        ValueError: The variant is unsupported or a random election cannot fill the requested seats.
+        ValueError: The variant is unsupported or a random election cannot fill the requested
+            seats.
     """
     del voting_rule
 

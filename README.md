@@ -71,7 +71,7 @@ calculations may also differ from the saved results even with fixed inputs.
 | [`scripts/`](scripts/README.md)               | Replication runners, input retrieval, and smoke check   |
 | `code/config/`                                | Experiment selections, including the BT profile folders |
 | `code/tests/`                                 | Scientific correctness and data-preservation checks     |
-| `code/preprocessing/`                         | Historical input preparation utilities                  |
+| `code/preprocessing/`                         | Election input cleaning and slate support analysis      |
 | `code/archive/`                               | Superseded source snapshots, notebooks, and figures     |
 | `documentation/`                              | Replication guide and input provenance                  |
 | `data/`                                       | Preserved inputs; optional large downloads              |

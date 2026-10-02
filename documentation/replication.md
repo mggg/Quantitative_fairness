@@ -18,12 +18,12 @@ After following the [README setup instructions](../README.md#quick-start), you c
 and Portland analyses using the cleaned CSVs included in `data/`. Scotland and Bradley–Terry (BT)
 require additional downloads. The inputs and their sources are listed below.
 
-| Dataset  | Input and source                                                                                                                                                                                              |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| NY       | `data/NY_mayor_cleaned_votekit.csv`, prepared from the [2025 primary CVRs](https://www.vote.nyc/sites/default/files/pdf/election_results/2025/20250624Primary%20Election/rcv/2025_Primary_CVR_2025-07-17.zip) |
-| Portland | `data/Portland_D[1-4]_cleaned_votekit.csv`, prepared from the [Portland Postmortem CVRs](https://github.com/mggg/Portland-Postmortem/tree/main/Restructured%20Repo/CVRs/raw_votekit_csv)                      |
-| Scotland | `data/scot-elex/`, retrieved from [scot-elex](https://github.com/mggg/scot-elex) at the revision pinned by the fetcher                                                                                        |
-| BT       | `data/preference_profiles/`, extracted from the repository's `data/preference_profiles.tar.xz` archive                                                                                                        |
+| Dataset  | Input and source                                                                                                                                                                                                                      |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NY       | `data/NY_mayor_cleaned_votekit.csv`, prepared from the [2025 primary CVRs](https://www.vote.nyc/sites/default/files/pdf/election_results/2025/20250624Primary%20Election/rcv/2025_Primary_CVR_2025-07-17.zip)                         |
+| Portland | `data/Portland_D[1-4]_cleaned_votekit.csv`, prepared from the [recorded Portland Postmortem CVRs](https://github.com/mggg/Portland-Postmortem/tree/c5bde0d4f2b30871573b881af0a6a10a3f386925/Restructured%20Repo/CVRs/raw_votekit_csv) |
+| Scotland | `data/scot-elex/`, retrieved from [scot-elex](https://github.com/mggg/scot-elex) at the revision pinned by the fetcher                                                                                                                |
+| BT       | `data/preference_profiles/`, extracted from the repository's `data/preference_profiles.tar.xz` archive                                                                                                                                |
 
 To retrieve the Scottish dataset and extract the BT profiles, run:
 
@@ -37,10 +37,35 @@ The BT archive is about 1.96 GB compressed, so allow for the download and extrac
 creates a new dataset directory and refuses an existing destination. Pass `--destination` if you
 want to retrieve the inputs elsewhere.
 
-Rebuilding the cleaned New York and Portland CSVs requires inputs beyond those used by the
-runners. The New York cleaner expects an untracked `NY_mayor_all.csv`, while the Portland cleaner
-downloads from a mutable upstream branch. Because the original Portland revision was not recorded,
-that download may differ from the source of the supplied cleaned files.
+The supplied New York and Portland CSVs are ready for analysis. To rebuild them from their source
+records, follow [the cleaning instructions](#rebuild-the-cleaned-election-inputs) below.
+
+### Rebuild the cleaned election inputs
+
+For New York, download the
+[July 17, 2025 CVR archive](https://www.vote.nyc/sites/default/files/pdf/election_results/2025/20250624Primary%20Election/rcv/2025_Primary_CVR_2025-07-17.zip)
+and extract its Excel workbooks into `data/NY_primary_data/`, including
+`Primary Election 2025 - 06-24-2025_CandidacyID_To_Name.xlsx`. The cleaner reads the five Democratic
+mayoral choices from each ballot workbook and maps candidacy IDs to names using that lookup
+workbook. It then truncates ballots at the first overvote, removes repeated candidates, and
+condenses undervotes, retaining write-ins as candidates.
+
+Portland's cleaner reads the original four raw VoteKit CSVs from a fixed revision of the source
+repository. It skips the header row, removes repeated candidates, and condenses overvotes and
+write-in markers. You can supply downloaded raw CSVs with `--input-dir` instead of retrieving them
+during cleaning.
+
+Both commands below save rebuilt profiles beneath `results/rebuilt-inputs/data/` and preserve any
+existing files at their destinations:
+
+```sh
+uv run --locked python code/preprocessing/clean_ny_data.py \
+  --input-dir data/NY_primary_data --output-dir results/rebuilt-inputs
+uv run --locked python code/preprocessing/clean_portland_data.py \
+  --output-dir results/rebuilt-inputs
+```
+
+To analyze the rebuilt inputs, pass `--data-dir results/rebuilt-inputs/data` to a dataset runner.
 
 ## Run a dataset analysis
 
@@ -126,9 +151,7 @@ runners also set `PYTHONHASHSEED=0`; use the same setting for standalone randomi
 
 For comparison with saved results, reuse the supplied BT profiles to keep the input sample fixed.
 Their original generation seeds were not recorded, so a new sample should yield statistically
-similar results without reproducing those specific profiles. Even with fixed inputs, exact
-numerical agreement is not guaranteed because the saved results lack complete execution records.
-The paper's reference result trees and final figure/table mappings have not yet been designated.
+similar results but may not reproduce those specific profiles.
 
 When combining BT result sets, their UM and IIA arrays must refer to the same profiles in the same
 order because scores are paired by position.
