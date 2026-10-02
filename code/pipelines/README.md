@@ -71,6 +71,7 @@ sweeps require more metric variants than the primary runner computes. See the
 | File                                                                             | Purpose                                                                                   |
 | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | [`plot_boost_matrix.py`](portland/plots/plot_boost_matrix.py)                    | Focus-candidate heatmaps and a separate colorbar; select `--district` or `all`            |
+| [`export_boost_tables.py`](portland/export_boost_tables.py) | Colored boost tables with TeX sources and PDF/PNG renders; see the [guide](../../documentation/replication.md#portland-boost-tables) |
 | [`run_short_bursts.py`](portland/clustering/run_short_bursts.py)                 | Search for candidate clusters; `--show-viz` displays the partition                        |
 | [`run_brute_force.py`](portland/clustering/run_brute_force.py)                   | Enumerate candidate partitions to check the clustering heuristic                          |
 | [`modularity.py`](portland/clustering/modularity.py)                             | Shared clustering scores and search functions                                             |

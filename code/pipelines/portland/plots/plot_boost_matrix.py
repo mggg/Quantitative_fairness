@@ -1,4 +1,4 @@
-"""Render Portland focus-candidate boost heatmaps and their separate colorbar."""
+"""Render Portland focus-candidate boost heatmaps and export the underlying matrices."""
 
 import argparse
 import hashlib
@@ -9,8 +9,8 @@ from typing import Sequence, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import seaborn as sns
-from matplotlib.axes import Axes
 from matplotlib.colors import TwoSlopeNorm
 from matplotlib.figure import Figure
 from numpy.typing import NDArray
@@ -19,96 +19,14 @@ from votekit.matrices import boost_matrix
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from pipelines.portland.plots._boost_style import (
+    BOOST_COLORMAP,
+    FOCUS_CANDIDATES,
+    HEATMAP_SIZE_INCHES,
+    fit_heatmap_canvas,
+    set_candidate_labels,
+)
 from voting_metrics_main_code.replication import ROOT
-
-FOCUS_CANDIDATES = {
-    "D1": (
-        ["Candace Avalos", "Steph Routh", "Jamie Dunphy", "Timur Ender"],
-        ["Loretta Smith", "Terrence Hayes", "Noah Ernst"],
-    ),
-    "D2": (
-        ["Elana Pirtle-Guiney", "Dan Ryan", "Tiffani Penson", "Mariah Hudson"],
-        ["Michelle DePass", "Sameer Kanal", "Nat West", "Jonathan Tasini", "Marnie Glickman"],
-    ),
-    "D3": (
-        ["Angelita Morillo", "Tiffany Koyama Lane"],
-        ["Steve Novick", "Jesse Cornett", "Rex Burkholder"],
-    ),
-    "D4": (
-        ["Olivia Clark", "Eric Zimmerman", "Eli Arnold", "Bob Weinstein"],
-        ["Mitch Green", "Sarah Silkie", "Chad Lykins", "Lisa Freeman"],
-    ),
-}
-
-
-# Row-label and column-label sizes, in points.
-FONTSIZES = {"D1": (18, 18), "D2": (14, 18), "D3": (20, 20), "D4": (14, 18)}
-
-
-def set_candidate_labels(ax: Axes, slates: Sequence[Sequence[str]], district: str) -> None:
-    """Apply the district's candidate labels and typography to heatmap axes.
-
-    Args:
-        ax (Axes): Axes with one unit per candidate on each dimension.
-        slates (Sequence[Sequence[str]]): Ordered candidate groups.
-        district (str): District whose row and column font sizes to use.
-    """
-    candidates = [candidate for slate in slates for candidate in slate]
-    positions = np.arange(len(candidates)) + 0.5
-    ax.set_xticks(positions, labels=[" ".join(name.split()[1:]) for name in candidates])
-    ax.set_yticks(positions, labels=candidates, verticalalignment="center")
-    ax.set_xlim(0, len(candidates))
-    ax.set_ylim(len(candidates), 0)
-    ax.tick_params(length=0, pad=8)
-    ax.xaxis.set_ticks_position("top")
-    row_fontsize, column_fontsize = FONTSIZES[district]
-
-    for labels, fontsize, rotation in (
-        (ax.get_yticklabels(), row_fontsize, 0),
-        (ax.get_xticklabels(), column_fontsize, 45),
-    ):
-        for index, label in enumerate(labels):
-            label.set_color("#c35c1e" if index < len(slates[0]) else "#2A6FA1")
-            label.set_fontweight("bold")
-            label.set_fontsize(fontsize)
-            label.set_rotation(rotation)
-
-    for label in ax.get_xticklabels():
-        label.set_horizontalalignment("left")
-
-
-def fit_heatmap_canvas(
-    fig: Figure, ax: Axes, slates: Sequence[Sequence[str]], district: str
-) -> None:
-    """Fit shared district-label margins around an 8-inch heatmap without scaling it.
-
-    Args:
-        fig (Figure): Heatmap figure to resize.
-        ax (Axes): Heatmap axes to position within the resized canvas.
-        slates (Sequence[Sequence[str]]): Candidate groups used in this figure.
-        district (str): District represented by this figure.
-    """
-    heatmap_size = 8.0
-    margins = np.zeros(4)
-    measurement = plt.figure(figsize=(heatmap_size, heatmap_size), dpi=fig.dpi, layout="none")
-
-    try:
-        labels_ax = measurement.add_axes((0, 0, 1, 1))
-        for label_district, label_slates in {**FOCUS_CANDIDATES, district: slates}.items():
-            set_candidate_labels(labels_ax, label_slates, label_district)
-            measurement.draw_without_rendering()
-            bounds = measurement.get_tightbbox()
-            margins = np.maximum(
-                margins,
-                [-bounds.x0, -bounds.y0, bounds.x1 - heatmap_size, bounds.y1 - heatmap_size],
-            )
-    finally:
-        plt.close(measurement)
-
-    left, bottom, right, top = margins + 0.1
-    width, height = heatmap_size + left + right, heatmap_size + bottom + top
-    fig.set_size_inches(width, height)
-    ax.set_position((left / width, bottom / height, heatmap_size / width, heatmap_size / height))
 
 
 def plot_boost(
@@ -119,7 +37,7 @@ def plot_boost(
     limit: float = 0.21,
     matrix_savepath: Path | None = None,
 ) -> tuple[Figure, NDArray]:
-    """Keep the full electorate, ordering focus candidates by the notebook's two slates.
+    """Keep the full electorate, ordering focus candidates by the two slates.
 
     The heatmap occupies an 8-inch square. Shared margins accommodate all districts' labels
     at their configured font sizes, plus 0.1 inch of outer padding. Save the full canvas to
@@ -170,12 +88,12 @@ def plot_boost(
 
     assert matrix is not None, "Matrix should be defined at this point"
 
-    fig = plt.figure(figsize=(8, 8), dpi=300, layout="none")
+    fig = plt.figure(figsize=(HEATMAP_SIZE_INCHES, HEATMAP_SIZE_INCHES), dpi=300, layout="none")
     ax = fig.add_axes((0, 0, 1, 1))
     ax = sns.heatmap(
         matrix,
         ax=ax,
-        cmap="PRGn",
+        cmap=BOOST_COLORMAP,
         vmin=-limit,
         vmax=limit,
         center=0,
@@ -203,7 +121,7 @@ def plot_boost(
 
 
 def plot_colorbar(limit: float = 0.21) -> Figure:
-    """Render the notebook's separate, centered color scale.
+    """Render the separate, centered boost color scale.
 
     Args:
         limit (float, optional): Positive magnitude of the symmetric color scale. Defaults to 0.21.
@@ -214,9 +132,11 @@ def plot_colorbar(limit: float = 0.21) -> Figure:
     Raises:
         ValueError: The color scale limit is not strictly positive.
     """
-    fig, ax = plt.subplots(figsize=(0.5, 8))
+    fig, ax = plt.subplots(figsize=(0.5, HEATMAP_SIZE_INCHES))
     bar = fig.colorbar(
-        plt.cm.ScalarMappable(norm=TwoSlopeNorm(vmin=-limit, vcenter=0, vmax=limit), cmap="PRGn"),
+        plt.cm.ScalarMappable(
+            norm=TwoSlopeNorm(vmin=-limit, vcenter=0, vmax=limit), cmap=BOOST_COLORMAP
+        ),
         cax=ax,
     )
     ticks = np.arange(-0.2, 0.25, 0.10) if limit == 0.21 else np.linspace(-limit, limit, 9)
@@ -230,8 +150,31 @@ def plot_colorbar(limit: float = 0.21) -> Figure:
     return fig
 
 
+def save_boost_matrix_csv(
+    matrix: NDArray[np.float64], slates: Sequence[Sequence[str]], destination: Path
+) -> None:
+    """Write unrounded boosts with candidate order and slate membership.
+
+    Args:
+        matrix (NDArray[np.float64]): Square boost matrix in flattened slate order.
+        slates (Sequence[Sequence[str]]): Ordered candidate groups matching the matrix axes.
+        destination (Path): CSV file to write or replace; its parent directory must exist.
+    """
+    candidates = [candidate for slate in slates for candidate in slate]
+    matrix_index = pd.MultiIndex.from_tuples(
+        [
+            (slate_index, candidate)
+            for slate_index, slate in enumerate(slates, 1)
+            for candidate in slate
+        ],
+        names=["Slate", "Candidate"],
+    )
+
+    pd.DataFrame(matrix, index=matrix_index, columns=candidates).to_csv(destination)
+
+
 def main() -> None:
-    """Save focus-candidate heatmaps for the selected Portland districts and a shared colorbar.
+    """Save district heatmaps, a shared colorbar, and unrounded boost-matrix CSVs.
 
     Raises:
         SystemExit: Command-line parsing fails or the limit is invalid.
@@ -250,9 +193,11 @@ def main() -> None:
         parser.error("--limit must be finite and positive")
 
     output = args.output_dir.resolve() / "plots/portland/boost_matrix"
+    matrix_output = args.output_dir.resolve() / "stats/portland_boost_matrices"
     data = args.data_dir.resolve()
 
     output.mkdir(parents=True, exist_ok=True)
+    matrix_output.mkdir(parents=True, exist_ok=True)
     districts = FOCUS_CANDIDATES if args.district == "all" else [args.district]
 
     for district in districts:
@@ -270,18 +215,22 @@ def main() -> None:
         if matrix_savepath is not None and matrix_savepath.exists():
             print(f"Loading matched cache: {matrix_savepath}")
             matrix = np.load(matrix_savepath)
-            fig, _ = plot_boost(
+            fig, matrix = plot_boost(
                 FOCUS_CANDIDATES[district], district, matrix=matrix, limit=args.limit
             )
         else:
             profile = cast(RankProfile, RankProfile.from_csv(profile_path))
-            fig, _ = plot_boost(
+            fig, matrix = plot_boost(
                 FOCUS_CANDIDATES[district],
                 district,
                 profile=profile,
                 limit=args.limit,
                 matrix_savepath=matrix_savepath,
             )
+
+        save_boost_matrix_csv(
+            matrix, FOCUS_CANDIDATES[district], matrix_output / f"boost_matrix_{district}.csv"
+        )
 
         print(
             f"Saving boost matrix heatmap for {district} to {output / f'boost_matrix_{district}.png'}"

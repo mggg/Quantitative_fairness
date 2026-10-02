@@ -181,6 +181,32 @@ collect the statistics and
 [`plot_proportionality_waterfall.py`](../code/pipelines/bradley_terry/plots/plot_proportionality_waterfall.py)
 to render them. Inspect `--help` for the supported experiment settings.
 
+### Portland boost tables
+
+Generate editable LaTeX boost matrices and PDF/PNG previews from the Portland profiles:
+
+```sh
+uv run --locked python code/pipelines/portland/plots/plot_boost_matrix.py --district all
+uv run --script code/pipelines/portland/export_boost_tables.py --district all
+```
+
+The plotter saves unrounded matrices with candidate order and slate membership to
+`stats/portland_boost_matrices/`. Under `plots/portland/boost_tables/`, the table exporter
+writes `TEX_<district>_boost_matrix` and `TEX_with_nums_<district>_boost_matrix` in `.tex`,
+`.pdf`, and `.png` formats for D1 through D4. Numbered versions display boosts to two decimal
+places, with black or white text for contrast. Undefined entries remain blank in both versions.
+
+Both versions use the plotter's 8-inch square matrix, PRGn colormap, bold sans-serif labels,
+and slate separators. Colors use unrounded boosts and saturate outside the selected limits
+(default: -0.21 to 0.21). Rows identify the boosted candidate; columns identify the conditioning
+candidate.
+
+UV manages a separate environment for GerryTools automatically because its NumPy requirements
+conflict with the locked VoteKit version. Rendering requires XeLaTeX or LuaLaTeX with
+`standalone`, `nicematrix`, TikZ, and `fontspec`, the DejaVu Sans font, and Poppler for PNG
+export. Use `--stats-dir` to select saved matrix CSVs and `--output-dir` to save renders under
+another run root. Exports replace the generated files, including manual edits to the TeX sources.
+
 ### Portland diagnostics
 
 Add `--diagnostics` to the Portland runner to execute clustering searches. Short-burst search
