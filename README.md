@@ -1,32 +1,35 @@
 # Quantitative Relaxations for Arrow's Axioms
 
-Replication analyses for quantitative fairness metrics in NY, Portland, Scottish, and synthetic
-Bradley–Terry elections. See [the replication guide](documentation/replication.md) for artifact
-mappings, input provenance, experiment settings, limitations, and release work still requiring
-author input.
+This repository contains replication analyses of quantitative fairness metrics for elections in
+New York City, Portland, and Scotland, alongside synthetic elections generated with a
+Bradley–Terry model. The dataset runners compute the metrics and produce the main figures and
+tables. For input sources, experiment settings, and additional analyses, see the
+[replication guide](documentation/replication.md).
 
 ## Quick start
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/) using its standalone
-installer. On macOS or Linux:
+Use [uv](https://docs.astral.sh/uv/getting-started/installation/) to install Python and manage the
+repository's dependencies. Its standalone installer runs in a terminal on macOS or Linux:
 
 ```sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-On Windows, run this in PowerShell:
+On Windows, use the PowerShell installer:
 
 ```powershell
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-Restart your terminal so the updated `PATH` takes effect, then check the installation:
+Once installation finishes, restart your terminal so the updated `PATH` takes effect and check
+that uv is available:
 
 ```sh
 uv --version
 ```
 
-From the repository root, install the dependencies, run the checks, and start the NY analysis:
+From the repository root, the following commands prepare the environment, check the installation,
+and run the New York pipeline:
 
 ```sh
 uv sync --locked
@@ -35,29 +38,29 @@ uv run --locked python scripts/smoke_test.py
 ./scripts/run_ny_pipeline.sh
 ```
 
-`uv sync --locked` installs the dependencies from `uv.lock` into `.venv/`, downloading Python 3.12
-if needed. Commands run through `uv run` use this environment automatically. On Windows, use
-`uv run --locked python scripts/replicate.py ny` for the NY analysis.
+The first command installs the dependencies from `uv.lock` into `.venv/` and downloads Python 3.12
+if needed. On Windows, you will need to launch the New York analysis with
+`uv run --locked python scripts/replicate.py ny`.
 
-The test suite checks metric values, numerical summaries, seeded reproducibility, and protection
-against overwriting saved data. The separate smoke example runs a tiny election through CSV
-loading, metric computation, and JSON export in a temporary directory. Neither command needs the
-research datasets.
+The cleaned New York and Portland inputs are included in the repository, so those analyses are
+ready to run after setup. Scotland and Bradley–Terry (BT) need additional downloads, with Git LFS
+required for the BT inputs. Retrieval commands are in the replication guide.
 
-NY and Portland cleaned inputs are tracked; optional Scottish and BT retrieval commands are in the
-guide. BT inputs use Git LFS. Runners and standalone analyses default to the repository run root,
-writing to `stats/` and `plots/`. Use `--output-dir results/new-run` for a separate computation.
-Preference profiles, preference interval dataframes, and saved metric scores or election results
-are never replaced. Move those files manually to recompute them. Figures and other derived outputs
-are overwritten by default.
+The BT inputs may also be regenerated using the pipeline, but the resulting 84,000 profiles
+take a long time to generate. It is therefore recommended to use the supplied inputs unless you
+want to explore different BT parameters.
+
+To keep a new computation separate from the default outputs beneath the repository root, pass
+`--output-dir results/new-run`. Existing profiles, preference interval dataframes, metric scores,
+and election results are preserved, so recomputing them requires a new output directory or moving
+the saved files manually. Figures and other derived outputs are overwritten on repeat runs.
 
 ## Reproducibility
 
-The archived preference profiles were generated with seeded runs of an older version of the code.
-Regenerating them with this version follows different random-number and execution paths, so a full
-rerun should produce statistically similar results, not exactly the same profiles or numerical
-values. Reusing the archived profiles keeps the input sample fixed; randomized voting and metric
-calculations may still differ from the historical runs. See the replication guide for details.
+Reuse the supplied preference profiles to keep the input sample fixed. Generating a new sample
+should produce statistically similar results, although changes to random-number and execution
+paths prevent exact reproduction of the original profiles. Randomized voting and metric
+calculations may also differ from the saved results even with fixed inputs.
 
 ## Layout
 
@@ -65,7 +68,7 @@ calculations may still differ from the historical runs. See the replication guid
 | --------------------------------------------- | ------------------------------------------------------- |
 | `code/voting_metrics_main_code/`              | Authoritative metrics and voting rules                  |
 | [`code/pipelines/`](code/pipelines/README.md) | Dataset collectors, plotters, and analysis index        |
-| `scripts/`                                    | Replication runners, input retrieval, and smoke example |
+| [`scripts/`](scripts/README.md)               | Replication runners, input retrieval, and smoke check   |
 | `code/config/`                                | Experiment selections, including the BT profile folders |
 | `code/tests/`                                 | Scientific correctness and data-preservation checks     |
 | `code/preprocessing/`                         | Historical input preparation utilities                  |
@@ -75,16 +78,7 @@ calculations may still differ from the historical runs. See the replication guid
 | `stats/`, `plots/`                            | Saved statistics and regenerable figures                |
 | `results/generated/`                          | Optional ignored output root                            |
 
-For direct Python imports, put `code/` on the module search path:
-
-```sh
-PYTHONPATH=code uv run --locked python -c 'from voting_metrics_main_code import fairness_metric'
-```
-
-Standalone workflows configure their own import paths, and pytest uses the `code/` source
-directory from `pyproject.toml`. Run individual workflows directly, or inspect a dataset recipe
-with `uv run --locked python scripts/replicate.py portland --dry-run`. The ignored `paper/` and
-`dev_files/` directories contain local research material and are not included in a clone.
+The reusable metrics and voting rules live in `code/voting_metrics_main_code/`.
 
 ## Replication commands
 
@@ -95,11 +89,11 @@ with `uv run --locked python scripts/replicate.py portland --dry-run`. The ignor
 ./scripts/run_bt_pipeline.sh --n-jobs 4
 ```
 
-Use `--mode figures` to plot statistics beneath the selected `--output-dir`, or `--mode stats` to
-compute without plotting. Pass `--stats-dir stats` to select preserved statistics explicitly. BT
-reference trees can be selected with `--bt-stats-dir` in figures mode. Individual workflows expose
-their paths and options with `--help`. Full runs can be expensive; start with the smoke example.
+Each runner collects scores and produces its main outputs by default. If you already have the
+scores, `--mode figures` rebuilds figures and tables from the statistics beneath the selected
+`--output-dir`, while `--mode stats` collects scores alone. To use saved statistics elsewhere,
+pass `--stats-dir stats`, or select a BT statistics tree with `--bt-stats-dir` in figures mode.
 
-All commands, numerical conventions, and known provenance gaps are documented in
-[documentation/replication.md](documentation/replication.md). Exact paper figure numbers and the
-final citation await author designation.
+Since full computations can be expensive, start with the smoke check to confirm the installation.
+The [scripts guide](scripts/README.md) explains the runner options, and individual analyses expose
+their options through `--help`.

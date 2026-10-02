@@ -1,4 +1,4 @@
-"""Check that every maintained recipe references runnable scripts without writing during planning."""
+"""Check recipe paths and shell argument forwarding without running analyses."""
 
 import subprocess
 import sys
@@ -14,7 +14,7 @@ def test_default_recipe_paths_follow_the_repository_layout(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     repository_root = Path(__file__).resolve().parents[2]
-    monkeypatch.setattr(sys, "argv", ["replicate.py", "bt", "--dry-run"])
+    monkeypatch.setattr(sys, "argv", ["replicate.py", "bt"])
 
     args = parse_arguments()
 
@@ -36,7 +36,7 @@ def test_shell_runners_resolve_the_project_from_another_directory(
     monkeypatch.setenv("PATH", f"{tmp_path}:/usr/bin:/bin")
 
     result = subprocess.run(
-        ["bash", str(ROOT / f"scripts/run_{dataset}_pipeline.sh"), "--dry-run"],
+        ["bash", str(ROOT / f"scripts/run_{dataset}_pipeline.sh"), "--n-jobs", "2"],
         cwd=tmp_path,
         capture_output=True,
         text=True,
@@ -51,7 +51,8 @@ def test_shell_runners_resolve_the_project_from_another_directory(
         "python",
         str(ROOT / "scripts/replicate.py"),
         dataset,
-        "--dry-run",
+        "--n-jobs",
+        "2",
     ]
 
 
@@ -67,7 +68,6 @@ def test_all_recipe_modes_reference_existing_scripts(
             mode,
             "--output-dir",
             str(output),
-            "--dry-run",
         ]
         if dataset == "portland":
             arguments.append("--diagnostics")

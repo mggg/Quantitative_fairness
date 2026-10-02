@@ -1,8 +1,7 @@
-"""Run the primary dataset recipes; use --dry-run to inspect their commands."""
+"""Run the primary dataset analyses in execution order."""
 
 import argparse
 import os
-import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -46,9 +45,6 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--n-jobs", type=int, default=1)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--diagnostics", action="store_true", help="Also run Portland clustering")
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Print commands without running or writing"
-    )
     args = parser.parse_args()
 
     if min(args.n_jobs, args.n_seats) < 1:
@@ -138,37 +134,17 @@ def build_recipe_commands(args: argparse.Namespace) -> list[list[str]]:
 
 
 def main() -> None:
-    """Print and execute the chosen dataset recipe with identical explicit arguments."""
+    """Execute the chosen dataset analysis with explicit arguments for each stage."""
     args = parse_arguments()
     commands = build_recipe_commands(args)
 
     for command in commands:
-        print(
-            shlex.join(
-                [
-                    "env",
-                    "PYTHONHASHSEED=0",
-                    "MPLBACKEND=Agg",
-                    "uv",
-                    "run",
-                    "--project",
-                    str(ROOT),
-                    "--locked",
-                    "python",
-                    str(ROOT / command[0]),
-                    *command[1:],
-                ]
-            ),
-            flush=True,
+        subprocess.run(
+            [sys.executable, str(ROOT / command[0]), *command[1:]],
+            cwd=ROOT,
+            env={**os.environ, "PYTHONHASHSEED": "0", "MPLBACKEND": "Agg"},
+            check=True,
         )
-
-        if not args.dry_run:
-            subprocess.run(
-                [sys.executable, str(ROOT / command[0]), *command[1:]],
-                cwd=ROOT,
-                env={**os.environ, "PYTHONHASHSEED": "0", "MPLBACKEND": "Agg"},
-                check=True,
-            )
 
 
 if __name__ == "__main__":
