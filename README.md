@@ -1,7 +1,7 @@
 # Quantitative Relaxations for Arrow's Axioms
 
 Replication analyses for quantitative fairness metrics in NY, Portland, Scottish, and synthetic
-Bradley–Terry elections. See [the replication guide](docs/replication.md) for artifact mappings,
+Bradley–Terry elections. See [the replication guide](documentation/replication.md) for artifact mappings,
 input provenance, experiment settings, limitations, and release work still requiring author input.
 
 ## Quick start
@@ -11,8 +11,8 @@ Install Python 3.12 and uv, then:
 ```sh
 uv sync --locked
 uv run --locked pytest
-uv run --locked python scripts/smoke_test.py
-./scripts/run_ny_pipeline.sh
+uv run --locked python code/scripts/smoke_test.py
+./code/scripts/run_ny_pipeline.sh
 ```
 
 The test suite checks metric values, numerical summaries, seeded reproducibility, and protection
@@ -37,31 +37,38 @@ calculations may still differ from the historical runs. See the replication guid
 
 ## Layout
 
-| Location                            | Purpose                                                            |
-| ----------------------------------- | ------------------------------------------------------------------ |
-| `voting_metrics_main_code/`         | Authoritative metrics and voting rules                             |
-| [`pipelines/`](pipelines/README.md) | Dataset collectors, plotters, and analysis index                   |
-| `scripts/`                          | Maintained replication runners, input retrieval, and smoke example |
-| `config/`                           | Experiment selections, including the BT profile folders            |
-| `tests/`                            | Scientific correctness and data-preservation checks                |
-| `data/`                             | Preserved inputs; optional large downloads                         |
-| `stats/`, `plots/`                  | Saved statistics and regenerable figures                           |
-| `results/generated/`                | Optional ignored output root                                       |
-| `docs/`                             | Replication inventory, provenance, and baseline                    |
-| `archive/`                          | Preserved superseded source snapshots                              |
-| `notebooks/`, `other_files/`        | Historical notebooks and preparation utilities                     |
+| Location                                      | Purpose                                                 |
+| --------------------------------------------- | ------------------------------------------------------- |
+| `code/voting_metrics_main_code/`              | Authoritative metrics and voting rules                  |
+| [`code/pipelines/`](code/pipelines/README.md) | Dataset collectors, plotters, and analysis index        |
+| `code/scripts/`                               | Replication runners, input retrieval, and smoke example |
+| `code/config/`                                | Experiment selections, including the BT profile folders |
+| `code/tests/`                                 | Scientific correctness and data-preservation checks     |
+| `code/preprocessing/`                         | Historical input preparation utilities                  |
+| `code/archive/`                               | Superseded source snapshots, notebooks, and figures     |
+| `documentation/`                              | Replication inventory, provenance, and baseline         |
+| `data/`                                       | Preserved inputs; optional large downloads              |
+| `stats/`, `plots/`                            | Saved statistics and regenerable figures                |
+| `results/generated/`                          | Optional ignored output root                            |
 
-Import metrics and voting rules directly from `voting_metrics_main_code`. Run individual workflows directly, or inspect a dataset recipe with
-`uv run --locked python scripts/replicate.py portland --dry-run`. The ignored `paper/` and `dev_files/` directories
+For direct Python imports, put `code/` on the module search path:
+
+```sh
+PYTHONPATH=code uv run --locked python -c 'from voting_metrics_main_code import fairness_metric'
+```
+
+Standalone workflows configure their own import paths, and pytest uses the `code/` source directory
+from `pyproject.toml`. Run individual workflows directly, or inspect a dataset recipe with
+`uv run --locked python code/scripts/replicate.py portland --dry-run`. The ignored `paper/` and `dev_files/` directories
 contain local research material and are not included in a clone.
 
 ## Replication commands
 
 ```sh
-./scripts/run_ny_pipeline.sh
-./scripts/run_portland_pipeline.sh
-./scripts/run_scottish_pipeline.sh --n-jobs 4
-./scripts/run_bt_pipeline.sh --n-jobs 4
+./code/scripts/run_ny_pipeline.sh
+./code/scripts/run_portland_pipeline.sh
+./code/scripts/run_scottish_pipeline.sh --n-jobs 4
+./code/scripts/run_bt_pipeline.sh --n-jobs 4
 ```
 
 Use `--mode figures` to plot statistics beneath the selected `--output-dir`, or `--mode stats`
@@ -70,5 +77,5 @@ to compute without plotting. Pass `--stats-dir stats` to select preserved statis
 start with the smoke example.
 
 All commands, numerical conventions, and known provenance gaps are documented in
-[docs/replication.md](docs/replication.md). Exact paper figure numbers and the final citation await
+[documentation/replication.md](documentation/replication.md). Exact paper figure numbers and the final citation await
 author designation.

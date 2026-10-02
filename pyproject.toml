@@ -34,16 +34,19 @@ dev = [
     "ty>=0.0.15",
 ]
 
-
-
-
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["."]
+testpaths = ["code/tests"]
+pythonpath = ["code"]
 
 [tool.ruff]
 line-length = 100
-extend-exclude = ["archive", "notebooks", "other_files"]
+extend-exclude = ["code/archive", "code/preprocessing"]
 
 [tool.ruff.lint]
 extend-select = ["D212"]
+
+[tool.ty.environment]
+extra-paths = ["code"]
+
+[tool.ty.src]
+exclude = ["code/archive", "code/preprocessing"]
