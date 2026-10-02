@@ -21,27 +21,20 @@ from voting_metrics_main_code.constants import (
     BT_CANDIDATE_COMBINATIONS,
     BT_COHESION_COMBINATIONS,
     DEFAULT_FONT_SIZE,
+    RULE_ORDER,
 )
 from voting_metrics_main_code.constants import (
     RULE_COLORS as rule_color_map,
 )
-from voting_metrics_main_code.constants import (
-    RULE_ORDER as AllowedRule,
-)
 from voting_metrics_main_code.replication import ROOT
 
 
-def profile_settings() -> list[str]:
+def build_profile_setting_paths() -> list[str]:
     """Enumerate the two-bloc parameter settings used in proportionality comparisons.
 
     Returns:
         list[str]: Profile setting path suffixes in grid order.
     """
-    b_bloc_proportions = BT_BLOC_PROPORTIONS
-    alpha_combinations = BT_ALPHA_COMBINATIONS
-    cohesion_combinations = BT_COHESION_COMBINATIONS
-    candidate_count_combinations = BT_CANDIDATE_COMBINATIONS
-
     settings = []
 
     for (n_a_cands, n_b_cands), b_bloc_proportion, (a_coh, b_coh), (
@@ -50,10 +43,10 @@ def profile_settings() -> list[str]:
         ba_al,
         bb_al,
     ) in product(
-        candidate_count_combinations,
-        b_bloc_proportions,
-        cohesion_combinations,
-        alpha_combinations,
+        BT_CANDIDATE_COMBINATIONS,
+        BT_BLOC_PROPORTIONS,
+        BT_COHESION_COMBINATIONS,
+        BT_ALPHA_COMBINATIONS,
     ):
         settings_str = (
             f"{n_a_cands:02d}_{n_b_cands:02d}/"
@@ -88,72 +81,79 @@ def load_proportionality_statistics(*, stats_root: Path) -> pd.DataFrame:
             f"No proportionality JSON files under {stats_root / 'bt_proportionality'}"
         )
 
-    df_list = []
+    proportionality_tables = []
 
     for path in all_files:
-        with open(path, "r") as f:
-            data = json.load(f)
+        with open(path) as statistics_file:
+            data = json.load(statistics_file)
 
         rows = []
 
         for file_path, methods in data.items():
-            for method, vals in methods.items():
+            for method, proportions in methods.items():
                 rows.append(
                     {
                         "file": file_path,
                         "method": method,
-                        "expected_proportion": vals.get("expected_proportion"),
-                        "observed_proportion": vals.get("observed_proportion"),
+                        "expected_proportion": proportions.get("expected_proportion"),
+                        "observed_proportion": proportions.get("observed_proportion"),
                     }
                 )
 
-        df_list.append(pd.DataFrame(rows))
+        proportionality_tables.append(pd.DataFrame(rows))
 
-    df = pd.concat(df_list, ignore_index=True)
-    df["file"] = df["file"].map(lambda path: "/".join(Path(path).parts[-3:-1]))
+    proportionality_df = pd.concat(proportionality_tables, ignore_index=True)
+    proportionality_df["file"] = proportionality_df["file"].map(
+        lambda path: "/".join(Path(path).parts[-3:-1])
+    )
 
-    return df
+    return proportionality_df
 
 
 def aggregate_proportionality_points(
-    statistics: pd.DataFrame, settings: Sequence[str]
+    proportionality_df: pd.DataFrame, settings: Sequence[str]
 ) -> tuple[list[float], list[float]]:
     """Compute expected and mean observed representation in the selected setting order.
 
     Args:
-        statistics (pd.DataFrame): Proportionality rows already filtered to one voting rule.
+        proportionality_df (pd.DataFrame): Proportionality rows already filtered to one voting rule.
         settings (Sequence[str]): Profile setting suffixes in plotting order.
 
     Returns:
         tuple[list[float], list[float]]: Expected proportions followed by mean observed proportions.
 
     Raises:
-        KeyError: A requested setting has no rows in statistics.
+        KeyError: A requested setting has no rows in proportionality_df.
     """
-    grouped = statistics.groupby("file", sort=False)
-    all_x_values = []
-    all_y_values = []
+    proportionality_by_setting = proportionality_df.groupby("file", sort=False)
+    expected_proportions = []
+    observed_proportions = []
 
-    for pat in settings:
-        filtered = grouped.get_group(pat)
+    for setting in settings:
+        setting_proportionality_df = proportionality_by_setting.get_group(setting)
 
-        all_x_values.append(
-            float(filtered["expected_proportion"].iloc[0])
+        expected_proportions.append(
+            float(setting_proportionality_df["expected_proportion"].iloc[0])
         )  # They are all the same for a given setting
 
-        all_y_values.append(float(filtered["observed_proportion"].to_numpy().mean()))
+        observed_proportions.append(
+            float(setting_proportionality_df["observed_proportion"].to_numpy().mean())
+        )
 
-    return all_x_values, all_y_values
+    return expected_proportions, observed_proportions
 
 
 def plot_rule_waterfall(
-    df: pd.DataFrame, election_type: str, all_settings_strings: Sequence[str], output_dir: Path
+    proportionality_df: pd.DataFrame,
+    election_type: str,
+    all_settings_strings: Sequence[str],
+    output_dir: Path,
 ) -> None:
     """Save one rule’s expected-versus-observed bloc representation waterfall.
 
     Args:
-        df (pd.DataFrame): Proportionality rows with file, method, and expected/observed
-            proportions.
+        proportionality_df (pd.DataFrame): Proportionality rows with file, method, and
+            expected/observed proportions.
         election_type (str): Voting rule name.
         all_settings_strings (Sequence[str]): Profile setting suffixes in plotting order.
         output_dir (Path): Directory for generated figures.
@@ -162,16 +162,18 @@ def plot_rule_waterfall(
         KeyError: A requested profile setting has no rows for the selected rule.
     """
     n_seats = 3
-    rule_df = df.query("method == @election_type")
+    rule_proportionality_df = proportionality_df.query("method == @election_type")
     _, ax = plt.subplots(1, 1, figsize=(8, 8))
 
-    all_x_values, all_y_values = aggregate_proportionality_points(rule_df, all_settings_strings)
+    expected_proportions, observed_proportions = aggregate_proportionality_points(
+        rule_proportionality_df, all_settings_strings
+    )
 
-    points = list(zip(all_x_values, all_y_values))
+    points = list(zip(expected_proportions, observed_proportions))
 
     ax.plot(
-        all_x_values,
-        all_y_values,
+        expected_proportions,
+        observed_proportions,
         color=rule_color_map[election_type],
         marker="o",
         linestyle="None",
@@ -234,7 +236,6 @@ def plot_rule_waterfall(
     )
 
     ax.set_aspect("equal", adjustable="box")
-    # print(f"Saving {election_type} waterfall plot...")
     plt.savefig(
         output_dir / f"{election_type}_waterfall.png",
         dpi=300,
@@ -260,14 +261,14 @@ def main(*, stats_root: Path | None = None, output_root: Path = ROOT) -> None:
     print(f"Statistics: {stats_root}")
     print(f"Output root: {output_root}")
 
-    all_settings_strings = profile_settings()
+    all_settings_strings = build_profile_setting_paths()
 
-    df = load_proportionality_statistics(stats_root=stats_root)
+    proportionality_df = load_proportionality_statistics(stats_root=stats_root)
     output_dir = output_root / "plots" / "bt_plots/waterfall"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    for election_type in AllowedRule:
-        plot_rule_waterfall(df, election_type, all_settings_strings, output_dir)
+    for election_type in RULE_ORDER:
+        plot_rule_waterfall(proportionality_df, election_type, all_settings_strings, output_dir)
 
 
 if __name__ == "__main__":

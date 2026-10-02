@@ -5,42 +5,17 @@ import sys
 from collections.abc import Mapping, Sequence
 from glob import escape, glob
 from pathlib import Path
-from typing import cast
 
 import click
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
+from pipelines.scottish.plots._data import build_boxplot_table, export_aggregate_tables
 from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER
 from voting_metrics_main_code.replication import ROOT
-
-
-def construct_df_scottish(
-    data_dictionary: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
-    n_cands: int,
-    metric: str,
-) -> pd.DataFrame:
-    """Construct a DataFrame for one metric at a fixed candidate count.
-
-    Args:
-        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Mapping from rule
-            to candidate-count string to metric key to score list.
-        n_cands (int): Number of candidates.
-        metric (str): Metric identifier used in the statistics filenames.
-
-    Returns:
-        pd.DataFrame: Score columns ordered by voting rule, with observations along the rows.
-    """
-    df_data = []
-
-    for _, data in data_dictionary.items():
-        df_data.append(data[str(n_cands)][metric])
-
-    return pd.DataFrame(df_data, index=list(data_dictionary)).T
 
 
 def build_plot_for_metric_scottish(
@@ -64,32 +39,20 @@ def build_plot_for_metric_scottish(
         y_label (str, optional): Label for the y-axis. Defaults to ''.
         use_one (bool, optional): Whether to show only the Borda rule. Defaults to False.
     """
-    df_list = []
-
-    for n_cands in n_cand_list:
-        df = construct_df_scottish(ordered_outputs, n_cands, metric)
-        df = df.melt(var_name="rule", value_name="value")
-        df["n_cands"] = n_cands
-
-        df_list.append(df)
-
-    if use_one:
-        df_list = [df[df["rule"] == "borda"] for df in df_list]
-
-    long = pd.concat(df_list, ignore_index=True)
+    metric_values_df = build_boxplot_table(ordered_outputs, n_cand_list, metric, borda_only=use_one)
 
     palette = sns.color_palette("colorblind", len(ordered_rules))
     rule_color_map = dict(zip(ordered_rules, palette))
 
     sns.boxplot(
-        data=long,
+        data=metric_values_df,
         x="n_cands",
-        y="value",  # σ_IIA values
+        y="value",
         hue="rule",
         palette=rule_color_map,
         dodge=True,
         ax=ax,
-        legend=not use_one,  # don't show legend if only one rule
+        legend=not use_one,
         # Seaborn accepts percentile pairs; its stub only declares a float.
         whis=[1, 99],  # type: ignore[arg-type]
     )
@@ -98,58 +61,6 @@ def build_plot_for_metric_scottish(
 
     if not use_one:
         ax.legend(title="Voting rule", bbox_to_anchor=(1, 0.5), loc="center left")
-
-
-def export_aggregate_tables(
-    stat_file_base_dir: str,
-    ordered_rules: Sequence[str],
-    n_cand_list: Sequence[int],
-    variant: str,
-    tiebreak: str,
-    *,
-    output_root: Path,
-) -> None:
-    """Export aggregate Scottish statistics ordered by rule and candidate count.
-
-    Args:
-        stat_file_base_dir (str): Base directory containing the metric JSON files.
-        ordered_rules (Sequence[str]): Voting rules in the order to load or display.
-        n_cand_list (Sequence[int]): Candidate counts to include, in display order.
-        variant (str): Variant token used in the output filename; input files are not filtered by
-            it.
-        tiebreak (str): Tiebreak token used in the output filename; input files are not filtered by
-            it.
-        output_root (Path): Run root containing stats, plots, and tables.
-    """
-    all_stats_files = glob(f"{escape(stat_file_base_dir)}/*stats.json")
-
-    stats_by_type = {}
-
-    for stats_file in all_stats_files:
-        with open(stats_file, "r") as f:
-            stats = json.load(f)
-
-        election_type = stats_file.split("/")[-1].split("_")[0]
-        stats_by_type[election_type] = stats
-
-    df = pd.concat(
-        {rule: pd.DataFrame(sub).T for rule, sub in stats_by_type.items()},
-        names=["rule", "n_cands"],  # names for the new index levels
-    )
-
-    index = cast(pd.MultiIndex, df.index)
-    df.index = index.set_levels(index.levels[1].astype(int), level="n_cands")
-
-    df = df.reindex(
-        pd.MultiIndex.from_product(
-            [list(ordered_rules), list(n_cand_list)],
-            names=["rule", "n_cands"],
-        ),
-    )
-
-    (output_root / "stats" / "scottish_stats").mkdir(parents=True, exist_ok=True)
-
-    df.to_csv(f"{(output_root / 'stats')}/scottish_stats/scottish_stats_{variant}_{tiebreak}.csv")
 
 
 @click.command()
@@ -174,7 +85,7 @@ def export_aggregate_tables(
 def main(
     variant: str,
     tiebreak: str,
-    n_cand_list: Sequence[int] = list(range(6, 10)),
+    n_cand_list: Sequence[int] = range(6, 10),
     *,
     stats_root: Path | None = None,
     output_root: Path = ROOT,
@@ -185,7 +96,7 @@ def main(
         variant (str): Metric aggregation variant, 'average' or 'worst_case'.
         tiebreak (str): Tiebreak rule token used in the statistics filenames.
         n_cand_list (Sequence[int], optional): Candidate counts to include, in display order.
-            Defaults to list(range(6, 10)).
+            Defaults to range(6, 10).
         stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
             the selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
@@ -198,10 +109,10 @@ def main(
 
     ordered_rules = NON_RANDOM_RULE_ORDER
 
-    stat_file_base_dir = str((stats_root / "scottish_stats").resolve())
-    output_dir = str(output_root / "plots/scottish")
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
-    output_plot_name = f"{str(output_dir)}/scottish_sigma_plots_{variant}_{tiebreak}.png"
+    stat_file_base_dir = stats_root / "scottish_stats"
+    output_dir = output_root / "plots/scottish"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_plot_name = output_dir / f"scottish_sigma_plots_{variant}_{tiebreak}.png"
 
     # ==========================
     # Make the scottish boxplots

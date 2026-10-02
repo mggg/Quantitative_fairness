@@ -43,10 +43,10 @@ calculations may still differ from the historical runs. See the replication guid
 | [`pipelines/`](pipelines/README.md) | Dataset collectors, plotters, and analysis index                   |
 | `scripts/`                          | Maintained replication runners, input retrieval, and smoke example |
 | `config/`                           | Experiment selections, including the BT profile folders            |
-| `tests/`                            | Scientific correctness and data-preservation checks                         |
+| `tests/`                            | Scientific correctness and data-preservation checks                |
 | `data/`                             | Preserved inputs; optional large downloads                         |
 | `stats/`, `plots/`                  | Saved statistics and regenerable figures                           |
-| `results/generated/`                | Optional ignored output root                                        |
+| `results/generated/`                | Optional ignored output root                                       |
 | `docs/`                             | Replication inventory, provenance, and baseline                    |
 | `archive/`                          | Preserved superseded source snapshots                              |
 | `notebooks/`, `other_files/`        | Historical notebooks and preparation utilities                     |

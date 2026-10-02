@@ -65,6 +65,7 @@ def parse_arguments() -> argparse.Namespace:
     args.stats_dir = (args.stats_dir or args.output_dir / "stats").resolve()
     args.bt_stats_dir = (args.bt_stats_dir or args.stats_dir / "bt_2_bloc_profile_stats").resolve()
     args.settings_file = args.settings_file.resolve()
+
     return args
 
 
@@ -132,6 +133,7 @@ def build_recipe_commands(args: argparse.Namespace) -> list[list[str]]:
     if args.diagnostics:
         commands.append(["pipelines/portland/clustering/run_short_bursts.py", *inputs])
         commands.append(["pipelines/portland/clustering/run_brute_force.py", *inputs])
+
     return commands
 
 
@@ -159,6 +161,7 @@ def main() -> None:
             ),
             flush=True,
         )
+
         if not args.dry_run:
             subprocess.run(
                 [sys.executable, str(ROOT / command[0]), *command[1:]],

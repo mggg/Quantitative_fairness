@@ -7,6 +7,7 @@ by rho. Functions suffixed ``_winner_set`` score elected candidates rather than 
 from collections.abc import Callable, Hashable, Iterable, Sequence
 from itertools import combinations, product
 from math import asin, comb, pi, sqrt
+from typing import Protocol
 
 import numpy as np
 from numpy.typing import NDArray
@@ -15,6 +16,25 @@ from votekit.cleaning import remove_and_condense_rank_profile
 
 from voting_metrics_main_code.constants import InterpolationType, MetricVariant
 from voting_metrics_main_code.voting_rules import ElectionConstructor, random_candidate_order
+
+
+class FairnessMetric(Protocol):
+    """Metric signature shared by collectors evaluating profiles and seat counts."""
+
+    def __call__(
+        self, profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int
+    ) -> float:
+        """Evaluate a metric for a profile, voting rule, and seat count.
+
+        Args:
+            profile (RankProfile): Ranked-ballot preference profile.
+            voting_rule (ElectionConstructor): Voting rule callable passed to the metric.
+            n_seats (int): Number of seats to elect.
+
+        Returns:
+            float: Metric score for the supplied election configuration.
+        """
+        ...
 
 
 def kendall_tau_distance(list1: Sequence[Hashable], list2: Sequence[Hashable]) -> int:
@@ -58,7 +78,7 @@ def kendall_tau_distance(list1: Sequence[Hashable], list2: Sequence[Hashable]) -
     return distance
 
 
-def __unpack_ranking_with_lexicographic_tiebreak(
+def _resolve_ranking_ties(
     ranking: Sequence[frozenset[str]],
 ) -> tuple[frozenset[str], ...]:
     """Break each tied rank into lexicographically ordered singleton candidate sets.
@@ -69,7 +89,7 @@ def __unpack_ranking_with_lexicographic_tiebreak(
     Returns:
         tuple[frozenset[str], ...]: Untied ranking preserving the order between the original ranks.
     """
-    return tuple([frozenset({cand}) for c_set in ranking for cand in sorted(c_set)])
+    return tuple(frozenset({candidate}) for tied_rank in ranking for candidate in sorted(tied_rank))
 
 
 def determine_weighted_ranking_vector_XAB(
@@ -97,7 +117,6 @@ def determine_weighted_ranking_vector_XAB(
     Raises:
         ValueError: There are no ranking positions or array shapes cannot be broadcast together.
     """
-    # element‑wise boolean masks
     is_a = ranking_array == a
     is_b = ranking_array == b
 
@@ -125,7 +144,6 @@ def number_of_voters(profile: RankProfile, *args: object, **kwargs: object) -> f
     Returns:
         float: Total ballot weight.
     """
-    del args, kwargs  # unused
     return float(profile.df["Weight"].sum())
 
 
@@ -134,7 +152,7 @@ def number_of_voters(profile: RankProfile, *args: object, **kwargs: object) -> f
 # =================================================================================================
 
 
-def __asin_interpolation(misalignment: float) -> float:
+def _asin_interpolation(misalignment: float) -> float:
     """Apply the arcsine UM transformation, saturating at one for support of at least 0.5.
 
     Args:
@@ -149,7 +167,7 @@ def __asin_interpolation(misalignment: float) -> float:
     return float((2 / pi) * asin(sqrt(2 * misalignment)) if misalignment < 1 / 2 else 1)
 
 
-def __odds_interpolation(misalignment: float) -> float:
+def _odds_interpolation(misalignment: float) -> float:
     """Apply the odds UM transformation, saturating at one for support of at least 0.5.
 
     Args:
@@ -161,7 +179,7 @@ def __odds_interpolation(misalignment: float) -> float:
     return float(misalignment / (1 - misalignment) if misalignment < 1 / 2 else 1)
 
 
-def __linear_interpolation(misalignment: float) -> float:
+def _linear_interpolation(misalignment: float) -> float:
     """Apply the linear UM transformation, saturating at one for support of at least 0.5.
 
     Args:
@@ -173,7 +191,7 @@ def __linear_interpolation(misalignment: float) -> float:
     return float(2 * misalignment if misalignment < 1 / 2 else 1)
 
 
-def _interpolation_function(interpolation_type: InterpolationType) -> Callable[[float], float]:
+def _select_interpolation(interpolation_type: InterpolationType) -> Callable[[float], float]:
     """Select the scalar transformation used for a UM pairwise support value.
 
     Args:
@@ -187,16 +205,43 @@ def _interpolation_function(interpolation_type: InterpolationType) -> Callable[[
     """
     match interpolation_type:
         case "linear":
-            return __linear_interpolation
+            return _linear_interpolation
         case "asin":
-            return __asin_interpolation
+            return _asin_interpolation
         case "odds":
-            return __odds_interpolation
+            return _odds_interpolation
         case _:
             raise ValueError(
                 f"Unknown interpolation_type: {interpolation_type}. Must be 'asin', 'odds',"
                 f" or 'linear'."
             )
+
+
+def _extract_ranked_ballot_arrays(
+    profile: RankProfile,
+) -> tuple[NDArray[np.object_], NDArray[np.float64]]:
+    """Extract ranking cells and ballot weights in the same row order.
+
+    Args:
+        profile (RankProfile): Profile with at least one ranking position.
+
+    Returns:
+        tuple[NDArray[np.object_], NDArray[np.float64]]: Ranking cells and aligned ballot weights.
+
+    Raises:
+        ValueError: The profile has no positive integer ranking length.
+    """
+    max_ballot_length = profile.max_ranking_length
+    if not isinstance(max_ballot_length, int) or max_ballot_length < 1:
+        raise ValueError(
+            f"Invalid max_ranking_length: {max_ballot_length}. Must be a positive integer."
+        )
+
+    ranking_columns = [f"Ranking_{position}" for position in range(1, max_ballot_length + 1)]
+    ranking_array = profile.df[ranking_columns].to_numpy()
+    weight_vector = profile.df["Weight"].to_numpy()
+
+    return ranking_array, weight_vector
 
 
 def sigma_UM(
@@ -236,34 +281,27 @@ def sigma_UM(
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
 
-    interpolation_fn = _interpolation_function(interpolation_type)
+    interpolation_fn = _select_interpolation(interpolation_type)
 
     raw_ranking = voting_rule(profile=profile, m=n_seats).get_ranking()
-    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(raw_ranking)
+    original_ranking = _resolve_ranking_ties(raw_ranking)
 
-    weight_vector = profile.df["Weight"].to_numpy()
+    ranking_array, weight_vector = _extract_ranked_ballot_arrays(profile)
     n_voters = weight_vector.sum()
 
-    max_ballot_len = profile.max_ranking_length
-    if not isinstance(max_ballot_len, int) or max_ballot_len < 1:
-        raise ValueError(
-            f"Invalid max_ranking_length: {max_ballot_len}. Must be a positive integer."
-        )
-    ranking_array = profile.df[[f"Ranking_{i}" for i in range(1, max_ballot_len + 1)]].to_numpy()
-
-    misalignment = 1
+    minimum_alignment = 1
     total_alignment = 0
     for rank1, rank2 in combinations(original_ranking, 2):
         weighted_ranking_vector = determine_weighted_ranking_vector_XAB(
             ranking_array, weight_vector, rank1, rank2
         )
-        alignment_IAB = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
-        misalignment = min(misalignment, alignment_IAB)
-        total_alignment += interpolation_fn(alignment_IAB)
+        pairwise_alignment = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
+        minimum_alignment = min(minimum_alignment, pairwise_alignment)
+        total_alignment += interpolation_fn(pairwise_alignment)
 
     average_alignment = total_alignment / comb(len(original_ranking), 2)
 
-    return average_alignment if variant == "average" else interpolation_fn(misalignment)
+    return average_alignment if variant == "average" else interpolation_fn(minimum_alignment)
 
 
 def sigma_UM_winner_set(
@@ -303,23 +341,14 @@ def sigma_UM_winner_set(
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
 
-    interpolation_fn = _interpolation_function(interpolation_type)
+    interpolation_fn = _select_interpolation(interpolation_type)
 
-    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(
-        voting_rule(profile=profile, m=n_seats).get_ranking()
-    )
+    original_ranking = _resolve_ranking_ties(voting_rule(profile=profile, m=n_seats).get_ranking())
 
-    weight_vector = profile.df["Weight"].to_numpy()
+    ranking_array, weight_vector = _extract_ranked_ballot_arrays(profile)
     n_voters = weight_vector.sum()
 
-    max_ballot_len = profile.max_ranking_length
-    if not isinstance(max_ballot_len, int) or max_ballot_len < 1:
-        raise ValueError(
-            f"Invalid max_ranking_length: {max_ballot_len}. Must be a positive integer."
-        )
-    ranking_array = profile.df[[f"Ranking_{i}" for i in range(1, max_ballot_len + 1)]].to_numpy()
-
-    misalignment = 1
+    minimum_alignment = 1
     total_alignment = 0
     winners = original_ranking[:n_seats]
     losers = original_ranking[n_seats:]
@@ -328,13 +357,13 @@ def sigma_UM_winner_set(
         weighted_ranking_vector = determine_weighted_ranking_vector_XAB(
             ranking_array, weight_vector, rank1, rank2
         )
-        alignment_IAB = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
-        misalignment = min(misalignment, alignment_IAB)
-        total_alignment += interpolation_fn(alignment_IAB)
+        pairwise_alignment = (1 / n_voters) * np.linalg.norm(weighted_ranking_vector, ord=1)
+        minimum_alignment = min(minimum_alignment, pairwise_alignment)
+        total_alignment += interpolation_fn(pairwise_alignment)
 
-    average_misalignment = total_alignment / (n_seats * (len(original_ranking) - n_seats))
+    average_alignment = total_alignment / (n_seats * (len(original_ranking) - n_seats))
 
-    return average_misalignment if variant == "average" else interpolation_fn(misalignment)
+    return average_alignment if variant == "average" else interpolation_fn(minimum_alignment)
 
 
 # =================================================================================================
@@ -378,7 +407,7 @@ def sigma_IIA(
 
     n_candidates = len(profile.candidates)
     ranking_before_unpacking = voting_rule(profile=profile, m=n_seats).get_ranking()
-    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(ranking_before_unpacking)
+    original_ranking = _resolve_ranking_ties(ranking_before_unpacking)
     total_kendall_distance = 0
     largest_kendall_distance = 0
     distance_divisor = comb(n_candidates - 1, 2)
@@ -391,7 +420,7 @@ def sigma_IIA(
         voting_ranking_without_cand_before_unpacking = voting_rule(
             remove_and_condense_rank_profile(candidate, profile), m=n_seats
         ).get_ranking()
-        voting_ranking_without_cand = __unpack_ranking_with_lexicographic_tiebreak(
+        voting_ranking_without_cand = _resolve_ranking_ties(
             voting_ranking_without_cand_before_unpacking
         )
 
@@ -405,7 +434,7 @@ def sigma_IIA(
 
     if variant == "worst_case":
         return 1 - largest_kendall_distance
-    return 1 - total_kendall_distance / (n_candidates)
+    return 1 - total_kendall_distance / n_candidates
 
 
 def sigma_IIA_all_subset(
@@ -445,15 +474,11 @@ def sigma_IIA_all_subset(
 
     n_candidates = len(profile.candidates)
     ranking_before_unpacking = voting_rule(profile=profile, m=n_seats).get_ranking()
-    original_ranking = __unpack_ranking_with_lexicographic_tiebreak(ranking_before_unpacking)
+    original_ranking = _resolve_ranking_ties(ranking_before_unpacking)
     total_distance = 0
     largest_distance = 0
 
-    # NOTE: The Kendall-Tau distance for a subset where all candidates are removed
-    # or where no candidates are removed is always 0. Also, when there is only one
-    # candidate remaining, the Kendall-Tau distance will always be 0. So we start
-    # with subsets of size 1 and go up to n_candidates - 2.
-    # So, we will take the distance in these cases to be 0.
+    # Nonempty removals must leave at least two candidates for a pairwise comparison.
     for i in range(1, n_candidates - 1):
         # NOTE: The maximum Kendall-Tau distance for a subset of size n_candidates - i is
         # comb(n_candidates - i, 2)
@@ -469,7 +494,7 @@ def sigma_IIA_all_subset(
                 remove_and_condense_rank_profile(list(candidate_subset), profile),
                 m=min(n_seats, n_candidates - i),
             ).get_ranking()
-            voting_ranking_without_cand = __unpack_ranking_with_lexicographic_tiebreak(
+            voting_ranking_without_cand = _resolve_ranking_ties(
                 voting_ranking_without_cand_before_unpacking
             )
 
@@ -485,7 +510,7 @@ def sigma_IIA_all_subset(
         return 1 - largest_distance
 
     n_subsets = (
-        2 ** (n_candidates) - 2 - n_candidates
+        2**n_candidates - 2 - n_candidates
     )  # All subsets of len > 1 that are not the full set
     return 1 - total_distance / n_subsets
 
@@ -536,39 +561,37 @@ def sigma_IIA_winner_set(
         )
 
     original_winners_set = set(
-        __unpack_ranking_with_lexicographic_tiebreak(
-            voting_rule(profile=profile, m=n_seats).get_elected()
-        )
+        _resolve_ranking_ties(voting_rule(profile=profile, m=n_seats).get_elected())
     )
 
-    total_distance = 0
-    smallest_normalized_intersection = 1
+    total_retention = 0
+    minimum_retention = 1
 
     for candidate in profile.candidates:
-        singleton = set({frozenset({candidate})})
+        singleton = {frozenset({candidate})}
         if singleton == original_winners_set:
             continue
 
         # In the n == 1 case, this will always be 1
         new_available_seats = n_seats - len(singleton.intersection(original_winners_set))
 
-        new_winner_set = __unpack_ranking_with_lexicographic_tiebreak(
+        new_winner_set = _resolve_ranking_ties(
             voting_rule(
                 remove_and_condense_rank_profile(candidate, profile),
                 m=new_available_seats,
             ).get_elected()
         )
-        new_dist = len(original_winners_set.intersection(new_winner_set)) / new_available_seats
+        retention = len(original_winners_set.intersection(new_winner_set)) / new_available_seats
 
-        total_distance += new_dist
-        smallest_normalized_intersection = min(smallest_normalized_intersection, new_dist)
+        total_retention += retention
+        minimum_retention = min(minimum_retention, retention)
 
     if variant == "worst_case":
-        return smallest_normalized_intersection
+        return minimum_retention
 
     n_subsets_considered = len(profile.candidates) - (1 if len(original_winners_set) == 1 else 0)
 
-    return total_distance / n_subsets_considered
+    return total_retention / n_subsets_considered
 
 
 def sigma_IIA_winner_set_all_subset(
@@ -603,12 +626,10 @@ def sigma_IIA_winner_set_all_subset(
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
 
     original_winners_set = set(
-        __unpack_ranking_with_lexicographic_tiebreak(
-            voting_rule(profile=profile, m=n_seats).get_elected()
-        )
+        _resolve_ranking_ties(voting_rule(profile=profile, m=n_seats).get_elected())
     )
 
-    full_candidate_set = set(frozenset({cand}) for cand in profile.candidates)
+    full_candidate_set = {frozenset({candidate}) for candidate in profile.candidates}
     n_candidates = len(profile.candidates)
 
     if n_candidates == n_seats:
@@ -624,14 +645,13 @@ def sigma_IIA_winner_set_all_subset(
             f" and {n_candidates} candidates."
         )
 
-    total_distance = 0
-    smallest_normalized_intersection = 1
+    total_retention = 0
+    minimum_retention = 1
 
-    # NOTE: Don't need to consider the whole set because we want for W \nsubseteq S
-    # and the whole set will always contain W.
+    # Removing every candidate would also remove every original winner.
     for i in range(1, n_candidates):
         for candidate_subset in combinations(profile.candidates, i):
-            candidate_subset_set = set(frozenset({cand}) for cand in candidate_subset)
+            candidate_subset_set = {frozenset({candidate}) for candidate in candidate_subset}
 
             if original_winners_set.issubset(candidate_subset_set) or candidate_subset_set == (
                 full_candidate_set - original_winners_set
@@ -642,27 +662,27 @@ def sigma_IIA_winner_set_all_subset(
                 candidate_subset_set.intersection(original_winners_set)
             )
 
-            new_winner_set = __unpack_ranking_with_lexicographic_tiebreak(
+            new_winner_set = _resolve_ranking_ties(
                 voting_rule(
                     remove_and_condense_rank_profile(list(candidate_subset), profile),
                     m=new_available_seats,
                 ).get_elected()
             )
 
-            new_dist = len(original_winners_set.intersection(new_winner_set)) / new_available_seats
+            retention = len(original_winners_set.intersection(new_winner_set)) / new_available_seats
 
-            total_distance += new_dist
-            smallest_normalized_intersection = min(smallest_normalized_intersection, new_dist)
+            total_retention += retention
+            minimum_retention = min(minimum_retention, retention)
 
     if variant == "worst_case":
-        return smallest_normalized_intersection
+        return minimum_retention
 
     n_subsets_considered = 2**n_candidates - 2 ** (n_candidates - n_seats) - 2
 
-    return total_distance / n_subsets_considered
+    return total_retention / n_subsets_considered
 
 
-def __random_profile_ranking(
+def _draw_random_profile_ranking(
     profile: RankProfile, n_seats: int, excluded: Iterable[str] = ()
 ) -> tuple[frozenset[str], ...]:
     """Draw a random candidate ranking after excluding the supplied candidates.
@@ -719,11 +739,12 @@ def sigma_IIA_random(
         ZeroDivisionError: Fewer than two candidates remain for a normalized distance.
     """
     del voting_rule
+
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
 
     n_candidates = len(profile.candidates)
-    original_ranking = __random_profile_ranking(profile, n_seats)
+    original_ranking = _draw_random_profile_ranking(profile, n_seats)
     distance_divisor = comb(n_candidates - 1, 2)
     total_distance = 0
     largest_distance = 0
@@ -732,7 +753,7 @@ def sigma_IIA_random(
         original_ranking_without_cand = [
             c_set for c_set in original_ranking if candidate not in c_set
         ]
-        new_ranking = __random_profile_ranking(profile, n_seats, (candidate,))
+        new_ranking = _draw_random_profile_ranking(profile, n_seats, (candidate,))
         distance = (
             kendall_tau_distance(original_ranking_without_cand, new_ranking) / distance_divisor
         )
@@ -770,11 +791,12 @@ def sigma_IIA_winner_set_random(
         ValueError: The variant is unsupported or a random election cannot fill the requested seats.
     """
     del voting_rule
+
     if variant not in ("average", "worst_case"):
         raise ValueError(f"Unknown variant: {variant}. Must be 'average' or 'worst_case'.")
 
     n_candidates = len(profile.candidates)
-    original_winners_set = set(__random_profile_ranking(profile, n_seats)[:n_seats])
+    original_winners_set = set(_draw_random_profile_ranking(profile, n_seats)[:n_seats])
     if n_candidates == n_seats or (n_candidates == 2 and n_seats == 1):
         return 1.0
     if n_seats < 1:
@@ -785,8 +807,8 @@ def sigma_IIA_winner_set_random(
             f"found {n_seats} seats and {n_candidates} candidates."
         )
 
-    total_distance = 0
-    smallest_normalized_intersection = 1
+    total_retention = 0
+    minimum_retention = 1
     for candidate in profile.candidates:
         singleton = {frozenset({candidate})}
         if singleton == original_winners_set:
@@ -794,15 +816,15 @@ def sigma_IIA_winner_set_random(
 
         new_available_seats = n_seats - len(singleton.intersection(original_winners_set))
         new_winner_set = set(
-            __random_profile_ranking(profile, new_available_seats, (candidate,))[
+            _draw_random_profile_ranking(profile, new_available_seats, (candidate,))[
                 :new_available_seats
             ]
         )
-        distance = len(original_winners_set.intersection(new_winner_set)) / (new_available_seats)
-        total_distance += distance
-        smallest_normalized_intersection = min(smallest_normalized_intersection, distance)
+        retention = len(original_winners_set.intersection(new_winner_set)) / new_available_seats
+        total_retention += retention
+        minimum_retention = min(minimum_retention, retention)
 
     if variant == "worst_case":
-        return smallest_normalized_intersection
+        return minimum_retention
     n_subsets_considered = len(profile.candidates) - (1 if len(original_winners_set) == 1 else 0)
-    return total_distance / n_subsets_considered
+    return total_retention / n_subsets_considered

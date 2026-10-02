@@ -2,18 +2,20 @@
 
 import argparse
 import sys
+from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Mapping, Sequence
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.legend import Legend
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from pipelines.scottish.plots._data import load_outputs_by_election_type
+from pipelines.scottish.plots._data import (
+    build_boxplot_table,
+    load_outputs_by_election_type,
+)
 from voting_metrics_main_code.constants import (
     RULE_COLORS as rule_color_map,
 )
@@ -22,76 +24,6 @@ from voting_metrics_main_code.constants import (
     RULE_ORDER,
 )
 from voting_metrics_main_code.replication import ROOT
-
-colors = [
-    "#00B8D4",  # Borda
-    "#fdbf6f",  # STV
-    "#e31a1c",  # Plurality
-    "#00cd99",  # 3-Approval
-    "#b3de69",  # 2-Approval
-    "#FF80AB",  # Ranked Pairs
-    "#b2bac7",  # Random
-    "#6200EA",
-    "#f68eee",
-    "#ffca5d",
-    "#33a02c",
-    "#FFEA00",
-    "#ff7f00",
-    "#B388FF",
-    "#D81B60",
-    "#0099cd",
-    "#26A69A",
-    "#00cd99",
-    "#99cd00",
-    "#cd0099",
-    "#9900cd",
-    "#8dd3c7",
-    "#bebada",
-    "#fb8072",
-    "#80b1d3",
-    "#fdb462",
-    "#b3de69",
-    "#fccde5",
-    "#bc80bd",
-    "#ccebc5",
-    "#ffed6f",
-    "#ffffb3",
-    "#a6cee3",
-    "#1f78b4",
-    "#b2df8a",
-    "#fb9a99",
-    "#cab2d6",
-    "#6a3d9a",
-    "#b15928",
-    "#64ffda",
-    "#A1887F",
-    "#76FF03",
-    "#DCE775",
-]
-
-
-def construct_df_scottish(
-    data_dictionary: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
-    n_cands: int,
-    metric: str,
-) -> pd.DataFrame:
-    """Construct a DataFrame for a metric at a fixed candidate count.
-
-    Args:
-        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested mapping of
-            rule to candidate count to metric values.
-        n_cands (int): Number of candidates to extract.
-        metric (str): Metric key to select.
-
-    Returns:
-        pd.DataFrame: A transposed DataFrame with rules as columns.
-    """
-    df_data = []
-
-    for _, data in data_dictionary.items():
-        df_data.append(data[str(n_cands)][metric])
-
-    return pd.DataFrame(df_data, index=list(data_dictionary)).T
 
 
 def build_plot_for_metric_scottish(
@@ -111,31 +43,20 @@ def build_plot_for_metric_scottish(
             rule to candidate count to metric values.
         n_cand_list (Sequence[int]): Candidate counts to include.
         ax (Axes): Matplotlib axes to draw into.
-        y_label (str, optional): Label for the y-axis. Defaults to ''.
+        y_label (str, optional): Retained for call compatibility; collected figures suppress axis
+            labels. Defaults to ''.
         use_one (bool, optional): Whether to plot only the Borda rule. Defaults to False.
         legend (bool, optional): Whether to render a legend. Defaults to True.
 
     Returns:
         Axes: The axes with the plot.
     """
-    df_list = []
-
-    for n_cands in n_cand_list:
-        df = construct_df_scottish(ordered_outputs, n_cands, metric)
-        df = df.melt(var_name="rule", value_name="value")
-        df["n_cands"] = n_cands
-
-        df_list.append(df)
-
-    if use_one:
-        df_list = [df[df["rule"] == "borda"] for df in df_list]
-
-    long = pd.concat(df_list, ignore_index=True)
+    metric_values_df = build_boxplot_table(ordered_outputs, n_cand_list, metric, borda_only=use_one)
 
     sns.boxplot(
-        data=long,
+        data=metric_values_df,
         x="n_cands",
-        y="value",  # σ_IIA values
+        y="value",
         hue="rule",
         palette=rule_color_map,
         dodge=True,
@@ -146,9 +67,7 @@ def build_plot_for_metric_scottish(
         saturation=1,
     )
 
-    # ax.set_ylabel(y_label, fontsize=16)
     ax.set_ylim(-0.05, 1.05)
-    # ax.set_xlabel("Number of candidates", fontsize=16)
     ax.set_xlabel("")
     ax.set_ylabel("")
 
@@ -210,7 +129,7 @@ def load_boxplot_metrics(
 
 
 def main(
-    n_cand_list: Sequence[int] = list(range(6, 10)),
+    n_cand_list: Sequence[int] = range(6, 10),
     *,
     stats_root: Path | None = None,
     output_root: Path = ROOT,
@@ -219,7 +138,7 @@ def main(
 
     Args:
         n_cand_list (Sequence[int], optional): Candidate counts to include. Defaults to
-            list(range(6, 10)).
+            range(6, 10).
         stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
             the selected run root. Defaults to None.
         output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
@@ -232,8 +151,8 @@ def main(
 
     ordered_rules = RULE_ORDER
 
-    output_dir = str(output_root / "plots/scottish/scottish_sigma_plots_collected")
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    output_dir = output_root / "plots/scottish/scottish_sigma_plots_collected"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     # ==========================
     # Make the scottish boxplots
@@ -276,7 +195,7 @@ def main(
             y_label=label,
             legend=False,
         )
-        output_plot_name = f"{output_dir}/scottish_boxplot_{metric}_collected.png"
+        output_plot_name = output_dir / f"scottish_boxplot_{metric}_collected.png"
 
         plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
 
@@ -303,7 +222,7 @@ def main(
     labels = [new_names[label] for label in labels]
     legend = ax.legend(handles, labels, title="Voting rule", loc=(1.02, 0.5))
 
-    output_plot_name = f"{output_dir}/scottish_boxplot_legend.png"
+    output_plot_name = output_dir / "scottish_boxplot_legend.png"
     save_legend_only(legend, output_plot_name, pad=1.1, dpi=300, transparent=False)
 
 

@@ -36,8 +36,12 @@ def test_rectangles_align_election_ids_and_preserve_exported_bounds() -> None:
     assert [row["candidate_size"] for row in rows[1:]] == [4, 8]
     assert rows[0]["iia_L"] == rectangle.iia_lower
     assert rows[0]["um_U"] == rectangle.um_upper
-    assert json.loads(rows[0]["sizes_used"]) == ["4", "8"]
-    assert json.loads(rows[0]["overlap_counts_by_size"]) == {"4": 2, "8": 2}
+    sizes_used = rows[0]["sizes_used"]
+    overlap_counts_by_size = rows[0]["overlap_counts_by_size"]
+    assert isinstance(sizes_used, str)
+    assert isinstance(overlap_counts_by_size, str)
+    assert json.loads(sizes_used) == ["4", "8"]
+    assert json.loads(overlap_counts_by_size) == {"4": 2, "8": 2}
     assert bootstrap_confidence_rectangle(iia, um, n_resamples=10).samples is None
 
 

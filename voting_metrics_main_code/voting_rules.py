@@ -43,12 +43,18 @@ def random_candidate_order(profile: RankProfile, excluded: Iterable[str] = ()) -
     Returns:
         list[str]: All nonexcluded candidates, with each appearing once.
     """
-    excluded = set(excluded)
-    cast_cands = sorted(cand for cand in profile.candidates_cast if cand not in excluded)
-    uncast_cands = sorted(set(profile.candidates) - set(profile.candidates_cast) - excluded)
-    random.shuffle(cast_cands)
-    random.shuffle(uncast_cands)
-    return cast_cands + uncast_cands
+    excluded_candidates = set(excluded)
+    cast_candidates = sorted(
+        candidate for candidate in profile.candidates_cast if candidate not in excluded_candidates
+    )
+    uncast_candidates = sorted(
+        set(profile.candidates) - set(profile.candidates_cast) - excluded_candidates
+    )
+
+    random.shuffle(cast_candidates)
+    random.shuffle(uncast_candidates)
+
+    return cast_candidates + uncast_candidates
 
 
 class ElectRandom(RankingElection):
@@ -89,7 +95,6 @@ class ElectRandom(RankingElection):
             raise ValueError("Not enough candidates received votes to be elected.")
 
         self.m = m
-
         self.tiebreak = tiebreak
 
         super().__init__(
@@ -103,9 +108,11 @@ class ElectRandom(RankingElection):
         Returns:
             bool: True when exactly m candidates have been elected.
         """
-        elected_cands = [c for s in self.get_elected() for c in s]
+        elected_candidates = [
+            candidate for tied_rank in self.get_elected() for candidate in tied_rank
+        ]
 
-        return len(elected_cands) == self.m
+        return len(elected_candidates) == self.m
 
     def _run_step(
         self,
@@ -126,8 +133,8 @@ class ElectRandom(RankingElection):
         """
         ordered_candidates = random_candidate_order(profile)
 
-        elected = tuple(frozenset({c}) for c in ordered_candidates[: self.m])
-        remaining = tuple(frozenset({c}) for c in ordered_candidates[self.m :])
+        elected = tuple(frozenset({candidate}) for candidate in ordered_candidates[: self.m])
+        remaining = tuple(frozenset({candidate}) for candidate in ordered_candidates[self.m :])
 
         if store_states:
             new_state = ElectionState(

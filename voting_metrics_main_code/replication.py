@@ -58,7 +58,8 @@ def seed_task(*identity: object, seed: int = 0) -> None:
         seed (int, optional): Base seed supplied by the workflow. Defaults to 0.
         *identity (object): Stable identifiers for the experiment and individual task.
     """
-    key = repr((seed, identity)).encode()
-    seed = int.from_bytes(hashlib.sha256(key).digest()[:4], "big")
-    random.seed(seed)
-    np.random.seed(seed)
+    task_key = repr((seed, identity)).encode()
+    task_seed = int.from_bytes(hashlib.sha256(task_key).digest()[:4], "big")
+
+    random.seed(task_seed)
+    np.random.seed(task_seed)

@@ -124,7 +124,7 @@ def test_importing_collectors_does_not_suppress_process_warnings() -> None:
     from pipelines.bradley_terry import collect_metrics, collect_single_folder_metrics
 
     with warnings.catch_warnings():
-        filters = warnings.filters.copy()
+        filters = list(warnings.filters)
         importlib.reload(collect_metrics)
         importlib.reload(collect_single_folder_metrics)
         assert warnings.filters == filters

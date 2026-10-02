@@ -3,30 +3,30 @@
 import argparse
 import json
 import sys
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Callable, cast
+from typing import cast
 
 from votekit import RankProfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER, AllowedRule
 from voting_metrics_main_code.fairness_metric import (
+    FairnessMetric,
     sigma_IIA,
     sigma_IIA_winner_set,
     sigma_UM,
     sigma_UM_winner_set,
 )
 from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
-from voting_metrics_main_code.voting_rules import (
-    AllowedRule,
-    build_voting_rule,
-)
+from voting_metrics_main_code.voting_rules import build_voting_rule
 
 
 def score_profile(
     profile: RankProfile,
     election_name: AllowedRule,
-    metric_functions: dict[str, Callable[..., float]],
+    metric_functions: Mapping[str, FairnessMetric],
     *,
     seed: int = 0,
 ) -> dict[str, list[float]]:
@@ -35,7 +35,7 @@ def score_profile(
     Args:
         profile (RankProfile): Cleaned election profile.
         election_name (AllowedRule): Voting rule to evaluate.
-        metric_functions (dict[str, Callable[..., float]]): Metrics in evaluation order.
+        metric_functions (Mapping[str, FairnessMetric]): Metrics in evaluation order.
         seed (int, optional): Base seed for independent task streams. Defaults to 0.
 
     Returns:
@@ -76,25 +76,16 @@ def main(*, data_root: Path = ROOT / "data", output_root: Path = ROOT, seed: int
 
     output_folder = (output_root / "stats/ny_stats").resolve()
     output_folder.mkdir(parents=True, exist_ok=True)
-    output_folder_base = str(output_folder)
 
-    metric_function_dict: dict[str, Callable[..., float]] = {
+    metric_function_dict: Mapping[str, FairnessMetric] = {
         "sigma_IIA": sigma_IIA,
         "sigma_UM": sigma_UM,
         "sigma_IIA_winner_set": sigma_IIA_winner_set,
         "sigma_UM_winner_set": sigma_UM_winner_set,
     }
-    all_election_types: list[AllowedRule] = [
-        "borda",
-        "3-approval",
-        "2-approval",
-        "plurality",
-        "stv",
-        "ranked-pairs",
-    ]
 
-    for election_name in all_election_types:
-        output_file = Path(output_folder_base) / f"{election_name}_output.json"
+    for election_name in NON_RANDOM_RULE_ORDER:
+        output_file = output_folder / f"{election_name}_output.json"
 
         if output_file.exists() or output_file.is_symlink():
             print(f"Skipping existing result: {output_file}. Move it manually to recompute.")
@@ -106,8 +97,8 @@ def main(*, data_root: Path = ROOT / "data", output_root: Path = ROOT, seed: int
             cast(RankProfile, profile), election_name, metric_function_dict, seed=seed
         )
 
-        with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:
-            json.dump(ny_election_stats, f, indent=4)
+        with new_data_file(output_file) as temporary_file, temporary_file.open("w") as scores_file:
+            json.dump(ny_election_stats, scores_file, indent=4)
 
 
 if __name__ == "__main__":

@@ -4,11 +4,12 @@ import argparse
 import contextlib
 import json
 import sys
+from collections.abc import Mapping
 from functools import partial
 from glob import escape, glob
 from itertools import product
 from pathlib import Path
-from typing import Mapping, Protocol, cast
+from typing import cast
 
 from joblib import Parallel, delayed
 from joblib_progress import joblib_progress
@@ -19,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from voting_metrics_main_code.constants import RULE_ORDER, AllowedRule
 from voting_metrics_main_code.fairness_metric import (
+    FairnessMetric,
     sigma_IIA,
     sigma_IIA_winner_set,
     sigma_UM,
@@ -28,28 +30,9 @@ from voting_metrics_main_code.replication import ROOT, new_data_file, seed_task
 from voting_metrics_main_code.voting_rules import ElectionConstructor, build_voting_rule
 
 
-class MetricFn(Protocol):
-    """Callable signature for metric functions used in this pipeline."""
-
-    def __call__(
-        self, profile: RankProfile, voting_rule: ElectionConstructor, n_seats: int
-    ) -> float:
-        """Evaluate the configured metric for a profile, voting rule, and seat count.
-
-        Args:
-            profile (RankProfile): Ranked-ballot preference profile.
-            voting_rule (ElectionConstructor): Voting rule callable passed to the metric.
-            n_seats (int): Number of seats to elect.
-
-        Returns:
-            float: Metric score for the supplied election configuration.
-        """
-        ...
-
-
 def run_score(
     profile_file: str | Path,
-    metric_function: MetricFn,
+    metric_function: FairnessMetric,
     voting_rule: ElectionConstructor,
     n_seats: int,
 ) -> float:
@@ -57,7 +40,7 @@ def run_score(
 
     Args:
         profile_file (str | Path): Path to the profile CSV.
-        metric_function (MetricFn): Metric function to evaluate.
+        metric_function (FairnessMetric): Metric function to evaluate.
         voting_rule (ElectionConstructor): Voting rule callable.
         n_seats (int): Number of seats to elect.
 
@@ -72,9 +55,9 @@ def run_score(
 
 
 def compute_results_single_file(
-    f: str | Path,
+    election_file: str | Path,
     election_name: AllowedRule,
-    metric_function_dict: Mapping[str, MetricFn],
+    metric_function_dict: Mapping[str, FairnessMetric],
     tiebreak: str,
     *,
     seed: int = 0,
@@ -82,22 +65,23 @@ def compute_results_single_file(
     """Compute all metrics for a single Scottish election file.
 
     Args:
-        f (str | Path): Path to the election file.
+        election_file (str | Path): Path to the election file.
         election_name (AllowedRule): Voting rule name.
-        metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
+        metric_function_dict (Mapping[str, FairnessMetric]): Mapping of metric names to functions.
         tiebreak (str): Tiebreak rule name.
         seed (int, optional): Base seed for independent task streams. Defaults to 0.
 
     Returns:
         dict[str, dict[str, dict[str, float]]]: Nested dict of candidate counts to metric values.
     """
-    file_name = str(Path(f).stem)
+    election_path = Path(election_file)
+    file_name = election_path.stem
 
-    seed_task(Path(f).parent.name, Path(f).name, election_name, tiebreak, seed=seed)
-    output = load_scottish(f)
+    seed_task(election_path.parent.name, election_path.name, election_name, tiebreak, seed=seed)
+    output = load_scottish(election_path)
     profile, seats = output[:2]
 
-    n_cands = str(f).split("/")[-2].split("_")[0]
+    n_cands = election_path.parent.name.split("_")[0]
     voting_rule = build_voting_rule(int(n_cands), election_name, tiebreak=tiebreak)
 
     output_dict = {f"{metric_name}_{tiebreak}": {} for metric_name in metric_function_dict.keys()}
@@ -111,9 +95,9 @@ def compute_results_single_file(
 
 
 def compute_results_single_file_and_metric(
-    f: str | Path,
+    election_file: str | Path,
     election_name: AllowedRule,
-    metric_function_dict: Mapping[str, MetricFn],
+    metric_function_dict: Mapping[str, FairnessMetric],
     metric_name: str,
     tiebreak: str,
     *,
@@ -122,9 +106,9 @@ def compute_results_single_file_and_metric(
     """Compute a single metric for one election file.
 
     Args:
-        f (str | Path): Path to the election file.
+        election_file (str | Path): Path to the election file.
         election_name (AllowedRule): Voting rule name.
-        metric_function_dict (Mapping[str, MetricFn]): Mapping of metric names to functions.
+        metric_function_dict (Mapping[str, FairnessMetric]): Mapping of metric names to functions.
         metric_name (str): Metric key to compute.
         tiebreak (str): Tiebreak rule name.
         seed (int, optional): Base seed for independent task streams. Defaults to 0.
@@ -132,13 +116,14 @@ def compute_results_single_file_and_metric(
     Returns:
         tuple[str, str, float]: Candidate count, file stem, and metric value.
     """
-    file_name = str(Path(f).stem)
+    election_path = Path(election_file)
+    file_name = election_path.stem
 
-    seed_task(Path(f).parent.name, Path(f).name, election_name, tiebreak, seed=seed)
-    output = load_scottish(f)
+    seed_task(election_path.parent.name, election_path.name, election_name, tiebreak, seed=seed)
+    output = load_scottish(election_path)
     profile, seats = output[:2]
 
-    n_cands = str(f).split("/")[-2].split("_")[0]
+    n_cands = election_path.parent.name.split("_")[0]
     voting_rule = build_voting_rule(int(n_cands), election_name, tiebreak=tiebreak)
 
     return (
@@ -175,14 +160,15 @@ def main(
     print(f"Seed: {seed}")
     print(f"Workers: {n_jobs}")
 
-    output_folder = (output_root / "stats/scottish_stats").resolve()
-    output_folder.mkdir(parents=True, exist_ok=True)
-    output_folder_base = str(output_folder)
+    stats_dir = (output_root / "stats/scottish_stats").resolve()
+    stats_dir.mkdir(parents=True, exist_ok=True)
 
     candidate_range = range(3, 15)
 
     all_files = glob(f"{escape(str(data_root))}/scot-elex/*/*.csv")
-    all_files = [f for f in all_files if any([f"/{i}_cands" in f for i in candidate_range])]
+    all_files = [
+        path for path in all_files if any(f"/{count}_cands" in path for count in candidate_range)
+    ]
 
     metric_function_dict = {
         "sigma_UM_worst_case_asin": partial(
@@ -205,7 +191,7 @@ def main(
     for metric, election_name, tiebreak in product(
         metric_function_dict.keys(), all_election_types, tiebreak_types
     ):
-        output_folder = Path(f"{output_folder_base}/{metric}/{election_name}")
+        output_folder = stats_dir / metric / election_name
         output_folder.mkdir(parents=True, exist_ok=True)
         output_file = (
             output_folder
@@ -225,20 +211,20 @@ def main(
                 list[tuple[str, str, float]],
                 Parallel(n_jobs=n_jobs)(
                     delayed(compute_results_single_file_and_metric)(
-                        f, election_name, metric_function_dict, metric, tiebreak, seed=seed
+                        path, election_name, metric_function_dict, metric, tiebreak, seed=seed
                     )
-                    for f in all_files
+                    for path in all_files
                 ),
             )
 
-        cand_counts = set(x[0] for x in results)
+        cand_counts = {n_cands for n_cands, _, _ in results}
         output_dict = {n_cands: {} for n_cands in cand_counts}
 
         for n_cands, file_name, value in results:
             output_dict[n_cands][file_name] = value
 
-        with new_data_file(Path(output_file)) as temporary, temporary.open("w") as f:
-            json.dump(output_dict, f, indent=4)
+        with new_data_file(output_file) as temporary_file, temporary_file.open("w") as scores_file:
+            json.dump(output_dict, scores_file, indent=4)
 
 
 if __name__ == "__main__":

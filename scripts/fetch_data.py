@@ -2,6 +2,7 @@
 
 import argparse
 import hashlib
+import json
 import subprocess
 import tarfile
 import tempfile
@@ -27,7 +28,9 @@ def extract_profiles(archive: Path, destination: Path) -> None:
     """
     if destination.exists() or destination.is_symlink():
         raise FileExistsError(f"Preserving existing directory: {destination}")
+
     destination.parent.mkdir(parents=True, exist_ok=True)
+
     with tempfile.TemporaryDirectory(prefix=".qf-extract-", dir=destination.parent) as temporary:
         with tarfile.open(archive, "r:xz") as handle:
             for member in handle:
@@ -36,13 +39,49 @@ def extract_profiles(archive: Path, destination: Path) -> None:
                     raise ValueError(f"Unexpected archive path: {member.name}")
                 if not (member.isfile() or member.isdir()):
                     raise ValueError(f"Unexpected archive entry: {member.name}")
+
                 handle.extract(member, temporary, filter="data")
+
         extracted = Path(temporary) / "preference_profiles"
         if not any(extracted.rglob("*.csv")):
             raise ValueError("Archive contains no preference profiles")
         if destination.exists() or destination.is_symlink():
             raise FileExistsError(f"Preserving existing directory: {destination}")
+
         extracted.rename(destination)
+
+
+def fetch_scottish_data(destination: Path) -> None:
+    """Clone the recorded Scottish dataset revision and publish its completed checkout.
+
+    Args:
+        destination (Path): New dataset directory whose parent already exists.
+
+    Raises:
+        FileExistsError: The destination exists when the checkout is ready to publish.
+        subprocess.CalledProcessError: Cloning or checking out the recorded revision fails.
+        OSError: The temporary checkout cannot be created or published.
+    """
+    with tempfile.TemporaryDirectory(prefix=".qf-fetch-", dir=destination.parent) as temporary:
+        checkout = Path(temporary) / "scot-elex"
+        subprocess.run(
+            [
+                "git",
+                "clone",
+                "--no-checkout",
+                "https://github.com/mggg/scot-elex.git",
+                str(checkout),
+            ],
+            check=True,
+        )
+        subprocess.run(
+            ["git", "-C", str(checkout), "checkout", "--detach", SCOTTISH_REVISION], check=True
+        )
+
+        if destination.exists() or destination.is_symlink():
+            raise FileExistsError(f"Preserving existing data at {destination}")
+
+        checkout.rename(destination)
 
 
 def main() -> None:
@@ -65,41 +104,28 @@ def main() -> None:
         parser.error(
             f"Preserving existing data at {destination}; use another --destination if needed"
         )
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    if args.dataset == "scottish":
-        with tempfile.TemporaryDirectory(prefix=".qf-fetch-", dir=destination.parent) as temporary:
-            checkout = Path(temporary) / "scot-elex"
-            subprocess.run(
-                [
-                    "git",
-                    "clone",
-                    "--no-checkout",
-                    "https://github.com/mggg/scot-elex.git",
-                    str(checkout),
-                ],
-                check=True,
-            )
-            subprocess.run(
-                ["git", "-C", str(checkout), "checkout", "--detach", SCOTTISH_REVISION], check=True
-            )
-            if destination.exists() or destination.is_symlink():
-                raise FileExistsError(f"Preserving existing data at {destination}")
-            checkout.rename(destination)
-    else:
-        archive = ROOT / "data/preference_profiles.tar.xz"
-        with archive.open("rb") as handle:
-            if handle.read(80).startswith(b"version https://git-lfs.github.com/spec/v1"):
-                parser.error(
-                    "BT archive is an LFS pointer. Run git lfs pull --include=data/preference_profiles.tar.xz"
-                )
-        import json
 
-        sources = json.loads((ROOT / "docs/data_sources.json").read_text())
-        with archive.open("rb") as handle:
-            digest = hashlib.file_digest(handle, "sha256").hexdigest()
-        if digest != sources["bt"]["sha256"]:
-            parser.error("BT archive checksum does not match the recorded input")
-        extract_profiles(archive, destination)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+
+    if args.dataset == "scottish":
+        fetch_scottish_data(destination)
+        return
+
+    archive = ROOT / "data/preference_profiles.tar.xz"
+    with archive.open("rb") as archive_file:
+        if archive_file.read(80).startswith(b"version https://git-lfs.github.com/spec/v1"):
+            parser.error(
+                "BT archive is an LFS pointer. Run git lfs pull --include=data/preference_profiles.tar.xz"
+            )
+
+    sources = json.loads((ROOT / "docs/data_sources.json").read_text())
+    with archive.open("rb") as archive_file:
+        digest = hashlib.file_digest(archive_file, "sha256").hexdigest()
+
+    if digest != sources["bt"]["sha256"]:
+        parser.error("BT archive checksum does not match the recorded input")
+
+    extract_profiles(archive, destination)
 
 
 if __name__ == "__main__":

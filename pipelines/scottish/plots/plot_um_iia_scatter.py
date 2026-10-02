@@ -2,18 +2,20 @@
 
 import argparse
 import sys
+from collections.abc import Callable, Mapping, Sequence
 from itertools import product
 from pathlib import Path
-from typing import Callable, Mapping, Sequence
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from pipelines.scottish.plots._data import load_outputs_by_election_type
+from pipelines.scottish.plots._data import (
+    build_boxplot_table,
+    load_outputs_by_election_type,
+)
 from voting_metrics_main_code.constants import (
     ALT_FONT_SIZES,
     DEFAULT_FONT_SIZE,
@@ -26,30 +28,6 @@ from voting_metrics_main_code.constants import (
     RULE_LABELS as titles,
 )
 from voting_metrics_main_code.replication import ROOT
-
-
-def construct_df_scottish(
-    data_dictionary: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
-    n_cands: int,
-    metric: str,
-) -> pd.DataFrame:
-    """Construct a DataFrame for a metric at a fixed candidate count.
-
-    Args:
-        data_dictionary (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Nested mapping of
-            rule to candidate count to metric values.
-        n_cands (int): Number of candidates to extract.
-        metric (str): Metric key to select.
-
-    Returns:
-        pd.DataFrame: A transposed DataFrame with rules as columns.
-    """
-    df_data = []
-
-    for _, data in data_dictionary.items():
-        df_data.append(data[str(n_cands)][metric])
-
-    return pd.DataFrame(df_data, index=list(data_dictionary)).T
 
 
 def build_plot_for_metric_scottish(
@@ -73,29 +51,17 @@ def build_plot_for_metric_scottish(
         y_label (str, optional): Label for the y-axis. Defaults to ''.
         use_one (bool, optional): Whether to plot only the Borda rule. Defaults to False.
     """
-    df_list = []
-
-    for n_cands in n_cand_list:
-        df = construct_df_scottish(ordered_outputs, n_cands, metric)
-        df = df.melt(var_name="rule", value_name="value")
-        df["n_cands"] = n_cands
-
-        df_list.append(df)
-
-    if use_one:
-        df_list = [df[df["rule"] == "borda"] for df in df_list]
-
-    long = pd.concat(df_list, ignore_index=True)
+    metric_values_df = build_boxplot_table(ordered_outputs, n_cand_list, metric, borda_only=use_one)
 
     sns.boxplot(
-        data=long,
+        data=metric_values_df,
         x="n_cands",
-        y="value",  # σ_IIA values
+        y="value",
         hue="rule",
         palette=rule_color_map,
         dodge=True,
         ax=ax,
-        legend=not use_one,  # don't show legend if only one rule
+        legend=not use_one,
         # Seaborn accepts percentile pairs; its stub only declares a float.
         whis=[1, 99],  # type: ignore[arg-type]
     )

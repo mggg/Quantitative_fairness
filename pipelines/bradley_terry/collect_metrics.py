@@ -4,12 +4,12 @@ import ast
 import contextlib
 import json
 import sys
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 from itertools import batched
 from pathlib import Path
 from types import FunctionType
-from typing import Iterator, NamedTuple, cast
+from typing import NamedTuple, cast
 
 import click
 from joblib import Parallel, delayed
@@ -99,16 +99,16 @@ def build_output_jobs(
         IndexError: The directory name lacks a required parameter segment.
         SyntaxError: An encoded alpha or cohesion tuple is not a valid Python literal.
     """
-    input_folder = Path(input_folder).resolve()
-    base_parts = input_folder.name.split("__")
-    cand_parts = input_folder.parent.stem.split("_")
+    profile_folder = Path(input_folder).resolve()
+    base_parts = profile_folder.name.split("__")
+    cand_parts = profile_folder.parent.stem.split("_")
 
     b_proportion = float(base_parts[0].split("_")[-1])
     aa_alpha, ab_alpha, ba_alpha, bb_alpha = ast.literal_eval(base_parts[1].split("_")[-1])
     a_cohesion, b_cohesion = ast.literal_eval(base_parts[2].split("_")[-1])
     n_a_cands, n_b_cands = map(int, cand_parts)
     n_cands = n_a_cands + n_b_cands
-    output_root = output_root / "stats" / "bt_2_bloc_profile_stats" / f"{n_seats}_seats"
+    stats_dir = output_root / "stats" / "bt_2_bloc_profile_stats" / f"{n_seats}_seats"
 
     jobs = []
 
@@ -127,9 +127,9 @@ def build_output_jobs(
             f"__TYPE_{election_type}"
             f"__TIEBREAK_{tiebreak}.json"
         )
-        output_file = output_root / metric / f"{n_cands:02d}" / election_type / basename
+        output_file = stats_dir / metric / f"{n_cands:02d}" / election_type / basename
 
-        jobs.append(MetricOutput(spec, output_file))
+        jobs.append(MetricOutput(spec=spec, path=output_file))
 
     return n_cands, jobs
 
@@ -295,17 +295,22 @@ def plan_collection(
                 remaining_batches=len(profile_batches),
                 label=f"{job.path.parents[2].name}: {folder.name}",
             )
-            metric_jobs.append(MetricJob(output_id, job.spec))
+            metric_jobs.append(MetricJob(output_id=output_id, spec=job.spec))
 
         if metric_jobs:
             tasks.extend(
                 ProfileBatchTask(
-                    batch, n_cands, n_seats, election_type, tiebreak, tuple(metric_jobs)
+                    profiles=batch,
+                    n_cands=n_cands,
+                    n_seats=n_seats,
+                    election_type=election_type,
+                    tiebreak=tiebreak,
+                    metrics=tuple(metric_jobs),
                 )
                 for batch in profile_batches
             )
 
-    return CollectionPlan(tasks, outputs, skipped)
+    return CollectionPlan(tasks=tasks, outputs=outputs, skipped=skipped)
 
 
 def publish_completed_scores(output: OutputProgress) -> None:
@@ -463,6 +468,7 @@ def main(
     output_root = output_root.resolve()
     if n_jobs < 1:
         raise ValueError("n_jobs must be positive")
+
     print(f"Output root: {output_root}")
     print(f"Seed: {seed}")
     print(f"Workers: {n_jobs}")

@@ -6,6 +6,7 @@ import json
 import sys
 from collections.abc import Callable
 from pathlib import Path
+from typing import cast
 
 import click
 from joblib import Parallel, delayed
@@ -22,7 +23,7 @@ from voting_metrics_main_code.voting_rules import ElectionConstructor, build_vot
 
 def run_score(
     profile_file: str | Path,
-    metric_function: Callable[..., float],
+    metric_function: Callable[[RankProfile, ElectionConstructor], float],
     voting_rule: ElectionConstructor,
     *,
     seed: int = 0,
@@ -31,8 +32,8 @@ def run_score(
 
     Args:
         profile_file (str | Path): Path to a preference-profile CSV.
-        metric_function (Callable[..., float]): Metric callable with seat count and variants already
-            bound.
+        metric_function (Callable[[RankProfile, ElectionConstructor], float]): Metric callable
+            with seat count and variants already bound.
         voting_rule (ElectionConstructor): Voting rule callable passed to the metric.
         seed (int, optional): Base seed for independent profile streams. Defaults to 0.
 
@@ -47,7 +48,7 @@ def run_score(
         profile_path.parent.parent.name, profile_path.parent.name, profile_path.name, seed=seed
     )
     with contextlib.redirect_stdout(None):
-        profile = RankProfile.from_csv(profile_file)
+        profile = cast(RankProfile, RankProfile.from_csv(profile_file))
         score = metric_function(profile, voting_rule)
 
     return score
@@ -219,6 +220,7 @@ def main(
 
     if n_seats < 1:
         raise ValueError("Number of seats must be at least 1.")
+
     spec = parse_metric_spec(metric, variant, interpolation_type)
     n_cands, output_file = build_output_path(
         input_folder,
@@ -241,8 +243,6 @@ def main(
 
     voting_rule = build_voting_rule(n_cands, election_type, tiebreak=tiebreak)
 
-    scores = []
-
     with joblib_progress(
         description=f"Computing scores for metric {metric}", total=len(all_csv_profiles)
     ):
@@ -251,8 +251,8 @@ def main(
             for file in all_csv_profiles
         )
 
-    with new_data_file(output_file) as temporary, temporary.open("w") as f:
-        json.dump(scores, f)
+    with new_data_file(output_file) as temporary_file, temporary_file.open("w") as scores_file:
+        json.dump(scores, scores_file)
 
 
 if __name__ == "__main__":

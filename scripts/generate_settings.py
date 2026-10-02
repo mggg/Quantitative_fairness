@@ -20,17 +20,17 @@ def main() -> None:
     )
     args = parser.parse_args()
     folders = sorted(
-        p.resolve()
-        for p in args.profile_root.glob("*/b_proportion_*")
-        if p.is_dir() and any(p.glob("*.csv"))
+        folder.resolve()
+        for folder in args.profile_root.glob("*/b_proportion_*")
+        if folder.is_dir() and any(folder.glob("*.csv"))
     )
     if not folders:
         parser.error(f"No profile folders under {args.profile_root}")
-    with args.output.open("w") as handle:
+
+    with args.output.open("w") as settings_file:
         for folder in folders:
-            handle.write(
-                str(folder.relative_to(ROOT) if folder.is_relative_to(ROOT) else folder) + "\n"
-            )
+            listed_folder = folder.relative_to(ROOT) if folder.is_relative_to(ROOT) else folder
+            settings_file.write(f"{listed_folder}\n")
 
 
 if __name__ == "__main__":

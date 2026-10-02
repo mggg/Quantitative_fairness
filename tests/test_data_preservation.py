@@ -1,9 +1,11 @@
 """Check that protected writes preserve existing data and never publish partial results."""
 
+import subprocess
 from pathlib import Path
 
 import pytest
 
+from scripts import fetch_data
 from voting_metrics_main_code.replication import new_data_file
 
 
@@ -45,5 +47,27 @@ def test_failed_data_writes_leave_no_partial_result(tmp_path: Path) -> None:
         with new_data_file(destination) as temporary:
             temporary.write_text("incomplete")
             raise RuntimeError("calculation failed")
+
+    assert not list(tmp_path.iterdir())
+
+
+def test_failed_scottish_checkout_leaves_no_partial_dataset(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    destination = tmp_path / "scot-elex"
+
+    def fail_checkout(command: list[str], *, check: bool) -> None:
+        if command[1] == "clone":
+            checkout = Path(command[-1])
+            checkout.mkdir()
+            (checkout / "incomplete.csv").write_text("partial checkout")
+            return
+
+        raise subprocess.CalledProcessError(1, command)
+
+    monkeypatch.setattr(fetch_data.subprocess, "run", fail_checkout)
+
+    with pytest.raises(subprocess.CalledProcessError):
+        fetch_data.fetch_scottish_data(destination)
 
     assert not list(tmp_path.iterdir())

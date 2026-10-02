@@ -124,7 +124,7 @@ def generate_and_save_profile(
     ba_alpha: float,
     bb_alpha: float,
     idx: int,
-    output_base_dir: str,
+    output_base_dir: str | Path,
     *,
     seed: int = 0,
 ) -> None:
@@ -144,7 +144,7 @@ def generate_and_save_profile(
         ba_alpha (float): Dirichlet alpha for B-on-A preferences.
         bb_alpha (float): Dirichlet alpha for B-on-B preferences.
         idx (int): Sample index for file naming.
-        output_base_dir (str): Base directory for profile outputs.
+        output_base_dir (str | Path): Base directory for profile outputs.
         seed (int, optional): Base seed for independent samples. Defaults to 0.
 
     Raises:
@@ -159,9 +159,9 @@ def generate_and_save_profile(
         f"__COHESION_({a_cohesion:.2f},{b_cohesion:.2f})"
     )
     output_dir = profile_root / relative_folder
-    df_dir = utility_root / relative_folder
+    utility_dir = utility_root / relative_folder
     profile_path = output_dir / f"profile_{idx}.csv"
-    utility_path = df_dir / f"profile_{idx}_utilities.csv"
+    utility_path = utility_dir / f"profile_{idx}_utilities.csv"
 
     for path in (profile_path, utility_path):
         if path.exists() or path.is_symlink():
@@ -243,20 +243,13 @@ def main() -> None:
     n_voters = args.n_voters
     n_samples = args.n_samples
 
-    b_bloc_proportions = BT_BLOC_PROPORTIONS
-    alpha_combinations = BT_ALPHA_COMBINATIONS
-    cohesion_combinations = BT_COHESION_COMBINATIONS
-    candidate_count_combinations = BT_CANDIDATE_COMBINATIONS
-
-    output_base_dir = str(profile_root)
-
     with joblib_progress(
         "Generating profiles",
         total=n_samples
-        * len(b_bloc_proportions)
-        * len(alpha_combinations)
-        * len(cohesion_combinations)
-        * len(candidate_count_combinations),
+        * len(BT_BLOC_PROPORTIONS)
+        * len(BT_ALPHA_COMBINATIONS)
+        * len(BT_COHESION_COMBINATIONS)
+        * len(BT_CANDIDATE_COMBINATIONS),
     ):
         Parallel(n_jobs=args.n_jobs)(
             delayed(generate_and_save_profile)(
@@ -271,7 +264,7 @@ def main() -> None:
                 ba_alpha=ba_al,
                 bb_alpha=bb_al,
                 idx=i,
-                output_base_dir=output_base_dir,
+                output_base_dir=profile_root,
                 seed=args.seed,
             )
             for (n_a_cands, n_b_cands), b_bloc_proportion, (a_coh, b_coh), (
@@ -280,11 +273,11 @@ def main() -> None:
                 ba_al,
                 bb_al,
             ), i in product(
-                candidate_count_combinations,
-                b_bloc_proportions,
-                cohesion_combinations,
-                alpha_combinations,
-                list(range(n_samples)),
+                BT_CANDIDATE_COMBINATIONS,
+                BT_BLOC_PROPORTIONS,
+                BT_COHESION_COMBINATIONS,
+                BT_ALPHA_COMBINATIONS,
+                range(n_samples),
             )
         )
 
