@@ -1,13 +1,4 @@
 #!/usr/bin/env bash
+REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)" || exit
 
-SCRIPT_DIR=$(dirname $(realpath $0))
-REPO_ROOT=$(realpath "${SCRIPT_DIR}/..")
-cd "${REPO_ROOT}"
-source "${REPO_ROOT}/.venv/bin/activate"
-
-if [[ $? -ne 0 ]]; then
-    echo "Failed to activate virtual environment. Please check to make sure you have run 'uv sync'"
-    exit 1
-fi
-
-uv run "${REPO_ROOT}/pipelines/NY/collect_stats_ny.py"
+exec uv run --project "$REPO_ROOT" --locked python "$REPO_ROOT/scripts/replicate.py" ny "$@"

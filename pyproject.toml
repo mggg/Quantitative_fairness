@@ -1,7 +1,7 @@
 [project]
 name = "Quantitative_fairness"
 version = "0.1.0"
-description = "Add your description here"
+description = "Replication analyses for Quantitative Relaxations for Arrow's Axioms"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -23,13 +23,28 @@ dependencies = [
     "votekit>=3.3.0",
 ]
 
+[project.optional-dependencies]
+geography = ["geopandas==1.1.4"]
+
 [dependency-groups]
 dev = [
-    "black>=26.1.0",
-    "isort>=7.0.0",
     "ruff>=0.15.0",
     "ty>=0.0.15",
 ]
 
+[tool.pytest.ini_options]
+testpaths = ["code/tests"]
+pythonpath = [".", "code"]
 
+[tool.ruff]
+line-length = 100
+extend-exclude = ["code/archive", "code/preprocessing"]
 
+[tool.ruff.lint]
+extend-select = ["D212"]
+
+[tool.ty.environment]
+extra-paths = ["code"]
+
+[tool.ty.src]
+exclude = ["code/archive", "code/preprocessing"]

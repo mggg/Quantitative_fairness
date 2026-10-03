@@ -1,0 +1,178 @@
+"""Plot six-rule Scottish metric boxplots and export tables from aggregate JSONs."""
+
+import json
+import sys
+from collections.abc import Mapping, Sequence
+from glob import escape, glob
+from pathlib import Path
+
+import click
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.axes import Axes
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from pipelines.scottish.plots._data import build_boxplot_table, export_aggregate_tables
+from voting_metrics_main_code.constants import NON_RANDOM_RULE_ORDER
+from voting_metrics_main_code.replication import ROOT
+
+
+def build_plot_for_metric_scottish(
+    metric: str,
+    ordered_outputs: Mapping[str, Mapping[str, Mapping[str, list[float]]]],
+    ordered_rules: Sequence[str],
+    n_cand_list: Sequence[int],
+    ax: Axes,
+    y_label: str = "",
+    use_one: bool = False,
+) -> None:
+    """Build a boxplot for one metric across candidate counts and voting rules.
+
+    Args:
+        metric (str): Metric identifier used in the statistics filenames.
+        ordered_outputs (Mapping[str, Mapping[str, Mapping[str, list[float]]]]): Metric score lists
+            keyed by rule, candidate-count string, and metric key.
+        ordered_rules (Sequence[str]): Voting rules in the order to load or display.
+        n_cand_list (Sequence[int]): Candidate counts to include, in display order.
+        ax (Axes): Matplotlib axes to draw into.
+        y_label (str, optional): Label for the y-axis. Defaults to ''.
+        use_one (bool, optional): Whether to show only the Borda rule. Defaults to False.
+    """
+    metric_values_df = build_boxplot_table(ordered_outputs, n_cand_list, metric, borda_only=use_one)
+
+    palette = sns.color_palette("colorblind", len(ordered_rules))
+    rule_color_map = dict(zip(ordered_rules, palette))
+
+    sns.boxplot(
+        data=metric_values_df,
+        x="n_cands",
+        y="value",
+        hue="rule",
+        palette=rule_color_map,
+        dodge=True,
+        ax=ax,
+        legend=not use_one,
+        # Seaborn accepts percentile pairs; its stub only declares a float.
+        whis=[1, 99],  # type: ignore[arg-type]
+    )
+
+    ax.set_ylabel(y_label, fontsize=16)
+
+    if not use_one:
+        ax.legend(title="Voting rule", bbox_to_anchor=(1, 0.5), loc="center left")
+
+
+@click.command()
+@click.option("--variant", required=True)
+@click.option("--tiebreak", required=True)
+@click.option(
+    "--stats-dir",
+    "stats_root",
+    type=click.Path(path_type=Path),
+    default=None,
+    show_default=True,
+    help="Parent of the dataset statistics directories",
+)
+@click.option(
+    "--output-dir",
+    "output_root",
+    type=click.Path(path_type=Path),
+    default=ROOT,
+    show_default=True,
+    help="Run root containing stats, plots, and tables",
+)
+def main(
+    variant: str,
+    tiebreak: str,
+    n_cand_list: Sequence[int] = range(6, 10),
+    *,
+    stats_root: Path | None = None,
+    output_root: Path = ROOT,
+) -> None:
+    """Save Scottish metric boxplots and export aggregate statistics for the selected labels.
+
+    Args:
+        variant (str): Metric aggregation variant, 'average' or 'worst_case'.
+        tiebreak (str): Tiebreak rule token used in the statistics filenames.
+        n_cand_list (Sequence[int], optional): Candidate counts to include, in display order.
+            Defaults to range(6, 10).
+        stats_root (Path | None, optional): Parent of the dataset statistics directories. None uses
+            the selected run root. Defaults to None.
+        output_root (Path, optional): Run root containing stats, plots, and tables. Defaults to
+            ROOT.
+    """
+    output_root = output_root.resolve()
+    stats_root = (stats_root or output_root / "stats").resolve()
+
+    ordered_rules = NON_RANDOM_RULE_ORDER
+
+    stat_file_base_dir = stats_root / "scottish_stats"
+    output_dir = output_root / "plots/scottish"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_plot_name = output_dir / f"scottish_sigma_plots_{variant}_{tiebreak}.png"
+
+    # ==========================
+    # Make the scottish boxplots
+    # ==========================
+    all_output_files = glob(f"{escape(str(stats_root))}/scottish_stats/*output.json")
+
+    outputs_by_election_type = {}
+
+    for output_file in all_output_files:
+        with open(output_file, "r") as f:
+            output = json.load(f)
+
+        election_type = output_file.split("/")[-1].split("_")[0]
+        output_dict = {
+            n_cands: {
+                metric: list(file_values_dict.values())
+                for metric, file_values_dict in metric_values_dict.items()
+            }
+            for n_cands, metric_values_dict in output.items()
+        }
+        outputs_by_election_type[election_type] = output_dict
+
+    metric_label_pairs = [
+        (f"sigma_UM_{variant}_odds_{tiebreak}", "$\\sigma_{UM}$ ranking ODDS"),
+        (f"sigma_UM_{variant}_asin_{tiebreak}", "$\\sigma_{UM}$ ranking ASIN"),
+        (
+            f"sigma_UM_winner_set_{variant}_odds_{tiebreak}",
+            "$\\sigma_{UM}$ winner-set ranking ODDS",
+        ),
+        (
+            f"sigma_UM_winner_set_{variant}_asin_{tiebreak}",
+            "$\\sigma_{UM}$ winner-set ranking ASIN",
+        ),
+        (f"sigma_IIA_{variant}_{tiebreak}", "$\\sigma_{IIA}$ ranking"),
+        (f"sigma_IIA_all_subset_{variant}_{tiebreak}", "$\\sigma_{IIA}$ subset"),
+        (f"sigma_IIA_winner_set_{variant}_{tiebreak}", "$\\sigma_{IIA}$ winner-set"),
+    ]
+    fig, ax = plt.subplots(len(metric_label_pairs), 1, figsize=(20, 6 * len(metric_label_pairs)))
+    sns.set_theme(style="whitegrid", context="notebook", font="serif", font_scale=1.2)
+
+    ordered_outputs = {key: outputs_by_election_type[key] for key in ordered_rules}
+
+    for i, (metric, label) in enumerate(metric_label_pairs):
+        build_plot_for_metric_scottish(
+            metric,
+            ordered_outputs,
+            ordered_rules,
+            n_cand_list,
+            ax[i],
+            y_label=label,
+            use_one=(metric == "n_voters"),
+        )
+
+    plt.savefig(output_plot_name, bbox_inches="tight", dpi=300)
+
+    # ===========================
+    # Make the scottish stats csv
+    # ===========================
+    export_aggregate_tables(
+        stat_file_base_dir, ordered_rules, n_cand_list, variant, tiebreak, output_root=output_root
+    )
+
+
+if __name__ == "__main__":
+    main()
